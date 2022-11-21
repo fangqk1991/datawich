@@ -1,0 +1,14 @@
+{
+  "name": "datawich-backend",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "concurrently --raw 'yarn start:typecheck' 'yarn open:compile' 'yarn admin:compile'",
+    "start-resque": "ts-node-dev --no-notify --ignore-watch node_modules src/apps/datawich-resque.ts",
+    "open:compile": "ts-node-dev --no-notify --ignore-watch node_modules src/apps/datawich-open.ts",
+    "admin:compile": "ts-node-dev --no-notify --ignore-watch node_modules src/apps/datawich-admin.ts",
+    "start:typecheck": "tsc -w --noEmit",
+    "build": "rm -rf dist && webpack --config ./webpack.config.js",
+    "test": "nyc mocha --require ts-node/register tests/**/*.test.ts --timeout 1000000 --exit"
+  }
+}

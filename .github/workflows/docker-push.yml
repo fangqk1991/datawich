@@ -1,0 +1,43 @@
+name: docker-push
+
+on:
+  push:
+    branches: [release/docker-push]
+
+env:
+  _appName: datawich
+  _repoName: fangqk1991/datawich
+  _dockerFile: ./deploy/datawich/Dockerfile
+
+jobs:
+  build:
+    name: Build on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [20.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Push
+        run: |
+          docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+          
+          commitSHA=${GITHUB_SHA::8}
+
+          docker build -t $_repoName -f $_dockerFile . --build-arg "commitSHA=$commitSHA"
+          latestImageTag="$_repoName:$commitSHA"
+          docker tag $_repoName $latestImageTag
+          docker push $latestImageTag
+          
+          latestImageTag="$_repoName:latest"
+          docker tag $_repoName $latestImageTag
+          docker push $latestImageTag
+
+      - name: Bot
+        run: |
+          message="$_appName ${GITHUB_SHA::8} pushed."
+          curl -X POST "${{secrets.TG_BOT_URL}}" -H 'Content-Type: application/json' -d "{\"text\":\"$message\"}"
