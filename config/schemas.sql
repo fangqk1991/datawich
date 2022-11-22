@@ -1,6 +1,5 @@
-CREATE DATABASE `datawich` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-USE datawich;
+# CREATE DATABASE `datawich` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+# USE datawich;
 
 CREATE TABLE IF NOT EXISTS common_group
 (
