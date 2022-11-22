@@ -11,14 +11,9 @@ import { LogicExpressionView } from './components/LogicExpressionView'
 import { GeneralDataManager } from '@fangcha/datawich-frontend'
 import { AdminApp } from '@fangcha/vue/app-admin'
 import { KitSsoApis } from '@fangcha/backend-kit/lib/apis'
-import { MyAxios } from '@fangcha/vue/basic'
-import { RetainedSessionApis } from '@fangcha/backend-kit/lib/common/apis'
+import { SessionHTTP } from '@fangcha/vue/basic'
 import { I18nCode, VisitorInfo } from '@fangcha/tools'
-
-OssFrontendService.init({
-  defaultBucketName: 'fc-web-oss',
-  defaultOssZone: 'datawich',
-})
+import { MySession } from './MySession'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
@@ -29,11 +24,12 @@ const _fcApp = new AdminApp({
     },
   },
 
+  session: MySession,
   loginUrl: KitSsoApis.Login.route,
   logoutUrl: KitSsoApis.Logout.route,
 
   reloadUserInfo: async (): Promise<VisitorInfo> => {
-    const visitorInfo = await MyAxios(RetainedSessionApis.UserInfoGet).quickSend()
+    const visitorInfo = await SessionHTTP.getUserInfo()
     return {
       iamId: 0,
       email: visitorInfo.email,
@@ -45,10 +41,14 @@ const _fcApp = new AdminApp({
   },
 
   homeView: DataAppListView,
-  appWillLoad: () => {
+  appDidLoad: async () => {
+    OssFrontendService.init({
+      defaultBucketName: MySession.config.ossParams.defaultBucketName,
+      defaultOssZone: MySession.config.ossParams.defaultOssZone,
+    })
     GeneralDataManager.useAttachmentFieldPlugin({
-      bucketName: 'fc-web-oss',
-      ossZone: 'datawich',
+      bucketName: MySession.config.ossParams.defaultBucketName,
+      ossZone: MySession.config.ossParams.defaultOssZone,
     })
   },
   sidebarNodes: [

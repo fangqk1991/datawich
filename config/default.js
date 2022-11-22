@@ -40,6 +40,12 @@ module.exports = {
       redisPort: 30200,
       dynamicQueues: [],
     },
+    frontendConfig: {
+      ossParams: {
+        defaultBucketName: 'fc-web-oss',
+        defaultOssZone: 'datawich',
+      },
+    },
     datawichDownloadDir: '/data/datawich-zone/downloads',
     ossOptions: {
       Default: {

@@ -8,13 +8,13 @@ import { _DatawichService } from '@fangcha/datawich-service'
 import { MyDatabase } from '../services/MyDatabase'
 import { AliyunOSS } from '@fangcha/ali-oss'
 import { DatawichDataAppSpecs } from './admin/DatawichDataAppSpecs'
+import { _FangchaState } from '@fangcha/backend-kit'
 
 const app = new WebApp({
   env: GlobalAppConfig.Env,
   tags: GlobalAppConfig.Tags,
   appName: 'datawich-admin',
   wecomBotKey: DatawichConfig.wecomBotKey,
-  useJwtSpecs: true,
   mainDocItems: [
     ...DatawichSwaggerDocItems,
     {
@@ -33,6 +33,8 @@ const app = new WebApp({
   },
   plugins: [TypicalSsoSdkPlugin(DatawichConfig.adminSSO), DatawichOssPlugin],
   appDidLoad: async () => {
+    _FangchaState.frontendConfig = DatawichConfig.frontendConfig
+
     _DatawichService.init({
       database: MyDatabase.datawichDB,
       ossForSignature: new AliyunOSS(DatawichConfig.ossOptions.Default.visitor),

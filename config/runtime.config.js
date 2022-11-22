@@ -37,6 +37,12 @@ module.exports = {
       redisHost: envData.Redis_Host,
       redisPort: envData.Redis_Port,
     },
+    frontendConfig: {
+      ossParams: {
+        defaultBucketName: envData.AliOSS_bucket,
+        defaultOssZone: envData.oss_remoteRootDir,
+      },
+    },
     datawichDownloadDir: envData.datawichDownloadDir,
     ossOptions: {
       Default: {
