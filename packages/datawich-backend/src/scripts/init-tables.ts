@@ -9,7 +9,7 @@ SafeTask.run(async () => {
 
   const database = new FCDatabase()
   database.init({
-    ...DatawichConfig.mysql.ssoDB,
+    ...DatawichConfig.mysql.datawichDB,
     dialectOptions: {
       multipleStatements: true,
     },

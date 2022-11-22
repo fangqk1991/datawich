@@ -67,7 +67,8 @@ RUN cd ${PRE_BUILD_DIR} && yarn workspace datawich-frontend run build
 RUN cp -r ${PRE_BUILD_DIR}/config ${BUILD_DIR} \
     && cp -r ${PRE_BUILD_DIR}/packages/datawich-backend/dist ${BUILD_DIR}/packages/datawich-backend \
     && cp -r ${PRE_BUILD_DIR}/packages/datawich-frontend/dist ${BUILD_DIR}/packages/datawich-frontend \
-    && cp ${PRE_BUILD_DIR}/packages/datawich-backend/ecosystem.config.js ${BUILD_DIR}/packages/datawich-backend
+    && cp ${PRE_BUILD_DIR}/packages/datawich-backend/ecosystem.config.js ${BUILD_DIR}/packages/datawich-backend \
+    && cp ${PRE_BUILD_DIR}/prepare.js ${BUILD_DIR}
 ###### MODULES_CACHE 阶段个性化代码 END ######
 
 ########################################
