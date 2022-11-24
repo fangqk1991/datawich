@@ -10,7 +10,7 @@ Datawich 是一个数据协作管理系统，可用于[从典型需求中解脱]
 * 技术人员可以通过 API 进行数据操作
 
 ### Demo
-* <https://datawich.fangcha.net/>
+* <https://demo.datawich.com/>
 
 ![](https://image.fangqk.com/2022-11-22/datawich-admin-1.png)
 ![](https://image.fangqk.com/2022-11-22/datawich-admin-2.png)
