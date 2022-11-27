@@ -1,8 +1,9 @@
 import { _OSSResource, OSSService, TaskHandlerProtocol } from '@fangcha/oss-service'
 import { ResourceTaskParams } from '@fangcha/oss-service/lib/common/models'
 import { BackendFile } from '@fangcha/tools/lib/file-backend'
-import { _DataModel, ModelDataHandler } from '@fangcha/datawich-service'
 import { DatawichResque } from '../DatawichResque'
+import { _DataModel } from '../../models/extensions/_DataModel'
+import { ModelDataHandler } from '../ModelDataHandler'
 
 interface DataAppParams {
   modelKey: string

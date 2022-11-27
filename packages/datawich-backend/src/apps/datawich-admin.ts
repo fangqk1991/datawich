@@ -2,13 +2,13 @@ import { DatawichConfig } from '../DatawichConfig'
 import { GlobalAppConfig } from 'fc-config'
 import { TypicalSsoSdkPlugin } from '@fangcha/backend-kit/lib/sso'
 import { WebApp } from '@fangcha/backend-kit/lib/router'
-import { DatawichSwaggerDocItems } from '@fangcha/datawich-service/lib/specs'
 import { DatawichOssPlugin } from '../services/DatawichOssPlugin'
-import { _DatawichService } from '@fangcha/datawich-service'
 import { MyDatabase } from '../services/MyDatabase'
 import { AliyunOSS } from '@fangcha/ali-oss'
-import { DatawichDataAppSpecs } from './admin/DatawichDataAppSpecs'
+import { DatawichDataAppSpecs } from './admin/specs/DatawichDataAppSpecs'
 import { _FangchaState } from '@fangcha/backend-kit'
+import { DatawichSwaggerDocItems } from './admin/specs'
+import { _DatawichService } from '../services/_DatawichService'
 
 const app = new WebApp({
   env: GlobalAppConfig.Env,

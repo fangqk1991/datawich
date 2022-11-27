@@ -4,9 +4,9 @@ import { DatawichConfig } from '../DatawichConfig'
 import { GlobalAppConfig } from 'fc-config'
 import { DatawichOssPlugin } from '../services/DatawichOssPlugin'
 import { CommonJob } from '../services/CommonJob'
-import { _DatawichService } from '@fangcha/datawich-service'
 import { MyDatabase } from '../services/MyDatabase'
 import { AliyunOSS } from '@fangcha/ali-oss'
+import { _DatawichService } from '../services/_DatawichService'
 
 const app = new FangchaApp({
   env: GlobalAppConfig.Env,

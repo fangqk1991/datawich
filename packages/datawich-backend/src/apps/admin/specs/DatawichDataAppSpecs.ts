@@ -1,10 +1,10 @@
-import { DataAppApis } from '@fangcha/datawich-service/lib/common/web-api'
 import { SpecFactory } from '@fangcha/router'
 import * as moment from 'moment'
 import { OSSService, ResourceTaskHandler } from '@fangcha/oss-service'
 import { FangchaSession } from '@fangcha/router/lib/session'
-import { DataAppSpecHandler } from '@fangcha/datawich-service/lib/specs'
-import { DataAppRecordsXlsExportTask } from '../../services/tasks/DataAppRecordsXlsExportTask'
+import { DataAppRecordsXlsExportTask } from '../../../services/tasks/DataAppRecordsXlsExportTask'
+import { DataAppApis } from '@web/datawich-common/web-api'
+import { DataAppSpecHandler } from './handlers/DataAppSpecHandler'
 
 const factory = new SpecFactory('数据应用（常规）')
 
