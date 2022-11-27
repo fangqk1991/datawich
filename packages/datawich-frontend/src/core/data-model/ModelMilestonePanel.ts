@@ -1,13 +1,13 @@
 import { Component, JsonImportDialog, MultipleLinesInputDialog } from '@fangcha/vue'
-import { ModelMilestoneModel } from '@fangcha/datawich-service/lib/common/models'
-import { ModelMilestoneApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { ModelMilestoneModel } from '@web/datawich-common/models'
+import { ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { MilestoneInfoDialog } from '../widgets/MilestoneInfoDialog'
 import * as moment from 'moment'
 import { NotificationCenter } from 'notification-center-js'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFragmentBase } from './ModelFragmentBase'
-import { DatawichEventKeys } from '@fangcha/datawich-frontend'
+import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 
 @Component({
   template: `

@@ -13,7 +13,7 @@ import {
   DataAppApis,
   DataModelApis,
   ModelFieldApis,
-} from '@fangcha/datawich-service/lib/common/web-api'
+} from '@web/datawich-common/web-api'
 import {
   checkCalculableField,
   cleanDataByModelFields,
@@ -28,20 +28,20 @@ import {
   makeDisplayFields,
   ModelFieldModel,
   ProfileEvent,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@web/datawich-common/models'
 import { CheckOption } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { DownloadTaskHelper } from '@fangcha/vue/oss-service'
 import {
   DataDialogProtocol,
-  DatawichEventKeys,
   GeneralDataDialog,
   GeneralDataImportPanel,
   MyDataColumn,
 } from '@fangcha/datawich-frontend'
 import { NotificationCenter } from 'notification-center-js'
 import { MyFavorSidebar } from '../core/data-app/MyFavorSidebar'
+import { DatawichEventKeys } from '../services/DatawichEventKeys'
 
 interface DataRecord {
   rid: number

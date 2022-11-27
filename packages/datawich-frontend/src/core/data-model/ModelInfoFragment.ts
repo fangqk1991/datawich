@@ -1,12 +1,13 @@
-import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
+import { DataModelModel } from '@web/datawich-common/models'
 import { Component, ConfirmDialog, SimpleInputDialog } from '@fangcha/vue'
-import { DataModelApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { DataModelApis } from '@web/datawich-common/web-api'
 import { NotificationCenter } from 'notification-center-js'
 import { CommonAPI } from '@fangcha/app-request'
 import { MyAxios } from '@fangcha/vue/basic'
 import { ModelFragmentBase } from './ModelFragmentBase'
-import { DatawichEventKeys, getRouterToDataApp, getRouterToModel } from '@fangcha/datawich-frontend'
 import { DataModelDialog } from '../widgets/DataModelDialog'
+import { DatawichEventKeys } from '../../services/DatawichEventKeys'
+import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHelper'
 
 @Component({
   template: `

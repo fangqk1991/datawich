@@ -2,7 +2,7 @@ import { Component } from 'vue-property-decorator'
 import { TypicalDialog, TypicalDialogView } from '@fangcha/vue'
 import { SelectOption } from '@fangcha/tools'
 import EnumFieldExtension from './EnumFieldExtension'
-import { TransferSelectOption } from '@fangcha/datawich-service/lib/common/models'
+import { TransferSelectOption } from '@web/datawich-common/models'
 
 @Component({
   components: {

@@ -1,6 +1,6 @@
 import { Component, Prop, ViewController } from '@fangcha/vue'
-import { AccessLevel, DataModelModel } from '@fangcha/datawich-service/lib/common/models'
-import { getRouterToDataApp, getRouterToModel } from '@fangcha/datawich-frontend'
+import { AccessLevel, DataModelModel } from '@web/datawich-common/models'
+import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHelper'
 
 @Component({
   template: `

@@ -1,6 +1,6 @@
-import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
+import { DataModelModel } from '@web/datawich-common/models'
 import { Component, ViewController } from '@fangcha/vue'
-import { DataModelApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { DataModelApis } from '@web/datawich-common/web-api'
 import { NotificationCenter } from 'notification-center-js'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
@@ -8,7 +8,7 @@ import { ModelInfoFragment } from './ModelInfoFragment'
 import { ModelStructureFragment } from './ModelStructureFragment'
 import { ModelAccessFragment } from './ModelAccessFragment'
 import { ModelFeatureFragment } from './ModelFeatureFragment'
-import { DatawichEventKeys } from '@fangcha/datawich-frontend'
+import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 
 @Component({
   components: {

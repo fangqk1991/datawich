@@ -1,6 +1,6 @@
 import { Component } from '@fangcha/vue'
 import EnumFieldExtensionBase from './EnumFieldExtensionBase'
-import { FieldType } from '@fangcha/datawich-service/lib/common/models'
+import { FieldType } from '@web/datawich-common/models'
 
 @Component({
   template: `

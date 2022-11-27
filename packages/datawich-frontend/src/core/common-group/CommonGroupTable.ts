@@ -8,8 +8,8 @@ import {
   TableViewProtocol,
   ViewController,
 } from '@fangcha/vue'
-import { GeneralPermissionDescriptor } from '@fangcha/datawich-service/lib/common/models'
-import { CommonGroupApis, ModelUserApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { GeneralPermissionDescriptor } from '@web/datawich-common/models'
+import { CommonGroupApis, ModelUserApis } from '@web/datawich-common/web-api'
 import { GroupMemberDialog } from './GroupMemberDialog'
 import { GroupPermissionDialog } from './GroupPermissionDialog'
 import { SelectOption } from '@fangcha/tools'

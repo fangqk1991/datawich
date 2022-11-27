@@ -1,11 +1,11 @@
 import { Component, ConfirmDialog, MyTableView, Prop, TableViewProtocol, ViewController } from '@fangcha/vue'
-import { FieldGroupModel, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldGroupModel, ModelFieldModel } from '@web/datawich-common/models'
 import FieldGroupDialog from './FieldGroupDialog'
 import { NotificationCenter } from 'notification-center-js'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
-import { DatawichEventKeys } from '@fangcha/datawich-frontend'
-import { DataModelApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { DataModelApis } from '@web/datawich-common/web-api'
+import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 
 @Component({
   components: {

@@ -1,6 +1,6 @@
 import { Component, MyTableView, Prop, TableViewProtocol, ViewController } from '@fangcha/vue'
-import { GeneralPermissionDescriptor } from '@fangcha/datawich-service/lib/common/models'
-import { ModelGroupApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { GeneralPermissionDescriptor } from '@web/datawich-common/models'
+import { ModelGroupApis } from '@web/datawich-common/web-api'
 import { CommonGroupModel, GroupSpace } from '@fangcha/general-group/lib/common/models'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'

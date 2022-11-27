@@ -3,7 +3,7 @@ import {
   ClientAuthParams,
   DataModelModel,
   ModelClientModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@web/datawich-common/models'
 import {
   Component,
   ConfirmDialog,
@@ -16,7 +16,7 @@ import {
   ViewController,
 } from '@fangcha/vue'
 import { MessageBox } from 'element-ui'
-import { DataAppApis, DatawichClientApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { DataAppApis, DatawichClientApis } from '@web/datawich-common/web-api'
 import { CheckOption } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'

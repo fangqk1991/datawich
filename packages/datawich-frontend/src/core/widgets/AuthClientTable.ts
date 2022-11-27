@@ -1,6 +1,6 @@
 import { Component, ConfirmDialog, MyTableView, Prop, ViewController } from '@fangcha/vue'
-import { ClientAuthModel, ModelClientModel } from '@fangcha/datawich-service/lib/common/models'
-import { DatawichClientApis, ModelClientApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { ClientAuthModel, ModelClientModel } from '@web/datawich-common/models'
+import { DatawichClientApis, ModelClientApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'

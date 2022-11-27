@@ -1,6 +1,6 @@
 import { Component, JsonPre, ViewController } from '@fangcha/vue'
-import { LogicExpressionDialog } from '@fangcha/datawich-frontend'
-import { FilterSymbol, LogicExpression, LogicSymbol, } from '@fangcha/datawich-service/lib/common/models'
+import { FilterSymbol, LogicExpression, LogicSymbol, } from '@web/datawich-common/models'
+import { LogicExpressionDialog } from './LogicExpressionDialog'
 
 @Component({
   components: {

@@ -1,6 +1,6 @@
 import { Component } from 'vue-property-decorator'
 import { TypicalDialog, TypicalDialogView } from '@fangcha/vue'
-import { FieldGroupModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldGroupModel } from '@web/datawich-common/models'
 
 @Component({
   components: {

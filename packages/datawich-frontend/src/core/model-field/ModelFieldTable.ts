@@ -21,8 +21,8 @@ import {
   FieldType,
   LogicExpressionHelper,
   ModelFieldModel,
-} from '@fangcha/datawich-service/lib/common/models'
-import { DataModelApis, ModelFieldApis, ModelIndexApis } from '@fangcha/datawich-service/lib/common/web-api'
+} from '@web/datawich-common/models'
+import { DataModelApis, ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { CheckOption, SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
 import SystemFieldDialog from './SystemFieldDialog'
@@ -31,7 +31,9 @@ import FieldActionDialog from './FieldActionDialog'
 import EnumFieldTransferDialog from './EnumFieldTransferDialog'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
-import { DatawichEventKeys, getRouterToModel, LogicExpressionDialog } from '@fangcha/datawich-frontend'
+import { DatawichEventKeys } from '../../services/DatawichEventKeys'
+import { LogicExpressionDialog } from '../../components/LogicExpressionDialog'
+import { getRouterToModel } from '../../services/ModelDataHelper'
 
 @Component({
   components: {

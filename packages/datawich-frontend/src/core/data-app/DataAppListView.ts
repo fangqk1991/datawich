@@ -1,5 +1,5 @@
 import { Component, GridView, TableViewProtocol, ViewController } from '@fangcha/vue'
-import { DataAppApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { DataAppApis } from '@web/datawich-common/web-api'
 import { MyAxios } from '@fangcha/vue/basic'
 import { DataAppCard } from './DataAppCard'
 

@@ -1,6 +1,6 @@
 import { Component } from 'vue-property-decorator'
 import { TypicalDialog, TypicalDialogView } from '@fangcha/vue'
-import { ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
+import { ModelFieldModel } from '@web/datawich-common/models'
 
 @Component({
   components: {

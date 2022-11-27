@@ -7,15 +7,15 @@ import {
   TableViewProtocol,
   ViewController,
 } from '@fangcha/vue'
-import { DataModelModel, ModelFullMetadata } from '@fangcha/datawich-service/lib/common/models'
-import { DataAppApis, DataModelApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { DataModelModel, ModelFullMetadata } from '@web/datawich-common/models'
+import { DataAppApis, DataModelApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import { AppTask, AppTaskQueue } from 'fc-queue'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
-import { getRouterToDataApp } from '@fangcha/datawich-frontend'
 import { DataModelDialog } from '../widgets/DataModelDialog'
 import { DataModelCard } from './DataModelCard'
+import { getRouterToDataApp } from '../../services/ModelDataHelper'
 
 @Component({
   components: {

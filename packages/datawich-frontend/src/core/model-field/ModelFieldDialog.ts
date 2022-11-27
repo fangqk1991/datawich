@@ -6,7 +6,7 @@ import {
   FieldTypeDescriptor,
   ModelFieldExtrasData,
   ModelFieldModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@web/datawich-common/models'
 import EnumFieldExtension from './EnumFieldExtension'
 import TagsFieldExtension from './TagsFieldExtension'
 import { I18nCode } from '@fangcha/tools'

@@ -5,12 +5,13 @@ import {
   ModelFieldModel,
   ModelFullMetadata,
   ModelMilestoneModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@web/datawich-common/models'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelFieldApis, ModelMilestoneApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { NotificationCenter } from 'notification-center-js'
 import { MyAxios } from '@fangcha/vue/basic'
-import { DatawichEventKeys, ModelStructurePanel } from '@fangcha/datawich-frontend'
+import { ModelStructurePanel } from '@fangcha/datawich-frontend'
+import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 
 @Component({
   components: {

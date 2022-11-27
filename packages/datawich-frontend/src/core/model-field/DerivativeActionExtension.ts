@@ -1,7 +1,7 @@
 import { Component, Prop, ViewController } from '@fangcha/vue'
-import { DataModelModel, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
+import { DataModelModel, ModelFieldModel } from '@web/datawich-common/models'
 import { SelectOption } from '@fangcha/tools'
-import { DataModelApis, ModelFieldApis } from '@fangcha/datawich-service/lib/common/web-api'
+import { DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 

@@ -5,7 +5,7 @@ import {
   AccessLevelDescriptor,
   DataModelModel,
   ModelType,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@web/datawich-common/models'
 
 @Component({
   components: {
