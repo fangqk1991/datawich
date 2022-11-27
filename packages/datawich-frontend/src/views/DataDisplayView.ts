@@ -42,7 +42,7 @@ import {
   MyDataColumn,
 } from '@fangcha/datawich-frontend'
 import { NotificationCenter } from 'notification-center-js'
-import { MyFavorSidebar } from '@fangcha/datawich-frontend/app-core'
+import { MyFavorSidebar } from '../core/data-app/MyFavorSidebar'
 
 interface DataRecord {
   rid: number

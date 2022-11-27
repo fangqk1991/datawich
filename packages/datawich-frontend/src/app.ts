@@ -1,11 +1,4 @@
 import { OssFrontendService, OssRouteData } from '@fangcha/vue/oss-service'
-import {
-  DataAppListView,
-  DataModelListView,
-  DataModelManageView,
-  ModelClientListView,
-  UserGroupListView,
-} from '@fangcha/datawich-frontend/app-core'
 import DataDisplayView from './views/DataDisplayView'
 import { LogicExpressionView } from './components/LogicExpressionView'
 import { GeneralDataManager } from '@fangcha/datawich-frontend'
@@ -14,6 +7,11 @@ import { KitSsoApis } from '@fangcha/backend-kit/lib/apis'
 import { SessionHTTP } from '@fangcha/vue/basic'
 import { I18nCode, VisitorInfo } from '@fangcha/tools'
 import { MySession } from './MySession'
+import { DataAppListView } from './core/data-app/DataAppListView'
+import { DataModelListView } from './core/data-model/DataModelListView'
+import { DataModelManageView } from './core/data-model/DataModelManageView'
+import { UserGroupListView } from './core/user/UserGroupListView'
+import { ModelClientListView } from './core/model-client/ModelClientListView'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
@@ -61,7 +59,7 @@ const _fcApp = new AdminApp({
         {
           titleEn: '所有应用',
           titleZh: '所有应用',
-          path: '/v2/data-app',
+          path: '/v1/data-app',
         },
       ],
     },
@@ -73,7 +71,7 @@ const _fcApp = new AdminApp({
         {
           titleEn: '模型管理',
           titleZh: '模型管理',
-          path: '/v2/data-model',
+          path: '/v1/data-model',
         },
         // {
         //   titleEn: '用户组管理',
@@ -102,23 +100,23 @@ const _fcApp = new AdminApp({
   ],
   routes: [
     {
-      path: '/v2/data-app',
+      path: '/v1/data-app',
       component: DataAppListView,
       name: 'DataAppListView',
     },
     {
-      path: '/v2/data-app/:modelKey',
+      path: '/v1/data-app/:modelKey',
       component: DataDisplayView,
       name: 'DataDisplayView',
       props: true,
     },
     {
-      path: '/v2/data-model',
+      path: '/v1/data-model',
       component: DataModelListView,
       name: 'DataModelListView',
     },
     {
-      path: '/v2/data-model/:modelKey',
+      path: '/v1/data-model/:modelKey',
       component: DataModelManageView,
       name: 'DataModelManageView',
     },
