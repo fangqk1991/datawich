@@ -40,8 +40,8 @@ import {
   MyDataColumn,
 } from '@fangcha/datawich-frontend'
 import { NotificationCenter } from 'notification-center-js'
-import { MyFavorSidebar } from '../core/data-app/MyFavorSidebar'
-import { DatawichEventKeys } from '../services/DatawichEventKeys'
+import { MyFavorSidebar } from './MyFavorSidebar'
+import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 
 interface DataRecord {
   rid: number
