@@ -190,7 +190,6 @@ CREATE TABLE IF NOT EXISTS model_field
     FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE RESTRICT,
     field_key     varchar(63) COLLATE ascii_bin NOT NULL COMMENT '字段键值，由用户自行指定；(model_key, field_key) 具备唯一性',
     group_key     varchar(63)                   NOT NULL DEFAULT '' COMMENT '字段组键值',
-    matrix_key    varchar(63)                   NOT NULL DEFAULT '' COMMENT '内容扩展母体键值',
     name          varchar(255)                  NOT NULL DEFAULT '' COMMENT '字段名称',
     input_hint    text                          NOT NULL COMMENT '用户输入提示',
     required      tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为必填项',
@@ -203,7 +202,6 @@ CREATE TABLE IF NOT EXISTS model_field
     weight        int                           NOT NULL DEFAULT '0' COMMENT '权重，用于排序',
     is_system     tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为系统保留字段',
     is_hidden     tinyint                       NOT NULL DEFAULT '0' COMMENT '是否隐藏',
-    is_shadow     tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为影子字段',
     is_deleted    tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已被删除',
     for_broadcast tinyint                       NOT NULL DEFAULT '0' COMMENT '字段数据变更时是否广播',
     star          tinyint                       NOT NULL DEFAULT '0' COMMENT '是否被分析师关注',
@@ -284,21 +282,6 @@ CREATE TABLE IF NOT EXISTS field_link
     update_time        TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE (`model_key`, `field_key`, `ref_model`, `ref_field`),
     UNIQUE (`link_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
-CREATE TABLE IF NOT EXISTS field_shadow_link
-(
-    _rid           BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `shadow_model` varchar(63) COLLATE ascii_bin NOT NULL COMMENT '影子模型键值，SQL 外键 -> model_field.model_key',
-    `shadow_field` varchar(63) COLLATE ascii_bin NOT NULL COMMENT '影子字段键值，SQL 外键 -> model_field.field_key',
-    FOREIGN KEY (shadow_model, shadow_field) REFERENCES model_field (model_key, field_key) ON DELETE CASCADE,
-    `matrix_model` varchar(63) COLLATE ascii_bin NOT NULL COMMENT '主模型键值，SQL 外键 -> model_field.model_key',
-    `matrix_field` varchar(63) COLLATE ascii_bin NOT NULL COMMENT '主字段键值，SQL 外键 -> model_field.field_key',
-    FOREIGN KEY (matrix_model, matrix_field) REFERENCES model_field (model_key, field_key) ON DELETE RESTRICT,
-    create_time    TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time    TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;

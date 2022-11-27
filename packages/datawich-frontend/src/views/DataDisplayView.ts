@@ -27,7 +27,6 @@ import {
   GeneralPermission,
   makeDisplayFields,
   ModelFieldModel,
-  ModelType,
   ProfileEvent,
 } from '@fangcha/datawich-service/lib/common/models'
 import { CheckOption } from '@fangcha/tools'
@@ -139,8 +138,6 @@ const trimParams = (params: {}) => {
           </el-form>
           <h4>汇总信息</h4>
           <ul class="mt-1" style="font-size: 90%;">
-            <li v-if="isDatahubModel">数据采样日期：{{ dataModel.sampleDate }}</li>
-            <li v-if="isDatahubModel">最近更新时间：{{ dataModel.updateTime }}</li>
             <li>{{ totalSize }} 条记录</li>
             <template v-if="summaryInfo">
               <li v-for="field in summaryNumberFields" :key="field.fieldKey">
@@ -175,7 +172,7 @@ const trimParams = (params: {}) => {
             page-layout="total, sizes, prev, pager, next"
             :page-sizes="[10, 50, 100]"
           >
-            <el-table-column v-if="!isDatahubModel && !isRetainModel && isLeader && !hasAuthorField" key="do-not-reuse" prop="author">
+            <el-table-column v-if="!isRetainModel && isLeader && !hasAuthorField" key="do-not-reuse" prop="author">
               <template v-slot:header>
                 创建者
               </template>
@@ -356,10 +353,6 @@ export default class DataDisplayView extends ViewController {
       this.$message.success('调整成功')
       this.reloadDisplaySettings()
     })
-  }
-
-  get isDatahubModel() {
-    return this.dataModel && this.dataModel.modelType === ModelType.DatahubModel
   }
 
   get isRetainModel() {

@@ -12,7 +12,7 @@
   "dependencies": {
     "@fangcha/assert": "^1.1.0",
     "@fangcha/backend-kit": "^0.50.0",
-    "@fangcha/datawich-service": "^0.27.0",
+    "@fangcha/datawich-service": "^0.28.0",
     "@fangcha/general-job": "^0.3.3",
     "@fangcha/logger": "^0.4.0",
     "@fangcha/resque": "^1.3.0",
@@ -41,10 +41,10 @@
     "validator": "^12.0.0"
   },
   "devDependencies": {
-    "@fangcha/datawich-frontend": "^0.17.0",
+    "@fangcha/datawich-frontend": "^0.18.0",
     "@fangcha/eslint": "^0.3.2",
     "@fangcha/generator": "^0.1.1",
-    "@fangcha/vue": "^0.68.0",
+    "@fangcha/vue": "^0.69.0",
     "@fangcha/webpack": "^0.10.0",
     "@types/assert": "^1.4.6",
     "@types/bcryptjs": "^2.4.2",

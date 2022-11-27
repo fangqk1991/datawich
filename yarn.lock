@@ -992,15 +992,15 @@
     "@fangcha/router" "^0.24.0"
     "@fangcha/tools" "^1.22.0"
 
-"@fangcha/datawich-frontend@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/datawich-frontend/-/datawich-frontend-0.17.0.tgz#b613a513c6e83cf8c03cca57cf8f62c9adaee1e9"
-  integrity sha512-0PGKoidMePp7JI7qSTwv5IHUZKo16Mph0ZfD59SnSZ5+KJn5JporDBsstxXLzAM3S5lTxxKHSmAtEYisnJcIZA==
+"@fangcha/datawich-frontend@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@fangcha/datawich-frontend/-/datawich-frontend-0.18.0.tgz#18b4803e81b9c6561ed46fcc98f07759551e9426"
+  integrity sha512-RgWO8Z1kxIOMwQP9bsbiqws7g5hKwrwRRBxSpP2ljmX3MJrBCyMPTIqM+6NaWuuP8SWI74k/ajRqxNDFZzAYXQ==
 
-"@fangcha/datawich-service@^0.27.0":
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/datawich-service/-/datawich-service-0.27.0.tgz#4b9006da1aaad768c50280105f18652b452bcbe1"
-  integrity sha512-jAmV9Lc5KLyTnZkonqlYA3fFF2dVyCmDAaf9TsnoJeCd09U0UwgIzyYZ7VQap0zc43tDAb4XPpFcjUfXe95HLg==
+"@fangcha/datawich-service@^0.28.0":
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/@fangcha/datawich-service/-/datawich-service-0.28.0.tgz#a9c0a00d6473fb0f06ae1e9d670c7112084c5cea"
+  integrity sha512-Kf+QkuRt/M25zloHbMjxs+/x+04TYGuALibY2RaY4y3i4Gjo0tNAeZ+K0KeSXQKexMzuMNKltY0eZXYEpph9tg==
   dependencies:
     "@fangcha/ali-oss" "^1.2.0"
     "@fangcha/general-group" "^0.2.0"
@@ -1103,10 +1103,10 @@
     tslib "^2.3.1"
     uuid "^3.3.3"
 
-"@fangcha/vue@^0.68.0":
-  version "0.68.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/vue/-/vue-0.68.0.tgz#dd4ff2c0448d3937e4da543ac65dee46008da74b"
-  integrity sha512-/Rwvs/YyB2JXfLKrg4E1NO9sSLiZP2qVfitYtwyrmYBOTMP0n+InnC432hrkYfXQYiLypYxDCyEsvdx5O7xNsw==
+"@fangcha/vue@^0.69.0":
+  version "0.69.0"
+  resolved "https://registry.yarnpkg.com/@fangcha/vue/-/vue-0.69.0.tgz#1989ee27f228c004b9c6a31b5a0f5468771f8add"
+  integrity sha512-/wf9yEyn2QXW/xDmVQTJlBH6tF0c3vMw8jrjFaSYvFZ5F3Fh+TZe50ZZEmG9idHxIuupL/UxjG0A5ykl79WD9g==
   dependencies:
     "@popperjs/core" "^2.11.5"
     bootstrap "^5.1.3"

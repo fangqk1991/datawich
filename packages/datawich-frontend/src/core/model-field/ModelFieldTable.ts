@@ -26,7 +26,6 @@ import { DataModelApis, ModelFieldApis, ModelIndexApis } from '@fangcha/datawich
 import { CheckOption, SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
 import SystemFieldDialog from './SystemFieldDialog'
-import ShadowFieldDialog from './ShadowFieldDialog'
 import { NotificationCenter } from 'notification-center-js'
 import FieldActionDialog from './FieldActionDialog'
 import EnumFieldTransferDialog from './EnumFieldTransferDialog'
@@ -46,7 +45,6 @@ import { DatawichEventKeys, getRouterToModel, LogicExpressionDialog } from '@fan
         <h3>字段管理</h3>
         <div v-if="!simpleMode">
           <el-button type="primary" size="mini" @click="onClickCreateField">创建常规字段</el-button>
-          <el-button v-if="hasShadowFields" type="warning" size="mini" @click="onClickCreateShadowField">关联内容字段</el-button>
           <el-button type="success" size="mini" @click="onManageSystemFields">管理系统字段</el-button>
           <el-button type="info" size="mini" @click="onEditBroadcastField">选择广播字段</el-button>
           <el-button type="success" size="mini" @click="onImportField">导入 JSON</el-button>
@@ -70,12 +68,6 @@ import { DatawichEventKeys, getRouterToModel, LogicExpressionDialog } from '@fan
       <el-table-column prop="fieldType" label="字段类型" min-width="140px">
         <template slot-scope="scope">
           {{ scope.row.fieldType | describe_model_field_type }}
-          <template v-if="scope.row.isShadow">
-            ->
-            <router-link :to="routerToOuterModel(scope.row)" target="_blank" class="mr-2">
-              {{ masterKeyForShadowField(scope.row) }}
-            </router-link>
-          </template>
           <template v-if="scope.row.constraintKey"> [父级字段: {{ scope.row.constraintKey }}] </template>
           <template v-if="scope.row.fieldType === FieldType.Enum">
             [<a href="javascript:" @click="transferEnumToTextEnum(scope.row)">转换为文本枚举</a>]
@@ -109,7 +101,6 @@ import { DatawichEventKeys, getRouterToModel, LogicExpressionDialog } from '@fan
       <el-table-column label="特殊属性">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.isSystem" size="mini">系统字段</el-tag>
-          <el-tag v-if="scope.row.isShadow" size="mini">关联内容字段</el-tag>
           <el-tag v-if="scope.row.searchable" size="mini">可搜索</el-tag>
           <el-tag v-if="scope.row.useEnumSelector" size="mini">快速编辑</el-tag>
           <el-tag v-if="scope.row.extrasData.readonly" size="mini" type="warning">Readonly</el-tag>
@@ -169,7 +160,7 @@ import { DatawichEventKeys, getRouterToModel, LogicExpressionDialog } from '@fan
             | <a href="javascript:" @click="onDeleteItem(scope.row)">删除</a>
           </template>
           <br />
-          <template v-if="!scope.row.isSystem && !scope.row.isShadow">
+          <template v-if="!scope.row.isSystem">
             <a class="text-danger" href="javascript:" @click="onCopyItem(scope.row)">复制</a> |
           </template>
           <a class="text-danger" href="javascript:" @click="onCloneFieldData(scope.row)">填充</a> |
@@ -191,10 +182,6 @@ export class ModelFieldTable extends ViewController {
   uniqueBoolMap: { [p: string]: boolean } = {}
   indexBoolMap: { [p: string]: boolean } = {}
   groupItems: FieldGroupModel[] = []
-
-  get hasShadowFields() {
-    return !!this.fields.find((item) => item.isShadow)
-  }
 
   get tableView() {
     return this.$refs.tableView as MyTableView
@@ -318,18 +305,6 @@ export class ModelFieldTable extends ViewController {
     })
   }
 
-  onClickCreateShadowField() {
-    const dialog = ShadowFieldDialog.createFieldDialog()
-    dialog.modelKey = this.modelKey
-    dialog.show(async (params: any) => {
-      const request = MyAxios(new CommonAPI(ModelFieldApis.ModelShadowFieldCreate, this.modelKey))
-      request.setBodyData(params)
-      await request.execute()
-      this.$message.success('创建成功')
-      this.reloadData()
-    })
-  }
-
   onCloneFieldData(toField: ModelFieldModel) {
     const options: SelectOption[] = this.fields
       .filter((field) => field.fieldKey !== toField.fieldKey)
@@ -441,20 +416,6 @@ export class ModelFieldTable extends ViewController {
         this.$message.success('修改成功')
         this.reloadData()
       })
-    } else if (feed.isShadow) {
-      const dialog = ShadowFieldDialog.editFieldDialog(feed)
-      dialog.show(async (params: ModelFieldModel) => {
-        const handler = async () => {
-          const request = MyAxios(
-            new CommonAPI(ModelFieldApis.DataSystemModelFieldUpdate, feed.modelKey, feed.fieldKey)
-          )
-          request.setBodyData(params)
-          await request.execute()
-          this.$message.success('修改成功')
-          this.reloadData()
-        }
-        await this.safeHandle(handler, !!params.star)
-      })
     } else {
       const dialog = ModelFieldDialog.editFieldDialog(feed)
       dialog.modelKey = this.modelKey
@@ -538,18 +499,8 @@ export class ModelFieldTable extends ViewController {
     })
   }
 
-  routerToOuterModel(field: ModelFieldModel) {
-    return this.gotoModel(field.matrixKey.split('.')[0])
-  }
-
   gotoModel(modelKey: string) {
     return getRouterToModel(modelKey)
-  }
-
-  masterKeyForShadowField(field: ModelFieldModel) {
-    if (field.isShadow) {
-      return field.matrixKey
-    }
   }
 
   onIsUniqueChanged(field: ModelFieldModel) {

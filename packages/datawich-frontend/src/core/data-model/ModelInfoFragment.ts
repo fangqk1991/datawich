@@ -95,23 +95,11 @@ import { DataModelDialog } from '../widgets/DataModelDialog'
           <el-button size="mini">{{ model.name }}</el-button>
         </router-link>
       </div>
-      <div v-if="shadowModels.length > 0" class="mt-4" style="line-height: 2">
-        <h5>以下模型使用了本内容模型字段</h5>
-        <router-link
-          v-for="model in shadowModels"
-          :key="model.modelKey"
-          :to="routerToModel(model)"
-          class="mr-2"
-        >
-          <el-button size="mini">{{ model.name }}</el-button>
-        </router-link>
-      </div>
     </div>
   `,
 })
 export class ModelInfoFragment extends ModelFragmentBase {
   outerModels: DataModelModel[] = []
-  shadowModels: DataModelModel[] = []
   summaryInfo = {
     count: 0,
   }
@@ -133,16 +121,10 @@ export class ModelInfoFragment extends ModelFragmentBase {
 
   async onLoadWidgetsInfo() {
     this.loadOuterModels()
-    this.loadShadowModels()
     {
       const request = MyAxios(new CommonAPI(DataModelApis.DataModelSummaryInfoGet, this.modelKey))
       this.summaryInfo = await request.quickSend()
     }
-  }
-
-  async loadShadowModels() {
-    const request = MyAxios(new CommonAPI(DataModelApis.DataModelShadowModelListGet, this.modelKey))
-    this.shadowModels = (await request.quickSend()) as DataModelModel[]
   }
 
   onCloneModel() {
