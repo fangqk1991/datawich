@@ -16,7 +16,6 @@ import {
   PluginDataColumn,
   TagsContainer,
 } from '@fangcha/datawich-frontend'
-import { GeneralDataManager } from '../../services/GeneralDataManager'
 
 @Component({
   components: {
@@ -252,10 +251,10 @@ export class MyDataColumn extends ViewController {
     return TemplateHelper.renderTmpl(this.field.fieldDisplayTmpl, data)
   }
 
-  async onUpdateEnumValue(data: any) {
-    await GeneralDataManager.do.updateDataAppRecord(this.field.modelKey, data.data_id, {
-      [this.field.fieldKey]: data[this.dataKey],
-    })
-    this.$message.success('修改成功')
+  async onUpdateEnumValue(_data: any) {
+    // await GeneralDataManager.do.updateDataAppRecord(this.field.modelKey, data.data_id, {
+    //   [this.field.fieldKey]: data[this.dataKey],
+    // })
+    // this.$message.success('修改成功')
   }
 }

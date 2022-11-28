@@ -39,6 +39,10 @@ const _fcApp = new AdminApp({
   },
 
   homeView: DataAppListView,
+
+  appWillLoad: () => {
+    GeneralDataManager.loadVueFilters()
+  },
   appDidLoad: async () => {
     OssFrontendService.init({
       defaultBucketName: MySession.config.ossParams.defaultBucketName,

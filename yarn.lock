@@ -992,10 +992,10 @@
     "@fangcha/router" "^0.24.0"
     "@fangcha/tools" "^1.22.0"
 
-"@fangcha/datawich-frontend@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/datawich-frontend/-/datawich-frontend-0.18.0.tgz#18b4803e81b9c6561ed46fcc98f07759551e9426"
-  integrity sha512-RgWO8Z1kxIOMwQP9bsbiqws7g5hKwrwRRBxSpP2ljmX3MJrBCyMPTIqM+6NaWuuP8SWI74k/ajRqxNDFZzAYXQ==
+"@fangcha/datawich-frontend@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@fangcha/datawich-frontend/-/datawich-frontend-0.19.0.tgz#8c34ad13e37da135868582916ac10250d6694cf1"
+  integrity sha512-3sRSSukEym2IR/yGs90ko3D0dB/amvNP5ySH0MHKG0Es3iTj5iLl2luZ/puKGnPcG5hnZlcbx8c9OqZMZ8ZPAg==
 
 "@fangcha/datawich-service@^0.28.0":
   version "0.28.0"
