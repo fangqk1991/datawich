@@ -1,0 +1,88 @@
+import { DBObserver, FeedBase } from 'fc-feed'
+import { DBProtocolV2, FCDatabase } from 'fc-sql'
+
+const _cols: string[] = [
+  // prettier-ignore
+<% sqlCols.forEach((item) => { -%>
+  '<%-item.columnName%>',
+<% }) -%>
+]
+const _insertableCols: string[] = [
+  // prettier-ignore
+<% sqlCols.filter((item) => item.insertable).forEach((item) => { -%>
+  '<%-item.columnName%>',
+<% }) -%>
+]
+const _modifiableCols: string[] = [
+  // prettier-ignore
+<% sqlCols.filter((item) => item.modifiable).forEach((item) => { -%>
+  '<%-item.columnName%>',
+<% }) -%>
+]
+
+const dbOptions = {
+  table: '<%-tableName%>',
+  primaryKey: <%-decoratePrimaryKey(primaryKey)%>,
+  cols: _cols,
+  insertableCols: _insertableCols,
+  modifiableCols: _modifiableCols,
+}
+
+export default class <%-className%> extends FeedBase {
+<% sqlCols.forEach((item) => { -%>
+  /**
+   * @description <%-item.propDescription%>
+   */
+  public <%-getPropName(item.columnName)%>!: <%-item.columnType%>
+<% }) -%>
+
+  protected static _staticDBOptions: DBProtocolV2
+  protected static _staticDBObserver?: DBObserver
+
+  public static setDatabase(database: FCDatabase, dbObserver?: DBObserver) {
+    this.addStaticOptions({ database: database }, dbObserver)
+  }
+
+  public static setStaticProtocol(protocol: Partial<DBProtocolV2>, dbObserver?: DBObserver) {
+    this._staticDBOptions = Object.assign({}, dbOptions, protocol) as DBProtocolV2
+    this._staticDBObserver = dbObserver
+    this._onStaticDBOptionsUpdate(this._staticDBOptions)
+  }
+
+  public static addStaticOptions(protocol: Partial<DBProtocolV2>, dbObserver?: DBObserver) {
+    this._staticDBOptions = Object.assign({}, dbOptions, this._staticDBOptions, protocol) as DBProtocolV2
+    this._staticDBObserver = dbObserver
+    this._onStaticDBOptionsUpdate(this._staticDBOptions)
+  }
+
+  public static _onStaticDBOptionsUpdate(_protocol: DBProtocolV2) {}
+
+  public constructor() {
+    super()
+    this.setDBProtocolV2(this.constructor['_staticDBOptions'])
+<% if (reloadOnAdded) { -%>
+    this._reloadOnAdded = true
+<% } -%>
+<% if (reloadOnUpdated) { -%>
+    this._reloadOnUpdated = true
+<% } -%>
+    if (this.constructor['_staticDBObserver']) {
+      this.dbObserver = this.constructor['_staticDBObserver']
+    }
+  }
+
+  public fc_defaultInit() {
+    // This function is invoked by constructor of FCModel
+<% sqlCols.filter((item) => item.hasDefValue).forEach((item) => { -%>
+    this.<%-getPropName(item.columnName)%> = <%-decoratePrimaryKey(item.defValue)%>
+<% }) -%>
+  }
+
+  public fc_propertyMapper() {
+    return {
+<% sqlCols.forEach((item) => { -%>
+      <%-getPropName(item.columnName)%>: '<%-item.columnName%>',
+<% }) -%>
+    }
+  }
+}
