@@ -1,16 +1,12 @@
 import Vue from 'vue'
-import {
-  AccessLevelDescriptor,
-  describeAccessLevelDetail,
-  DisplayScopeDescriptor,
-  FieldTypeDescriptor,
-} from '@web/datawich-common/models'
+import { FieldTypeDescriptor } from '@fangcha/datawich-service/lib/common/models'
 import {
   _DatawichAttachmentOptions,
   AttachmentFieldPlugin,
   AttachmentOptions,
   FieldPluginCenter,
 } from '@fangcha/datawich-frontend'
+import { AccessLevelDescriptor, describeAccessLevelDetail, DisplayScopeDescriptor } from '@web/datawich-common/models'
 
 class _GeneralDataManager {
   public loadVueFilters() {

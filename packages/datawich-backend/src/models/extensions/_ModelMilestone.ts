@@ -1,5 +1,5 @@
 import __ModelMilestone from '../auto-build/__ModelMilestone'
-import { ModelFullMetadata } from '@web/datawich-common/models'
+import { ModelFullMetadata } from '@fangcha/datawich-service/lib/common/models'
 
 export class _ModelMilestone extends __ModelMilestone {
   public constructor() {

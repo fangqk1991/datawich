@@ -2,8 +2,8 @@ import assert from '@fangcha/assert'
 import { GeneralModelSpaces } from '@fangcha/general-group'
 import { Context } from 'koa'
 import { MemberPower } from '../models/permission/MemberPower'
-import { AccessLevel, GeneralPermission } from '@web/datawich-common/models'
 import { _DataModel } from '../models/extensions/_DataModel'
+import { AccessLevel, GeneralPermission } from '@web/datawich-common/models'
 
 export class SessionChecker {
   email: string

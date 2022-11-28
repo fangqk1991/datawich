@@ -12,29 +12,31 @@ import { makeUUID, SelectOption } from '@fangcha/tools'
 import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
 import { _ModelMilestone } from './_ModelMilestone'
 import {
-  AccessLevel,
-  calculateDataKey,
-  cleanDataByModelFields,
   DataModelExtrasData,
   DataModelModel,
-  DataRecordEvent,
-  DisplayScope,
-  FieldDisplayMode,
   FieldLinkModel,
   FieldType,
   ForAnalysisParams,
-  GeneralPermissionDescriptor,
-  ModelDisplayColumnModel,
   ModelFieldModel,
   ModelFullMetadata,
+} from '@fangcha/datawich-service/lib/common/models'
+import { _FieldGroup } from './_FieldGroup'
+import { _ModelDisplayColumn } from './_ModelDisplayColumn'
+import {
+  AccessLevel,
+  DataRecordEvent,
+  DisplayScope,
+  FieldDisplayMode,
+  FieldHelper,
+  GeneralPermissionDescriptor,
+  ModelDisplayColumnModel,
   ModelNotifyTemplateModel,
   ModelType,
   ModelTypeDescriptor,
   RetainFieldSource,
-  TransferSelectOption,
+  TransferSelectOption
 } from '@web/datawich-common/models'
-import { _FieldGroup } from './_FieldGroup'
-import { _ModelDisplayColumn } from './_ModelDisplayColumn'
+import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
 export class _DataModel extends __DataModel {
   protected _fields?: _ModelField[] = undefined
@@ -163,7 +165,7 @@ export class _DataModel extends __DataModel {
 
   public async getClearData(options: any) {
     const fields = await this.getFields()
-    options = cleanDataByModelFields(options, fields as any)
+    options = FieldHelper.cleanDataByModelFields(options, fields as any)
     return options
   }
 
@@ -930,13 +932,13 @@ export class _DataModel extends __DataModel {
     let template = ''
     for (const mainField of fields) {
       const links = await mainField.getFieldLinks()
-      const dataKey = calculateDataKey(mainField)
+      const dataKey = GeneralDataHelper.calculateDataKey(mainField)
       template += `${mainField.name}: {${dataKey}}\n`
       for (const link of links) {
         const model = await link.modelWithRefFields()
         const refFields = model.referenceFields
         for (const refField of refFields) {
-          const dataKey = calculateDataKey(refField, mainField)
+          const dataKey = GeneralDataHelper.calculateDataKey(refField, mainField)
           template += `${refField.name}: {${dataKey}}\n`
         }
       }

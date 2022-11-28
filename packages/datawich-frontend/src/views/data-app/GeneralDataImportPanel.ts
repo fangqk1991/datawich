@@ -3,7 +3,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { DataImportPanel, DataImportProtocol } from '@fangcha/vue/oss-service'
 import { MyAxios } from '@fangcha/vue/basic'
 import { TagsContainer, MultiEnumContainer } from '@fangcha/datawich-frontend'
-import { DataModelModel, ModelFieldModel, FieldType } from '@web/datawich-common/models'
+import { DataModelModel, ModelFieldModel, FieldType } from '@fangcha/datawich-service/lib/common/models'
 import { DataAppApis } from '@web/datawich-common/web-api'
 
 @Component({

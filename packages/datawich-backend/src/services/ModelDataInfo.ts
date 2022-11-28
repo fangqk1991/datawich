@@ -2,9 +2,11 @@ import { FCDatabase, Transaction } from 'fc-sql'
 import assert from '@fangcha/assert'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
-import { ActionPerformInfo, calculateDataKey, calculateFilterKey, FieldType } from '@web/datawich-common/models'
+import { FieldType } from '@fangcha/datawich-service/lib/common/models'
 import { _ModelFieldAction } from '../models/extensions/_ModelFieldAction'
 import { _ModelField } from '../models/extensions/_ModelField'
+import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { ActionPerformInfo } from '@web/datawich-common/models'
 
 export class ModelDataInfo {
   public static database: FCDatabase
@@ -94,7 +96,7 @@ export class ModelDataInfo {
     const userEmailList = new Set()
     for (const mainField of fields) {
       const links = await mainField.getFieldLinks()
-      const dataKey = calculateDataKey(mainField)
+      const dataKey = GeneralDataHelper.calculateDataKey(mainField)
       if (mainField.fieldType === FieldType.User) {
         if (data[dataKey]) {
           userEmailList.add(data[dataKey])
@@ -104,7 +106,7 @@ export class ModelDataInfo {
         const model = await link.modelWithRefFields()
         const refFields = model.referenceFields
         for (const refField of refFields) {
-          const dataKey = calculateDataKey(refField, mainField)
+          const dataKey = GeneralDataHelper.calculateDataKey(refField, mainField)
           if (refField.fieldType === FieldType.User) {
             if (data[dataKey]) {
               userEmailList.add(data[dataKey])
@@ -123,7 +125,7 @@ export class ModelDataInfo {
     const targetField = await _ModelField.findModelField(performer.toModelKey, performer.toFieldKey)
     const dataHandler = new ModelDataHandler(referenceModel)
     const options = {
-      [calculateFilterKey(targetField)]: curData[fieldKey],
+      [GeneralDataHelper.calculateFilterKey(targetField)]: curData[fieldKey],
     }
     const searcher = await dataHandler.dataSearcherWithFilter(options)
     const rawData = await searcher.querySingle()

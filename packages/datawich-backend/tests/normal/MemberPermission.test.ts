@@ -1,6 +1,6 @@
 import { logger } from '@fangcha/logger'
 import { initGeneralDataSettingsTest } from '../GeneralDataServiceDev'
-import { MemberPower } from '@fangcha/datawich-service'
+import { MemberPower } from '../../src/models/permission/MemberPower'
 
 initGeneralDataSettingsTest()
 

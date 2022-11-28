@@ -2,7 +2,7 @@ import __FieldGroup from '../auto-build/__FieldGroup'
 import assert from '@fangcha/assert'
 import { Transaction } from 'fc-sql'
 import { _ModelField } from './_ModelField'
-import { FieldGroupModel } from '@web/datawich-common/models'
+import { FieldGroupModel } from '@fangcha/datawich-service/lib/common/models'
 
 export class _FieldGroup extends __FieldGroup {
   public constructor() {

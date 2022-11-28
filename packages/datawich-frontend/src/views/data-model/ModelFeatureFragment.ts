@@ -1,4 +1,3 @@
-import { DataRecordEventDescriptor, ModelNotifyTemplateModel } from '@web/datawich-common/models'
 import { Component, MySwitch, SimpleInputDialog } from '@fangcha/vue'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { NotificationCenter } from 'notification-center-js'
@@ -7,6 +6,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { ModelFragmentBase } from './ModelFragmentBase'
 import { EmailEditDialog } from '../widgets/EmailEditDialog'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
+import { DataRecordEventDescriptor, ModelNotifyTemplateModel } from '@web/datawich-common/models'
 
 @Component({
   components: {

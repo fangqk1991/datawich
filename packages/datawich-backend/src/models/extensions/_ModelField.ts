@@ -7,17 +7,16 @@ import { _FieldEnumMetadata } from './_FieldEnumMetadata'
 import { _ModelFieldAction } from './_ModelFieldAction'
 import { makeUUID } from '@fangcha/tools'
 import {
-  ActionEventDescriptor,
   checkFieldHasOptions,
   FieldActionModel,
   FieldType,
   FieldTypeDescriptor,
-  GeneralDataFormatter,
-  getFieldTypeDatabaseSpec,
   LinkMapperInfo,
   ModelFieldModel,
   Raw_ModelField,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
+import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
+import { GeneralDataFormatter } from '@fangcha/datawich-service/lib/common/tools'
 
 export class _ModelField extends __ModelField implements Raw_ModelField {
   public constructor() {
@@ -315,13 +314,13 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
   }
 
   public async addColumnToDB() {
-    const columnSpec = getFieldTypeDatabaseSpec(this as any)
+    const columnSpec = FieldHelper.getFieldTypeDatabaseSpec(this as any)
     const tableHandler = this.dbSpec().database.tableHandler(this.sqlTableName())
     await tableHandler.addColumn(this.fieldKey, columnSpec)
   }
 
   public async changeColumnToDB() {
-    const columnSpec = getFieldTypeDatabaseSpec(this as any)
+    const columnSpec = FieldHelper.getFieldTypeDatabaseSpec(this as any)
     const tableHandler = this.dbSpec().database.tableHandler(this.sqlTableName())
     await tableHandler.changeColumn(this.fieldKey, columnSpec)
   }

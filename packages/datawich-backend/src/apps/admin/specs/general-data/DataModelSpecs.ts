@@ -3,18 +3,13 @@ import assert from '@fangcha/assert'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
 import { SessionChecker } from '../../../../services/SessionChecker'
-import {
-  ForAnalysisParams,
-  GeneralDataPermissionKey,
-  GeneralPermission,
-  ModelFullMetadata,
-  ModelType,
-} from '@web/datawich-common/models'
+import { ModelFullMetadata, } from '@fangcha/datawich-service/lib/common/models'
 import { DataModelHandler } from '../../../../services/DataModelHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { FangchaSession } from '@fangcha/router/lib/session'
 import { ModelDataHandler } from '../../../../services/ModelDataHandler'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
+import { GeneralPermission, ModelType } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('数据模型')
 
@@ -96,19 +91,6 @@ factory.prepare(DataModelApis.DataModelUpdate, async (ctx) => {
     await dataModel.updateFeed(ctx.request.body)
     ctx.status = 200
   })
-})
-
-factory.prepare(DataModelApis.DataModelForAnalysisUpdate, async (ctx) => {
-  const session = ctx.session as FangchaSession
-  session.assertVisitorHasPermission(GeneralDataPermissionKey.PERMISSION_GENERAL_DATA_ANALYSIS)
-  const changedList = ctx.request.body as ForAnalysisParams[]
-  assert.ok(Array.isArray(changedList), '参数不合法')
-  changedList.forEach((item) => {
-    assert.ok(!!item.modelKey, '参数[modelKey]不合法')
-    assert.ok(item.checked !== undefined, '参数[checked]不合法')
-  })
-  await _DataModel.updateForAnalysis(changedList)
-  ctx.status = 200
 })
 
 factory.prepare(DataModelApis.DataModelDelete, async (ctx) => {

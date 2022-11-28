@@ -1,4 +1,4 @@
-import { DataModelModel } from '@web/datawich-common/models'
+import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
 import { Component, Prop, ViewController, Watch } from '@fangcha/vue'
 
 @Component

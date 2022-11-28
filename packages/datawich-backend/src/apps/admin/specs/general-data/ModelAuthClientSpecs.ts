@@ -2,9 +2,9 @@ import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { ModelClientApis } from '@web/datawich-common/web-api'
 import { SessionChecker } from '../../../../services/SessionChecker'
-import { ClientAuthParams, GeneralPermission } from '@web/datawich-common/models'
 import { ModelAuthHandler } from '../../../../services/ModelAuthHandler'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
+import { ClientAuthParams, GeneralPermission } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('模型 API 访问者')
 

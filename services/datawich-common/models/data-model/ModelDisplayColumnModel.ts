@@ -10,17 +10,3 @@ export interface ModelDisplayColumnModel {
   createTime: string
   updateTime: string
 }
-
-export const Keys_ModelDisplayColumnModel = [
-  // prettier-ignore
-  'columnKey',
-  'modelKey',
-  'refModelKey',
-  'columnName',
-  'contentTmpl',
-  'weight',
-  'isTemplate',
-  'displayScope',
-  'createTime',
-  'updateTime',
-]

@@ -4,19 +4,16 @@ import { SQLSearcher } from 'fc-sql'
 import assert from '@fangcha/assert'
 import { _ModelField } from '../models/extensions/_ModelField'
 import {
-  calculateDataKey,
-  calculateFilterKey,
-  checkExactSearchableField,
-  checkSearchableField,
-  extractMultiEnumItems,
   FieldType,
   FilterCondition,
   FilterSymbol,
   FilterSymbolDescriptor,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import * as moment from 'moment'
+import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { FieldHelper } from '@web/datawich-common/models'
 
 interface SearchableField {
   tableColumnName: string
@@ -79,7 +76,7 @@ export class WideSearcherBuilder {
     for (const field of this.mainFields) {
       const leftColumnName = `${mainTableName}.${field.fieldKey}`
       columns.push(`${leftColumnName} AS \`${field.fieldKey}\``)
-      filterMapper[calculateFilterKey(field)] = {
+      filterMapper[GeneralDataHelper.calculateFilterKey(field)] = {
         columnName: leftColumnName,
         field: field,
       }
@@ -99,10 +96,10 @@ export class WideSearcherBuilder {
       bigTable = `${bigTable} LEFT JOIN ${refTable} AS ${refTableAlias} ON ${curColumnName} = ${linkColumnName}`
       const refFields = await link.getRefFields()
       for (const refViceField of refFields) {
-        const refViceColumn = calculateDataKey(refViceField, link)
+        const refViceColumn = GeneralDataHelper.calculateDataKey(refViceField, link)
         const leftColumnName = `${refTableAlias}.${refViceField.fieldKey}`
         columns.push(`${leftColumnName} AS \`${refViceColumn}\``)
-        filterMapper[calculateFilterKey(refViceField, link)] = {
+        filterMapper[GeneralDataHelper.calculateFilterKey(refViceField, link)] = {
           columnName: leftColumnName,
           field: refViceField,
         }
@@ -168,7 +165,7 @@ export class WideSearcherBuilder {
           case FieldType.MultiEnum: {
             const builder = new SearchBuilder()
             builder.addCondition(`1 = 0`)
-            for (const val of extractMultiEnumItems(filterValue)) {
+            for (const val of GeneralDataHelper.extractMultiEnumItems(filterValue)) {
               builder.addCondition(`FIND_IN_SET(?, ${columnName})`, val)
             }
             builder.injectToSearcher(searcher)
@@ -251,12 +248,12 @@ export class WideSearcherBuilder {
           })
       }
       searchFields
-        .filter((searchField) => checkExactSearchableField(searchField.field.fieldType as FieldType))
+        .filter((searchField) => FieldHelper.checkExactSearchableField(searchField.field.fieldType as FieldType))
         .forEach((searchField) => {
           builder.addCondition(`${searchField.tableColumnName} = ?`, keywords)
         })
       searchFields
-        .filter((searchField) => checkSearchableField(searchField.field.fieldType as FieldType))
+        .filter((searchField) => FieldHelper.checkSearchableField(searchField.field.fieldType as FieldType))
         .forEach((searchField) => {
           builder.addCondition(`${searchField.tableColumnName} LIKE ?`, keywordsLike)
         })

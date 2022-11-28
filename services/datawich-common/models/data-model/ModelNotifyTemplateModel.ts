@@ -7,14 +7,3 @@ export interface ModelNotifyTemplateModel {
   createTime: string
   updateTime: string
 }
-
-export const Keys_ModelNotifyTemplateModel = [
-  // prettier-ignore
-  'templateId',
-  'modelKey',
-  'isActive',
-  'content',
-  'emailEntityStr',
-  'createTime',
-  'updateTime',
-]

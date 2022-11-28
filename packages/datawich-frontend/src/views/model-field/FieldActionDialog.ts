@@ -1,7 +1,8 @@
 import { Component } from 'vue-property-decorator'
 import { TypicalDialog, TypicalDialogView } from '@fangcha/vue'
-import { ActionEvent, ActionEventDescriptor, FieldActionModel } from '@web/datawich-common/models'
+import { FieldActionModel } from '@fangcha/datawich-service/lib/common/models'
 import DerivativeActionExtension from './DerivativeActionExtension'
+import { ActionEvent, ActionEventDescriptor } from '@web/datawich-common/models'
 
 @Component({
   components: {

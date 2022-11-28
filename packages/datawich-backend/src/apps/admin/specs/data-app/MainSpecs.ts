@@ -5,7 +5,6 @@ import { DataAppApis } from '@web/datawich-common/web-api'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
 import { FangchaSession } from '@fangcha/router/lib/session'
 import { _CommonProfile } from '../../../../models/extensions/_CommonProfile'
-import { GeneralPermission, ProfileEvent } from '@web/datawich-common/models'
 import { DataAppSpecHandler } from '../handlers/DataAppSpecHandler'
 import { ModelDataHandler } from '../../../../services/ModelDataHandler'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
@@ -15,6 +14,7 @@ import { SessionChecker } from '../../../../services/SessionChecker'
 import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldAction'
 import { DataImportHandler } from '../../../../services/DataImportHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
+import { GeneralPermission, ProfileEvent } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('数据应用（常规）')
 

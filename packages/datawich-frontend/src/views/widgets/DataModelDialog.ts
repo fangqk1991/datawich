@@ -1,11 +1,9 @@
 import { Component } from 'vue-property-decorator'
 import { TypicalDialog, TypicalDialogView } from '@fangcha/vue'
 import {
-  AccessLevel,
-  AccessLevelDescriptor,
   DataModelModel,
-  ModelType,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
+import { AccessLevel, AccessLevelDescriptor, ModelType } from '@web/datawich-common/models'
 
 @Component({
   components: {

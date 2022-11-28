@@ -1,9 +1,4 @@
-import {
-  ClientAuthModel,
-  ClientAuthParams,
-  DataModelModel,
-  ModelClientModel,
-} from '@web/datawich-common/models'
+import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
 import {
   Component,
   ConfirmDialog,
@@ -21,6 +16,7 @@ import { CheckOption } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelClientDialog } from './ModelClientDialog'
+import { ClientAuthModel, ClientAuthParams, ModelClientModel } from '@web/datawich-common/models'
 
 @Component({
   components: {

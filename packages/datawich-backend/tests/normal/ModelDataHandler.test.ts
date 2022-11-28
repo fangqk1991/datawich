@@ -1,7 +1,8 @@
 import * as assert from 'assert'
 import { logger } from '@fangcha/logger'
 import { initGeneralDataSettingsTest } from '../GeneralDataServiceDev'
-import { _DataModel, ModelDataHandler } from '@fangcha/datawich-service'
+import { _DataModel } from '../../src/models/extensions/_DataModel'
+import { ModelDataHandler } from '../../src/services/ModelDataHandler'
 
 initGeneralDataSettingsTest()
 

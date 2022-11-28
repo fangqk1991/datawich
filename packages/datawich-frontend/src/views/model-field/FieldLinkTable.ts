@@ -1,7 +1,7 @@
 import { Component, ConfirmDialog, MySwitch, MyTableView, Prop, TableViewProtocol, ViewController } from '@fangcha/vue'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import FieldLinkDialog from './FieldLinkDialog'
-import { FieldLinkModel, ModelFieldModel } from '@web/datawich-common/models'
+import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { getRouterToModel } from '../../services/ModelDataHelper'

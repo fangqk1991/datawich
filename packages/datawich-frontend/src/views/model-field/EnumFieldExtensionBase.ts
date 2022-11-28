@@ -1,5 +1,5 @@
 import { ViewController, Component, Prop } from '@fangcha/vue'
-import { ModelFieldModel } from '@web/datawich-common/models'
+import { ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
 
 @Component
 export default class EnumFieldExtensionBase extends ViewController {

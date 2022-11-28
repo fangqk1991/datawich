@@ -1,17 +1,17 @@
 import { Component } from 'vue-property-decorator'
 import { AlertTools, ConfirmDialog, CustomDialog, CustomDialogView } from '@fangcha/vue'
 import {
-  GeneralDataFormatter,
   ModelFieldModel,
   ModelFullMetadata,
   ModelMilestoneModel,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { NotificationCenter } from 'notification-center-js'
 import { MyAxios } from '@fangcha/vue/basic'
 import { ModelStructurePanel } from '@fangcha/datawich-frontend'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
+import { GeneralDataFormatter } from '@fangcha/datawich-service/lib/common/tools'
 
 @Component({
   components: {

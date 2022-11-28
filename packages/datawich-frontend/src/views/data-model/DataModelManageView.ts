@@ -1,4 +1,4 @@
-import { DataModelModel } from '@web/datawich-common/models'
+import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
 import { Component, ViewController } from '@fangcha/vue'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { NotificationCenter } from 'notification-center-js'

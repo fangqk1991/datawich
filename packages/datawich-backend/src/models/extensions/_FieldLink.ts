@@ -4,18 +4,11 @@ import assert from '@fangcha/assert'
 import { Transaction } from 'fc-sql'
 import { logger } from '@fangcha/logger'
 import { makeUUID } from '@fangcha/tools'
-import {
-  calculateDataKey,
-  calculateFilterKey,
-  describeSQLTriggerAction,
-  FieldLinkModel,
-  GeneralDataFormatter, inlineFieldDefaultName,
-  LinkMapperInfo,
-  Raw_FieldLink,
-  TriggerAction
-} from '@web/datawich-common/models'
+import { FieldLinkModel, LinkMapperInfo, Raw_FieldLink } from '@fangcha/datawich-service/lib/common/models'
 import { _ModelField } from './_ModelField'
 import { _FieldIndex } from './_FieldIndex'
+import { describeSQLTriggerAction, TriggerAction } from '@web/datawich-common/models'
+import { GeneralDataFormatter, GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
 export class _FieldLink extends __FieldLink implements Raw_FieldLink {
   public constructor() {
@@ -205,10 +198,10 @@ export class _FieldLink extends __FieldLink implements Raw_FieldLink {
         if (linkInfo.mappingName) {
           data.name = linkInfo.mappingName
         } else {
-          data.name = inlineFieldDefaultName(mainField, field)
+          data.name = GeneralDataHelper.inlineFieldDefaultName(mainField, field)
         }
-        data.filterKey = calculateFilterKey(field, this)
-        data.dataKey = calculateDataKey(field, this)
+        data.filterKey = GeneralDataHelper.calculateFilterKey(field, this)
+        data.dataKey = GeneralDataHelper.calculateDataKey(field, this)
         data.isUnique = uniqueMap[field.fieldKey] ? 1 : 0
         return data
       })

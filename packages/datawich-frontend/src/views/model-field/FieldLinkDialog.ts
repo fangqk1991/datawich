@@ -3,14 +3,14 @@ import { TypicalDialog, TypicalDialogView } from '@fangcha/vue'
 import {
   DataModelModel,
   FieldLinkModel,
-  inlineFieldDefaultName,
   LinkMapperInfo,
   ModelFieldModel,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import { SelectOption } from '@fangcha/tools'
 import { DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
+import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
 interface ReferenceInfo {
   refFields: ModelFieldModel[]
@@ -257,6 +257,6 @@ export default class FieldLinkDialog extends TypicalDialog {
 
   getRefFieldPlaceholder(field: ModelFieldModel) {
     const curField = this.fieldMap[this.data.fieldKey] || {}
-    return inlineFieldDefaultName({ name: curField.name }, field)
+    return GeneralDataHelper.inlineFieldDefaultName({ name: curField.name }, field)
   }
 }

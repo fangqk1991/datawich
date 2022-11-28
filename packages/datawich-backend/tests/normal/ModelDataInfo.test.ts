@@ -1,6 +1,8 @@
 import { generateModel } from '../ModelTestHelper'
 import { initGeneralDataSettingsTest } from '../GeneralDataServiceDev'
-import { DataModelHandler, ModelDataHandler, ModelDataInfo } from '@fangcha/datawich-service'
+import { ModelDataInfo } from '../../src/services/ModelDataInfo'
+import { DataModelHandler } from '../../src/services/DataModelHandler'
+import { ModelDataHandler } from '../../src/services/ModelDataHandler'
 
 initGeneralDataSettingsTest()
 

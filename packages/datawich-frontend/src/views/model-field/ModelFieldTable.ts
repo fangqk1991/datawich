@@ -14,14 +14,13 @@ import {
   ViewController,
 } from '@fangcha/vue'
 import {
-  checkIndexAbleField,
   FieldActionModel,
   FieldGroupModel,
   FieldIndexModel,
   FieldType,
   LogicExpressionHelper,
   ModelFieldModel,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import { DataModelApis, ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { CheckOption, SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
@@ -34,6 +33,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { LogicExpressionDialog } from '../../components/LogicExpressionDialog'
 import { getRouterToModel } from '../../services/ModelDataHelper'
+import { FieldHelper } from '@web/datawich-common/models'
 
 @Component({
   components: {
@@ -573,7 +573,7 @@ export class ModelFieldTable extends ViewController {
   }
 
   canHasIndex(field: ModelFieldModel) {
-    return checkIndexAbleField(field.fieldType)
+    return FieldHelper.checkIndexAbleField(field.fieldType)
   }
 
   transferEnumToTextEnum(field: ModelFieldModel) {

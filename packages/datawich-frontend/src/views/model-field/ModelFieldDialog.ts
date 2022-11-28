@@ -1,15 +1,15 @@
 import { Component, Watch } from 'vue-property-decorator'
 import { CustomDialog, CustomDialogView } from '@fangcha/vue'
 import {
-  checkSpecialField,
   FieldType,
   FieldTypeDescriptor,
   ModelFieldExtrasData,
   ModelFieldModel,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import EnumFieldExtension from './EnumFieldExtension'
 import TagsFieldExtension from './TagsFieldExtension'
 import { I18nCode } from '@fangcha/tools'
+import { FieldHelper } from '@web/datawich-common/models'
 
 @Component({
   components: {
@@ -156,7 +156,7 @@ export default class ModelFieldDialog extends CustomDialog {
   get fieldTypeOptions() {
     const options = this.fullFieldTypeOptions.filter((option) => {
       const v1 = this.useNormalField ? 1 : -1
-      const v2 = checkSpecialField(option.value as FieldType) ? 1 : -1
+      const v2 = FieldHelper.checkSpecialField(option.value as FieldType) ? 1 : -1
       return v1 * v2 === -1
     })
     options.forEach((option) => {
@@ -210,7 +210,7 @@ export default class ModelFieldDialog extends CustomDialog {
 
   @Watch('data.fieldType', { immediate: true })
   onFieldTypeChanged(value: string) {
-    this.useNormalField = !checkSpecialField(value as FieldType)
+    this.useNormalField = !FieldHelper.checkSpecialField(value as FieldType)
   }
 
   get canBeSearchable() {

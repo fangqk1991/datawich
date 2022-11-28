@@ -4,12 +4,9 @@ import * as moment from 'moment'
 import { _OSSResource, OSSService } from '@fangcha/oss-service'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
-import {
-  calculateMultiEnumValueWithCheckedMap,
-  calculateValueWithCheckedMap,
-  FieldType,
-  getFieldNaturalLanguageValueExample
-} from '@web/datawich-common/models'
+import { FieldType } from '@fangcha/datawich-service/lib/common/models'
+import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { FieldHelper } from '@web/datawich-common/models'
 
 const setHintRowStyle = (row: Row) => {
   row.eachCell((cell) => {
@@ -54,7 +51,7 @@ export class DataImportHandler {
       columnKeys.push(field.fieldKey)
       nameRowData[field.fieldKey] = field.required ? `${field.name} *` : field.name
       hintRowData[field.fieldKey] = field.getHint()
-      exampleRowData[field.fieldKey] = getFieldNaturalLanguageValueExample(field.modelForClient())
+      exampleRowData[field.fieldKey] = FieldHelper.getFieldNaturalLanguageValueExample(field.modelForClient())
     }
     {
       const key = '_ignore'
@@ -138,7 +135,7 @@ export class DataImportHandler {
             }
           })
           if (valid) {
-            realData[field.fieldKey] = calculateValueWithCheckedMap(checkedMap)
+            realData[field.fieldKey] = GeneralDataHelper.calculateValueWithCheckedMap(checkedMap)
           }
         } else {
           realData[field.fieldKey] = 0
@@ -158,7 +155,7 @@ export class DataImportHandler {
             }
           })
           if (valid) {
-            realData[field.fieldKey] = calculateMultiEnumValueWithCheckedMap(checkedMap)
+            realData[field.fieldKey] = GeneralDataHelper.calculateMultiEnumValueWithCheckedMap(checkedMap)
           }
         } else {
           realData[field.fieldKey] = ''

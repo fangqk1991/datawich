@@ -10,20 +10,12 @@ import {
 } from '@fangcha/vue'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
-  checkCalculableField,
-  cleanDataByModelFields,
   DataModelModel,
-  extractCheckedMapForValue,
-  extractMultiEnumCheckedMapForValue,
-  FieldDisplayMode,
   FieldType,
   FilterCondition,
   FilterSymbol,
-  GeneralPermission,
-  makeDisplayFields,
   ModelFieldModel,
-  ProfileEvent,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import { CheckOption } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
@@ -34,6 +26,8 @@ import { MyFavorSidebar } from './MyFavorSidebar'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { GeneralDataImportPanel } from './GeneralDataImportPanel'
 import { MyDataColumn } from './MyDataColumn'
+import { FieldDisplayMode, FieldHelper, GeneralPermission, ProfileEvent, } from '@web/datawich-common/models'
+import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
 interface DataRecord {
   rid: number
@@ -392,7 +386,7 @@ export class DataDisplayView extends ViewController {
 
   get summaryNumberFields() {
     return this.mainFields.filter(
-      (field) => checkCalculableField(field.fieldType as FieldType) && field.fieldKey !== 'rid'
+      (field) => FieldHelper.checkCalculableField(field.fieldType as FieldType) && field.fieldKey !== 'rid'
     )
   }
 
@@ -417,18 +411,18 @@ export class DataDisplayView extends ViewController {
       })
     }
     this.allFields = allFields
-    this.displayFields = makeDisplayFields(this.mainFields)
+    this.displayFields = FieldHelper.makeDisplayFields(this.mainFields)
     const query = this.$route.query
     allFields.forEach((field) => {
       const filterKey = field.filterKey
       if (field.fieldType === FieldType.Tags) {
         const value = Number(query[filterKey] || 0)
-        const checkedMap = extractCheckedMapForValue(value, field)
+        const checkedMap = GeneralDataHelper.extractCheckedMapForValue(value, field)
         this.$set(this.customParams, filterKey, value)
         this.$set(this.tagsCheckedMap, filterKey, checkedMap)
       } else if (field.fieldType === FieldType.MultiEnum) {
         const value = String(query[filterKey] || '')
-        const checkedMap = extractMultiEnumCheckedMapForValue(value, field.options)
+        const checkedMap = GeneralDataHelper.extractMultiEnumCheckedMapForValue(value, field.options)
         this.$set(this.customParams, filterKey, value)
         this.$set(this.tagsCheckedMap, filterKey, checkedMap)
       } else if (field.fieldType === FieldType.Date) {
@@ -467,7 +461,7 @@ export class DataDisplayView extends ViewController {
   }
 
   onClickCopy(data: DataRecord) {
-    const inputData = cleanDataByModelFields(data, this.mainFields)
+    const inputData = FieldHelper.cleanDataByModelFields(data, this.mainFields)
     const dialog = new this.dialogClass()
     dialog.title = '复制数据记录'
     dialog.setFieldsAndData(this.modelKey, this.writeableFields, inputData)
@@ -482,7 +476,7 @@ export class DataDisplayView extends ViewController {
   }
 
   onClickEdit(data: DataRecord) {
-    const inputData = cleanDataByModelFields(data, this.mainFields)
+    const inputData = FieldHelper.cleanDataByModelFields(data, this.mainFields)
     const dialog = new this.dialogClass()
     dialog.title = '修改数据记录'
     dialog.setFieldsAndData(this.modelKey, this.writeableFields, inputData)
@@ -514,7 +508,7 @@ export class DataDisplayView extends ViewController {
       const filterKey = field.filterKey
       if (field.fieldType === FieldType.Tags) {
         params[filterKey] = 0
-        this.tagsCheckedMap[field.filterKey] = extractCheckedMapForValue(0, field)
+        this.tagsCheckedMap[field.filterKey] = GeneralDataHelper.extractCheckedMapForValue(0, field)
       } else if (field.fieldType === FieldType.Date) {
         params[filterKey] = null
       } else {

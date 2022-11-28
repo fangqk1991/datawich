@@ -1,11 +1,12 @@
 import { CommonProfileApis, DataAppApis } from '@web/datawich-common/web-api'
-import { DataModelModel, ProfileEvent } from '@web/datawich-common/models'
+import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
 import { NotificationCenter } from 'notification-center-js'
 import { CommonAPI } from '@fangcha/app-request'
 import { MenuSubNode } from '@fangcha/vue'
 import { MyAxios } from '@fangcha/vue/basic'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { getRouterToDataApp } from '../../services/ModelDataHelper'
+import { ProfileEvent } from '@web/datawich-common/models'
 
 class _MyFavorSidebar {
   private _favorApps?: DataModelModel[]

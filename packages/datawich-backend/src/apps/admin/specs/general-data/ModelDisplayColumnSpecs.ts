@@ -1,8 +1,8 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
-import { DisplayScope, DisplayScopeDescriptor } from '@web/datawich-common/models'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
+import { DisplayScope, DisplayScopeDescriptor } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('模型自定义展示列')
 

@@ -3,7 +3,8 @@ import { Transaction } from 'fc-sql'
 import assert from '@fangcha/assert'
 import { _ModelField } from './_ModelField'
 import { _DataModel } from './_DataModel'
-import { FieldIndexModel, getFieldTypeDatabaseSpec } from '@web/datawich-common/models'
+import { FieldIndexModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldHelper } from '@web/datawich-common/models'
 
 export class _FieldIndex extends __FieldIndex {
   public constructor() {
@@ -61,7 +62,7 @@ export class _FieldIndex extends __FieldIndex {
       fieldIndex.isUnique = isUnique
       await fieldIndex.strongAddToDB(transaction)
 
-      const columnSpec = getFieldTypeDatabaseSpec(field as any, true)
+      const columnSpec = FieldHelper.getFieldTypeDatabaseSpec(field as any, true)
       const tableHandler = database.tableHandler(field.sqlTableName())
       await tableHandler.changeColumn(field.fieldKey, columnSpec)
       await fieldIndex._dropSQLIndex()
@@ -84,7 +85,7 @@ export class _FieldIndex extends __FieldIndex {
       await this.deleteFromDB(transaction)
       await this._dropSQLIndex()
       const database = field.dbSpec().database
-      const columnSpec = getFieldTypeDatabaseSpec(field as any, false)
+      const columnSpec = FieldHelper.getFieldTypeDatabaseSpec(field as any, false)
       const tableHandler = database.tableHandler(field.sqlTableName())
       await tableHandler.changeColumn(field.fieldKey, columnSpec)
     })

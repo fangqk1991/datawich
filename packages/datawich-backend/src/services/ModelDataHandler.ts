@@ -9,24 +9,18 @@ import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
 import assert from '@fangcha/assert'
 import { _DataModel } from '../models/extensions/_DataModel'
 import {
-  attachmentEntityKey,
-  calculateDataKey,
-  checkCalculableField,
   DescribableField,
-  extractCheckedMapForValue,
-  extractMultiEnumCheckedMapForValue,
   FieldLinkModel,
   FieldType,
-  GeneralDataChecker,
-  GeneralDataFormatter,
-  getCheckedTagsForField,
   ModelFieldModel,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { ModelDataInfo } from './ModelDataInfo'
 import { WideSearcherBuilder } from './WideSearcherBuilder'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
+import { FieldHelper } from '@web/datawich-common/models'
+import { GeneralDataChecker, GeneralDataFormatter, GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 const archiver = require('archiver')
 
 export class ModelDataHandler {
@@ -74,7 +68,7 @@ export class ModelDataHandler {
     const dataModel = this._dataModel
     const tableName = dataModel.sqlTableName()
     const fields = await dataModel.getFields()
-    const calculableFields = fields.filter((field) => checkCalculableField(field.fieldType as FieldType))
+    const calculableFields = fields.filter((field) => FieldHelper.checkCalculableField(field.fieldType as FieldType))
     if (calculableFields.length > 0) {
       const columns = calculableFields.map((field) => {
         return `IFNULL(SUM(${tableName}.${field.fieldKey}), 0) AS \`${field.fieldKey}\``
@@ -116,7 +110,7 @@ export class ModelDataHandler {
         } catch (e) {
           console.error(e)
         }
-        item[attachmentEntityKey(field)] = entity
+        item[GeneralDataHelper.attachmentEntityKey(field)] = entity
       }
     }
     return items
@@ -244,13 +238,13 @@ export class ModelDataHandler {
       }
     } else if (field.fieldType === FieldType.Tags) {
       items.forEach((item) => {
-        const checkedMap = extractCheckedMapForValue(item[dataKey], field)
-        item[dataKey] = getCheckedTagsForField(field, checkedMap).join(', ')
+        const checkedMap = GeneralDataHelper.extractCheckedMapForValue(item[dataKey], field)
+        item[dataKey] = GeneralDataHelper.getCheckedTagsForField(field, checkedMap).join(', ')
       })
     } else if (field.fieldType === FieldType.MultiEnum) {
       items.forEach((item) => {
-        const checkedMap = extractMultiEnumCheckedMapForValue(item[dataKey], field.options)
-        item[dataKey] = getCheckedTagsForField(field, checkedMap).join(', ')
+        const checkedMap = GeneralDataHelper.extractMultiEnumCheckedMapForValue(item[dataKey], field.options)
+        item[dataKey] = GeneralDataHelper.getCheckedTagsForField(field, checkedMap).join(', ')
       })
     }
   }
@@ -266,14 +260,14 @@ export class ModelDataHandler {
       }
     }
     modelFields.forEach((field) => {
-      const dataKey = calculateDataKey(field)
+      const dataKey = GeneralDataHelper.calculateDataKey(field)
       this._transferItemsValueNaturalLanguage(items, field.modelForClient(), dataKey)
     })
     const fieldLinks = await dataModel.getFieldLinks()
     for (const link of fieldLinks) {
       const refFields = await link.getRefFields()
       refFields.forEach((refField) => {
-        const dataKey = calculateDataKey(refField, link)
+        const dataKey = GeneralDataHelper.calculateDataKey(refField, link)
         this._transferItemsValueNaturalLanguage(items, refField.modelForClient(), dataKey)
       })
     }

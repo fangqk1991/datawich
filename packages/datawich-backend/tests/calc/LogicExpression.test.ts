@@ -1,4 +1,4 @@
-import { FilterSymbol, LogicExpression, LogicExpressionHelper, LogicSymbol } from '@web/datawich-common/models'
+import { FilterSymbol, LogicExpression, LogicExpressionHelper, LogicSymbol } from '@fangcha/datawich-service/lib/common/models'
 
 describe('Test LogicExpression.test.ts', () => {
   it(`Test LogicExpression`, async () => {

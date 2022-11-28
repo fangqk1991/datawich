@@ -1,4 +1,4 @@
-import { DataModelModel } from '@web/datawich-common/models'
+import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
 
 export const getRouterToDataApp = (dataModel: DataModelModel) => {
   return {

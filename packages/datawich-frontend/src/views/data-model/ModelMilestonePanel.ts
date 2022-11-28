@@ -1,5 +1,5 @@
 import { Component, JsonImportDialog, MultipleLinesInputDialog } from '@fangcha/vue'
-import { ModelMilestoneModel } from '@web/datawich-common/models'
+import { ModelMilestoneModel } from '@fangcha/datawich-service/lib/common/models'
 import { ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { MilestoneInfoDialog } from '../widgets/MilestoneInfoDialog'
 import * as moment from 'moment'

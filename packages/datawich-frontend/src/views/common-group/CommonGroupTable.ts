@@ -8,7 +8,6 @@ import {
   TableViewProtocol,
   ViewController,
 } from '@fangcha/vue'
-import { GeneralPermissionDescriptor } from '@web/datawich-common/models'
 import { CommonGroupApis, ModelUserApis } from '@web/datawich-common/web-api'
 import { GroupMemberDialog } from './GroupMemberDialog'
 import { GroupPermissionDialog } from './GroupPermissionDialog'
@@ -16,6 +15,7 @@ import { SelectOption } from '@fangcha/tools'
 import { CommonGroupModel, GroupSpace, ScopeParams } from '@fangcha/general-group/lib/common/models'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
+import { GeneralPermissionDescriptor } from '@web/datawich-common/models'
 
 @Component({
   components: {

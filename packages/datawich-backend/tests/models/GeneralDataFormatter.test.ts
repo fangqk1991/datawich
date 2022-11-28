@@ -1,7 +1,8 @@
 import { logger } from '@fangcha/logger'
 import { initGeneralDataSettingsTest } from '../GeneralDataServiceDev'
-import { GeneralDataFormatter } from '@web/datawich-common/models'
-import { _DataModel, DataModelHandler } from '@fangcha/datawich-service'
+import { _DataModel } from '../../src/models/extensions/_DataModel'
+import { DataModelHandler } from '../../src/services/DataModelHandler'
+import { GeneralDataFormatter } from '@fangcha/datawich-service/lib/common/tools'
 
 initGeneralDataSettingsTest()
 

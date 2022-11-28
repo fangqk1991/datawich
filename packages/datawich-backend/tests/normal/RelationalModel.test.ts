@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import { generateModel } from '../ModelTestHelper'
-import { _DataModel, DataModelHandler } from '@fangcha/datawich-service'
+import { _DataModel } from '../../src/models/extensions/_DataModel'
+import { DataModelHandler } from '../../src/services/DataModelHandler'
 
 describe('Test RelationalModel', () => {
   it(`Test make one`, async () => {

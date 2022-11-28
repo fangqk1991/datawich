@@ -54,11 +54,6 @@ export const DataModelApis = {
     route: '/api/v2/general-data/:modelKey',
     description: '修改模型信息',
   },
-  DataModelForAnalysisUpdate: {
-    method: 'PUT',
-    route: '/api/v2/general-data/data-model/for-analysis',
-    description: '批量修改模型是否被数据分析信息',
-  },
   DataModelDelete: {
     method: 'DELETE',
     route: '/api/v2/general-data/:modelKey',

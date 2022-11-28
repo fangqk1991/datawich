@@ -1,5 +1,5 @@
 import { Component } from '@fangcha/vue'
-import { FieldType, ModelFieldModel } from '@web/datawich-common/models'
+import { FieldType, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
 import EnumFieldExtensionBase from './EnumFieldExtensionBase'
 import { MyAxios } from '@fangcha/vue/basic'

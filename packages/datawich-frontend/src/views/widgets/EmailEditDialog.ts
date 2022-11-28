@@ -1,9 +1,9 @@
 import { Component } from 'vue-property-decorator'
 import { HtmlDisplayPanel, StringListPanel, TypicalDialog, TypicalDialogView } from '@fangcha/vue'
 import { DataAppApis, DataModelApis } from '@web/datawich-common/web-api'
-import { EmailEntityModel, ModelNotifyTemplateModel } from '@web/datawich-common/models'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
+import { EmailEntityModel, ModelNotifyTemplateModel } from '@web/datawich-common/models'
 
 @Component({
   components: {

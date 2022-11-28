@@ -2,20 +2,22 @@ import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
 import {
-  DisplayScope,
-  FieldDisplayMode,
   FieldLinkModel,
   FieldType,
-  GeneralPermission,
   ModelFieldModel,
-  ModelNotifyTemplateModel,
-} from '@web/datawich-common/models'
+} from '@fangcha/datawich-service/lib/common/models'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldAction'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { RawTableHandler } from '../../../../services/RawTableHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
+import {
+  DisplayScope,
+  FieldDisplayMode,
+  GeneralPermission,
+  ModelNotifyTemplateModel
+} from '@web/datawich-common/models'
 
 const factory = new SpecFactory('模型字段')
 

@@ -1,13 +1,5 @@
 import { Component, InfoCell, InformationDialog, MyRichTextPanel, MySelect, Prop, ViewController } from '@fangcha/vue'
-import {
-  calculateDataKey,
-  calculateFilterKey,
-  calculateMultiEnumValueWithCheckedMap,
-  calculateValueWithCheckedMap,
-  FieldType,
-  getCheckedTagsForField,
-  ModelFieldModel,
-} from '@web/datawich-common/models'
+import { FieldType, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
 import { TemplateHelper } from '@fangcha/tools'
 import {
   DataColumnExtension,
@@ -16,6 +8,7 @@ import {
   PluginDataColumn,
   TagsContainer,
 } from '@fangcha/datawich-frontend'
+import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
 @Component({
   components: {
@@ -184,7 +177,7 @@ export class MyDataColumn extends ViewController {
   }
 
   get dataKey() {
-    return calculateDataKey(this.field, this.superField)
+    return GeneralDataHelper.calculateDataKey(this.field, this.superField)
   }
 
   get fieldPlugin() {
@@ -193,7 +186,7 @@ export class MyDataColumn extends ViewController {
 
   onViewGroup(data: any) {
     const infos: InfoCell[] = this.field.groupFields.map((field) => {
-      const dataKey = calculateDataKey(field)
+      const dataKey = GeneralDataHelper.calculateDataKey(field)
       return {
         label: field.name,
         value: data[dataKey],
@@ -207,14 +200,14 @@ export class MyDataColumn extends ViewController {
   }
 
   getTagsHeader() {
-    return getCheckedTagsForField(this.field, this.tagCheckedMap).join(', ')
+    return GeneralDataHelper.getCheckedTagsForField(this.field, this.tagCheckedMap).join(', ')
   }
 
   onTagsPickerChanged() {
     if (this.field.fieldType === FieldType.MultiEnum) {
-      this.filterOptions[this.filterKey] = calculateMultiEnumValueWithCheckedMap(this.tagCheckedMap)
+      this.filterOptions[this.filterKey] = GeneralDataHelper.calculateMultiEnumValueWithCheckedMap(this.tagCheckedMap)
     } else {
-      this.filterOptions[this.filterKey] = calculateValueWithCheckedMap(this.tagCheckedMap)
+      this.filterOptions[this.filterKey] = GeneralDataHelper.calculateValueWithCheckedMap(this.tagCheckedMap)
     }
     this.onFilterUpdate()
   }
@@ -224,11 +217,11 @@ export class MyDataColumn extends ViewController {
     let options = field.options || []
     if (field.constraintKey) {
       const constraintKey = data
-        ? calculateDataKey({
+        ? GeneralDataHelper.calculateDataKey({
             fieldKey: field.constraintKey,
             modelKey: field.modelKey,
           })
-        : calculateFilterKey({
+        : GeneralDataHelper.calculateFilterKey({
             fieldKey: field.constraintKey,
             modelKey: field.modelKey,
           })
