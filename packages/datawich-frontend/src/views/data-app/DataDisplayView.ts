@@ -8,12 +8,7 @@ import {
   TableViewProtocol,
   ViewController,
 } from '@fangcha/vue'
-import {
-  CommonProfileApis,
-  DataAppApis,
-  DataModelApis,
-  ModelFieldApis,
-} from '@web/datawich-common/web-api'
+import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   checkCalculableField,
   cleanDataByModelFields,
@@ -33,15 +28,12 @@ import { CheckOption } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { DownloadTaskHelper } from '@fangcha/vue/oss-service'
-import {
-  DataDialogProtocol,
-  GeneralDataDialog,
-  GeneralDataImportPanel,
-  MyDataColumn,
-} from '@fangcha/datawich-frontend'
+import { DataDialogProtocol, GeneralDataDialog } from '@fangcha/datawich-frontend'
 import { NotificationCenter } from 'notification-center-js'
 import { MyFavorSidebar } from './MyFavorSidebar'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
+import { GeneralDataImportPanel } from './GeneralDataImportPanel'
+import { MyDataColumn } from './MyDataColumn'
 
 interface DataRecord {
   rid: number
@@ -240,7 +232,7 @@ const trimParams = (params: {}) => {
     </div>
   `,
 })
-export default class DataDisplayView extends ViewController {
+export class DataDisplayView extends ViewController {
   @Prop({ default: '', type: String }) readonly modelKey!: string
   @Prop({ default: GeneralDataDialog, type: Function }) readonly dialogClass!: {
     new (): DataDialogProtocol

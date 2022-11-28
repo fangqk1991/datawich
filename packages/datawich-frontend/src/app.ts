@@ -1,7 +1,6 @@
 import { OssFrontendService, OssRouteData } from '@fangcha/vue/oss-service'
-import DataDisplayView from './views/data-app/DataDisplayView'
+import { DataDisplayView } from './views/data-app/DataDisplayView'
 import { LogicExpressionView } from './components/LogicExpressionView'
-import { GeneralDataManager } from '@fangcha/datawich-frontend'
 import { AdminApp } from '@fangcha/vue/app-admin'
 import { KitSsoApis } from '@fangcha/backend-kit/lib/apis'
 import { SessionHTTP } from '@fangcha/vue/basic'
@@ -12,6 +11,7 @@ import { DataModelListView } from './views/data-model/DataModelListView'
 import { DataModelManageView } from './views/data-model/DataModelManageView'
 import { UserGroupListView } from './views/user/UserGroupListView'
 import { ModelClientListView } from './views/model-client/ModelClientListView'
+import { GeneralDataManager } from './services/GeneralDataManager'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
