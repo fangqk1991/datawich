@@ -126,6 +126,17 @@ factory.prepare(ModelFieldApis.DataModelFieldUpdate, async (ctx) => {
   })
 })
 
+factory.prepare(ModelFieldApis.DataModelFieldHiddenUpdate, async (ctx) => {
+  await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
+    const { isHidden } = ctx.request.body
+    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
+    await dataModel.modifyField(modelField, {
+      isHidden: isHidden,
+    } as any)
+    ctx.body = modelField.modelForClient()
+  })
+})
+
 factory.prepare(ModelFieldApis.DataModelEnumFieldTransfer, async (ctx) => {
   await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)

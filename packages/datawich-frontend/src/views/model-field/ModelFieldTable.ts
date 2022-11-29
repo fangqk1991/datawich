@@ -30,7 +30,6 @@ import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { LogicExpressionDialog } from '../../components/LogicExpressionDialog'
-import { getRouterToModel } from '../../services/ModelDataHelper'
 import { FieldHelper } from '@web/datawich-common/models'
 
 @Component({
@@ -175,7 +174,7 @@ export class ModelFieldTable extends ViewController {
   }
   get delegate(): TableViewProtocol {
     return {
-      loadData: async () => {
+      loadOnePageItems: async () => {
         const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldListGet, this.modelKey))
         const items = (await request.quickSend()) as ModelFieldModel[]
         this.fields = items
@@ -184,11 +183,7 @@ export class ModelFieldTable extends ViewController {
           return result
         }, {})
         this.rebuildIndexMaps()
-        const visibleFields = items.filter((field) => !field.isSystem || !field.isHidden)
-        return {
-          totalSize: visibleFields.length,
-          elements: visibleFields,
-        }
+        return items
       },
     }
   }
@@ -464,10 +459,6 @@ export class ModelFieldTable extends ViewController {
     })
   }
 
-  gotoModel(modelKey: string) {
-    return getRouterToModel(modelKey)
-  }
-
   onIsUniqueChanged(field: ModelFieldModel) {
     if (this.uniqueBoolMap[field.fieldKey]) {
       this.createIndex(field, this.uniqueBoolMap[field.fieldKey])
@@ -518,7 +509,17 @@ export class ModelFieldTable extends ViewController {
   }
 
   onIsHiddenChanged(field: ModelFieldModel) {
-    this.updateField(field, { isHidden: field.isHidden })
+    const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldHiddenUpdate, field.modelKey, field.fieldKey))
+    request.setBodyData({ isHidden: field.isHidden })
+    request
+      .execute()
+      .then(() => {
+        this.$message.success('修改成功')
+        this.reloadData()
+      })
+      .catch(() => {
+        this.reloadData()
+      })
   }
 
   async updateField(field: ModelFieldModel, params: Partial<ModelFieldModel>) {

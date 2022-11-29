@@ -61,6 +61,11 @@ export const ModelFieldApis = {
     route: '/api/v2/general-data/:modelKey/field/:fieldKey',
     description: '修改字段信息',
   },
+  DataModelFieldHiddenUpdate: {
+    method: 'PUT',
+    route: '/api/v2/general-data/:modelKey/field/:fieldKey/hidden',
+    description: '修改字段隐藏标识',
+  },
   DataModelEnumFieldTransfer: {
     method: 'PUT',
     route: '/api/v2/general-data/:modelKey/field/:fieldKey/transfer',
