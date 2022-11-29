@@ -34,7 +34,7 @@ import {
   ModelType,
   ModelTypeDescriptor,
   RetainFieldSource,
-  TransferSelectOption
+  TransferSelectOption,
 } from '@web/datawich-common/models'
 import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
@@ -72,7 +72,7 @@ export class _DataModel extends __DataModel {
       const searcher = new _ModelField().fc_searcher()
       searcher.processor().addConditionKV('model_key', this.modelKey)
       searcher.processor().addOrderRule('weight', 'DESC')
-      searcher.processor().addOrderRule('create_time', 'ASC')
+      searcher.processor().addOrderRule('_rid', 'ASC')
       this._fields = (await searcher.queryAllFeeds()) as _ModelField[]
     }
     return this._fields
@@ -440,7 +440,7 @@ export class _DataModel extends __DataModel {
     await runner.commit(async (transaction) => {
       const tableHandler = database.tableHandler(tableName)
       await tableHandler.createInDatabase()
-      await tableHandler.addColumn('_data_id', 'CHAR(63) NOT NULL UNIQUE')
+      await tableHandler.addColumn('_data_id', 'CHAR(32) COLLATE ascii_bin NOT NULL UNIQUE')
       const fields: _ModelField[] = await this.makeSystemFields()
       await this.addToDB(transaction)
       for (const field of fields) {
@@ -478,13 +478,13 @@ export class _DataModel extends __DataModel {
     }
     {
       const field = this.makeSystemField('author', '创建者邮箱', FieldType.User)
-      await tableHandler.addColumn(field.fieldKey, `VARCHAR(127) NOT NULL DEFAULT ''`)
+      await tableHandler.addColumn(field.fieldKey, `VARCHAR(127) COLLATE ascii_bin NOT NULL DEFAULT ''`)
       await database.update(`ALTER TABLE ${tableName} ADD INDEX(\`${field.fieldKey}\`)`)
       fields.push(field)
     }
     {
       const field = this.makeSystemField('update_author', '更新者邮箱', FieldType.User)
-      await tableHandler.addColumn(field.fieldKey, `VARCHAR(127) NOT NULL DEFAULT ''`)
+      await tableHandler.addColumn(field.fieldKey, `VARCHAR(127) COLLATE ascii_bin NOT NULL DEFAULT ''`)
       await database.update(`ALTER TABLE ${tableName} ADD INDEX(\`${field.fieldKey}\`)`)
       fields.push(field)
     }
@@ -511,7 +511,7 @@ export class _DataModel extends __DataModel {
     field.name = name
     field.fieldType = fieldType
     field.required = 0
-    field.isHidden = 1
+    field.isHidden = 0
     field.isSystem = 1
     return field
   }
@@ -862,20 +862,6 @@ export class _DataModel extends __DataModel {
     return dataModel
   }
 
-  public async showSystemFields(fieldKeys: string[]) {
-    const fields = await this.getFields()
-    const systemFields = fields.filter((field) => !!field.isSystem)
-    const database = this.dbSpec().database
-    const runner = database.createTransactionRunner()
-    await runner.commit(async (transaction) => {
-      for (const field of systemFields) {
-        field.fc_edit()
-        field.isHidden = fieldKeys.includes(field.fieldKey) ? 0 : 1
-        await field.updateToDB(transaction)
-      }
-    })
-  }
-
   public async getHoldingLinks() {
     const searcher = new _FieldLink().fc_searcher()
     searcher.processor().addConditionKV('model_key', this.modelKey)
@@ -911,20 +897,6 @@ export class _DataModel extends __DataModel {
       .split(',')
       .map((item) => item.trim())
       .filter((item) => !!item)
-  }
-
-  public async updateBroadcastFields(fieldKeys: string[]) {
-    const database = this.dbSpec().database
-    const runner = database.createTransactionRunner()
-    const fields = await this.getFields()
-    const fieldKeysSet = new Set(fieldKeys)
-    await runner.commit(async (transaction) => {
-      for (const field of fields) {
-        field.fc_edit()
-        field.forBroadcast = fieldKeysSet.has(field.fieldKey) ? 1 : 0
-        await field.updateToDB(transaction)
-      }
-    })
   }
 
   public async generateNotifyTemplateContent() {

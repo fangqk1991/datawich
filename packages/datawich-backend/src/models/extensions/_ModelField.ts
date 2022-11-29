@@ -436,7 +436,7 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     const searcher = new this().fc_searcher()
     searcher.processor().addConditionKV('model_key', modelKey)
     searcher.processor().addOrderRule('weight', 'DESC')
-    searcher.processor().addOrderRule('create_time', 'ASC')
+    searcher.processor().addOrderRule('_rid', 'ASC')
     return searcher.queryAllFeeds()
   }
 }
