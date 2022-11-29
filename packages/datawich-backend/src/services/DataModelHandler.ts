@@ -2,7 +2,6 @@ import assert from '@fangcha/assert'
 import { makeUUID } from '@fangcha/tools'
 import { _DataModel } from '../models/extensions/_DataModel'
 import {
-  FieldGroupModel,
   ModelFieldModel,
   ModelFullMetadata,
   Raw_FieldLink,
@@ -26,7 +25,6 @@ export class DataModelHandler {
     const fields = await _ModelField.fieldsForModelKey(dataModel.modelKey)
     const links = await dataModel.getFieldLinks()
     const indexes = await dataModel.getColumnIndexes()
-    const groups = await dataModel.getFieldGroups()
     return {
       systemVersion: _DatawichService.version,
       modelKey: dataModel.modelKey,
@@ -36,7 +34,7 @@ export class DataModelHandler {
       modelFields: fields.map((item) => item.fc_pureModel() as Raw_ModelField),
       fieldLinks: links.map((item) => item.fc_pureModel() as Raw_FieldLink),
       fieldIndexes: indexes.map((item) => item.fc_pureModel() as ModelFieldModel),
-      fieldGroups: groups.map((item) => item.fc_pureModel() as FieldGroupModel),
+      fieldGroups: [],
     }
   }
 

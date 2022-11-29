@@ -17,7 +17,6 @@ import {
   ModelFieldModel,
   ModelFullMetadata,
 } from '@fangcha/datawich-service/lib/common/models'
-import { _FieldGroup } from './_FieldGroup'
 import {
   AccessLevel,
   DataRecordEvent,
@@ -780,9 +779,6 @@ export class _DataModel extends __DataModel {
       newLink.fc_generateWithModel(linkParams)
       await _FieldLink.createLink(newLink.modelForClient())
     }
-    for (const groupParams of params.fieldGroups) {
-      await _FieldGroup.createGroup(groupParams)
-    }
     const newFields = await dataModel.getFields()
     for (const indexParams of params.fieldIndexes) {
       if (indexParams.fieldKey === 'rid') {
@@ -800,20 +796,6 @@ export class _DataModel extends __DataModel {
     const searcher = new _FieldLink().fc_searcher()
     searcher.processor().addConditionKV('model_key', this.modelKey)
     return searcher.queryAllFeeds()
-  }
-
-  public async getFieldGroups() {
-    const searcher = new _FieldGroup().fc_searcher()
-    searcher.processor().addConditionKV('model_key', this.modelKey)
-    return searcher.queryAllFeeds()
-  }
-
-  public async getFieldGroupMap(): Promise<{ [p: string]: _FieldGroup }> {
-    const items = await this.getFieldGroups()
-    return items.reduce((result, cur) => {
-      result[cur.groupKey] = cur
-      return result
-    }, {})
   }
 
   public modelForClient() {

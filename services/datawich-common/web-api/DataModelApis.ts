@@ -89,24 +89,4 @@ export const DataModelApis = {
     route: '/api/v2/general-data/:modelKey/holding-link/:linkId',
     description: '删除模型关联信息',
   },
-  ModelFieldGroupListGet: {
-    method: 'GET',
-    route: '/api/v2/general-data/:modelKey/field-group',
-    description: '获取模型字段组信息列表',
-  },
-  ModelFieldGroupCreate: {
-    method: 'POST',
-    route: '/api/v2/general-data/:modelKey/field-group',
-    description: '创建模型字段组信息',
-  },
-  ModelFieldGroupUpdate: {
-    method: 'PUT',
-    route: '/api/v2/general-data/:modelKey/field-group/:groupKey',
-    description: '更新模型字段组信息',
-  },
-  ModelFieldGroupDelete: {
-    method: 'DELETE',
-    route: '/api/v2/general-data/:modelKey/field-group/:groupKey',
-    description: '删除模型字段组信息',
-  },
 }

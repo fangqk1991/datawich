@@ -309,22 +309,6 @@ CREATE TABLE IF NOT EXISTS model_group
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS field_group
-(
-    _rid           BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `model_key`    varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，SQL 外键 -> data_model.model_key',
-    FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE CASCADE,
-    `group_key`    varchar(63)                   NOT NULL COMMENT '字段组键值',
-    `name`         varchar(255)                  NOT NULL DEFAULT '' COMMENT '字段组名称',
-    `display_mode` varchar(63)                   NOT NULL DEFAULT 'Collapse' COMMENT '展现形式，枚举值见 FieldDisplayMode 定义',
-    `display_tmpl` text COMMENT '展示内容模板',
-    create_time    TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time    TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    UNIQUE (`model_key`, `group_key`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS model_field_action
 (
     _rid        BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,

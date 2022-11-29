@@ -83,15 +83,6 @@ const generalDataSchemas: DBModelSchema[] = [
     modifiableBlackList: ['model_key', 'group_id', 'create_time'],
   },
   {
-    tableName: 'field_group',
-    outputFile: `${__dirname}/../src/models/auto-build/__FieldGroup.ts`,
-    extFile: `${__dirname}/../src/models/extensions/_FieldGroup.ts`,
-    primaryKey: ['model_key', 'group_key'],
-    reloadOnAdded: true,
-    reloadOnUpdated: true,
-    modifiableBlackList: ['model_key', 'group_key', 'create_time'],
-  },
-  {
     tableName: 'model_field_action',
     outputFile: `${__dirname}/../src/models/auto-build/__ModelFieldAction.ts`,
     extFile: `${__dirname}/../src/models/extensions/_ModelFieldAction.ts`,

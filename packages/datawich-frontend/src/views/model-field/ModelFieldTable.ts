@@ -14,13 +14,12 @@ import {
 } from '@fangcha/vue'
 import {
   FieldActionModel,
-  FieldGroupModel,
   FieldIndexModel,
   FieldType,
   LogicExpressionHelper,
   ModelFieldModel,
 } from '@fangcha/datawich-service/lib/common/models'
-import { DataModelApis, ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
+import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
 import SystemFieldDialog from './SystemFieldDialog'
@@ -126,16 +125,6 @@ import { FieldHelper } from '@web/datawich-common/models'
           <el-button v-if="$devEgg()" size="mini" @click="onEditRequiredLogic(scope.row)">Edit requiredLogic</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="所属组">
-        <template slot-scope="scope">
-          <my-select v-model="scope.row.groupKey" @change="onGroupChanged(scope.row)">
-            <option value="">无</option>
-            <option v-for="group in groupItems" :key="group.groupKey" :value="group.groupKey">
-              {{ group.name }}
-            </option>
-          </my-select>
-        </template>
-      </el-table-column>
       <el-table-column prop="defaultValue" label="默认值" />
       <el-table-column label="动作">
         <template slot-scope="scope">
@@ -180,7 +169,6 @@ export class ModelFieldTable extends ViewController {
   indexMap: { [p: string]: FieldIndexModel } = {}
   uniqueBoolMap: { [p: string]: boolean } = {}
   indexBoolMap: { [p: string]: boolean } = {}
-  groupItems: FieldGroupModel[] = []
 
   get tableView() {
     return this.$refs.tableView as MyTableView
@@ -237,7 +225,6 @@ export class ModelFieldTable extends ViewController {
         this.rebuildIndexMaps()
       })
     }
-    this.reloadGroupItems()
     this.tableView.reloadData()
   }
 
@@ -561,14 +548,5 @@ export class ModelFieldTable extends ViewController {
       this.$message.success('修改成功')
       this.reloadData()
     })
-  }
-
-  async reloadGroupItems() {
-    const request = MyAxios(new CommonAPI(DataModelApis.ModelFieldGroupListGet, this.modelKey))
-    this.groupItems = (await request.quickSend()) as FieldGroupModel[]
-  }
-
-  async onGroupChanged(field: ModelFieldModel) {
-    this.updateField(field, { groupKey: field.groupKey })
   }
 }

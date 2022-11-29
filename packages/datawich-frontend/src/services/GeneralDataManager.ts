@@ -6,14 +6,10 @@ import {
   AttachmentOptions,
   FieldPluginCenter,
 } from '@fangcha/datawich-frontend'
-import { AccessLevelDescriptor, describeAccessLevelDetail, DisplayScopeDescriptor } from '@web/datawich-common/models'
+import { AccessLevelDescriptor, describeAccessLevelDetail } from '@web/datawich-common/models'
 
 class _GeneralDataManager {
   public loadVueFilters() {
-    Vue.filter('describe_model_scope_type', function (val: any) {
-      return DisplayScopeDescriptor.describe(val)
-    })
-
     Vue.filter('describe_model_field_type', function (val: any) {
       return FieldTypeDescriptor.describe(val)
     })

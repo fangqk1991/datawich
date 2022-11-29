@@ -3,7 +3,6 @@ import { Context } from 'koa'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _FieldLink } from '../../../../models/extensions/_FieldLink'
-import { _FieldGroup } from '../../../../models/extensions/_FieldGroup'
 
 export class DataModelSpecHandler {
   ctx!: Context
@@ -58,12 +57,5 @@ export class DataModelSpecHandler {
     const fieldLink = (await _FieldLink.findLink(this.ctx.params.linkId))!
     assert.ok(!!fieldLink, 'FieldLink Not Found')
     await handler(fieldLink, dataModel)
-  }
-
-  public async handleFieldGroup(handler: (fieldGroup: _FieldGroup, dataModel: _DataModel) => Promise<void>) {
-    const dataModel = await this.prepareDataModel()
-    const fieldGroup = await _FieldGroup.findGroup(dataModel.modelKey, this.ctx.params.groupKey)
-    assert.ok(!!fieldGroup, 'FieldGroup Not Found')
-    await handler(fieldGroup, dataModel)
   }
 }

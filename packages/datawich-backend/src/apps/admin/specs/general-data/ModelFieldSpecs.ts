@@ -8,7 +8,7 @@ import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldActi
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { RawTableHandler } from '../../../../services/RawTableHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
-import { FieldDisplayMode, GeneralPermission } from '@web/datawich-common/models'
+import { GeneralPermission } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('模型字段')
 
@@ -44,7 +44,6 @@ factory.prepare(ModelFieldApis.DataModelVisibleFieldListGet, async (ctx) => {
     const feeds = await dataModel.getVisibleFields()
     const allLinks = await dataModel.getFieldLinks()
     const uniqueMap = await dataModel.getUniqueColumnMap()
-    const fieldGroupMap = await dataModel.getFieldGroupMap()
     const result: ModelFieldModel[] = []
     for (const feed of feeds) {
       const data = feed.modelForClient()
@@ -55,11 +54,6 @@ factory.prepare(ModelFieldApis.DataModelVisibleFieldListGet, async (ctx) => {
       }
       data.refFieldLinks = linkModels
       data.isUnique = uniqueMap[feed.fieldKey] ? 1 : 0
-      if (fieldGroupMap[feed.groupKey]) {
-        data.groupName = fieldGroupMap[feed.groupKey].name
-        data.fieldDisplayMode = fieldGroupMap[feed.groupKey].displayMode as FieldDisplayMode
-        data.fieldDisplayTmpl = fieldGroupMap[feed.groupKey].displayTmpl
-      }
       result.push(data)
     }
     ctx.body = result
