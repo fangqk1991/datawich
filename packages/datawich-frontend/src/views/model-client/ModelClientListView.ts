@@ -25,35 +25,35 @@ import { ClientAuthModel, ClientAuthParams, ModelClientModel } from '@web/datawi
   },
   template: `
     <div v-loading="isLoading">
-      <h2>API 应用管理</h2>
+      <h2>{{ LS('[i18n] API Clients') }}</h2>
       <el-form class="mt-3" :inline="true" size="mini" label-position="top" @submit.native.prevent="onFilterUpdate">
         <el-form-item>
           <el-input
             v-model="filterParams.keywords"
             clearable
-            placeholder="关键字"
+            :placeholder="LS('Keywords')"
             style="width: 300px"
             @keyup.enter.native="onFilterUpdate"
           >
             <template slot="append">
-              <el-button size="mini" @click="onFilterUpdate">搜索</el-button>
+              <el-button size="mini" @click="onFilterUpdate">{{ LS('Search') }}</el-button>
             </template>
           </el-input>
         </el-form-item>
       </el-form>
       <div class="mb-3">
-        <el-button type="primary" size="mini" @click="onClickCreate">创建应用</el-button>
+        <el-button type="primary" size="mini" @click="onClickCreate">{{ LS('Create') }}</el-button>
       </div>
       <grid-view ref="tableView" :delegate="delegate">
         <div slot-scope="scope" class="fc-card" style="width: 250px; ">
           <ul class="fc-clean-ul">
             <li style="font-size: 120%;">{{ scope.data.name }} ({{ scope.data.appid }})</li>
             <li>
-              <a href="javascript:" @click="onEditItem(scope.data)">修改</a>
+              <a href="javascript:" @click="onEditItem(scope.data)">{{ LS('Edit') }}</a>
               |
-              <a href="javascript:" @click="onEditItemAuth(scope.data)">授权模型</a>
+              <a href="javascript:" @click="onEditItemAuth(scope.data)">{{ LS('[i18n] Auth Models') }}</a>
               |
-              <a href="javascript:" @click="onDeleteItem(scope.data)">删除</a>
+              <a href="javascript:" @click="onDeleteItem(scope.data)">{{ LS('Delete') }}</a>
             </li>
           </ul>
         </div>
@@ -142,7 +142,7 @@ export class ModelClientListView extends ViewController implements FragmentProto
       }
     })
     const dialog = MultiplePickerDialog.dialogWithOptions(options)
-    dialog.title = `管理授权模型`
+    dialog.title = this.LS('[i18n] Auth Models') as string
     dialog.show(async (_checkedModelKeys: string[]) => {
       const checkedMap = dialog.checkedMap
       const paramsList: ClientAuthParams[] = []

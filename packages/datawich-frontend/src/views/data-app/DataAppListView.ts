@@ -10,7 +10,7 @@ import { DataAppCard } from './DataAppCard'
   },
   template: `
     <div>
-      <h2>数据应用列表</h2>
+      <h2>{{ LS('[i18n] Data Apps') }}</h2>
       <grid-view ref="tableView" :delegate="delegate" class="mt-4" style="line-height: 3">
         <data-app-card slot-scope="scope" :data="scope.data" class="mr-2" />
       </grid-view>
