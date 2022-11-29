@@ -1,7 +1,6 @@
 import { Component, Prop, ViewController } from '@fangcha/vue'
 import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
 import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHelper'
-import { AccessLevel } from '@web/datawich-common/models'
 
 @Component({
   template: `
@@ -64,8 +63,6 @@ import { AccessLevel } from '@web/datawich-common/models'
 export class DataModelCard extends ViewController {
   @Prop({ default: null, type: Object }) readonly data!: DataModelModel
   @Prop({ default: null, type: Number }) readonly count!: number | null
-
-  AccessLevel = AccessLevel
 
   get routeToDataApp() {
     return getRouterToDataApp(this.data)

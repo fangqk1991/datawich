@@ -61,11 +61,6 @@ export const ModelFieldApis = {
     route: '/api/v2/general-data/:modelKey/field/:fieldKey/top-field',
     description: '置顶字段',
   },
-  DataModelSystemFieldsShow: {
-    method: 'PUT',
-    route: '/api/v2/general-data/:modelKey/show-system-fields',
-    description: '编辑需要展示的系统字段',
-  },
   DataSystemModelFieldUpdate: {
     method: 'PUT',
     route: '/api/v2/general-data/:modelKey/system-field/:fieldKey',
@@ -105,11 +100,6 @@ export const ModelFieldApis = {
     method: 'DELETE',
     route: '/api/v2/general-data/:modelKey/field/:fieldKey/action/:actionId',
     description: '修改字段动作',
-  },
-  DataModelBroadcastUpdate: {
-    method: 'PUT',
-    route: '/api/v2/general-data/:modelKey/update-broadcast-fields',
-    description: '编辑需要展示的是否广播字段',
   },
   DataDisplayColumnUpdate: {
     method: 'PUT',

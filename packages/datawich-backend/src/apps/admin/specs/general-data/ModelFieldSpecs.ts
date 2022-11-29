@@ -1,23 +1,14 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
-import {
-  FieldLinkModel,
-  FieldType,
-  ModelFieldModel,
-} from '@fangcha/datawich-service/lib/common/models'
+import { FieldLinkModel, FieldType, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldAction'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { RawTableHandler } from '../../../../services/RawTableHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
-import {
-  DisplayScope,
-  FieldDisplayMode,
-  GeneralPermission,
-  ModelNotifyTemplateModel
-} from '@web/datawich-common/models'
+import { DisplayScope, FieldDisplayMode, GeneralPermission } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('模型字段')
 
@@ -124,27 +115,6 @@ factory.prepare(ModelFieldApis.DataModelFieldDataClone, async (ctx) => {
     const fromField = await _ModelField.findModelField(dataModel.modelKey, copyFromFieldKey)
     assert.ok(!!fromField, 'Source ModelField Not Found')
     await dataModel.cloneFieldData(fromField, toField)
-    ctx.status = 200
-  })
-})
-
-factory.prepare(ModelFieldApis.DataModelSystemFieldsShow, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    const { fieldKeys } = ctx.request.body
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    await dataModel.showSystemFields(fieldKeys)
-    ctx.status = 200
-  })
-})
-
-factory.prepare(ModelFieldApis.DataModelBroadcastUpdate, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    const { fieldKeys } = ctx.request.body
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    await dataModel.updateBroadcastFields(fieldKeys)
-    const options: Partial<ModelNotifyTemplateModel> = {}
-    options.content = await dataModel.generateNotifyTemplateContent()
-    await dataModel.updateNotifyTemplate(options)
     ctx.status = 200
   })
 })

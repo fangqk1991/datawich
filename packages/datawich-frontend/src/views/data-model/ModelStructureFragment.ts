@@ -1,7 +1,6 @@
 import { Component } from '@fangcha/vue'
 import { ModelFieldTable } from '../model-field/ModelFieldTable'
 import { FieldLinkTable } from '../model-field/FieldLinkTable'
-import { FieldGroupTable } from '../model-field/FieldGroupTable'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { ModelFragmentBase } from './ModelFragmentBase'
 
@@ -9,7 +8,6 @@ import { ModelFragmentBase } from './ModelFragmentBase'
   components: {
     'model-field-table': ModelFieldTable,
     'field-link-table': FieldLinkTable,
-    'field-group-table': FieldGroupTable,
     'model-milestone-panel': ModelMilestonePanel,
   },
   template: `
@@ -19,9 +17,6 @@ import { ModelFragmentBase } from './ModelFragmentBase'
       </el-card>
       <el-card class="mt-4" shadow="never">
         <model-field-table @loadWidgetsInfo="onLoadWidgetsInfo" ref="fieldTableView" :model-key="modelKey" />
-      </el-card>
-      <el-card class="mt-4" shadow="never">
-        <field-group-table ref="fieldGroupTableView" :model-key="modelKey" />
       </el-card>
       <el-card class="mt-4" shadow="never">
         <field-link-table ref="linkTableView" :model-key="modelKey" />
@@ -38,10 +33,6 @@ export class ModelStructureFragment extends ModelFragmentBase {
       }
       {
         const tableView = this.$refs.linkTableView as FieldLinkTable
-        tableView.reloadData()
-      }
-      {
-        const tableView = this.$refs.fieldGroupTableView as FieldGroupTable
         tableView.reloadData()
       }
     })

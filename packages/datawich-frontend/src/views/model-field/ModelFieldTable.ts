@@ -2,7 +2,6 @@ import {
   Component,
   ConfirmDialog,
   JsonImportDialog,
-  MultiplePickerDialog,
   MySelect,
   MySwitch,
   MyTableView,
@@ -22,7 +21,7 @@ import {
   ModelFieldModel,
 } from '@fangcha/datawich-service/lib/common/models'
 import { DataModelApis, ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
-import { CheckOption, SelectOption } from '@fangcha/tools'
+import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
 import SystemFieldDialog from './SystemFieldDialog'
 import { NotificationCenter } from 'notification-center-js'
@@ -46,9 +45,7 @@ import { FieldHelper } from '@web/datawich-common/models'
       <div class="mb-3" slot="header">
         <h3>字段管理</h3>
         <div v-if="!simpleMode">
-          <el-button type="primary" size="mini" @click="onClickCreateField">创建常规字段</el-button>
-          <el-button type="success" size="mini" @click="onManageSystemFields">管理系统字段</el-button>
-          <el-button type="info" size="mini" @click="onEditBroadcastField">选择广播字段</el-button>
+          <el-button type="primary" size="mini" @click="onClickCreateField">创建字段</el-button>
           <el-button type="success" size="mini" @click="onImportField">导入 JSON</el-button>
           <el-button v-if="$devEgg()" type="danger" size="mini" @click="onRebuildFields">重建字段</el-button>
         </div>
@@ -242,27 +239,6 @@ export class ModelFieldTable extends ViewController {
     }
     this.reloadGroupItems()
     this.tableView.reloadData()
-  }
-
-  onManageSystemFields() {
-    const options: CheckOption[] = this.systemFields.map((field) => {
-      return {
-        label: field.name,
-        value: field.fieldKey,
-        checked: !this.fieldMap[field.fieldKey].isHidden,
-      }
-    })
-    const dialog = MultiplePickerDialog.dialogWithOptions(options)
-    dialog.title = `展示系统字段`
-    dialog.show(async (fieldKeys: string[]) => {
-      const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelSystemFieldsShow, this.modelKey))
-      request.setBodyData({
-        fieldKeys: fieldKeys,
-      })
-      await request.execute()
-      this.$message.success('调整成功')
-      this.reloadData()
-    })
   }
 
   onClickCreateField() {
@@ -594,28 +570,5 @@ export class ModelFieldTable extends ViewController {
 
   async onGroupChanged(field: ModelFieldModel) {
     this.updateField(field, { groupKey: field.groupKey })
-  }
-
-  onEditBroadcastField() {
-    const options: CheckOption[] = this.fields.map((field) => {
-      return {
-        label: field.name,
-        value: field.fieldKey,
-        checked: !!this.fieldMap[field.fieldKey].forBroadcast,
-      }
-    })
-    const dialog = MultiplePickerDialog.dialogWithOptions(options)
-    dialog.title = `选择广播字段`
-    dialog.show(async (fieldKeys: string[]) => {
-      const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelBroadcastUpdate, this.modelKey))
-      request.setBodyData({
-        fieldKeys: fieldKeys,
-      })
-      await request.execute()
-      this.$message.success('调整成功')
-      this.tableView.reloadData()
-      this.reloadData()
-      this.$emit('loadWidgetsInfo')
-    })
   }
 }
