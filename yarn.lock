@@ -1103,10 +1103,10 @@
     tslib "^2.3.1"
     uuid "^3.3.3"
 
-"@fangcha/vue@^0.71.0":
-  version "0.71.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/vue/-/vue-0.71.0.tgz#7e6910124d441cfc7f97961e1b8fdf08e2097d7a"
-  integrity sha512-seEdjf+uzLWFXjMRqki/QN8Sziz0WyfYj6MGOnmMa5zkqu7gA6W2ZT9NaLJEctdpWnKEA5j9m4zhoEjygwJcQg==
+"@fangcha/vue@^0.72.2":
+  version "0.72.2"
+  resolved "https://registry.yarnpkg.com/@fangcha/vue/-/vue-0.72.2.tgz#edb1ca8b2feb4ffa1bf135b5cd5001f18b0b5c0a"
+  integrity sha512-8j2v7nGGzds/rS5Jk8S8LzR74LJedOxGbW+rA/gpm4N2tRTKcI2AQ/bN9E6De3KxZk49SHAlwrq77DcZZYcAVA==
   dependencies:
     "@popperjs/core" "^2.11.5"
     bootstrap "^5.1.3"

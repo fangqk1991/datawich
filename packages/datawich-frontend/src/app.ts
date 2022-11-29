@@ -22,6 +22,7 @@ const _fcApp = new AdminApp({
       background: '#DD73A4',
     },
   },
+  refreshIfVersionChanged: true,
 
   i18nMap: DatawichI18N,
 

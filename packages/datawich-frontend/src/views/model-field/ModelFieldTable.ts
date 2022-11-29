@@ -195,10 +195,6 @@ export class ModelFieldTable extends ViewController {
     }
   }
 
-  get systemFields() {
-    return this.fields.filter((field) => !!field.isSystem)
-  }
-
   viewDidLoad() {}
 
   fieldIsUnique(item: ModelFieldModel) {
