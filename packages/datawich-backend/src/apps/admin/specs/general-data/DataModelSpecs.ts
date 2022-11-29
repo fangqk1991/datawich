@@ -3,7 +3,7 @@ import assert from '@fangcha/assert'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
 import { SessionChecker } from '../../../../services/SessionChecker'
-import { ModelFullMetadata, } from '@fangcha/datawich-service/lib/common/models'
+import { ModelFullMetadata } from '@fangcha/datawich-service/lib/common/models'
 import { DataModelHandler } from '../../../../services/DataModelHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { FangchaSession } from '@fangcha/router/lib/session'
@@ -128,23 +128,6 @@ factory.prepare(DataModelApis.DataContentModelListGet, async (ctx) => {
   const searcher = new _DataModel().fc_searcher({ modelType: ModelType.ContentModel })
   const feeds = await searcher.queryFeeds()
   ctx.body = feeds.map((feed) => feed.modelForClient())
-})
-
-factory.prepare(DataModelApis.DataModelNotifyTemplateGet, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    const template = await dataModel.prepareNotifyTemplate()
-    ctx.body = template.fc_pureModel()
-  })
-})
-
-factory.prepare(DataModelApis.DataModelNotifyTemplateUpdate, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    const params = ctx.request.body
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    await dataModel.updateNotifyTemplate(params)
-    ctx.status = 200
-  })
 })
 
 export const DataModelSpecs = factory.buildSpecs()

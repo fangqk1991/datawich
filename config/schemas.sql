@@ -229,24 +229,6 @@ CREATE TABLE IF NOT EXISTS field_enum_metadata
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS model_notify_template
-(
-    _rid               BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `template_id`      varchar(63)                   NOT NULL COMMENT '模板 ID，UUID',
-    `model_key`        varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，SQL 外键 -> data_model.model_key',
-    FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE CASCADE,
-    `is_active`        tinyint                       NOT NULL DEFAULT '0' COMMENT '当前生效模板的标记',
-    `content`          text COMMENT '模板内容',
-    `email_entity_str` mediumtext COMMENT '邮箱发送模板',
-    create_time        TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time        TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    UNIQUE (`template_id`),
-    INDEX (`is_active`),
-    INDEX (`model_key`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS field_index
 (
     _rid        BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,

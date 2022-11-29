@@ -12,10 +12,10 @@ import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 @Component({
   template: `
     <div>
-      <h3>元信息版本</h3>
+      <h3>{{ LS('[i18n] Model Versions') }}</h3>
       <div>
-        <el-button size="mini" type="primary" @click="onCreateMilestone">创建版本</el-button>
-        <el-button size="mini" type="success" @click="onImportMilestone">导入版本</el-button>
+        <el-button size="mini" type="primary" @click="onCreateMilestone">{{ LS('Create') }}</el-button>
+        <el-button size="mini" type="success" @click="onImportMilestone">{{ LS('[i18n] Import') }}</el-button>
       </div>
       <hr />
       <div class="mt-2" style="line-height: 2;">

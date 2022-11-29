@@ -38,14 +38,6 @@ const generalDataSchemas: DBModelSchema[] = [
     modifiableBlackList: ['model_key', 'field_key', 'value', 'create_time'],
   },
   {
-    tableName: 'model_notify_template',
-    outputFile: `${__dirname}/../src/models/auto-build/__ModelNotifyTemplate.ts`,
-    extFile: `${__dirname}/../src/models/extensions/_ModelNotifyTemplate.ts`,
-    reloadOnAdded: true,
-    reloadOnUpdated: true,
-    modifiableBlackList: ['model_key', 'create_time'],
-  },
-  {
     tableName: 'field_index',
     outputFile: `${__dirname}/../src/models/auto-build/__FieldIndex.ts`,
     extFile: `${__dirname}/../src/models/extensions/_FieldIndex.ts`,

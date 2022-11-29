@@ -6,7 +6,6 @@ import { _DataModel } from '../models/extensions/_DataModel'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { _FieldIndex } from '../models/extensions/_FieldIndex'
 import { _FieldLink } from '../models/extensions/_FieldLink'
-import { _ModelNotifyTemplate } from '../models/extensions/_ModelNotifyTemplate'
 import { _AppClient } from '../models/extensions/_AppClient'
 import { _ModelAuthorization } from '../models/extensions/_ModelAuthorization'
 import { _FieldEnumMetadata } from '../models/extensions/_FieldEnumMetadata'
@@ -67,7 +66,6 @@ class __DatawichService {
     _ModelField.setDatabase(database)
     _FieldIndex.setDatabase(database)
     _FieldLink.setDatabase(database)
-    _ModelNotifyTemplate.setDatabase(database)
     _AppClient.setDatabase(database)
     _ModelAuthorization.setDatabase(database)
     _FieldEnumMetadata.setDatabase(database)

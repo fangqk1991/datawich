@@ -109,14 +109,4 @@ export const DataModelApis = {
     route: '/api/v2/general-data/:modelKey/field-group/:groupKey',
     description: '删除模型字段组信息',
   },
-  DataModelNotifyTemplateGet: {
-    method: 'GET',
-    route: '/api/v2/general-data/:modelKey/notify-template',
-    description: '获取模型通知模板信息',
-  },
-  DataModelNotifyTemplateUpdate: {
-    method: 'PUT',
-    route: '/api/v2/general-data/:modelKey/notify-template',
-    description: '更新模型通知模板信息',
-  },
 }

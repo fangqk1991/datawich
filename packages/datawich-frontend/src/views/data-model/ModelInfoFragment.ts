@@ -8,94 +8,104 @@ import { ModelFragmentBase } from './ModelFragmentBase'
 import { DataModelDialog } from '../widgets/DataModelDialog'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHelper'
+import { ModelMilestonePanel } from './ModelMilestonePanel'
 
 @Component({
+  components: {
+    'model-milestone-panel': ModelMilestonePanel,
+  },
   template: `
     <div v-if="dataModel">
-      <h3>
-        <span>{{ dataModel.name }}</span>
-        <a style="font-size: 70%" href="javascript:" @click="onEditModel">编辑</a>
-        <a v-show="$devEgg()" style="font-size: 70%" href="javascript:" @click="onCloneModel">克隆</a>
-        <a style="font-size: 70%" href="javascript:" class="text-danger" @click="onEmptyData">清空数据</a>
-      </h3>
-      <el-form label-position="left" label-width="120px">
-        <el-form-item class="card-form-item" label="模型 Key">
-          {{ dataModel.modelKey }}
-        </el-form-item>
-        <el-form-item class="card-form-item" label="标识符">
-          {{ dataModel.shortKey }}
-        </el-form-item>
-        <el-form-item v-if="false" class="card-form-item" label="别名">
-          {{ dataModel.keyAlias }} |
-          <a href="javascript:" @click="onEditKeyAlias">编辑</a>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="模型名称">
+      <el-card shadow="never">
+        <h3>
           <span>{{ dataModel.name }}</span>
-          <el-tooltip v-if="dataModel.star" class="item" effect="dark" placement="bottom">
-            <span class="el-icon-star-on theme-color" />
-            <div slot="content">
-              该模型被用于数据分析
+          <a style="font-size: 70%" href="javascript:" @click="onEditModel">编辑</a>
+          <a v-show="$devEgg()" style="font-size: 70%" href="javascript:" @click="onCloneModel">克隆</a>
+          <a style="font-size: 70%" href="javascript:" class="text-danger" @click="onEmptyData">清空数据</a>
+        </h3>
+        <el-form label-position="left" label-width="120px">
+          <el-form-item class="card-form-item" label="模型 Key">
+            {{ dataModel.modelKey }}
+          </el-form-item>
+          <el-form-item class="card-form-item" label="标识符">
+            {{ dataModel.shortKey }}
+          </el-form-item>
+          <el-form-item v-if="false" class="card-form-item" label="别名">
+            {{ dataModel.keyAlias }} |
+            <a href="javascript:" @click="onEditKeyAlias">编辑</a>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="模型名称">
+            <span>{{ dataModel.name }}</span>
+            <el-tooltip v-if="dataModel.star" class="item" effect="dark" placement="bottom">
+              <span class="el-icon-star-on theme-color" />
+              <div slot="content">
+                该模型被用于数据分析
+              </div>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="模型描述">
+            <div v-if="dataModel.description" class="bordered-content">
+              <pre class="my-pre">{{ dataModel.description }}</pre>
             </div>
-          </el-tooltip>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="模型描述">
-          <div v-if="dataModel.description" class="bordered-content">
-            <pre class="my-pre">{{ dataModel.description }}</pre>
-          </div>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="是否可导出">
-          <span v-if="dataModel.isDataExportable" style="color: #67C23A">Yes <i class="el-icon-success"/></span>
-          <span v-if="!dataModel.isDataExportable" style="color: #F56C6C">No <i class="el-icon-error"/></span>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="是否发布">
-          <span v-if="dataModel.isOnline" style="color: #67C23A">已发布 <i class="el-icon-success"/></span>
-          <span v-if="!dataModel.isOnline" style="color: #F56C6C">未发布 <i class="el-icon-error"/></span>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="模型可见性">
-          <span>{{ dataModel.accessLevel | describe_model_access_level_detail }}</span>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="模型关联性">
-          <span v-if="dataModel.isLibrary">本模型的 Unique 字段可被其他模型外键关联</span>
-          <span v-if="!dataModel.isLibrary">本模型不可被其他模型关联</span>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="维护者">
-          {{ dataModel.author }}
-        </el-form-item>
-        <el-form-item class="card-form-item" label="概要信息">
-          共 {{ summaryInfo.count }} 条记录
-        </el-form-item>
-        <el-form-item class="card-form-item" label="数据保护">
-          <el-tag v-if="dataModel.isDataInsertable" size="mini">可添加</el-tag>
-          <el-tag v-else type="info" size="mini">不可添加</el-tag>
-          <el-tag v-if="dataModel.isDataModifiable" size="mini">可修改</el-tag>
-          <el-tag v-else type="info" size="mini">不可修改</el-tag>
-          <el-tag v-if="dataModel.isDataDeletable" size="mini">可删除</el-tag>
-          <el-tag v-else type="info" size="mini">不可删除</el-tag>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="数据摘要">
-          {{ dataModel.extrasData.dataInfoTmpl }}
-          | <a href="javascript:" @click="onEditDataInfoTmpl">编辑</a>
-        </el-form-item>
-        <el-form-item class="card-form-item" label="更新时间">
-          {{ dataModel.updateTime }}
-        </el-form-item>
-        <el-form-item class="card-form-item" label="应用地址">
-          <router-link :to="routeToDataApp()">
-            点击查看
+          </el-form-item>
+          <el-form-item class="card-form-item" label="是否可导出">
+            <span v-if="dataModel.isDataExportable" style="color: #67C23A">Yes <i class="el-icon-success"/></span>
+            <span v-if="!dataModel.isDataExportable" style="color: #F56C6C">No <i class="el-icon-error"/></span>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="是否发布">
+            <span v-if="dataModel.isOnline" style="color: #67C23A">已发布 <i class="el-icon-success"/></span>
+            <span v-if="!dataModel.isOnline" style="color: #F56C6C">未发布 <i class="el-icon-error"/></span>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="模型可见性">
+            <span>{{ dataModel.accessLevel | describe_model_access_level_detail }}</span>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="模型关联性">
+            <span v-if="dataModel.isLibrary">本模型的 Unique 字段可被其他模型外键关联</span>
+            <span v-if="!dataModel.isLibrary">本模型不可被其他模型关联</span>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="维护者">
+            {{ dataModel.author }}
+          </el-form-item>
+          <el-form-item class="card-form-item" label="概要信息">
+            共 {{ summaryInfo.count }} 条记录
+          </el-form-item>
+          <el-form-item class="card-form-item" label="数据保护">
+            <el-tag v-if="dataModel.isDataInsertable" size="mini">可添加</el-tag>
+            <el-tag v-else type="info" size="mini">不可添加</el-tag>
+            <el-tag v-if="dataModel.isDataModifiable" size="mini">可修改</el-tag>
+            <el-tag v-else type="info" size="mini">不可修改</el-tag>
+            <el-tag v-if="dataModel.isDataDeletable" size="mini">可删除</el-tag>
+            <el-tag v-else type="info" size="mini">不可删除</el-tag>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="数据摘要">
+            {{ dataModel.extrasData.dataInfoTmpl }}
+            | <a href="javascript:" @click="onEditDataInfoTmpl">编辑</a>
+          </el-form-item>
+          <el-form-item class="card-form-item" label="更新时间">
+            {{ dataModel.updateTime }}
+          </el-form-item>
+          <el-form-item class="card-form-item" label="应用地址">
+            <router-link :to="routeToDataApp()">
+              点击查看
+            </router-link>
+          </el-form-item>
+        </el-form>
+        <div v-if="outerModels.length > 0" class="mt-4" style="line-height: 2">
+          <h5>以下模型在引用本模型</h5>
+          <router-link
+              v-for="model in outerModels"
+              :key="model.modelKey"
+              :to="routerToModel(model)"
+              class="mr-2"
+          >
+            <el-button size="mini">{{ model.name }}</el-button>
           </router-link>
-        </el-form-item>
-      </el-form>
-      <div v-if="outerModels.length > 0" class="mt-4" style="line-height: 2">
-        <h5>以下模型在引用本模型</h5>
-        <router-link
-          v-for="model in outerModels"
-          :key="model.modelKey"
-          :to="routerToModel(model)"
-          class="mr-2"
-        >
-          <el-button size="mini">{{ model.name }}</el-button>
-        </router-link>
-      </div>
+        </div>
+      </el-card>
+      <hr class="my-3" />
+      <el-card shadow="never">
+        <model-milestone-panel :data-model="dataModel" />
+      </el-card>
     </div>
   `,
 })

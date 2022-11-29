@@ -52,9 +52,9 @@ import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHe
           </b>
         </li>
         <li>
-          <router-link :to="routeToDataModel">管理模型</router-link>
+          <router-link :to="routeToDataModel">{{ LS('[i18n] Manage Model') }}</router-link>
           |
-          <router-link :to="routeToDataApp">查看应用</router-link>
+          <router-link :to="routeToDataApp">{{ LS('[i18n] View App') }}</router-link>
         </li>
       </ul>
     </div>

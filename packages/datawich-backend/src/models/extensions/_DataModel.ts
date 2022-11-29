@@ -4,11 +4,10 @@ import { _ModelField } from './_ModelField'
 import { _FieldIndex } from './_FieldIndex'
 import { _FieldLink } from './_FieldLink'
 import { Transaction } from 'fc-sql'
-import { _ModelNotifyTemplate } from './_ModelNotifyTemplate'
 import { logger } from '@fangcha/logger'
 import { _ModelGroup } from '../permission/_ModelGroup'
 import { CommonGroup } from '../permission/CommonGroup'
-import { makeUUID, SelectOption } from '@fangcha/tools'
+import { SelectOption } from '@fangcha/tools'
 import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
 import { _ModelMilestone } from './_ModelMilestone'
 import {
@@ -30,7 +29,6 @@ import {
   FieldHelper,
   GeneralPermissionDescriptor,
   ModelDisplayColumnModel,
-  ModelNotifyTemplateModel,
   ModelType,
   ModelTypeDescriptor,
   RetainFieldSource,
@@ -189,62 +187,6 @@ export class _DataModel extends __DataModel {
       result[cur.fieldKey] = true
       return result
     }, {})
-  }
-
-  public async prepareNotifyTemplate() {
-    let template = await this.getNotifyTemplate()
-    if (!template) {
-      template = new _ModelNotifyTemplate()
-      template.templateId = makeUUID()
-      template.modelKey = this.modelKey
-      template.isActive = 1
-      template.content = ''
-      await template.addToDB()
-    }
-    return template
-  }
-
-  public async getNotifyTemplate() {
-    const searcher = new _ModelNotifyTemplate().fc_searcher()
-    searcher.processor().addConditionKV('model_key', this.modelKey)
-    searcher.processor().addConditionKV('is_active', 1)
-    return searcher.queryOne()
-  }
-
-  public async updateNotifyTemplate(params: Partial<ModelNotifyTemplateModel>) {
-    const options = this.makeValidTemplateParams(params)
-    let template = await this.getNotifyTemplate()
-    if (template) {
-      template.fc_edit()
-      template.fc_generateWithModel(options)
-      await template.updateToDB()
-    } else {
-      template = new _ModelNotifyTemplate()
-      template.fc_generateWithModel(params)
-      template.templateId = makeUUID()
-      template.modelKey = this.modelKey
-      template.isActive = 1
-      await template.addToDB()
-    }
-    return template
-  }
-
-  private makeValidTemplateParams(params: Partial<ModelNotifyTemplateModel>) {
-    const options: Partial<ModelNotifyTemplateModel> = {}
-    if (params.content) {
-      options.content = params.content
-    }
-    if (params.emailEntityStr) {
-      options.emailEntityStr = params.emailEntityStr
-    }
-    if (params.isActive) {
-      options.isActive = params.isActive
-    }
-    return options
-  }
-
-  public channelName() {
-    return `data-msg-${this.modelKey}`
   }
 
   public async createField(params: ModelFieldModel) {
