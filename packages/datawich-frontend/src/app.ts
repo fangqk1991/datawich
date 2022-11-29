@@ -1,6 +1,7 @@
 import { OssFrontendService, OssRouteData } from '@fangcha/vue/oss-service'
 import { DataDisplayView } from './views/data-app/DataDisplayView'
 import { LogicExpressionView } from './components/LogicExpressionView'
+import { Page404 } from '@fangcha/vue/app'
 import { AdminApp } from '@fangcha/vue/app-admin'
 import { KitSsoApis } from '@fangcha/backend-kit/lib/apis'
 import { SessionHTTP } from '@fangcha/vue/basic'
@@ -142,6 +143,10 @@ const _fcApp = new AdminApp({
       path: '/v0/component/logic-expression',
       component: LogicExpressionView,
       name: 'LogicExpressionView',
+    },
+    {
+      path: '*',
+      component: Page404,
     },
   ],
 })
