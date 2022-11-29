@@ -12,6 +12,7 @@ import { DataModelManageView } from './views/data-model/DataModelManageView'
 import { UserGroupListView } from './views/user/UserGroupListView'
 import { ModelClientListView } from './views/model-client/ModelClientListView'
 import { GeneralDataManager } from './services/GeneralDataManager'
+import { DatawichI18N } from '@web/datawich-common/i18n'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
@@ -21,6 +22,8 @@ const _fcApp = new AdminApp({
       background: '#DD73A4',
     },
   },
+
+  i18nMap: DatawichI18N,
 
   session: MySession,
   loginUrl: KitSsoApis.Login.route,
@@ -56,24 +59,24 @@ const _fcApp = new AdminApp({
   sidebarNodes: [
     {
       uid: 'data-apps',
-      titleEn: '数据应用',
+      titleEn: 'Data Apps',
       titleZh: '数据应用',
       icon: 'el-icon-data-analysis',
       links: [
         {
-          titleEn: '所有应用',
+          titleEn: 'All Apps',
           titleZh: '所有应用',
           path: '/v1/data-app',
         },
       ],
     },
     {
-      titleEn: '模型管理',
+      titleEn: 'Data Model',
       titleZh: '模型管理',
       icon: 'el-icon-lock',
       links: [
         {
-          titleEn: '模型管理',
+          titleEn: 'Models',
           titleZh: '模型管理',
           path: '/v1/data-model',
         },
@@ -83,7 +86,7 @@ const _fcApp = new AdminApp({
         //   path: '/v1/user-group',
         // },
         {
-          titleEn: 'API 应用管理',
+          titleEn: 'API Clients',
           titleZh: 'API 应用管理',
           path: '/v1/model-client',
         },

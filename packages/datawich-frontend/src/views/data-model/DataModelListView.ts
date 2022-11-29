@@ -24,9 +24,9 @@ import { getRouterToDataApp } from '../../services/ModelDataHelper'
   },
   template: `
     <div>
-      <h2>模型列表</h2>
+      <h2>{{ LS('[i18n] Model List') }}</h2>
       <el-form class="mb-2" :inline="true" size="mini" label-position="top" @submit.native.prevent>
-        <el-form-item label="快速检索">
+        <el-form-item :label="LS('[i18n] Quick Search')">
           <common-picker
             v-model="filterParams.modelKey"
             filterable
@@ -36,10 +36,10 @@ import { getRouterToDataApp } from '../../services/ModelDataHelper'
           />
         </el-form-item>
         <el-form-item :label="$whitespace">
-          <el-button type="primary" size="mini" @click="onClickCreate">创建模型</el-button>
+          <el-button type="primary" size="mini" @click="onClickCreate">{{ LS('Create') }}</el-button>
         </el-form-item>
         <el-form-item :label="$whitespace">
-          <el-button type="success" size="mini" @click="onImportModel">导入模型</el-button>
+          <el-button type="success" size="mini" @click="onImportModel">{{ LS('[i18n] Import') }}</el-button>
         </el-form-item>
       </el-form>
       <grid-view ref="tableView" :delegate="delegate">
