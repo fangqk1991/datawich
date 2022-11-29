@@ -6,7 +6,6 @@ import { ModelLinksSpecs } from './ModelLinksSpecs'
 import { FieldGroupSpecs } from './FieldGroupSpecs'
 import { ModelClientSpecs } from './ModelClientSpecs'
 import { ModelAuthClientSpecs } from './ModelAuthClientSpecs'
-import { ModelDisplayColumnSpecs } from './ModelDisplayColumnSpecs'
 import { ModelMilestoneSpecs } from './ModelMilestoneSpecs'
 
 export const GeneralDataSpecs = [
@@ -19,6 +18,5 @@ export const GeneralDataSpecs = [
   // ...ModelManagementSpecs,
   ...ModelClientSpecs,
   ...ModelAuthClientSpecs,
-  ...ModelDisplayColumnSpecs,
   ...ModelMilestoneSpecs,
 ]

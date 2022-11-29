@@ -8,7 +8,7 @@ import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldActi
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { RawTableHandler } from '../../../../services/RawTableHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
-import { DisplayScope, FieldDisplayMode, GeneralPermission } from '@web/datawich-common/models'
+import { FieldDisplayMode, GeneralPermission } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('模型字段')
 
@@ -63,18 +63,6 @@ factory.prepare(ModelFieldApis.DataModelVisibleFieldListGet, async (ctx) => {
       result.push(data)
     }
     ctx.body = result
-  })
-})
-
-factory.prepare(ModelFieldApis.DataModelListCustomFieldsGet, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    ctx.body = await dataModel.makeCustomFields(DisplayScope.LIST)
-  })
-})
-
-factory.prepare(ModelFieldApis.DataModelDetailCustomFieldsGet, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    ctx.body = await dataModel.makeCustomFields(DisplayScope.DETAIL)
   })
 })
 

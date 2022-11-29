@@ -13,28 +13,20 @@ import { _ModelMilestone } from './_ModelMilestone'
 import {
   DataModelExtrasData,
   DataModelModel,
-  FieldLinkModel,
   FieldType,
-  ForAnalysisParams,
   ModelFieldModel,
   ModelFullMetadata,
 } from '@fangcha/datawich-service/lib/common/models'
 import { _FieldGroup } from './_FieldGroup'
-import { _ModelDisplayColumn } from './_ModelDisplayColumn'
 import {
   AccessLevel,
   DataRecordEvent,
-  DisplayScope,
-  FieldDisplayMode,
   FieldHelper,
   GeneralPermissionDescriptor,
-  ModelDisplayColumnModel,
   ModelType,
   ModelTypeDescriptor,
-  RetainFieldSource,
   TransferSelectOption,
 } from '@web/datawich-common/models'
-import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
 export class _DataModel extends __DataModel {
   protected _fields?: _ModelField[] = undefined
@@ -839,136 +831,5 @@ export class _DataModel extends __DataModel {
       .split(',')
       .map((item) => item.trim())
       .filter((item) => !!item)
-  }
-
-  public async generateNotifyTemplateContent() {
-    const fields = await this.getBroadcastFields()
-    let template = ''
-    for (const mainField of fields) {
-      const links = await mainField.getFieldLinks()
-      const dataKey = GeneralDataHelper.calculateDataKey(mainField)
-      template += `${mainField.name}: {${dataKey}}\n`
-      for (const link of links) {
-        const model = await link.modelWithRefFields()
-        const refFields = model.referenceFields
-        for (const refField of refFields) {
-          const dataKey = GeneralDataHelper.calculateDataKey(refField, mainField)
-          template += `${refField.name}: {${dataKey}}\n`
-        }
-      }
-    }
-    return template
-  }
-
-  public static async updateForAnalysis(changedList: ForAnalysisParams[]) {
-    const changedModelMap = {}
-    const modelKeyList: string[] = []
-    changedList
-      .filter((item) => typeof item.checked === 'boolean')
-      .forEach((item) => {
-        modelKeyList.push(item.modelKey)
-        changedModelMap[item.modelKey] = item.checked
-      })
-    const models = await _DataModel.getModelsByModelKeyList(modelKeyList)
-    const runner = new _DataModel().dbSpec().database.createTransactionRunner()
-    await runner.commit(async (transaction) => {
-      for (const model of models) {
-        model.fc_edit()
-        model.star = changedModelMap[model.modelKey]
-        await model.updateToDB(transaction)
-      }
-    })
-  }
-
-  private static async getModelsByModelKeyList(modelKeyList: string[]) {
-    const searcher = new _DataModel().fc_searcher()
-    searcher.processor().addConditionKeyInSet('model_key', ...modelKeyList)
-    return await searcher.queryAllFeeds()
-  }
-
-  public async makeCustomFields(DisplayScope: DisplayScope) {
-    const feeds = (await this.getModelDisplayColumnList(DisplayScope)) as _ModelDisplayColumn[]
-    const columns = feeds.map((feed) => feed.fc_pureModel())
-    const fieldGroupMap = await this.getFieldGroupMap()
-    let fields = await this.getFields()
-    const columnTemplates = columns.map((column) => column.contentTmpl)
-    const allLinks = await this.getFieldLinks()
-    fields = fields.filter((field) => columnTemplates.includes(field.fieldKey))
-    const fkNameMap = new Map()
-    columns.forEach((column) => fkNameMap.set(column.contentTmpl, column.columnName))
-    const result: ModelFieldModel[] = []
-    for (const field of fields) {
-      const data = field.modelForClient()
-      const links = allLinks.filter((link) => link.fieldKey === field.fieldKey)
-      const linkModels: FieldLinkModel[] = []
-      if (links.length > 0) {
-        links.forEach((link) => {
-          const refModel = link.refModel
-          const extraData = link.extrasData()
-          assert.ok(Array.isArray(extraData['referenceCheckedInfos']), '不是array')
-          extraData['referenceCheckedInfos'].forEach(
-            (item: { fieldKey: string; mappingName: string; checked: boolean }) => {
-              const key = field.fieldKey + '.' + refModel + '.' + item.fieldKey
-              if (columnTemplates.includes(key)) {
-                item.checked = true
-                item.mappingName = fkNameMap.get(key)
-              } else {
-                item.checked = false
-              }
-            }
-          )
-          link.extrasInfo = JSON.stringify({
-            referenceCheckedInfos: extraData['referenceCheckedInfos'],
-          })
-        })
-        for (const link of links) {
-          linkModels.push(await link.modelWithRefFields())
-        }
-      }
-      if (fieldGroupMap[field.groupKey]) {
-        data.groupName = fieldGroupMap[field.groupKey].name
-        data.fieldDisplayMode = fieldGroupMap[field.groupKey].displayMode as FieldDisplayMode
-        data.fieldDisplayTmpl = fieldGroupMap[field.groupKey].displayTmpl
-      }
-      data.refFieldLinks = linkModels
-      result.push(data)
-    }
-    columns.forEach((column: any) => {
-      if (column.refModelKey === RetainFieldSource.template) {
-        column.fieldType = FieldType.Template
-        column.name = column.columnName
-        column.fieldDisplayTmpl =
-          column.refModelKey === RetainFieldSource.template ? column.contentTmpl : `{${column.contentTmpl}}`
-        column.refFieldLinks = []
-        result.push(column as ModelFieldModel)
-      }
-    })
-    return result
-  }
-
-  public async updateCustomDisplayColumns(paramsList: ModelDisplayColumnModel[], displayScope: DisplayScope) {
-    const searcher = new _ModelDisplayColumn().fc_searcher()
-    searcher.processor().addConditionKV('model_key', this.modelKey)
-    searcher.processor().addConditionKV('display_scope', displayScope)
-    const columnsBefore = await searcher.queryAllFeeds()
-    const runner = new _ModelDisplayColumn().dbSpec().database.createTransactionRunner()
-    await runner.commit(async (transaction) => {
-      for (const column of columnsBefore) {
-        await column.deleteFromDB(transaction)
-      }
-      for (const params of paramsList) {
-        const option = _ModelDisplayColumn.makeValidParams(params)
-        option.modelKey = this.modelKey
-        option.displayScope = displayScope
-        await _ModelDisplayColumn.generateModelDisplayColumn(option, transaction)
-      }
-    })
-  }
-
-  public async getModelDisplayColumnList(displayScope: DisplayScope) {
-    const searcher = new _ModelDisplayColumn().fc_searcher()
-    searcher.processor().addConditionKV('model_key', this.modelKey)
-    searcher.processor().addConditionKV('display_scope', displayScope)
-    return await searcher.queryAllFeeds()
   }
 }

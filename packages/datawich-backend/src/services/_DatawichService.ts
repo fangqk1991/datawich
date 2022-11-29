@@ -12,7 +12,6 @@ import { _FieldEnumMetadata } from '../models/extensions/_FieldEnumMetadata'
 import { _FieldGroup } from '../models/extensions/_FieldGroup'
 import { _ModelFieldAction } from '../models/extensions/_ModelFieldAction'
 import { _CommonProfile } from '../models/extensions/_CommonProfile'
-import { _ModelDisplayColumn } from '../models/extensions/_ModelDisplayColumn'
 import { _ModelMilestone } from '../models/extensions/_ModelMilestone'
 import { ModelDataInfo } from './ModelDataInfo'
 import { GeneralGroupApp } from '@fangcha/general-group'
@@ -72,7 +71,6 @@ class __DatawichService {
     _FieldGroup.setDatabase(database)
     _ModelFieldAction.setDatabase(database)
     _CommonProfile.setDatabase(database)
-    _ModelDisplayColumn.setDatabase(database)
     _ModelMilestone.setDatabase(database)
     ModelDataInfo.database = database
     this.initPermissionSettings(database)

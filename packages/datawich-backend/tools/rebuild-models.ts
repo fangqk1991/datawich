@@ -101,15 +101,6 @@ const generalDataSchemas: DBModelSchema[] = [
     modifiableWhiteList: ['event', 'title', 'content'],
   },
   {
-    tableName: 'model_display_column',
-    outputFile: `${__dirname}/../src/models/auto-build/__ModelDisplayColumn.ts`,
-    extFile: `${__dirname}/../src/models/extensions/_ModelDisplayColumn.ts`,
-    primaryKey: 'column_key',
-    reloadOnAdded: true,
-    reloadOnUpdated: true,
-    modifiableBlackList: ['model_key', 'create_time'],
-  },
-  {
     tableName: 'common_profile',
     outputFile: `${__dirname}/../src/models/auto-build/__CommonProfile.ts`,
     extFile: `${__dirname}/../src/models/extensions/_CommonProfile.ts`,

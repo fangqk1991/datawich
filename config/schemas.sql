@@ -342,25 +342,6 @@ CREATE TABLE IF NOT EXISTS model_field_action
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS model_display_column
-(
-    _rid            BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `column_key`    varchar(63)                   NOT NULL COMMENT '列 ID，UUID',
-    `model_key`     varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，SQL 外键 -> data_model.model_key',
-    FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE CASCADE,
-    `ref_model_key` varchar(63)                   NOT NULL COMMENT '模型关联键值',
-    `column_name`   varchar(127)                  NOT NULL DEFAULT '' COMMENT '字段名称',
-    `content_tmpl`  varchar(255)                  NOT NULL DEFAULT '' COMMENT '展示内容',
-    `weight`        int                           NOT NULL DEFAULT '0' COMMENT '权重，用于排序',
-    `is_template`   tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为模板类型',
-    `display_scope` varchar(63)                   NOT NULL COMMENT '自定义视图使用对象(列表或详情)',
-    create_time     TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time     TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    UNIQUE (`column_key`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS common_profile
 (
     _rid          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

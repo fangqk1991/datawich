@@ -36,16 +36,6 @@ export const ModelFieldApis = {
     route: '/api/v2/general-data/:modelKey/visible-field',
     description: '模型可见字段列表获取',
   },
-  DataModelListCustomFieldsGet: {
-    method: 'GET',
-    route: '/api/v2/general-data/:modelKey/custom-field/list',
-    description: '模型使用模板字段列表获取',
-  },
-  DataModelDetailCustomFieldsGet: {
-    method: 'GET',
-    route: '/api/v2/general-data/:modelKey/custom-field/detail',
-    description: '模型使用模板字段列表获取',
-  },
   DataModelFieldLinkListGet: {
     method: 'GET',
     route: '/api/v2/general-data/:modelKey/field-link',
