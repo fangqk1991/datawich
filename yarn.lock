@@ -981,15 +981,14 @@
   dependencies:
     "@fangcha/app-error" "^1.1.0"
 
-"@fangcha/backend-kit@^0.50.0":
-  version "0.50.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/backend-kit/-/backend-kit-0.50.0.tgz#b36a729f6b2d3bf27d28965bf461a668c239d468"
-  integrity sha512-7eteS3k/3S+OROQhvoThMVyQcROABH6qTzVlMe+mXiYjkarALt3VyFEjdwrU5y0sM5pvcAaoUh6lC+n5/sRliw==
+"@fangcha/backend-kit@^0.51.0":
+  version "0.51.0"
+  resolved "https://registry.yarnpkg.com/@fangcha/backend-kit/-/backend-kit-0.51.0.tgz#b60005c07670076961eaafdbf9b32a2fa993bd71"
+  integrity sha512-6Ggwvhpm/ZFGAd/TQGf8saMg14MptGvXr/VnnNGh1Zsi01+aOO78CJh9wtxnOuzymLiQ77g73JFt+1FRKaoXkw==
   dependencies:
     "@fangcha/app-error" "^1.5.0"
     "@fangcha/app-request" "^1.6.0"
     "@fangcha/assert" "^1.1.0"
-    "@fangcha/router" "^0.24.0"
     "@fangcha/tools" "^1.22.0"
 
 "@fangcha/datawich-frontend@^0.20.0":
@@ -1080,14 +1079,22 @@
     moment "^2.24.0"
     shelljs "^0.8.4"
 
-"@fangcha/router@^0.24.0":
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/router/-/router-0.24.0.tgz#584a14fe4f123f0973daedb6fddc09a05270f1da"
-  integrity sha512-L1PcOUh216gLa7KOxwMgpFL8Rrnql1rgDpQkdD2/PM0/IrFwHJVc6Ic9Q6F3RA7/YJ3iHW09n7uw6e0Y8JxkhQ==
+"@fangcha/router@^0.25.0":
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/@fangcha/router/-/router-0.25.0.tgz#4d4c80dd0919610bb4180e5e239d857dfcd70d7a"
+  integrity sha512-lPGYbe8GiaFzp8HB/zoBmJy86OI/egKs4dfUNyNVjPy+UfdOi+v5ciVVeohDMFy5gmE3Mks6l7u4xVD5simdgA==
   dependencies:
     "@fangcha/app-error" "^1.5.0"
     "@fangcha/swagger" "^0.1.1"
     "@fangcha/tools" "^1.22.0"
+    "@koa/router" "^12.0.0"
+    "@types/jsonwebtoken" "^8.5.9"
+    "@types/koa" "2.13.5"
+    "@types/koa__router" "^12.0.0"
+    jsonwebtoken "^8.5.1"
+    koa "^2.13.4"
+    koa-body "^5.0.0"
+    koa-compose "^4.1.0"
 
 "@fangcha/swagger@^0.1.1":
   version "0.1.1"
@@ -1522,6 +1529,13 @@
   version "8.5.5"
   resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.5.5.tgz#da5f2f4baee88f052ef3e4db4c1a0afb46cff22c"
   integrity sha512-OGqtHQ7N5/Ap/TUwO6IgHDuLiAoTmHhGpNvgkCm/F4N6pKzx/RBSfr2OXZSwC6vkfnsEdb6+7DNZVtiXiwdwFw==
+  dependencies:
+    "@types/node" "*"
+
+"@types/jsonwebtoken@^8.5.9":
+  version "8.5.9"
+  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.5.9.tgz#2c064ecb0b3128d837d2764aa0b117b0ff6e4586"
+  integrity sha512-272FMnFGzAVMGtu9tkr29hRL6bZj4Zs1KZNeHLnKqAvp06tAIcarTMwOh8/8bz4FmKRcMxZhZNeUAQsNLoiPhg==
   dependencies:
     "@types/node" "*"
 
