@@ -453,7 +453,47 @@ export class ModelDataHandler {
     return searcher.querySingle()
   }
 
-  public async createData(customData: any, withoutChecking = false) {
+  public async forcePutData(customData: any) {
+    const dataModel = this._dataModel
+    const dataHandler = new ModelDataHandler(dataModel)
+    dataHandler.setOperator(this._operator)
+
+    const { rid, dataId } = customData
+    let dataInfo: ModelDataInfo | undefined = undefined
+    if (rid) {
+      dataInfo = (await ModelDataInfo.findWithRid(dataModel, rid))!
+      assert.ok(!!dataInfo, `数据不存在 rid = ${rid}`)
+    }
+    if (dataId) {
+      dataInfo = (await ModelDataInfo.findDataInfo(dataModel, dataId))!
+      assert.ok(!!dataInfo, `数据不存在 dataId = ${dataId}`)
+    }
+    if (!dataInfo) {
+      const indexes = await dataModel.getUniqueIndexes()
+      for (const columnIndex of indexes) {
+        if (customData[columnIndex.fieldKey]) {
+          const tableName = dataModel.sqlTableName()
+          const searcher = await this.dataSearcher()
+          searcher.addSpecialCondition(
+            `\`${tableName}\`.\`${columnIndex.fieldKey}\` = ?`,
+            customData[columnIndex.fieldKey]
+          )
+          const rawData = await searcher.querySingle()
+          if (rawData) {
+            dataInfo = new ModelDataInfo(dataModel, rawData['data_id'])
+            break
+          }
+        }
+      }
+    }
+    if (dataInfo) {
+      await dataHandler.modifyModelData(dataInfo, customData)
+      return new ModelDataInfo(dataModel, dataInfo.dataId)
+    }
+    return this.createData(customData)
+  }
+
+  public async createData(customData: any) {
     delete customData['rid']
     const dataModel = this._dataModel
     customData = {
@@ -462,9 +502,7 @@ export class ModelDataHandler {
       update_author: this._operator,
     }
     customData = await dataModel.getClearData(customData)
-    if (!withoutChecking) {
-      await this.assertParamsValid(customData)
-    }
+    await this.assertParamsValid(customData)
     const fields = await dataModel.getFields()
     const database = ModelDataInfo.database
     const dataInfo = new ModelDataInfo(dataModel, makeUUID())
@@ -531,9 +569,9 @@ export class ModelDataHandler {
     return infoList
   }
 
-  public async modifyModelData(dataInfo: ModelDataInfo, params: any, operator: string) {
+  public async modifyModelData(dataInfo: ModelDataInfo, params: any) {
     delete params['author']
-    params['update_author'] = operator
+    params['update_author'] = this._operator
     const dataModel = this._dataModel
     params = await dataModel.getClearData(params)
     await this.assertParamsValid(params, dataInfo.dataId)
@@ -583,6 +621,23 @@ export class ModelDataHandler {
       }
       return result
     })
+  }
+
+  public async findRecordWith(params: any) {
+    const dataModel = this._dataModel
+    // 检查 Unique 约束
+    const indexes = await dataModel.getUniqueIndexes()
+    for (const columnIndex of indexes) {
+      if (params[columnIndex.fieldKey]) {
+        const tableName = dataModel.sqlTableName()
+        const searcher = await this.dataSearcher()
+        searcher.addSpecialCondition(`\`${tableName}\`.\`${columnIndex.fieldKey}\` = ?`, params[columnIndex.fieldKey])
+        if ((await searcher.queryCount()) > 0) {
+          return true
+        }
+      }
+    }
+    return false
   }
 
   private async assertParamsValid(params: any, curDataId = '') {

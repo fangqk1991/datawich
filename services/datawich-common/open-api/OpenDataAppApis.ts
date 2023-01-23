@@ -43,14 +43,26 @@ export const OpenDataAppApis = {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/query',
     description: '获取应用分页数据(支持复杂条件传递)',
-    parameters: [
-      ...makeSwaggerBodyDataParameters(DataAppSwaggerModelData.Swagger_FilterParams),
-    ] as SwaggerParameter[],
+    parameters: [...makeSwaggerBodyDataParameters(DataAppSwaggerModelData.Swagger_FilterParams)] as SwaggerParameter[],
   },
   DataAppRecordCreate: {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/record',
     description: '创建应用数据',
+    parameters: [
+      {
+        name: 'bodyData',
+        type: 'object',
+        in: 'body',
+        description: dataPostInfoStr,
+        schema: buildSwaggerSchema({ fieldKey1: 'fieldValue1', fieldKey2: 'fieldValue2' }),
+      },
+    ] as SwaggerParameter[],
+  },
+  DataAppRecordForcePut: {
+    method: 'PUT',
+    route: '/api/data-app/v1/data-model/:modelKey/record',
+    description: '创建应用数据(强制更新)',
     parameters: [
       {
         name: 'bodyData',

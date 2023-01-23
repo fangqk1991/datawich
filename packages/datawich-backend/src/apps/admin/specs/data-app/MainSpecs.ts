@@ -110,7 +110,9 @@ factory.prepare(DataAppApis.DataAppRecordPut, async (ctx) => {
           403
         )
       }
-      await new ModelDataHandler(dataModel).modifyModelData(dataInfo, customData, session.curUserStr())
+      const dataHandler = new ModelDataHandler(dataModel)
+      dataHandler.setOperator(session.curUserStr())
+      await dataHandler.modifyModelData(dataInfo, customData)
       ctx.status = 200
     } else {
       const dataHandler = new ModelDataHandler(dataModel)
@@ -126,7 +128,9 @@ factory.prepare(DataAppApis.DataAppRecordUpdate, async (ctx) => {
     const session = ctx.session as FangchaSession
     assert.ok(!!dataModel.isDataModifiable, '此模型数据不支持修改')
     const options = ctx.request.body
-    await new ModelDataHandler(dataModel).modifyModelData(dataInfo, options, session.curUserStr())
+    const dataHandler = new ModelDataHandler(dataModel)
+    dataHandler.setOperator(session.curUserStr())
+    await dataHandler.modifyModelData(dataInfo, options)
     for (const plugin of _DatawichService.plugins.filter((item) => item.onDataRecordUpdated)) {
       await plugin.onDataRecordUpdated!(dataInfo)
     }

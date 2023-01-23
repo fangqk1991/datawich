@@ -48,6 +48,19 @@ factory.prepare(OpenDataAppApis.DataAppRecordCreate, async (ctx) => {
   })
 })
 
+factory.prepare(OpenDataAppApis.DataAppRecordForcePut, async (ctx) => {
+  const session = ctx.session as FangchaSession
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
+    assert.ok(!!dataModel.isDataModifiable, '此模型数据不支持修改')
+    const customData = ctx.request.body
+    const dataHandler = new ModelDataHandler(dataModel)
+    dataHandler.setOperator(session.curUserStr())
+    const dataInfo = await dataHandler.forcePutData(customData)
+    ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
+  })
+})
+
 factory.prepare(OpenDataAppApis.DataAppRecordsBatch, async (ctx) => {
   const session = ctx.session as FangchaSession
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
@@ -68,7 +81,9 @@ factory.prepare(OpenDataAppApis.DataAppRecordUpdate, async (ctx) => {
     const dataInfo = (await ModelDataInfo.findDataInfo(dataModel, ctx.params.dataId))!
     assert.ok(!!dataInfo, `数据[${ctx.params.dataId}]不存在`, 404)
     const options = ctx.request.body
-    await new ModelDataHandler(dataModel).modifyModelData(dataInfo, options, session.curUserStr())
+    const dataHandler = new ModelDataHandler(dataModel)
+    dataHandler.setOperator(session.curUserStr())
+    await dataHandler.modifyModelData(dataInfo, options)
     ctx.status = 200
   })
 })
