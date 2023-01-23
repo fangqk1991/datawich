@@ -10,6 +10,6 @@ declare module 'vue/types/vue' {
 declare global {
   interface Window {
     _fcApp: AdminApp
-    _datawichApp: AgoraAdminApp
+    _datawichApp: AdminApp
   }
 }

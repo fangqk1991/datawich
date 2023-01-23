@@ -3,7 +3,7 @@ import assert from '@fangcha/assert'
 import { _ModelField } from './_ModelField'
 import { _FieldIndex } from './_FieldIndex'
 import { _FieldLink } from './_FieldLink'
-import { Transaction } from 'fc-sql'
+import { SQLSearcher, Transaction } from 'fc-sql'
 import { logger } from '@fangcha/logger'
 import { _ModelGroup } from '../permission/_ModelGroup'
 import { CommonGroup } from '../permission/CommonGroup'
@@ -813,5 +813,14 @@ export class _DataModel extends __DataModel {
       .split(',')
       .map((item) => item.trim())
       .filter((item) => !!item)
+  }
+
+  public async findData(fieldKey: string, fieldValue: string | number) {
+    assert.ok(await this.checkFieldKeyUnique(fieldKey), '字段不存在或字段不具备唯一索引')
+    const searcher = new SQLSearcher(this.dbSpec().database)
+    searcher.setTable(this.sqlTableName())
+    searcher.setColumns(['*'])
+    searcher.addConditionKV(fieldKey, fieldValue)
+    return await searcher.querySingle()
   }
 }
