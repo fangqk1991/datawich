@@ -448,7 +448,7 @@ export class ModelDataHandler {
 
   public async findDataWithDataId(dataId: string) {
     const tableName = this._dataModel.sqlTableName()
-    const searcher = await this.dataSearcher()
+    const searcher = await this.dataSearcherWithFilter()
     searcher.addConditionKV(`${tableName}._data_id`, dataId)
     return searcher.querySingle()
   }
