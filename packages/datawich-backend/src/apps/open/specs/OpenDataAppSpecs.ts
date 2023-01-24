@@ -84,7 +84,7 @@ factory.prepare(OpenDataAppApis.DataAppRecordUpdate, async (ctx) => {
     const dataHandler = new ModelDataHandler(dataModel)
     dataHandler.setOperator(session.curUserStr())
     await dataHandler.modifyModelData(dataInfo, options)
-    ctx.status = 200
+    ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
 })
 
