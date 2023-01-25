@@ -1,4 +1,4 @@
-import { Component, InfoCell, InformationDialog, MyRichTextPanel, MySelect, Prop, ViewController } from '@fangcha/vue'
+import { Component, InfoCell, InformationDialog, MyRichTextPanel, MySelect, Prop, ViewController, MyTagsPanel } from '@fangcha/vue'
 import { FieldType, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
 import { TemplateHelper } from '@fangcha/tools'
 import {
@@ -14,6 +14,7 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
   components: {
     'my-select': MySelect,
     'tags-container': TagsContainer,
+    'my-tags-panel': MyTagsPanel,
     'multi-enum-container': MultiEnumContainer,
     'data-column-extension': DataColumnExtension,
     'my-rich-text-panel': MyRichTextPanel,
@@ -138,6 +139,20 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
     <el-table-column v-else-if="field.fieldType === FieldType.Datetime" :label="field.name">
       <template slot-scope="scope">
         {{ scope.row[dataKey] | ISO8601 }}
+        <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
+      </template>
+    </el-table-column>
+    <el-table-column v-else-if="field.fieldType === FieldType.Link" :label="field.name">
+      <template slot-scope="scope">
+        <a v-if="scope.row[dataKey]" :href="scope.row[dataKey]" target="_blank">
+          <el-tag class="adaptive-tag" type="danger"><i class="el-icon-connection" /> Link</el-tag>
+        </a>
+        <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
+      </template>
+    </el-table-column>
+    <el-table-column v-else-if="field.fieldType === FieldType.StringList" :label="field.name">
+      <template slot-scope="scope">
+        <my-tags-panel v-if="scope.row[dataKey]" :values="scope.row[dataKey]" />
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>

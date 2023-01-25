@@ -19,15 +19,15 @@ import { CommonAPI } from '@fangcha/app-request'
         </el-select>
       </el-form-item>
       <el-form-item :required="true">
-          <span slot="label">
-            <span>目标键</span>
-            <el-tooltip class="item" effect="dark" placement="top">
-              <span class="el-icon-question" />
-              <div slot="content">
-                目标键需要具备唯一性，若本字段值能够匹配目标键值，弹框内容则可以加载目标模型对应的记录信息
-              </div>
-            </el-tooltip>
-          </span>
+        <span slot="label">
+          <span>目标键</span>
+          <el-tooltip class="item" effect="dark" placement="top">
+            <span class="el-icon-question" />
+            <div slot="content">
+              目标键需要具备唯一性，若本字段值能够匹配目标键值，弹框内容则可以加载目标模型对应的记录信息
+            </div>
+          </el-tooltip>
+        </span>
         <el-select v-model="derivativeInfo.toFieldKey" style="width: 100%;">
           <el-option
             v-for="option in openFieldOptions"

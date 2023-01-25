@@ -98,6 +98,20 @@ export class ModelDataHandler {
         }
       }
     }
+    const objFields = modelFields.filter((field) => field.fieldType === FieldType.StringList)
+    for (const field of objFields) {
+      for (const item of items) {
+        if (item[field.fieldKey]) {
+          try {
+            if (item[field.fieldKey]) {
+              item[field.fieldKey] = JSON.parse(item[field.fieldKey])
+            }
+          } catch (e) {
+            console.error(e)
+          }
+        }
+      }
+    }
     const attachmentFields = modelFields.filter((field) => field.fieldType === FieldType.Attachment)
     for (const field of attachmentFields) {
       for (const item of items) {
@@ -516,6 +530,8 @@ export class ModelDataHandler {
           if (customData[fieldKey]) {
             adder.insertKVForTimestamp(fieldKey, customData[fieldKey])
           }
+        } else if (field.fieldType === FieldType.StringList) {
+          adder.insertKV(fieldKey, JSON.stringify(customData[fieldKey]))
         } else {
           adder.insertKV(fieldKey, customData[fieldKey])
         }
@@ -557,6 +573,8 @@ export class ModelDataHandler {
               if (customData[fieldKey]) {
                 adder.insertKVForTimestamp(fieldKey, customData[fieldKey])
               }
+            } else if (field.fieldType === FieldType.StringList) {
+              adder.insertKV(fieldKey, JSON.stringify(customData[fieldKey]))
             } else {
               adder.insertKV(fieldKey, customData[fieldKey])
             }
@@ -590,6 +608,8 @@ export class ModelDataHandler {
             if (params[fieldKey]) {
               modifier.updateKVForTimestamp(fieldKey, params[fieldKey])
             }
+          } else if (field.fieldType === FieldType.StringList) {
+            modifier.updateKV(fieldKey, JSON.stringify(params[fieldKey]))
           } else {
             modifier.updateKV(fieldKey, params[fieldKey])
           }

@@ -12,7 +12,7 @@
   "dependencies": {
     "@fangcha/ali-oss": "^1.2.0",
     "@fangcha/backend-kit": "^0.51.0",
-    "@fangcha/datawich-service": "^0.29.0",
+    "@fangcha/datawich-service": "^0.31.2",
     "@fangcha/general-group": "^0.2.0",
     "@fangcha/general-job": "^0.3.3",
     "@fangcha/logger": "^0.4.0",
@@ -30,8 +30,8 @@
     "file-type": "^12.4.0",
     "ioredis": "^4.19.2",
     "lodash": "^4.17.15",
-    "log4js": "^6.1.0",
-    "moment": "^2.24.0",
+    "log4js": "^6.7.1",
+    "moment": "^2.29.4",
     "query-string": "^6.9.0",
     "read-chunk": "^3.2.0",
     "sequelize": "^5.21.2",
@@ -39,7 +39,7 @@
     "tslib": "^2.3.0",
     "tunnel": "^0.0.6",
     "uuid": "^3.3.3",
-    "validator": "^12.0.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@fangcha/datawich-frontend": "^0.20.0",

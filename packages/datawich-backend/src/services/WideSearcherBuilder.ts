@@ -150,6 +150,8 @@ export class WideSearcherBuilder {
         switch (field.fieldType as FieldType) {
           case FieldType.MultipleLinesText:
           case FieldType.JSON:
+          case FieldType.StringList:
+          case FieldType.Link:
             break
           case FieldType.RichText:
             break

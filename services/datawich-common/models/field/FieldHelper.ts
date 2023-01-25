@@ -24,6 +24,8 @@ export class FieldHelper {
         return `VARCHAR(1023) NULL DEFAULT '' COMMENT '${commentText}'`
       case FieldType.MultipleLinesText:
       case FieldType.JSON:
+      case FieldType.StringList:
+      case FieldType.Link:
         return `TEXT COMMENT '${commentText}'`
       case FieldType.RichText:
         return `MEDIUMTEXT COMMENT '${commentText}'`
@@ -73,8 +75,12 @@ export class FieldHelper {
         return '2000-01-01'
       case FieldType.Datetime:
         return '2020-01-01T00:00:00+08:00'
+      case FieldType.Link:
+        return 'https://google.com'
       case FieldType.JSON:
         return '{}'
+      case FieldType.StringList:
+        return '[]'
     }
     return 'Some Text'
   }
@@ -98,14 +104,23 @@ export class FieldHelper {
         }
         return texts.join(', ')
       }
+      case FieldType.Link:
+        return 'https://google.com'
       case FieldType.JSON:
         return '{}'
+      case FieldType.StringList:
+        return '[]'
     }
     return FieldHelper.getFieldValueExample(field)
   }
 
   public static checkSearchableField(code: FieldType) {
-    return [FieldType.SingleLineText, FieldType.MultipleLinesText, FieldType.ReadonlyText].includes(code)
+    return [
+      FieldType.SingleLineText,
+      FieldType.MultipleLinesText,
+      FieldType.StringList,
+      FieldType.ReadonlyText,
+    ].includes(code)
   }
 
   public static checkExactSearchableField(code: FieldType) {
@@ -117,11 +132,13 @@ export class FieldHelper {
   }
 
   public static checkSpecialField(code: FieldType) {
-    return [FieldType.RichText, FieldType.Attachment, FieldType.JSON].includes(code)
+    return [FieldType.RichText, FieldType.Attachment, FieldType.JSON, FieldType.StringList, FieldType.Link].includes(
+      code
+    )
   }
 
   public static checkIndexAbleField(code: FieldType | any) {
-    return ![FieldType.MultipleLinesText, FieldType.JSON, FieldType.RichText, FieldType.Attachment].includes(code)
+    return code !== FieldType.MultipleLinesText && !this.checkSpecialField(code)
   }
 
   public static makeDisplayFields(fields: ModelFieldModel[]) {
@@ -162,6 +179,14 @@ export class FieldHelper {
             realData[key] = 0
           } else if (field.fieldType === FieldType.JSON) {
             realData[key] = '{}'
+          } else if (field.fieldType === FieldType.StringList) {
+            realData[key] = []
+          }
+        } else {
+          if (field.fieldType === FieldType.StringList) {
+            if (typeof realData[key] === 'string') {
+              realData[key] = JSON.parse(realData[key])
+            }
           }
         }
       }
