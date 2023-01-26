@@ -45,10 +45,10 @@ factory.prepare(DataAppApis.DataAppRecordListGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataSearch(async (dataModel, options) => {
     const handler = new ModelDataHandler(dataModel)
     const result = await handler.getListData(options)
-    const summaryInfo = await handler.dataSummaryInfo(options)
-    if (summaryInfo) {
-      result['summaryInfo'] = summaryInfo
-    }
+    // const summaryInfo = await handler.dataSummaryInfo(options)
+    // if (summaryInfo) {
+    //   result['summaryInfo'] = summaryInfo
+    // }
     ctx.body = result
   })
 })
