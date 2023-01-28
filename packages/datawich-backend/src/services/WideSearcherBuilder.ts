@@ -252,12 +252,12 @@ export class WideSearcherBuilder {
       searchFields
         .filter((searchField) => FieldHelper.checkExactSearchableField(searchField.field.fieldType as FieldType))
         .forEach((searchField) => {
-          builder.addCondition(`${searchField.tableColumnName} = ?`, keywords)
+          builder.addCondition(`${searchField.tableColumnName} = ? COLLATE utf8mb4_general_ci`, keywords)
         })
       searchFields
         .filter((searchField) => FieldHelper.checkSearchableField(searchField.field.fieldType as FieldType))
         .forEach((searchField) => {
-          builder.addCondition(`${searchField.tableColumnName} LIKE ?`, keywordsLike)
+          builder.addCondition(`${searchField.tableColumnName} LIKE ? COLLATE utf8mb4_general_ci`, keywordsLike)
         })
       builder.injectToSearcher(searcher)
     }
