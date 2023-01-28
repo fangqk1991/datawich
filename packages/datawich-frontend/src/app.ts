@@ -14,6 +14,7 @@ import { UserGroupListView } from './views/user/UserGroupListView'
 import { ModelClientListView } from './views/model-client/ModelClientListView'
 import { GeneralDataManager } from './services/GeneralDataManager'
 import { DatawichI18N } from '@web/datawich-common/i18n'
+import { MyFavorSidebar } from './views/data-app/MyFavorSidebar'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
@@ -46,6 +47,7 @@ const _fcApp = new AdminApp({
   homeView: DataAppListView,
 
   appWillLoad: () => {
+    MyFavorSidebar.reloadFavorApps()
     GeneralDataManager.loadVueFilters()
   },
   appDidLoad: async () => {

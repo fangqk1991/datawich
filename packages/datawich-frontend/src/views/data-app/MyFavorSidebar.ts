@@ -70,7 +70,7 @@ class _MyFavorSidebar {
       {
         titleEn: '所有应用',
         titleZh: '所有应用',
-        path: '/v2/data-app',
+        path: '/v1/data-app',
       },
       ...links,
     ])
