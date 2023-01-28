@@ -158,14 +158,6 @@ const trimParams = (params: {}) => {
             page-layout="total, sizes, prev, pager, next"
             :page-sizes="[10, 50, 100]"
           >
-            <el-table-column v-if="!isRetainModel && isLeader && !hasAuthorField" key="do-not-reuse" prop="author">
-              <template v-slot:header>
-                创建者
-              </template>
-              <template slot-scope="scope">
-                {{ scope.row.author }}
-              </template>
-            </el-table-column>
             <slot name="custom-columns"/>
             <template v-for="field in displayFields">
               <template v-if="field.fieldType === FieldType.Group">
