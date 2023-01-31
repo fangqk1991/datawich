@@ -83,49 +83,48 @@ export class ModelDataHandler {
     return searcher.queryCount()
   }
 
-  public async queryItems(searcher: SQLSearcher) {
+  public async convertData(data: any) {
     const dataModel = this._dataModel
     const modelFields = await dataModel.getFields()
-    const items = (await searcher.queryList()) as any[]
     const keyPrefix = dataModel.shortKey || dataModel.modelKey
-    for (const item of items) {
-      item._data_key = `${keyPrefix}-${item.rid}`
-    }
+    data._data_key = `${keyPrefix}-${data.rid}`
     for (const plugin of _DatawichService.plugins) {
       if (plugin.onDataFound) {
-        for (const item of items) {
-          await plugin.onDataFound(item, dataModel)
-        }
+        await plugin.onDataFound(data, dataModel)
       }
     }
     const objFields = modelFields.filter((field) => field.fieldType === FieldType.StringList)
     for (const field of objFields) {
-      for (const item of items) {
-        if (item[field.fieldKey]) {
-          try {
-            if (item[field.fieldKey]) {
-              item[field.fieldKey] = JSON.parse(item[field.fieldKey])
-            }
-          } catch (e) {
-            console.error(e)
+      if (data[field.fieldKey]) {
+        try {
+          if (data[field.fieldKey]) {
+            data[field.fieldKey] = JSON.parse(data[field.fieldKey])
           }
+        } catch (e) {
+          console.error(e)
         }
       }
     }
     const attachmentFields = modelFields.filter((field) => field.fieldType === FieldType.Attachment)
     for (const field of attachmentFields) {
-      for (const item of items) {
-        let entity = null
-        try {
-          if (item[field.fieldKey]) {
-            entity = JSON.parse(item[field.fieldKey]) as OssFileInfo
-            entity.url = _DatawichService.ossForSignature!.signatureURL(entity.ossKey)
-          }
-        } catch (e) {
-          console.error(e)
+      let entity = null
+      try {
+        if (data[field.fieldKey]) {
+          entity = JSON.parse(data[field.fieldKey]) as OssFileInfo
+          entity.url = _DatawichService.ossForSignature!.signatureURL(entity.ossKey)
         }
-        item[GeneralDataHelper.attachmentEntityKey(field)] = entity
+      } catch (e) {
+        console.error(e)
       }
+      data[GeneralDataHelper.attachmentEntityKey(field)] = entity
+    }
+    return data
+  }
+
+  public async queryItems(searcher: SQLSearcher) {
+    const items = (await searcher.queryList()) as any[]
+    for (const item of items) {
+      await this.convertData(item)
     }
     return items
   }
@@ -464,7 +463,8 @@ export class ModelDataHandler {
     const tableName = this._dataModel.sqlTableName()
     const searcher = await this.dataSearcherWithFilter()
     searcher.addConditionKV(`${tableName}._data_id`, dataId)
-    return searcher.querySingle()
+    const data = await searcher.querySingle()
+    return await this.convertData(data)
   }
 
   public async forcePutData(customData: any) {
