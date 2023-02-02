@@ -119,6 +119,9 @@ export class WideSearcherBuilder {
     searcher.setTable(bigTable)
     searcher.setColumns(columns)
     const options = this.filterOptions
+    if (options._sortKey && filterMapper[options._sortKey]) {
+      searcher.addOrderRule(filterMapper[options._sortKey].columnName, options._sortDirection as any)
+    }
     const conditions = options.conditions as FilterCondition[]
     if (Array.isArray(conditions)) {
       for (const condition of conditions.filter((condition) => condition.leftKey in filterMapper)) {
