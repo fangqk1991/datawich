@@ -19,11 +19,17 @@ import { ModelMilestonePanel } from './ModelMilestonePanel'
       <el-card shadow="never">
         <h3>
           <span>{{ dataModel.name }}</span>
-          <a style="font-size: 70%" href="javascript:" @click="onEditModel">编辑</a>
-          <a v-show="$devEgg()" style="font-size: 70%" href="javascript:" @click="onCloneModel">克隆</a>
-          <a style="font-size: 70%" href="javascript:" class="text-danger" @click="onEmptyData">清空数据</a>
         </h3>
         <el-form label-position="left" label-width="120px">
+          <el-form-item class="card-form-item" label="操作">
+            <a href="javascript:" @click="onEditModel">编辑</a>
+            |
+            <a href="javascript:" @click="onCloneModel">克隆</a>
+            |
+            <a href="javascript:" class="text-danger" @click="onEmptyData">清空数据</a>
+            |
+            <a href="javascript:" class="text-danger" @click="onDeleteModel">删除模型</a>
+          </el-form-item>
           <el-form-item class="card-form-item" label="模型 Key">
             {{ dataModel.modelKey }}
           </el-form-item>
@@ -214,6 +220,22 @@ export class ModelInfoFragment extends ModelFragmentBase {
       await request.execute()
       this.$message.success('更新成功')
       NotificationCenter.defaultCenter().postNotification(DatawichEventKeys.kOnDataModelNeedReload, this.modelKey)
+    })
+  }
+
+  onDeleteModel() {
+    const dialog = ConfirmDialog.strongDialog()
+    dialog.title = '删除模型'
+    dialog.content = `确定要删除 "${this.dataModel.name}" 吗？`
+    dialog.show(async () => {
+      await this.execHandler(async () => {
+        const request = MyAxios(new CommonAPI(DataModelApis.DataModelDelete, this.dataModel.modelKey))
+        await request.execute()
+        this.$message.success('删除成功')
+        this.$router.push({
+          name: 'DataModelListView',
+        })
+      })
     })
   }
 }

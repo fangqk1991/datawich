@@ -1,6 +1,5 @@
 import {
   Component,
-  ConfirmDialog,
   FragmentProtocol,
   GridView,
   JsonImportDialog,
@@ -115,19 +114,6 @@ export class DataModelListView extends ViewController implements FragmentProtoco
         label: `${item.name}(${item.modelKey})`,
         value: item.modelKey,
       }
-    })
-  }
-
-  onDeleteItem(feed: DataModelModel) {
-    const dialog = new ConfirmDialog()
-    dialog.title = '删除模型'
-    dialog.content = `确定要删除 "${feed.name}" 吗？`
-    dialog.show(async () => {
-      await this.execHandler(async () => {
-        const request = MyAxios(new CommonAPI(DataModelApis.DataModelDelete, feed.modelKey))
-        await request.execute()
-        this.reloadData()
-      })
     })
   }
 
