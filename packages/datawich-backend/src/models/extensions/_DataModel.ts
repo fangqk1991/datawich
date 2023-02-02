@@ -444,7 +444,7 @@ export class _DataModel extends __DataModel {
     field.name = name
     field.fieldType = fieldType
     field.required = 0
-    field.isHidden = 0
+    field.isHidden = 1
     field.isSystem = 1
     return field
   }
