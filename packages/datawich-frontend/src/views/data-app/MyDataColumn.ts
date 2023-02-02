@@ -110,6 +110,7 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
     <el-table-column
       v-else-if="field.fieldType === FieldType.MultipleLinesText"
       :label="field.name"
+      :prop="filterKey"
       show-overflow-tooltip
     >
       <template slot-scope="scope">
@@ -117,18 +118,18 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.RichText" :label="field.name" show-overflow-tooltip>
+    <el-table-column v-else-if="field.fieldType === FieldType.RichText" :prop="filterKey" :label="field.name" show-overflow-tooltip>
       <template slot-scope="scope">
         <my-rich-text-panel :html-content="scope.row[dataKey]"/>
-        <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
+        <data-column-extension :super-field="superField" :field="field" :prop="filterKey" :data="scope.row" />
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.Template" :label="field.name">
+    <el-table-column v-else-if="field.fieldType === FieldType.Template" :prop="filterKey" :label="field.name">
       <template slot-scope="scope">
         {{ renderContentTmpl(scope.row)}}
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.Group" :label="field.name">
+    <el-table-column v-else-if="field.fieldType === FieldType.Group" :prop="filterKey" :label="field.name">
       <template slot-scope="scope">
         {{ renderContentTmpl(scope.row) }}
         <a href="javascript:" @click="onViewGroup(scope.row)">
@@ -136,13 +137,13 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
         </a>
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.Datetime" :label="field.name">
+    <el-table-column v-else-if="field.fieldType === FieldType.Datetime" :label="field.name" :prop="filterKey" sortable>
       <template slot-scope="scope">
         {{ scope.row[dataKey] | ISO8601 }}
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.Link" :label="field.name">
+    <el-table-column v-else-if="field.fieldType === FieldType.Link" :prop="filterKey" :label="field.name">
       <template slot-scope="scope">
         <a v-if="scope.row[dataKey]" :href="scope.row[dataKey]" target="_blank">
           <el-tag class="adaptive-tag" type="danger"><i class="el-icon-connection" /> Link</el-tag>
@@ -150,13 +151,13 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.StringList" :label="field.name">
+    <el-table-column v-else-if="field.fieldType === FieldType.StringList" :prop="filterKey" :label="field.name">
       <template slot-scope="scope">
         <my-tags-panel v-if="scope.row[dataKey]" :values="scope.row[dataKey]" />
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>
-    <el-table-column v-else :label="field.name">
+    <el-table-column v-else :label="field.name" :prop="filterKey" sortable>
       <template slot-scope="scope">
         {{ scope.row[dataKey] }}
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />

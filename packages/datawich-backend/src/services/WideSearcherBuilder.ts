@@ -120,7 +120,10 @@ export class WideSearcherBuilder {
     searcher.setColumns(columns)
     const options = this.filterOptions
     if (options._sortKey && filterMapper[options._sortKey]) {
-      searcher.addOrderRule(filterMapper[options._sortKey].columnName, options._sortDirection as any)
+      searcher.addOrderRule(
+        filterMapper[options._sortKey].columnName,
+        options._sortDirection === 'descending' ? 'DESC' : 'ASC'
+      )
     }
     const conditions = options.conditions as FilterCondition[]
     if (Array.isArray(conditions)) {
