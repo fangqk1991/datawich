@@ -991,10 +991,10 @@
     "@fangcha/assert" "^1.1.0"
     "@fangcha/tools" "^1.22.0"
 
-"@fangcha/datawich-frontend@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/@fangcha/datawich-frontend/-/datawich-frontend-0.21.0.tgz#c797e7804e67393dec9f02901ad7894c94c37081"
-  integrity sha512-twCrrTOPpdvYpgFcJBptIX0HVbi+bX+F9hPa22OHVy1W62kg+bfk4dR/QJwt3td9NJLxnTkjA1wo2Jvlbzn6zw==
+"@fangcha/datawich-frontend@^0.21.1":
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/@fangcha/datawich-frontend/-/datawich-frontend-0.21.1.tgz#7d045f28166b79d376fb0a78b2a79eb7c2256b27"
+  integrity sha512-K57MwH+TsDIJhG9ucKwraKTChTVZZjT7liCJfflljB7GSXheorYYHxr2+ceWbXtfZrup07vIXsS+SqmKTvKhsA==
 
 "@fangcha/datawich-service@^0.31.2":
   version "0.31.2"

@@ -42,7 +42,7 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "@fangcha/datawich-frontend": "^0.21.0",
+    "@fangcha/datawich-frontend": "^0.21.1",
     "@fangcha/eslint": "^0.3.2",
     "@fangcha/generator": "^0.1.1",
     "@fangcha/vue": "^0.73.1",
