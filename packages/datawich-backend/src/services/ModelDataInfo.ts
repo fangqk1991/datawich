@@ -27,7 +27,7 @@ export class ModelDataInfo {
     searcher.setLimitInfo(0, 1)
     const [data] = await new ModelDataHandler(dataModel).queryItems(searcher)
     if (data) {
-      const info = new this(dataModel, data['data_id'])
+      const info = new this(dataModel, data['_data_id'])
       info._rawData = data
       return info
     }

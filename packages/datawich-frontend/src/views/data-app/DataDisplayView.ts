@@ -31,7 +31,7 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 
 interface DataRecord {
   rid: number
-  data_id: string
+  _data_id: string
 }
 
 const trimParams = (params: {}) => {
@@ -287,7 +287,7 @@ export class DataDisplayView extends ViewController {
     })
 
     if (this.$route.query._data_id) {
-      this.onClickView({ data_id: this.$route.query._data_id } as any)
+      this.onClickView({ _data_id: this.$route.query._data_id } as any)
       this.$saveQueryParams({ _data_id: '' })
     }
   }
@@ -443,7 +443,7 @@ export class DataDisplayView extends ViewController {
   }
 
   async onClickView(data: any) {
-    const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordInfosGet, this.modelKey, data.data_id))
+    const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordInfosGet, this.modelKey, data._data_id))
     const infos = await request.quickSend()
     InformationDrawer.show('数据详情', infos)
   }
@@ -473,7 +473,7 @@ export class DataDisplayView extends ViewController {
     dialog.title = '修改数据记录'
     dialog.setFieldsAndData(this.modelKey, this.writeableFields, inputData)
     dialog.show(async (params: any) => {
-      const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordUpdate, this.modelKey, data.data_id))
+      const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordUpdate, this.modelKey, data._data_id))
       request.setBodyData(params)
       await request.execute()
       this.$message.success('修改成功')
@@ -486,7 +486,7 @@ export class DataDisplayView extends ViewController {
     dialog.title = `请确认`
     dialog.content = `是否删除本记录？`
     dialog.show(async () => {
-      const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordDelete, this.modelKey, data.data_id))
+      const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordDelete, this.modelKey, data._data_id))
       await request.execute()
       this.$message.success('删除成功')
       this.reloadData()
@@ -570,7 +570,7 @@ export class DataDisplayView extends ViewController {
     dialog.content = `确定要删除所选 ${dataItems.length} 条数据吗？序号分别为 ${indexesDesc}`
     dialog.show(async () => {
       for (const item of dataItems) {
-        const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordDelete, this.modelKey, item.data_id))
+        const request = MyAxios(new CommonAPI(DataAppApis.DataAppRecordDelete, this.modelKey, item._data_id))
         await request.execute()
         this.$message.success(`[rid = ${item.rid}] 删除成功`)
       }

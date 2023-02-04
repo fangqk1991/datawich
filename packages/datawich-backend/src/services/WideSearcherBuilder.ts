@@ -70,6 +70,7 @@ export class WideSearcherBuilder {
     let bigTable = dataModel.sqlTableName()
     const columns: string[] = []
     columns.push(`${mainTableName}.rid AS rid`)
+    columns.push(`${mainTableName}._data_id AS _data_id`)
     columns.push(`${mainTableName}._data_id AS data_id`)
     const userColumnNames: string[] = []
     const searchableFields: SearchableField[] = []
@@ -270,7 +271,7 @@ export class WideSearcherBuilder {
   }
 
   lockDataIdIfNeed(searcher: SQLSearcher) {
-    const dataId = this.filterOptions.dataId || this.filterOptions.data_id || this.filterOptions._data_id || ''
+    const dataId = this.filterOptions.dataId || this.filterOptions._data_id || ''
     const tableName = this.mainModel.sqlTableName()
     if (dataId) {
       searcher.addConditionKV(`${tableName}._data_id`, dataId)

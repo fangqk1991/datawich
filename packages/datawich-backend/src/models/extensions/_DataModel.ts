@@ -185,7 +185,7 @@ export class _DataModel extends __DataModel {
     _ModelField.checkValidParams(params)
     const retainKeys = [
       'rid',
-      'data_id',
+      '_data_id',
       'model_key',
       'ignore',
       'author',

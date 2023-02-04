@@ -109,7 +109,7 @@ export class GeneralDataImportPanel extends ViewController {
     const commonAPI = new CommonAPI(DataAppApis.DataAppExcelDemoDownload, this.dataModel.modelKey)
     return {
       sampleFileURL: commonAPI.api,
-      checkItemSuccess: (todoItem) => !!todoItem.data_id,
+      checkItemSuccess: (todoItem) => !!todoItem._data_id,
       checkItemFail: (todoItem) => todoItem.failed || Object.keys(todoItem['invalidMap'] || {}).length > 0,
       checkCellValid: (todoItem, prop) => {
         return this.checkCellValid(todoItem, prop)

@@ -318,8 +318,8 @@ export class ModelDataHandler {
 
     const fields: DescribableField[] = []
     fields.push({
-      fieldKey: 'data_id',
-      dataKey: 'data_id',
+      fieldKey: '_data_id',
+      dataKey: '_data_id',
       fieldType: FieldType.Dummy,
       name: '流水号',
     })
@@ -363,8 +363,8 @@ export class ModelDataHandler {
 
     const fields: DescribableField[] = []
     fields.push({
-      fieldKey: 'data_id',
-      dataKey: 'data_id',
+      fieldKey: '_data_id',
+      dataKey: '_data_id',
       fieldType: FieldType.Dummy,
       name: '流水号',
     })
@@ -423,8 +423,8 @@ export class ModelDataHandler {
 
     const fields: DescribableField[] = []
     fields.push({
-      fieldKey: 'data_id',
-      dataKey: 'data_id',
+      fieldKey: '_data_id',
+      dataKey: '_data_id',
       fieldType: FieldType.Dummy,
       name: '流水号',
     })
@@ -494,7 +494,7 @@ export class ModelDataHandler {
           )
           const rawData = await searcher.querySingle()
           if (rawData) {
-            dataInfo = new ModelDataInfo(dataModel, rawData['data_id'])
+            dataInfo = new ModelDataInfo(dataModel, rawData['_data_id'])
             break
           }
         }

@@ -14,7 +14,7 @@ export class RawTableHandler extends DBTableHandler {
     const columns = await this.getColumns()
     const retainKeysSet = new Set([
       'rid',
-      'data_id',
+      '_data_id',
       'model_key',
       'ignore',
       'author',

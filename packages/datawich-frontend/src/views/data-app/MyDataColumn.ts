@@ -261,7 +261,7 @@ export class MyDataColumn extends ViewController {
   }
 
   async onUpdateEnumValue(_data: any) {
-    // await GeneralDataManager.do.updateDataAppRecord(this.field.modelKey, data.data_id, {
+    // await GeneralDataManager.do.updateDataAppRecord(this.field.modelKey, data._data_id, {
     //   [this.field.fieldKey]: data[this.dataKey],
     // })
     // this.$message.success('修改成功')
