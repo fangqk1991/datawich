@@ -3,6 +3,7 @@ module.exports = {
   Tags: [],
   Datawich: {
     configVersion: '0.0.0',
+    logsDir: '/data/logs/datawich',
     wecomBotKey: '',
     adminPort_frontend: 3299,
     adminBaseURL: 'http://localhost:3299',

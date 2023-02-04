@@ -3,6 +3,7 @@ const envData = process.env || {}
 module.exports = {
   Datawich: {
     configVersion: envData.configVersion,
+    logsDir: envData.logsDir,
     wecomBotKey: envData.wecomBotKey,
     adminPort_frontend: 3299,
     adminBaseURL: envData.adminBaseURL,
