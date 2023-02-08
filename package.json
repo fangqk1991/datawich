@@ -43,7 +43,7 @@
     "@fangcha/eslint": "^0.3.2",
     "@fangcha/generator": "^0.1.1",
     "@fangcha/vue": "^0.73.1",
-    "@fangcha/webpack": "^0.10.0",
+    "@fangcha/webpack": "^0.11.1",
     "@types/assert": "^1.4.6",
     "@types/bcryptjs": "^2.4.2",
     "@types/crypto-js": "^4.0.1",

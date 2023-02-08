@@ -12,7 +12,8 @@ const entry = {
   }, {}),
 }
 
+const localPackageNames = glob.sync('../../libraries/*/package.json').map((item) => require(item).name)
 const builder = new BackpackBuilder()
 builder.entry = entry
-
+builder.nodeExternalsAllowList = [/^@web/, ...localPackageNames]
 module.exports = builder.build()
