@@ -84,6 +84,40 @@ export class ModelDataHandler {
   }
 
   public async convertData(data: any) {
+    const convertData = (fieldType: string, dataKey: string) => {
+      switch (fieldType) {
+        case FieldType.StringList: {
+          if (data[dataKey]) {
+            try {
+              if (data[dataKey]) {
+                data[dataKey] = JSON.parse(data[dataKey])
+              }
+            } catch (e) {
+              console.error(e)
+            }
+          }
+          break
+        }
+        case FieldType.Attachment: {
+          let entity = null
+          try {
+            if (data[dataKey]) {
+              entity = JSON.parse(data[dataKey]) as OssFileInfo
+              entity.url = _DatawichService.ossForSignature!.signatureURL(entity.ossKey)
+            }
+          } catch (e) {
+            console.error(e)
+          }
+          // TODO: fix it to dataKey
+          data[
+            GeneralDataHelper.attachmentEntityKey({
+              fieldKey: dataKey,
+            })
+          ] = entity
+          break
+        }
+      }
+    }
     const dataModel = this._dataModel
     const modelFields = await dataModel.getFields()
     const keyPrefix = dataModel.shortKey || dataModel.modelKey
@@ -93,30 +127,19 @@ export class ModelDataHandler {
         await plugin.onDataFound(data, dataModel)
       }
     }
-    const objFields = modelFields.filter((field) => field.fieldType === FieldType.StringList)
-    for (const field of objFields) {
-      if (data[field.fieldKey]) {
-        try {
-          if (data[field.fieldKey]) {
-            data[field.fieldKey] = JSON.parse(data[field.fieldKey])
-          }
-        } catch (e) {
-          console.error(e)
-        }
-      }
-    }
-    const attachmentFields = modelFields.filter((field) => field.fieldType === FieldType.Attachment)
-    for (const field of attachmentFields) {
-      let entity = null
-      try {
-        if (data[field.fieldKey]) {
-          entity = JSON.parse(data[field.fieldKey]) as OssFileInfo
-          entity.url = _DatawichService.ossForSignature!.signatureURL(entity.ossKey)
-        }
-      } catch (e) {
-        console.error(e)
-      }
-      data[GeneralDataHelper.attachmentEntityKey(field)] = entity
+    modelFields
+      .filter((field) => field.fieldType === FieldType.StringList || field.fieldType === FieldType.Attachment)
+      .forEach((field) => {
+        convertData(field.fieldType, field.fieldKey)
+      })
+    const fieldLinks = await dataModel.getFieldLinks()
+    for (const link of fieldLinks) {
+      const refFields = await link.getRefFields()
+      refFields
+        .filter((field) => field.fieldType === FieldType.StringList || field.fieldType === FieldType.Attachment)
+        .forEach((refField) => {
+          convertData(refField.fieldType, GeneralDataHelper.calculateDataKey(refField, link))
+        })
     }
     return data
   }
