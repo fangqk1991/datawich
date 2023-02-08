@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "concurrently --raw 'yarn start:typecheck' 'yarn open:compile' 'yarn admin:compile'",
+    "start": "concurrently --raw 'pnpm start:typecheck' 'pnpm open:compile' 'pnpm admin:compile'",
     "start-resque": "ts-node-dev --no-notify --ignore-watch node_modules src/apps/datawich-resque.ts",
     "open:compile": "ts-node-dev --no-notify --ignore-watch node_modules src/apps/datawich-open.ts",
     "admin:compile": "ts-node-dev --no-notify --ignore-watch node_modules src/apps/datawich-admin.ts",
