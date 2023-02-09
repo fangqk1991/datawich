@@ -1,7 +1,7 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
-import { FieldLinkModel, FieldType, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldLinkModel, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldAction'

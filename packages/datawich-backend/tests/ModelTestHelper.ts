@@ -1,5 +1,5 @@
 import { initGeneralDataSettingsTest } from './GeneralDataServiceDev'
-import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
+import { DataModelModel } from '@fangcha/datawich-service'
 import { _DataModel } from '../src/models/extensions/_DataModel'
 
 initGeneralDataSettingsTest()

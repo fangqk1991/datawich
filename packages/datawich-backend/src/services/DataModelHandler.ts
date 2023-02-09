@@ -6,7 +6,7 @@ import {
   ModelFullMetadata,
   Raw_FieldLink,
   Raw_ModelField,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { _ModelMilestone } from '../models/extensions/_ModelMilestone'
 import { ModelDataHandler } from './ModelDataHandler'

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { FieldTypeDescriptor } from '@fangcha/datawich-service/lib/common/models'
+import { FieldTypeDescriptor } from '@fangcha/datawich-service'
 import {
   _DatawichAttachmentOptions,
   AttachmentFieldPlugin,

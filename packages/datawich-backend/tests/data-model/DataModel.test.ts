@@ -3,7 +3,7 @@ import { DBTableHandler } from 'fc-sql'
 import { generateModel } from '../ModelTestHelper'
 import { logger } from '@fangcha/logger'
 import { initGeneralDataSettingsTest } from '../GeneralDataServiceDev'
-import { FieldType } from '@fangcha/datawich-service/lib/common/models'
+import { FieldType } from '@fangcha/datawich-service'
 import { _DataModel } from '../../src/models/extensions/_DataModel'
 import { DataModelHandler } from '../../src/services/DataModelHandler'
 

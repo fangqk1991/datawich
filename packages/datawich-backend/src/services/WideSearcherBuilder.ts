@@ -8,7 +8,7 @@ import {
   FilterCondition,
   FilterSymbol,
   FilterSymbolDescriptor,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import * as moment from 'moment'

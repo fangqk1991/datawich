@@ -4,7 +4,7 @@ import {
   FieldType,
   ModelFieldModel,
   Raw_ModelField,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 
 export class FieldHelper {
   public static getFieldTypeDatabaseSpec(field: ModelFieldModel, beIndex = false) {

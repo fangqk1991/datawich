@@ -4,7 +4,7 @@ import * as moment from 'moment'
 import { _OSSResource, OSSService } from '@fangcha/oss-service'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
-import { FieldType } from '@fangcha/datawich-service/lib/common/models'
+import { FieldType } from '@fangcha/datawich-service'
 import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
 import { FieldHelper } from '@web/datawich-common/models'
 

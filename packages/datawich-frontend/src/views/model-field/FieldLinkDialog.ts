@@ -5,7 +5,7 @@ import {
   FieldLinkModel,
   LinkMapperInfo,
   ModelFieldModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { SelectOption } from '@fangcha/tools'
 import { DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { MyAxios } from '@fangcha/vue/basic'

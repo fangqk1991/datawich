@@ -15,7 +15,7 @@ import {
   FilterCondition,
   FilterSymbol,
   ModelFieldModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { CheckOption } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'

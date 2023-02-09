@@ -16,7 +16,7 @@ import {
   FieldType,
   ModelFieldModel,
   ModelFullMetadata,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import {
   AccessLevel,
   DataRecordEvent,

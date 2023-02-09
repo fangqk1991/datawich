@@ -6,9 +6,9 @@
     "build": "pnpm --filter \"./packages/**\" build"
   },
   "dependencies": {
+    "@fangcha/datawich-service": "workspace:*",
     "@fangcha/ali-oss": "^1.2.0",
     "@fangcha/backend-kit": "^0.52.0",
-    "@fangcha/datawich-service": "^0.31.2",
     "@fangcha/general-group": "^0.2.0",
     "@fangcha/general-job": "^0.3.3",
     "@fangcha/logger": "^0.4.0",

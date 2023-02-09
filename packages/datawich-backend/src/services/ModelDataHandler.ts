@@ -13,7 +13,7 @@ import {
   FieldLinkModel,
   FieldType,
   ModelFieldModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { ModelDataInfo } from './ModelDataInfo'
 import { WideSearcherBuilder } from './WideSearcherBuilder'

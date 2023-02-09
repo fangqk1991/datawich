@@ -14,7 +14,7 @@ import {
   LinkMapperInfo,
   ModelFieldModel,
   Raw_ModelField,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
 import { GeneralDataFormatter } from '@fangcha/datawich-service/lib/common/tools'
 

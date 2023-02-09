@@ -1,5 +1,5 @@
 import { Component, InfoCell, InformationDialog, MyRichTextPanel, MySelect, Prop, ViewController, MyTagsPanel } from '@fangcha/vue'
-import { FieldType, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { TemplateHelper } from '@fangcha/tools'
 import {
   DataColumnExtension,

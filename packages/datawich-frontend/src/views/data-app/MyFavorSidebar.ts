@@ -1,5 +1,5 @@
 import { CommonProfileApis, DataAppApis } from '@web/datawich-common/web-api'
-import { DataModelModel } from '@fangcha/datawich-service/lib/common/models'
+import { DataModelModel } from '@fangcha/datawich-service'
 import { NotificationCenter } from 'notification-center-js'
 import { CommonAPI } from '@fangcha/app-request'
 import { MenuSubNode } from '@fangcha/vue'

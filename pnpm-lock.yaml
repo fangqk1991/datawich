@@ -7,7 +7,7 @@ importers:
       '@fangcha/ali-oss': ^1.2.0
       '@fangcha/backend-kit': ^0.52.0
       '@fangcha/datawich-frontend': ^0.21.1
-      '@fangcha/datawich-service': ^0.31.2
+      '@fangcha/datawich-service': workspace:*
       '@fangcha/eslint': ^0.5.0
       '@fangcha/general-group': ^0.2.0
       '@fangcha/general-job': ^0.3.3
@@ -75,7 +75,7 @@ importers:
     dependencies:
       '@fangcha/ali-oss': 1.2.0
       '@fangcha/backend-kit': 0.52.0
-      '@fangcha/datawich-service': 0.31.2
+      '@fangcha/datawich-service': link:libraries/datawich-service
       '@fangcha/general-group': 0.2.0
       '@fangcha/general-job': 0.3.3
       '@fangcha/logger': 0.4.0
@@ -142,6 +142,9 @@ importers:
       vue-i18n: 8.26.1_vue@2.6.14
       vue-property-decorator: 8.5.1_vue@2.6.14
       vue-router: 3.1.5_vue@2.6.14
+
+  libraries/datawich-service:
+    specifiers: {}
 
   packages/datawich-backend:
     specifiers:
@@ -1388,19 +1391,6 @@ packages:
     resolution: {integrity: sha512-K57MwH+TsDIJhG9ucKwraKTChTVZZjT7liCJfflljB7GSXheorYYHxr2+ceWbXtfZrup07vIXsS+SqmKTvKhsA==}
     dev: true
 
-  /@fangcha/datawich-service/0.31.2:
-    resolution: {integrity: sha512-BcDB8xQumyGnIfS3mbel1dUsiUuMw0afpxUOCqkmRF/IAu/0weKG4H3tv3TSXRNZeAZZiAhfvaAgTV8I8QzZ6w==}
-    dependencies:
-      '@fangcha/ali-oss': 1.2.0
-      '@fangcha/general-group': 0.2.0
-      '@fangcha/oss-service': 0.7.0
-      fc-feed: 0.19.0
-      fc-model: 0.5.0
-      fc-sql: 0.29.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@fangcha/eslint/0.5.0_typescript@4.9.3:
     resolution: {integrity: sha512-56hrpT9IN6MXk0QcIescfAO6G0ineLXLkPi4xC/64yDlR2J06zjm4KQYbptia42htnxIadr+Ca8RVVfjRevM1Q==}
     dependencies:
@@ -1459,10 +1449,6 @@ packages:
     dependencies:
       lodash: 4.17.21
       tslib: 2.5.0
-    dev: false
-
-  /@fangcha/oss-service/0.7.0:
-    resolution: {integrity: sha512-irhD0cTsaAZlgxNts0COdnkaX+8QwgtHvYMd1GMAlP7SSHSZM3MME6xYhz7okpwRh5PT98kVWwfSju1AqLn0iw==}
     dev: false
 
   /@fangcha/oss-service/0.8.0:
@@ -5080,10 +5066,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed/0.19.0:
-    resolution: {integrity: sha512-Fx7yG+wwd68mPCSacOm5P3abqQaf0gCiCSCSltNCOXlLiKln+wmd6nBRIFLAUXuaDoiMG8CCUEqQ6LDwqT+jhA==}
-    dev: false
-
   /fc-feed/0.20.0:
     resolution: {integrity: sha512-t+0McJsQKcZtdPlUf/j0ay3YwguCN1ZjRPOsrAWjcfpFPJj4w6wcGaufR8/BjZx63KUw8K627OJaBZDnCo+AJw==}
     dependencies:
@@ -5093,27 +5075,12 @@ packages:
       - supports-color
     dev: false
 
-  /fc-model/0.5.0:
-    resolution: {integrity: sha512-MwwpFd0FSvVLMlEymeNAkauU9aTqLeeY80urn+LNa9CVSkVjtz28bVGB5aD+7JlCf2PtpkAEM/PEA9plFWe5Fg==}
-    dev: false
-
   /fc-model/0.6.0:
     resolution: {integrity: sha512-zj3qnnCRqTTL17859LfMhOsuU2ko+JGu73gTyyKm46WIfZ3ncc17Jn+Iow5qW+O3LkmsqWRp1ViitfQuc1WfKg==}
     dev: false
 
   /fc-queue/0.4.0:
     resolution: {integrity: sha512-PJlpsjAOCg0RUbekTuJZlyBArs1/hMQnan0LeGLP57+wYXClZ0WJ7J7XeCaCXlkO9NZI05pu+4Xl58DUsyQKeg==}
-    dev: false
-
-  /fc-sql/0.29.0:
-    resolution: {integrity: sha512-RY441gMPe7ZFTsc8XbSHo0K5S4hY50yd4ltzabmfB4CAGhPvOf5MHlsrWcgdb/nX98EV3Fkgjj1/isVy/7dPUA==}
-    dependencies:
-      moment: 2.29.4
-      mysql2: 1.7.0
-      sequelize: 5.21.2
-      tslib: 1.14.1
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /fc-sql/0.30.0:
@@ -5805,13 +5772,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       safer-buffer: 2.1.2
-
-  /iconv-lite/0.5.2:
-    resolution: {integrity: sha512-kERHXvpSaB4aU3eANwidg79K8FlrN77m8G9V+0vOR3HYaRifrlwMEpT7ZBJqLSEIHnEgJTHcWK82wwLwwKwtag==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      safer-buffer: 2.1.2
-    dev: false
 
   /iconv-lite/0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -6777,10 +6737,6 @@ packages:
       - supports-color
     dev: false
 
-  /long/4.0.0:
-    resolution: {integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==}
-    dev: false
-
   /long/5.2.1:
     resolution: {integrity: sha512-GKSNGeNAtw8IryjjkhZxuKB3JzlcLTwjtiQCHKvqQet81I93kXslhDQruGI/QsddO83mcDToBVy7GqGS/zYf/A==}
 
@@ -6802,6 +6758,7 @@ packages:
     dependencies:
       pseudomap: 1.0.2
       yallist: 2.1.2
+    dev: true
 
   /lru-cache/5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -7049,20 +7006,6 @@ packages:
       thunky: 1.1.0
     dev: true
 
-  /mysql2/1.7.0:
-    resolution: {integrity: sha512-xTWWQPjP5rcrceZQ7CSTKR/4XIDeH/cRkNH/uzvVGQ7W5c7EJ0dXeJUusk7OKhIoHj7uFKUxDVSCfLIl+jluog==}
-    engines: {node: '>= 8.0'}
-    dependencies:
-      denque: 1.5.1
-      generate-function: 2.3.1
-      iconv-lite: 0.5.2
-      long: 4.0.0
-      lru-cache: 5.1.1
-      named-placeholders: 1.1.2
-      seq-queue: 0.0.5
-      sqlstring: 2.3.2
-    dev: false
-
   /mysql2/3.1.2:
     resolution: {integrity: sha512-NXz6sUvHSEOKz1jv3koSga7eb2dHrwD/mnPmqbbZzMRvjQcSpb0Eh0ectWyYt1U60CLlEbjoA3XYjjbbReRF5Q==}
     engines: {node: '>= 8.0'}
@@ -7092,13 +7035,6 @@ packages:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
-
-  /named-placeholders/1.1.2:
-    resolution: {integrity: sha512-wiFWqxoLL3PGVReSZpjLVxyJ1bRqe+KKJVbr4hGs1KWfTZTQyezHFBbuKj9hsizHyGV2ne7EMjHdxEGAybD5SA==}
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      lru-cache: 4.1.5
-    dev: false
 
   /named-placeholders/1.1.3:
     resolution: {integrity: sha512-eLoBxg6wE/rZkJPhU/xRX1WTpkFEwDJEN96oxFrTsqBdbT5ec295Q+CoHrL9IT0DipqKhmGcaZmwOt8OON5x1w==}
@@ -8174,6 +8110,7 @@ packages:
 
   /pseudomap/1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
+    dev: true
 
   /public-encrypt/4.0.3:
     resolution: {integrity: sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q==}
@@ -9590,6 +9527,7 @@ packages:
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: true
 
   /tslib/2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
@@ -10417,6 +10355,7 @@ packages:
 
   /yallist/2.1.2:
     resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}
+    dev: true
 
   /yallist/3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}

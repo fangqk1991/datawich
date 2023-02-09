@@ -1,5 +1,5 @@
 import { SwaggerSchema } from '@fangcha/swagger'
-import { FilterSymbol, FilterSymbolDescriptor } from '@fangcha/datawich-service/lib/common/models'
+import { FilterSymbol, FilterSymbolDescriptor } from '@fangcha/datawich-service'
 
 export const CommonSwaggerSchema = {
   FilterSymbol: {

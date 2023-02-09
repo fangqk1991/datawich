@@ -6,7 +6,7 @@ import {
   TableViewProtocol,
   ViewController,
 } from '@fangcha/vue'
-import { DataModelModel, ModelFullMetadata } from '@fangcha/datawich-service/lib/common/models'
+import { DataModelModel, ModelFullMetadata } from '@fangcha/datawich-service'
 import { DataAppApis, DataModelApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import { AppTask, AppTaskQueue } from 'fc-queue'

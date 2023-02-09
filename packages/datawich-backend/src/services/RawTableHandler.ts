@@ -1,5 +1,5 @@
 import { DBTableHandler } from 'fc-sql'
-import { FieldType, ModelFieldModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { _DataModel } from '../models/extensions/_DataModel'
 
 export class RawTableHandler extends DBTableHandler {

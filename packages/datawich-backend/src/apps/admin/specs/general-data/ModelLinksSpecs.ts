@@ -1,7 +1,7 @@
 import { SpecFactory } from '@fangcha/router'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { SessionChecker } from '../../../../services/SessionChecker'
-import { FieldLinkModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldLinkModel } from '@fangcha/datawich-service'
 import { _FieldLink } from '../../../../models/extensions/_FieldLink'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 

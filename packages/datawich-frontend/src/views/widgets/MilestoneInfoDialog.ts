@@ -4,7 +4,7 @@ import {
   ModelFieldModel,
   ModelFullMetadata,
   ModelMilestoneModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { NotificationCenter } from 'notification-center-js'

@@ -3,7 +3,7 @@ import { Transaction } from 'fc-sql'
 import assert from '@fangcha/assert'
 import { _ModelField } from './_ModelField'
 import { _DataModel } from './_DataModel'
-import { FieldIndexModel } from '@fangcha/datawich-service/lib/common/models'
+import { FieldIndexModel } from '@fangcha/datawich-service'
 import { FieldHelper } from '@web/datawich-common/models'
 
 export class _FieldIndex extends __FieldIndex {

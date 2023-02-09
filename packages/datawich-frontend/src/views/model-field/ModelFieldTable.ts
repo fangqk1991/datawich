@@ -18,7 +18,7 @@ import {
   FieldType,
   LogicExpressionHelper,
   ModelFieldModel,
-} from '@fangcha/datawich-service/lib/common/models'
+} from '@fangcha/datawich-service'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
