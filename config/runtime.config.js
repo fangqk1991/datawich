@@ -32,6 +32,7 @@ module.exports = {
         password: envData.DB_Password,
       },
     },
+    superAdminEmail: envData.superAdminEmail,
     useResque: envData.useResque,
     useSchedule: envData.useSchedule,
     datawichResque: {

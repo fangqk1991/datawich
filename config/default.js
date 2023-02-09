@@ -22,6 +22,7 @@ module.exports = {
       callbackUri: 'http://localhost:3299/api/v1/handleSSO',
       userInfoURL: 'https://sso.staging.fangcha.net/api/v1/oauth/user-info',
     },
+    superAdminEmail: '<superAdminEmail>',
     mysql: {
       datawichDB: {
         host: '127.0.0.1',

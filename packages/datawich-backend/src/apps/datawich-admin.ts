@@ -9,6 +9,22 @@ import { DatawichDataAppSpecs } from './admin/specs/DatawichDataAppSpecs'
 import { _FangchaState } from '@fangcha/backend-kit'
 import { DatawichSwaggerDocItems } from './admin/specs'
 import { _DatawichService } from '../services/_DatawichService'
+import { _SessionApp } from '@fangcha/router/lib/session'
+import { loggerForDev } from '@fangcha/logger'
+
+_SessionApp.setPermissionProtocol({
+  checkUserIsAdmin: (email) => {
+    return email === GlobalAppConfig.Datawich.superAdminEmail
+  },
+  checkUserHasPermission: (email, permissionKey) => {
+    loggerForDev.debug(`checkUserHasPermission: `, email, permissionKey)
+    return email === GlobalAppConfig.Datawich.superAdminEmail
+  },
+  checkUserInAnyGroup: (email, ...groupIds) => {
+    loggerForDev.debug(`checkUserInAnyGroup: `, email, groupIds)
+    return false
+  },
+})
 
 const app = new WebApp({
   env: GlobalAppConfig.Env,
