@@ -1,0 +1,14 @@
+{
+  "name": "@fangcha/datawich-frontend",
+  "version": "0.22.0",
+  "main": "src/index.ts",
+  "repository": "https://github.com/fangqk1991/datawich.git",
+  "keywords": [
+    "tools"
+  ],
+  "author": "fang <me@fangqk.com>",
+  "license": "MIT",
+  "files": [
+    "src/*"
+  ]
+}

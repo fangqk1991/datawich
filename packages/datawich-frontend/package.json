@@ -9,6 +9,7 @@
     "build:dev": "rm -rf dist && webpack --config webpack.staging.js"
   },
   "devDependencies": {
+    "@fangcha/datawich-frontend": "workspace:*",
     "@web/datawich-common": "workspace:*"
   }
 }

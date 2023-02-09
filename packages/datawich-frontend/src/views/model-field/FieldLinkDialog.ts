@@ -10,7 +10,7 @@ import { SelectOption } from '@fangcha/tools'
 import { DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
-import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataHelper } from '@fangcha/datawich-service'
 
 interface ReferenceInfo {
   refFields: ModelFieldModel[]

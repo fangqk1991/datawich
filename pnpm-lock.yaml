@@ -6,7 +6,6 @@ importers:
     specifiers:
       '@fangcha/ali-oss': ^1.2.0
       '@fangcha/backend-kit': ^0.52.0
-      '@fangcha/datawich-frontend': ^0.21.1
       '@fangcha/datawich-service': workspace:*
       '@fangcha/eslint': ^0.5.0
       '@fangcha/general-group': ^0.2.0
@@ -102,7 +101,6 @@ importers:
       tunnel: 0.0.6
       validator: 13.7.0
     devDependencies:
-      '@fangcha/datawich-frontend': 0.21.1
       '@fangcha/eslint': 0.5.0_typescript@4.9.3
       '@fangcha/generator': 0.2.0
       '@fangcha/vue': 0.75.0
@@ -146,6 +144,9 @@ importers:
   libraries/datawich-service:
     specifiers: {}
 
+  libraries/datawich-vue:
+    specifiers: {}
+
   packages/datawich-backend:
     specifiers:
       '@web/datawich-common': workspace:*
@@ -154,8 +155,10 @@ importers:
 
   packages/datawich-frontend:
     specifiers:
+      '@fangcha/datawich-frontend': workspace:*
       '@web/datawich-common': workspace:*
     devDependencies:
+      '@fangcha/datawich-frontend': link:../../libraries/datawich-vue
       '@web/datawich-common': link:../../services/datawich-common
 
   services/datawich-common:
@@ -1386,10 +1389,6 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: false
-
-  /@fangcha/datawich-frontend/0.21.1:
-    resolution: {integrity: sha512-K57MwH+TsDIJhG9ucKwraKTChTVZZjT7liCJfflljB7GSXheorYYHxr2+ceWbXtfZrup07vIXsS+SqmKTvKhsA==}
-    dev: true
 
   /@fangcha/eslint/0.5.0_typescript@4.9.3:
     resolution: {integrity: sha512-56hrpT9IN6MXk0QcIescfAO6G0ineLXLkPi4xC/64yDlR2J06zjm4KQYbptia42htnxIadr+Ca8RVVfjRevM1Q==}

@@ -20,7 +20,7 @@ import { WideSearcherBuilder } from './WideSearcherBuilder'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
 import { FieldHelper } from '@web/datawich-common/models'
-import { GeneralDataChecker, GeneralDataFormatter, GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataChecker, GeneralDataFormatter, GeneralDataHelper } from '@fangcha/datawich-service'
 const archiver = require('archiver')
 
 export class ModelDataHandler {

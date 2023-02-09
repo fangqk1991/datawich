@@ -8,7 +8,7 @@ import { FieldLinkModel, LinkMapperInfo, Raw_FieldLink } from '@fangcha/datawich
 import { _ModelField } from './_ModelField'
 import { _FieldIndex } from './_FieldIndex'
 import { describeSQLTriggerAction, TriggerAction } from '@web/datawich-common/models'
-import { GeneralDataFormatter, GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataFormatter, GeneralDataHelper } from '@fangcha/datawich-service'
 
 export class _FieldLink extends __FieldLink implements Raw_FieldLink {
   public constructor() {

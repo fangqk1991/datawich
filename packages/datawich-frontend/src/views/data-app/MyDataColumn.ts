@@ -1,4 +1,13 @@
-import { Component, InfoCell, InformationDialog, MyRichTextPanel, MySelect, Prop, ViewController, MyTagsPanel } from '@fangcha/vue'
+import {
+  Component,
+  InfoCell,
+  InformationDialog,
+  MyRichTextPanel,
+  MySelect,
+  MyTagsPanel,
+  Prop,
+  ViewController,
+} from '@fangcha/vue'
 import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { TemplateHelper } from '@fangcha/tools'
 import {
@@ -8,7 +17,7 @@ import {
   PluginDataColumn,
   TagsContainer,
 } from '@fangcha/datawich-frontend'
-import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataHelper } from '@fangcha/datawich-service'
 
 @Component({
   components: {
@@ -29,7 +38,10 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
       :filter-options="filterOptions"
       @on-filter-change="onFilterUpdate"
     />
-    <el-table-column v-else-if="field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum" :prop="filterKey">
+    <el-table-column
+      v-else-if="field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum"
+      :prop="filterKey"
+    >
       <template v-slot:header>
         <my-select v-model="filterOptions[filterKey]" @change="onFilterUpdate">
           <option value="">{{ field.name }}</option>
@@ -39,7 +51,12 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
         </my-select>
       </template>
       <template slot-scope="scope">
-        <my-select v-if="field.useEnumSelector" v-loading="isLoading" v-model="scope.row[dataKey]" @change="onUpdateEnumValue(scope.row)">
+        <my-select
+          v-if="field.useEnumSelector"
+          v-loading="isLoading"
+          v-model="scope.row[dataKey]"
+          @change="onUpdateEnumValue(scope.row)"
+        >
           <option value="">{{ field.name }}</option>
           <option v-for="option in getOptionsForEnumField(scope.row)" :key="option.value" :value="option.value">
             {{ option.label }}
@@ -118,23 +135,26 @@ import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.RichText" :prop="filterKey" :label="field.name" show-overflow-tooltip>
+    <el-table-column
+      v-else-if="field.fieldType === FieldType.RichText"
+      :prop="filterKey"
+      :label="field.name"
+      show-overflow-tooltip
+    >
       <template slot-scope="scope">
-        <my-rich-text-panel :html-content="scope.row[dataKey]"/>
+        <my-rich-text-panel :html-content="scope.row[dataKey]" />
         <data-column-extension :super-field="superField" :field="field" :prop="filterKey" :data="scope.row" />
       </template>
     </el-table-column>
     <el-table-column v-else-if="field.fieldType === FieldType.Template" :prop="filterKey" :label="field.name">
       <template slot-scope="scope">
-        {{ renderContentTmpl(scope.row)}}
+        {{ renderContentTmpl(scope.row) }}
       </template>
     </el-table-column>
     <el-table-column v-else-if="field.fieldType === FieldType.Group" :prop="filterKey" :label="field.name">
       <template slot-scope="scope">
         {{ renderContentTmpl(scope.row) }}
-        <a href="javascript:" @click="onViewGroup(scope.row)">
-          点击查看
-        </a>
+        <a href="javascript:" @click="onViewGroup(scope.row)"> 点击查看 </a>
       </template>
     </el-table-column>
     <el-table-column v-else-if="field.fieldType === FieldType.Datetime" :label="field.name" :prop="filterKey" sortable>

@@ -5,7 +5,7 @@ import { _DataModel } from '../models/extensions/_DataModel'
 import { FieldType } from '@fangcha/datawich-service'
 import { _ModelFieldAction } from '../models/extensions/_ModelFieldAction'
 import { _ModelField } from '../models/extensions/_ModelField'
-import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataHelper } from '@fangcha/datawich-service'
 import { ActionPerformInfo } from '@web/datawich-common/models'
 
 export class ModelDataInfo {

@@ -27,7 +27,7 @@ import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { GeneralDataImportPanel } from './GeneralDataImportPanel'
 import { MyDataColumn } from './MyDataColumn'
 import { FieldDisplayMode, FieldHelper, GeneralPermission, ProfileEvent, } from '@web/datawich-common/models'
-import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataHelper } from '@fangcha/datawich-service'
 
 interface DataRecord {
   rid: number

@@ -5,7 +5,7 @@ import { _OSSResource, OSSService } from '@fangcha/oss-service'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { FieldType } from '@fangcha/datawich-service'
-import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataHelper } from '@fangcha/datawich-service'
 import { FieldHelper } from '@web/datawich-common/models'
 
 const setHintRowStyle = (row: Row) => {

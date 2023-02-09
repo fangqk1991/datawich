@@ -11,7 +11,7 @@ import { NotificationCenter } from 'notification-center-js'
 import { MyAxios } from '@fangcha/vue/basic'
 import { ModelStructurePanel } from '@fangcha/datawich-frontend'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
-import { GeneralDataFormatter } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataFormatter } from '@fangcha/datawich-service'
 
 @Component({
   components: {

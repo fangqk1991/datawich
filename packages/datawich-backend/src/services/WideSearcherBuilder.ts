@@ -12,7 +12,7 @@ import {
 import { _DataModel } from '../models/extensions/_DataModel'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import * as moment from 'moment'
-import { GeneralDataHelper } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataHelper } from '@fangcha/datawich-service'
 import { FieldHelper } from '@web/datawich-common/models'
 
 interface SearchableField {

@@ -16,7 +16,7 @@ import {
   Raw_ModelField,
 } from '@fangcha/datawich-service'
 import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
-import { GeneralDataFormatter } from '@fangcha/datawich-service/lib/common/tools'
+import { GeneralDataFormatter } from '@fangcha/datawich-service'
 
 export class _ModelField extends __ModelField implements Raw_ModelField {
   public constructor() {
