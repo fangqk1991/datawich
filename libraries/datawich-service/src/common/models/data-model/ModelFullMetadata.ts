@@ -1,5 +1,5 @@
-import { FieldGroupModel, FieldIndexModel, Raw_FieldLink, Raw_ModelField } from '../field'
 import { DataModelModel } from './DataModelModel'
+import { FieldGroupModel, FieldIndexModel, Raw_FieldLink, Raw_ModelField } from '../field/ModelFieldTypes'
 
 export interface ModelMilestoneModel {
   uid: string

@@ -9,10 +9,10 @@ import {
   ModelFieldExtrasData,
   ModelFieldModel,
   Raw_ModelField
-} from './models'
+} from '../models'
 import { I18nCode } from '@fangcha/tools'
 import { _TinyDatawich } from './_TinyDatawich'
-import { GeneralDataHelper } from './tools'
+import { GeneralDataHelper } from './GeneralDataHelper'
 
 export class FieldMaker {
   public readonly rawField: Raw_ModelField
