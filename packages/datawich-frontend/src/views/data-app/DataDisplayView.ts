@@ -9,12 +9,8 @@ import {
   ViewController,
 } from '@fangcha/vue'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
-import {
-  DataModelModel,
-  FieldType,
-  ModelFieldModel,
-} from '@fangcha/datawich-service'
-import { CheckOption } from '@fangcha/tools'
+import { DataModelModel, FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { CheckOption, sleep } from '@fangcha/tools'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { DownloadTaskHelper } from '@fangcha/vue/oss-service'
@@ -24,8 +20,7 @@ import { MyFavorSidebar } from './MyFavorSidebar'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { GeneralDataImportPanel } from './GeneralDataImportPanel'
 import { MyDataColumn } from './MyDataColumn'
-import { FieldDisplayMode, FieldHelper, GeneralPermission, ProfileEvent, } from '@web/datawich-common/models'
-import { GeneralDataHelper } from '@fangcha/datawich-service'
+import { FieldDisplayMode, FieldHelper, GeneralPermission, ProfileEvent } from '@web/datawich-common/models'
 import { FilterCondition, FilterSymbol } from '@fangcha/logic'
 
 interface DataRecord {
@@ -59,12 +54,13 @@ const trimParams = (params: {}) => {
           <el-breadcrumb-item :to="{ name: 'DataAppListView' }">应用列表</el-breadcrumb-item>
           <el-breadcrumb-item v-if="dataModel">
             {{ dataModel.name }}
-            <template v-if="!dataModel.isOnline">
-              (未发布)
-            </template>
+            <template v-if="!dataModel.isOnline"> (未发布) </template>
             <template v-if="isManager">
               |
-              <router-link :style="{ color: '#4b5cc4', cursor: 'pointer' }" :to="{ name: 'DataModelManageView', params: { modelKey: dataModel.modelKey } }">
+              <router-link
+                :style="{ color: '#4b5cc4', cursor: 'pointer' }"
+                :to="{ name: 'DataModelManageView', params: { modelKey: dataModel.modelKey } }"
+              >
                 模型管理
               </router-link>
             </template>
@@ -74,12 +70,12 @@ const trimParams = (params: {}) => {
             </a>
           </el-breadcrumb-item>
         </el-breadcrumb>
-        <hr/>
+        <hr />
         <el-card v-if="dataModel && dataModel.description" class="mb-4">
           <pre class="m-0">{{ dataModel.description }}</pre>
         </el-card>
         <el-card class="mt-3">
-          <slot name="custom-filter-panel"/>
+          <slot name="custom-filter-panel" />
           <el-form class="mt-1" :inline="true" size="mini" label-position="top" @submit.native.prevent="onFilterUpdate">
             <el-form-item v-for="field in dateFields" :label="field.name" :key="field.filterKey">
               <el-date-picker
@@ -115,7 +111,7 @@ const trimParams = (params: {}) => {
               <el-button @click="resetFilter()">重置过滤器</el-button>
             </el-form-item>
             <el-form-item v-show="dataModel && dataModel.isDataExportable">
-              <el-button v-loading="isLoading" @click="exportExcel"><i class="el-icon-download"/> 导出</el-button>
+              <el-button v-loading="isLoading" @click="exportExcel"><i class="el-icon-download" /> 导出</el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="success" @click="setDisplaySettings">管理展示字段</el-button>
@@ -138,7 +134,9 @@ const trimParams = (params: {}) => {
           <div>
             <template v-if="isBatchEditing">
               <el-button type="danger" size="mini" @click="onBatchDelete">删除选中行</el-button>
-              <el-button size="mini" v-loading="isLoading" @click="onBatchRecordsExport"><i class="el-icon-download"/> 导出选中行</el-button>
+              <el-button size="mini" v-loading="isLoading" @click="onBatchRecordsExport"
+                ><i class="el-icon-download" /> 导出选中行</el-button
+              >
               <el-button size="mini" @click="isBatchEditing = false">撤销</el-button>
             </template>
             <template v-else>
@@ -146,21 +144,25 @@ const trimParams = (params: {}) => {
               <el-button type="primary" size="mini" @click="isBatchEditing = true">批量拾取</el-button>
             </template>
           </div>
-          <my-table-view 
+          <my-table-view
             class="mt-2"
-            ref="tableView" 
+            ref="tableView"
             :selectable="isBatchEditing"
-            :delegate="tableDelegate" 
-            :header-cell-style="headerCellStyle" 
-            :row-click="rowClick" 
+            :delegate="tableDelegate"
+            :header-cell-style="headerCellStyle"
+            :row-click="rowClick"
             :forbidden-query-words="['@']"
             page-layout="total, sizes, prev, pager, next"
             :page-sizes="[10, 50, 100]"
           >
-            <slot name="custom-columns"/>
+            <slot name="custom-columns" />
             <template v-for="field in displayFields">
               <template v-if="field.fieldType === FieldType.Group">
-                <el-table-column v-if="field.fieldDisplayMode === FieldDisplayMode.Open" :label="field.name" align="center">
+                <el-table-column
+                  v-if="field.fieldDisplayMode === FieldDisplayMode.Open"
+                  :label="field.name"
+                  align="center"
+                >
                   <template v-for="refField in field.groupFields">
                     <my-data-column
                       v-if="!hiddenFieldsMap[refField.filterKey]"
@@ -201,11 +203,11 @@ const trimParams = (params: {}) => {
             </template>
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
-                <a href="javascript:" @click="onClickView(scope.row)">查看 <span class="el-icon-view"/></a> |
-                <a href="javascript:" @click="onClickCopy(scope.row)">复制 <span class="el-icon-document-copy"/></a>
-                <br/>
-                <a href="javascript:" @click="onClickEdit(scope.row)">编辑 <span class="el-icon-edit-outline"/></a> |
-                <a href="javascript:" @click="onClickDelete(scope.row)">删除 <span class="el-icon-delete-solid"/></a>
+                <a href="javascript:" @click="onClickView(scope.row)">查看 <span class="el-icon-view" /></a> |
+                <a href="javascript:" @click="onClickCopy(scope.row)">复制 <span class="el-icon-document-copy" /></a>
+                <br />
+                <a href="javascript:" @click="onClickEdit(scope.row)">编辑 <span class="el-icon-edit-outline" /></a> |
+                <a href="javascript:" @click="onClickDelete(scope.row)">删除 <span class="el-icon-delete-solid" /></a>
               </template>
             </el-table-column>
           </my-table-view>
@@ -327,8 +329,11 @@ export class DataDisplayView extends ViewController {
         hiddenFieldsMap: hiddenFieldsMap,
       })
       await request.execute()
-      this.$message.success('调整成功')
-      this.reloadDisplaySettings()
+      this.$message.success('调整成功，即将刷新……')
+      sleep(1000).then(() => {
+        window.location.reload()
+      })
+      // await this.reloadDisplaySettings()
     })
   }
 
