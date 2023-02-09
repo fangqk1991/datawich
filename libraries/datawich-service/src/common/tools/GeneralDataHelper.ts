@@ -55,8 +55,8 @@ export class GeneralDataHelper {
     return field.options.filter((item) => checkedMap[item.value]).map((item) => item.label)
   }
 
-  public static attachmentEntityKey(field: { fieldKey: string }) {
-    return `${field.fieldKey}.entity`
+  public static attachmentEntityKey(dataKey: string) {
+    return `${dataKey}.entity`
   }
 
   public static calculateFilterKey(field: { modelKey: string; fieldKey: string }, superField?: { fieldKey: string }) {

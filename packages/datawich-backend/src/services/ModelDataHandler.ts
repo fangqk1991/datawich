@@ -12,7 +12,10 @@ import {
   DescribableField,
   FieldLinkModel,
   FieldType,
-  ModelFieldModel,
+  GeneralDataChecker,
+  GeneralDataFormatter,
+  GeneralDataHelper,
+  ModelFieldModel
 } from '@fangcha/datawich-service'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { ModelDataInfo } from './ModelDataInfo'
@@ -20,7 +23,6 @@ import { WideSearcherBuilder } from './WideSearcherBuilder'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
 import { FieldHelper } from '@web/datawich-common/models'
-import { GeneralDataChecker, GeneralDataFormatter, GeneralDataHelper } from '@fangcha/datawich-service'
 const archiver = require('archiver')
 
 export class ModelDataHandler {
@@ -108,12 +110,7 @@ export class ModelDataHandler {
           } catch (e) {
             console.error(e)
           }
-          // TODO: fix it to dataKey
-          data[
-            GeneralDataHelper.attachmentEntityKey({
-              fieldKey: dataKey,
-            })
-          ] = entity
+          data[GeneralDataHelper.attachmentEntityKey(dataKey)] = entity
           break
         }
       }

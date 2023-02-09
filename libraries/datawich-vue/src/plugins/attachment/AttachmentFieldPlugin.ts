@@ -12,9 +12,9 @@ export class AttachmentFieldPlugin implements FieldPluginProtocol {
 
   public onFormDataChanged(vue: Vue, data: any, field: ModelFieldModel) {
     if (data[field.fieldKey]) {
-      vue.$set(data, GeneralDataHelper.attachmentEntityKey(field), JSON.parse(data[field.fieldKey]))
+      vue.$set(data, GeneralDataHelper.attachmentEntityKey(field.dataKey), JSON.parse(data[field.fieldKey]))
     } else {
-      vue.$set(data, GeneralDataHelper.attachmentEntityKey(field), null)
+      vue.$set(data, GeneralDataHelper.attachmentEntityKey(field.dataKey), null)
     }
   }
 }

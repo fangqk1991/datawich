@@ -24,6 +24,6 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
 })
 export class AttachmentDataColumn extends DataColumnBase {
   attachmentEntity(data: any) {
-    return data[GeneralDataHelper.attachmentEntityKey(this.field)] as OssFileInfo
+    return data[GeneralDataHelper.attachmentEntityKey(this.field.dataKey)] as OssFileInfo
   }
 }
