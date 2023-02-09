@@ -2,7 +2,6 @@ import {
   DescribableField,
   FieldLinkMaker,
   FieldLinkModel,
-  FieldMaker,
   FieldType,
   ModelFieldModel,
   ModelFullMetadata,
@@ -10,6 +9,7 @@ import {
   Raw_ModelField,
 } from '../models'
 import { GeneralDataHelper } from './GeneralDataHelper'
+import { FieldMaker } from '../FieldMaker'
 
 export class GeneralDataFormatter {
   public static formatModelField(rawData: Raw_ModelField) {

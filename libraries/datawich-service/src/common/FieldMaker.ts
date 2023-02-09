@@ -1,11 +1,18 @@
-import { DateRange, DescribableField, ModelFieldExtrasData, ModelFieldModel } from './ModelFieldModel'
-import { checkFieldHasOptions, FieldType } from './FieldType'
-import { FieldLinkModel } from './FieldLinkModel'
-import { LinkMapperInfo } from './LinkMapperInfo'
+import {
+  checkFieldHasOptions,
+  DateRange,
+  DescribableField,
+  FieldLinkModel,
+  FieldType,
+  Keys_Raw_ModelField,
+  LinkMapperInfo,
+  ModelFieldExtrasData,
+  ModelFieldModel,
+  Raw_ModelField
+} from './models'
 import { I18nCode } from '@fangcha/tools'
-import { _TinyDatawich } from '../../_TinyDatawich'
-import { Keys_Raw_ModelField, Raw_ModelField } from './ModelFieldTypes'
-import { GeneralDataHelper } from '../../tools'
+import { _TinyDatawich } from './_TinyDatawich'
+import { GeneralDataHelper } from './tools'
 
 export class FieldMaker {
   public readonly rawField: Raw_ModelField
