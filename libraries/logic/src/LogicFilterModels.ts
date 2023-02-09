@@ -1,4 +1,5 @@
-import { FilterSymbol, LogicSymbol } from './index'
+import { FilterSymbol } from './FilterSymbol'
+import { LogicSymbol } from './LogicSymbol'
 
 export interface FilterCondition {
   leftKey: string

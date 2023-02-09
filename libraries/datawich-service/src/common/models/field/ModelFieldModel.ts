@@ -1,8 +1,8 @@
 import { I18nTextData, SelectOption } from '@fangcha/tools'
 import { FieldLinkModel } from './FieldLinkModel'
 import { FieldType } from './FieldType'
-import { LogicExpression } from '../calc'
 import { Raw_ModelField } from './ModelFieldTypes'
+import { LogicExpression } from '@fangcha/logic'
 
 export interface DateRange {
   floor: string

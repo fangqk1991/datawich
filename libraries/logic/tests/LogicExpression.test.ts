@@ -1,4 +1,4 @@
-import { FilterSymbol, LogicExpression, LogicExpressionHelper, LogicSymbol } from '@fangcha/datawich-service'
+import { FilterSymbol, LogicExpression, LogicExpressionHelper, LogicSymbol } from '../src'
 
 describe('Test LogicExpression.test.ts', () => {
   it(`Test LogicExpression`, async () => {

@@ -1,7 +1,8 @@
-import { FieldType, LogicExpressionHelper, ModelFieldModel } from '../models'
+import { FieldType, ModelFieldModel } from '../models'
 import * as moment from 'moment'
 import { JsonChecker } from '@fangcha/tools'
 import { GeneralDataHelper } from './GeneralDataHelper'
+import { LogicExpressionHelper } from '@fangcha/logic'
 
 interface OssFileInfo {
   ossKey: string

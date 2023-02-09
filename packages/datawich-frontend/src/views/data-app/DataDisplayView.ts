@@ -12,8 +12,6 @@ import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@
 import {
   DataModelModel,
   FieldType,
-  FilterCondition,
-  FilterSymbol,
   ModelFieldModel,
 } from '@fangcha/datawich-service'
 import { CheckOption } from '@fangcha/tools'
@@ -28,6 +26,7 @@ import { GeneralDataImportPanel } from './GeneralDataImportPanel'
 import { MyDataColumn } from './MyDataColumn'
 import { FieldDisplayMode, FieldHelper, GeneralPermission, ProfileEvent, } from '@web/datawich-common/models'
 import { GeneralDataHelper } from '@fangcha/datawich-service'
+import { FilterCondition, FilterSymbol } from '@fangcha/logic'
 
 interface DataRecord {
   rid: number

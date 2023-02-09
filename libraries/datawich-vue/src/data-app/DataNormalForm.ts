@@ -1,11 +1,12 @@
 import { Component } from 'vue-property-decorator'
-import { FieldType, LogicExpression, LogicExpressionHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import * as moment from 'moment'
 import { i18n, MyDatetimePicker, Prop, ViewController, Watch, StringListPanel } from '@fangcha/vue'
 import { RichTextEditor } from '@fangcha/vue/rich-text-editor'
 import { I18nCode, SelectOption } from '@fangcha/tools'
 import { FieldPluginCenter, PluginFormItem } from '../core'
 import { GeneralDataChecker, GeneralDataHelper } from '@fangcha/datawich-service'
+import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 
 const _getCalcDate = (dateDesc: string) => {
   if (dateDesc) {

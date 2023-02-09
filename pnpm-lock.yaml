@@ -12,6 +12,7 @@ importers:
       '@fangcha/general-job': ^0.3.3
       '@fangcha/generator': ^0.2.0
       '@fangcha/logger': ^0.4.0
+      '@fangcha/logic': workspace:*
       '@fangcha/oss-service': ^0.8.0
       '@fangcha/resque': ^1.4.0
       '@fangcha/router': ^0.27.0
@@ -80,6 +81,7 @@ importers:
       '@fangcha/general-group': 0.3.0
       '@fangcha/general-job': 0.3.3
       '@fangcha/logger': 0.4.0
+      '@fangcha/logic': link:libraries/logic
       '@fangcha/oss-service': 0.8.0
       '@fangcha/resque': 1.4.0
       '@fangcha/router': 0.27.0_zxw3porodaiqq6eklehrq4epia
@@ -149,6 +151,9 @@ importers:
     specifiers: {}
 
   libraries/datawich-vue:
+    specifiers: {}
+
+  libraries/logic:
     specifiers: {}
 
   packages/datawich-backend:

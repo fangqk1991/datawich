@@ -12,13 +12,7 @@ import {
   TextPreviewDialog,
   ViewController,
 } from '@fangcha/vue'
-import {
-  FieldActionModel,
-  FieldIndexModel,
-  FieldType,
-  LogicExpressionHelper,
-  ModelFieldModel,
-} from '@fangcha/datawich-service'
+import { FieldActionModel, FieldIndexModel, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
@@ -31,6 +25,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { LogicExpressionDialog } from '../../components/LogicExpressionDialog'
 import { FieldHelper } from '@web/datawich-common/models'
+import { LogicExpressionHelper } from '@fangcha/logic'
 
 @Component({
   components: {
@@ -39,7 +34,13 @@ import { FieldHelper } from '@web/datawich-common/models'
     'my-select': MySelect,
   },
   template: `
-    <my-table-view ref="tableView" :delegate="delegate" :single-page="true" :sort-in-local="true" :reactive-query="false">
+    <my-table-view
+      ref="tableView"
+      :delegate="delegate"
+      :single-page="true"
+      :sort-in-local="true"
+      :reactive-query="false"
+    >
       <div class="mb-3" slot="header">
         <h3>字段管理</h3>
         <div v-if="!simpleMode">
@@ -73,7 +74,12 @@ import { FieldHelper } from '@web/datawich-common/models'
       </el-table-column>
       <el-table-column prop="required" label="是否隐藏" width="90px">
         <template slot-scope="scope">
-          <my-switch v-model="scope.row.isHidden" :disabled="scope.row.required" @change="onIsHiddenChanged(scope.row)" size="mini" />
+          <my-switch
+            v-model="scope.row.isHidden"
+            :disabled="scope.row.required"
+            @change="onIsHiddenChanged(scope.row)"
+            size="mini"
+          />
         </template>
       </el-table-column>
       <el-table-column prop="required" label="是否必填" width="90px">
@@ -86,13 +92,23 @@ import { FieldHelper } from '@web/datawich-common/models'
         <template slot-scope="scope">
           <el-tag v-if="scope.row.fieldKey === 'rid'" size="mini">唯一</el-tag>
           <el-tag v-else-if="scope.row.isSystem || !canHasIndex(scope.row)" size="mini" type="info">不可唯一</el-tag>
-          <my-switch v-else v-model="uniqueBoolMap[scope.row.fieldKey]" size="mini" @change="onIsUniqueChanged(scope.row)" />
+          <my-switch
+            v-else
+            v-model="uniqueBoolMap[scope.row.fieldKey]"
+            size="mini"
+            @change="onIsUniqueChanged(scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="索引" width="90px">
         <template slot-scope="scope">
           <el-tag v-if="!canHasIndex(scope.row)" size="mini" type="info">不可索引</el-tag>
-          <my-switch v-else v-model="indexBoolMap[scope.row.fieldKey]" size="mini" @change="onHasIndexChanged(scope.row)" />
+          <my-switch
+            v-else
+            v-model="indexBoolMap[scope.row.fieldKey]"
+            size="mini"
+            @change="onHasIndexChanged(scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="特殊属性">
@@ -101,7 +117,9 @@ import { FieldHelper } from '@web/datawich-common/models'
           <el-tag v-if="scope.row.searchable" size="mini">可搜索</el-tag>
           <el-tag v-if="scope.row.useEnumSelector" size="mini">快速编辑</el-tag>
           <el-tag v-if="scope.row.extrasData.readonly" size="mini" type="warning">Readonly</el-tag>
-          <el-tag v-if="scope.row.extrasData.matchRegex" size="mini" type="danger">{{ scope.row.extrasData.matchRegex }}</el-tag>
+          <el-tag v-if="scope.row.extrasData.matchRegex" size="mini" type="danger">{{
+            scope.row.extrasData.matchRegex
+          }}</el-tag>
           <el-tag
             v-if="scope.row.extrasData.visibleLogic"
             size="mini"
@@ -129,7 +147,9 @@ import { FieldHelper } from '@web/datawich-common/models'
         <template slot-scope="scope">
           <el-tag
             v-for="action in scope.row.actions"
-            :key="action.actionId" size="mini" type="danger"
+            :key="action.actionId"
+            size="mini"
+            type="danger"
             closable
             @click="onUpdateAction(scope.row, action)"
             @close="onDeleteAction(scope.row, action)"

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@fangcha/datawich-service": "workspace:*",
+    "@fangcha/logic": "workspace:*",
     "@fangcha/tools": "^1.23.2",
     "@fangcha/ali-oss": "^1.2.0",
     "@fangcha/backend-kit": "^0.52.0",

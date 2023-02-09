@@ -1,6 +1,6 @@
 import { Component } from 'vue-property-decorator'
 import { AlertTools, TypicalDialog, TypicalDialogView } from '@fangcha/vue'
-import { LogicExpression, LogicExpressionHelper } from '@fangcha/datawich-service'
+import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 
 @Component({
   components: {

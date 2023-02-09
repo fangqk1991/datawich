@@ -1,7 +1,7 @@
 {
-  "name": "@fangcha/datawich-service",
-  "version": "0.35.0",
-  "description": "Datawich Service.",
+  "name": "@fangcha/logic",
+  "version": "0.1.0",
+  "description": "Logic symbols.",
   "main": "src/index.ts",
   "publishConfig": {
     "main": "lib/index.js",

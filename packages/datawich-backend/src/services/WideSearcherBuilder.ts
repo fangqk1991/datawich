@@ -3,17 +3,12 @@ import { SearchBuilder } from '@fangcha/tools/lib/database'
 import { SQLSearcher } from 'fc-sql'
 import assert from '@fangcha/assert'
 import { _ModelField } from '../models/extensions/_ModelField'
-import {
-  FieldType,
-  FilterCondition,
-  FilterSymbol,
-  FilterSymbolDescriptor,
-} from '@fangcha/datawich-service'
+import { FieldType, GeneralDataHelper } from '@fangcha/datawich-service'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import * as moment from 'moment'
-import { GeneralDataHelper } from '@fangcha/datawich-service'
 import { FieldHelper } from '@web/datawich-common/models'
+import { FilterCondition, FilterSymbol, FilterSymbolDescriptor } from '@fangcha/logic'
 
 interface SearchableField {
   tableColumnName: string

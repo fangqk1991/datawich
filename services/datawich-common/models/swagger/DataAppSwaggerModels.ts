@@ -1,6 +1,6 @@
 import { SwaggerModelDefinitionV2, TypicalSwaggerModel } from '@fangcha/swagger'
 import { CommonSwaggerSchema } from './CommonSwaggerSchema'
-import { FilterCondition } from '@fangcha/datawich-service'
+import { FilterCondition } from '@fangcha/logic'
 
 export const DataAppSwaggerModelData = {
   FilterSymbol: {
