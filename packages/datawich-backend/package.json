@@ -11,5 +11,8 @@
     "build": "rm -rf dist && webpack --config ./webpack.config.js",
     "test": "nyc mocha --require ts-node/register tests/**/*.test.ts --timeout 1000000 --exit",
     "rebuild-models": "ts-node ./tools/rebuild-models.ts"
+  },
+  "dependencies": {
+    "@web/datawich-common": "workspace:*"
   }
 }
