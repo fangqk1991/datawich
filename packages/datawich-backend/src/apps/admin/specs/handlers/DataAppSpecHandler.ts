@@ -37,7 +37,12 @@ export class DataAppSpecHandler {
       const dataInfo = (await ModelDataInfo.findDataInfo(dataModel, this.ctx.params.dataId))!
       assert.ok(!!dataInfo, '数据不存在')
       const sessionChecker = new SessionChecker(ctx)
-      if (!(await sessionChecker.checkModelPermission(dataModel, GeneralPermission.AccessOthersData))) {
+      if (
+        !(await sessionChecker.checkModelPermission(
+          dataModel,
+          ctx.method === 'GET' ? GeneralPermission.AccessOthersData : GeneralPermission.P_HandleOthersData
+        ))
+      ) {
         const dataHandler = new ModelDataHandler(dataModel)
         assert.ok(
           await dataHandler.checkDataAccessible(sessionChecker.email, dataInfo.dataId),

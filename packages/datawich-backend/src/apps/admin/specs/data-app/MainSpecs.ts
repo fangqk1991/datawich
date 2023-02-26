@@ -103,7 +103,7 @@ factory.prepare(DataAppApis.DataAppRecordPut, async (ctx) => {
       const dataInfo = (await ModelDataInfo.findWithRid(dataModel, rid))!
       assert.ok(!!dataInfo, '数据不存在')
       const sessionChecker = new SessionChecker(ctx)
-      if (!(await sessionChecker.checkModelPermission(dataModel, GeneralPermission.AccessOthersData))) {
+      if (!(await sessionChecker.checkModelPermission(dataModel, GeneralPermission.P_HandleOthersData))) {
         assert.ok(
           await new ModelDataHandler(dataModel).checkDataAccessible(sessionChecker.email, dataInfo.dataId),
           `您没有查看/编辑本条数据的权限 [${dataInfo.dataId}]`,

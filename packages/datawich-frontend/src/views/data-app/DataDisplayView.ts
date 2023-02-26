@@ -341,14 +341,6 @@ export class DataDisplayView extends ViewController {
     return this.dataModel && !!this.dataModel.isRetained
   }
 
-  get isLeader() {
-    if (!this.dataModel) {
-      return false
-    }
-    const powerData = this.dataModel.powerData
-    return powerData[GeneralPermission.DoAnything] || powerData[GeneralPermission.AccessOthersData]
-  }
-
   get isManager() {
     if (!this.dataModel) {
       return false

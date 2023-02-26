@@ -3,6 +3,7 @@ import { Descriptor } from '@fangcha/tools'
 export enum GeneralPermission {
   DoAnything = '*',
   ManageModel = 'P_ManageModel',
+  P_HandleOthersData = 'P_HandleOthersData',
   AccessOthersData = 'P_AccessOthersData',
   AccessData = 'P_AccessData',
 }
@@ -10,6 +11,7 @@ export enum GeneralPermission {
 const values = [
   GeneralPermission.DoAnything,
   GeneralPermission.ManageModel,
+  GeneralPermission.P_HandleOthersData,
   GeneralPermission.AccessOthersData,
   GeneralPermission.AccessData,
 ]
@@ -20,6 +22,8 @@ const describe = (code: GeneralPermission) => {
       return '*'
     case GeneralPermission.ManageModel:
       return '管理模型'
+    case GeneralPermission.P_HandleOthersData:
+      return '读写他人数据'
     case GeneralPermission.AccessOthersData:
       return '访问他人数据'
     case GeneralPermission.AccessData:
