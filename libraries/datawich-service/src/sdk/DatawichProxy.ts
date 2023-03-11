@@ -1,8 +1,8 @@
 import { CommonAPI } from '@fangcha/app-request'
-import { BasicAuthProxy, RequestFollower } from '@fangcha/tools/lib/request'
 import { OpenDataModelApis } from '../common/open-api'
 import { ModelFullMetadata, ModelMilestoneModel } from '../common/models'
 import { BasicAuthConfig } from '@fangcha/tools'
+import { BasicAuthProxy, RequestFollower } from '@fangcha/app-request-extensions'
 
 export class DatawichProxy extends BasicAuthProxy {
   public constructor(config: BasicAuthConfig, observerClass?: { new (requestId?: string): RequestFollower }) {

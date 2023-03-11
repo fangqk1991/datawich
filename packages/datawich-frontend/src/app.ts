@@ -2,8 +2,7 @@ import { OssFrontendService, OssRouteData } from '@fangcha/vue/oss-service'
 import { DataDisplayView } from './views/data-app/DataDisplayView'
 import { LogicExpressionView } from './components/LogicExpressionView'
 import { Page404 } from '@fangcha/vue/app'
-import { AdminApp } from '@fangcha/vue/app-admin'
-import { KitSsoApis } from '@fangcha/backend-kit/lib/apis'
+import { AdminApp } from '@fangcha/admin-vue'
 import { SessionHTTP } from '@fangcha/vue/basic'
 import { I18nCode, VisitorInfo } from '@fangcha/tools'
 import { MySession } from './services/MySession'
@@ -15,6 +14,7 @@ import { ModelClientListView } from './views/model-client/ModelClientListView'
 import { GeneralDataManager } from './services/GeneralDataManager'
 import { DatawichI18N } from '@web/datawich-common/i18n'
 import { MyFavorSidebar } from './views/data-app/MyFavorSidebar'
+import { WebAuthApis } from '@fangcha/sso-models'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
@@ -29,8 +29,8 @@ const _fcApp = new AdminApp({
   i18nMap: DatawichI18N,
 
   session: MySession,
-  loginUrl: KitSsoApis.Login.route,
-  logoutUrl: KitSsoApis.Logout.route,
+  loginUrl: WebAuthApis.RedirectLogin.route,
+  logoutUrl: WebAuthApis.RedirectLogout.route,
 
   reloadUserInfo: async (): Promise<VisitorInfo> => {
     const visitorInfo = await SessionHTTP.getUserInfo()

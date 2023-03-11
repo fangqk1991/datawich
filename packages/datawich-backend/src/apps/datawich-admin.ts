@@ -1,6 +1,5 @@
 import { DatawichConfig } from '../DatawichConfig'
 import { GlobalAppConfig } from 'fc-config'
-import { TypicalSsoSdkPlugin } from '@fangcha/backend-kit/lib/sso'
 import { WebApp } from '@fangcha/backend-kit/lib/router'
 import { DatawichOssPlugin } from '../services/DatawichOssPlugin'
 import { MyDatabase } from '../services/MyDatabase'
@@ -11,6 +10,7 @@ import { DatawichSwaggerDocItems } from './admin/specs'
 import { _DatawichService } from '../services/_DatawichService'
 import { _SessionApp } from '@fangcha/router/lib/session'
 import { loggerForDev } from '@fangcha/logger'
+import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
 
 _SessionApp.setPermissionProtocol({
   checkUserIsAdmin: (email) => {
@@ -47,7 +47,16 @@ const app = new WebApp({
       jwtSecret: DatawichConfig.adminJwtSecret,
     },
   },
-  plugins: [TypicalSsoSdkPlugin(DatawichConfig.adminSSO), DatawichOssPlugin],
+  plugins: [
+    SsoSdkPlugin({
+      ssoAuth: DatawichConfig.adminSSO,
+      jwtOptions: {
+        jwtKey: 'datawich_token_jwt',
+        jwtSecret: DatawichConfig.adminJwtSecret,
+      },
+    }),
+    DatawichOssPlugin,
+  ],
   appDidLoad: async () => {
     _FangchaState.frontendConfig = DatawichConfig.frontendConfig
 

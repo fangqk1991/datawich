@@ -1,7 +1,7 @@
 import { DatawichProxy } from './DatawichProxy'
 import { AliyunOSS } from '@fangcha/ali-oss'
 import { BasicAuthConfig } from '@fangcha/tools'
-import { RequestFollower } from '@fangcha/tools/lib/request'
+import { RequestFollower } from '@fangcha/app-request-extensions'
 
 export interface DatawichServiceOptions {
   authConfig: BasicAuthConfig
