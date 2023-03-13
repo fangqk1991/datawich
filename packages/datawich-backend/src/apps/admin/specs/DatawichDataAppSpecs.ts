@@ -1,7 +1,7 @@
 import { SpecFactory } from '@fangcha/router'
 import * as moment from 'moment'
 import { OSSService, ResourceTaskHandler } from '@fangcha/oss-service'
-import { FangchaSession } from '@fangcha/router/lib/session'
+import { FangchaSession } from '@fangcha/session'
 import { DataAppRecordsXlsExportTask } from '../../../services/tasks/DataAppRecordsXlsExportTask'
 import { DataAppApis } from '@web/datawich-common/web-api'
 import { DataAppSpecHandler } from './handlers/DataAppSpecHandler'

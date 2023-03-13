@@ -5,7 +5,7 @@ import { AuthModelSpecHandler } from './AuthModelSpecHandler'
 import { _ModelField } from '../../../models/extensions/_ModelField'
 import { ModelDataHandler } from '../../../services/ModelDataHandler'
 import { ModelDataInfo } from '../../../services/ModelDataInfo'
-import { FangchaSession } from '@fangcha/router/lib/session'
+import { FangchaSession } from '@fangcha/session'
 
 const factory = new SpecFactory('Data App', { skipAuth: true })
 

@@ -1,7 +1,7 @@
 import assert from '@fangcha/assert'
 import { Context } from 'koa'
 import { _DatawichService } from '../../../../services/_DatawichService'
-import { FangchaSession } from '@fangcha/router/lib/session'
+import { FangchaSession } from '@fangcha/session'
 import { GroupLevel } from '@fangcha/general-group'
 import { _CommonGroup } from '@fangcha/general-group/src/models/extensions/_CommonGroup'
 import { _CommonMember } from '@fangcha/general-group/src/models/extensions/_CommonMember'

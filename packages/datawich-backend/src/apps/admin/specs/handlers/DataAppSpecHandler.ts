@@ -4,7 +4,7 @@ import { SessionChecker } from '../../../../services/SessionChecker'
 import { ModelDataInfo } from '../../../../services/ModelDataInfo'
 import { ModelDataHandler } from '../../../../services/ModelDataHandler'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
-import { FangchaSession } from '@fangcha/router/lib/session'
+import { FangchaSession } from '@fangcha/session'
 import { AccessLevel, GeneralPermission } from '@web/datawich-common/models'
 
 export class DataAppSpecHandler {

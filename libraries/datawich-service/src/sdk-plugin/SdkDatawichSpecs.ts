@@ -1,6 +1,6 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
-import { FangchaSession } from '@fangcha/router/lib/session'
+import { FangchaSession } from '@fangcha/session'
 import { DatawichService } from '../sdk'
 import { SdkDatawichApis } from '../common/sdk-api'
 

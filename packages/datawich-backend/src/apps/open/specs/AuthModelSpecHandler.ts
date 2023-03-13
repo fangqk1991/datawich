@@ -3,7 +3,7 @@ import assert from '@fangcha/assert'
 import { _DataModel } from '../../../models/extensions/_DataModel'
 import { ModelSpecHandler } from './ModelSpecHandler'
 import { _ModelAuthorization } from '../../../models/extensions/_ModelAuthorization'
-import { FangchaSession } from '@fangcha/router/lib/session'
+import { FangchaSession } from '@fangcha/session'
 
 export class AuthModelSpecHandler extends ModelSpecHandler {
   public constructor(ctx: Context) {

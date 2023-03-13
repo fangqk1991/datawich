@@ -8,7 +8,7 @@ import { DatawichDataAppSpecs } from './admin/specs/DatawichDataAppSpecs'
 import { _FangchaState } from '@fangcha/backend-kit'
 import { DatawichSwaggerDocItems } from './admin/specs'
 import { _DatawichService } from '../services/_DatawichService'
-import { _SessionApp } from '@fangcha/router/lib/session'
+import { _SessionApp } from '@fangcha/session'
 import { loggerForDev } from '@fangcha/logger'
 import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
 

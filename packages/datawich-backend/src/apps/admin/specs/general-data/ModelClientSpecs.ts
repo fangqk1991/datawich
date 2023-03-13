@@ -3,7 +3,7 @@ import { Context } from 'koa'
 import { SpecFactory } from '@fangcha/router'
 import { _AppClient } from '../../../../models/extensions/_AppClient'
 import { DatawichClientApis } from '@web/datawich-common/web-api'
-import { FangchaSession } from '@fangcha/router/lib/session'
+import { FangchaSession } from '@fangcha/session'
 import { ClientAuthParams, GeneralDataPermissionKey } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('API 应用管理')
