@@ -8,7 +8,7 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
     <span>
       <template v-if="!Boolean(superField)">
         <a v-for="action in linkActions" :key="action.actionId" :href="makeLink(action)" target="_blank">
-          <el-tag class="adaptive-tag" type="danger"><i class="el-icon-connection" /> {{ action.title }}</el-tag>
+          <el-tag v-if="makeLink(action)" class="adaptive-tag" type="danger"><i class="el-icon-connection" /> {{ action.title }}</el-tag>
         </a>
       </template>
       <template v-if="data[field.dataKey]">

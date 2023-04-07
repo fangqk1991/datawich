@@ -10,7 +10,8 @@ importers:
       '@fangcha/app-models': ^0.1.0
       '@fangcha/app-request': ^1.7.0
       '@fangcha/app-request-extensions': ^0.2.0
-      '@fangcha/backend-kit': ^0.59.0
+      '@fangcha/backend-kit': ^0.60.0
+      '@fangcha/bot-kit': ^0.1.0
       '@fangcha/datawich-service': workspace:*
       '@fangcha/eslint': ^0.8.0
       '@fangcha/general-group': ^0.3.0
@@ -88,7 +89,8 @@ importers:
       '@fangcha/app-models': 0.1.0
       '@fangcha/app-request': 1.7.0
       '@fangcha/app-request-extensions': 0.2.0
-      '@fangcha/backend-kit': 0.59.0
+      '@fangcha/backend-kit': 0.60.0
+      '@fangcha/bot-kit': 0.1.0
       '@fangcha/datawich-service': link:libraries/datawich-service
       '@fangcha/general-group': 0.3.0
       '@fangcha/general-job': 0.3.3
@@ -96,11 +98,11 @@ importers:
       '@fangcha/logic': link:libraries/logic
       '@fangcha/oss-service': 0.9.0
       '@fangcha/resque': 1.5.0
-      '@fangcha/router': 0.29.0_j3zmomtpxofkksqf2tohftm2au
-      '@fangcha/session': 0.2.0_j3zmomtpxofkksqf2tohftm2au
+      '@fangcha/router': 0.29.0_ohhkmspsyvqteoro23nlqiymwi
+      '@fangcha/session': 0.2.0_ohhkmspsyvqteoro23nlqiymwi
       '@fangcha/sso-models': 0.4.0_lo4lkqdrjdpgomigjfyzrz4tge
       '@fangcha/tools': 1.24.0
-      '@fangcha/web-auth-sdk': 0.6.0_m3tafm2o6xouetq2cejozu4maa
+      '@fangcha/web-auth-sdk': 0.6.0_csib6ttxu7jolfqzgwp2p6ulnq
       axios: 1.3.2
       crypto-js: 4.1.1
       exceljs: 4.3.0
@@ -1454,11 +1456,26 @@ packages:
       '@fangcha/app-error': 1.6.0
     dev: false
 
-  /@fangcha/backend-kit/0.59.0:
-    resolution: {integrity: sha512-+3fzU/0M10+UroYAoi5PmU5rxA9SwSTcIYdV5n+DlHuwUirp8AE8zSgJ+sqCxZdWUuIyIsQ4ZS+herarTCb3Hw==}
+  /@fangcha/backend-kit/0.60.0:
+    resolution: {integrity: sha512-eaf7mU6Acp+4Wj/fvWtAE1MSaaIpg2cEEI8tro7/OCtSVy9ZPlkRz5eQ+zwkoQnSUbS62ogJKCoTJCQIsiMODA==}
     dependencies:
       '@fangcha/app-error': 1.6.0
       '@fangcha/app-models': 0.1.0
+      '@fangcha/app-request': 1.7.0
+      '@fangcha/app-request-extensions': 0.2.0
+      '@fangcha/assert': 1.2.0
+      '@fangcha/bot-kit': 0.1.0
+      '@fangcha/tools': 1.24.0
+      moment: 2.29.4
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
+  /@fangcha/bot-kit/0.1.0:
+    resolution: {integrity: sha512-XJUlQLYXJgosqShG/FytxA+xhkcqTylanR0ciKdpniyMeyiXNHsaoVUAUuG7rx5dDpNfnuJ48gGltNpXgXpBQg==}
+    dependencies:
+      '@fangcha/app-error': 1.6.0
       '@fangcha/app-request': 1.7.0
       '@fangcha/app-request-extensions': 0.2.0
       '@fangcha/assert': 1.2.0
@@ -1533,13 +1550,13 @@ packages:
       - supports-color
     dev: false
 
-  /@fangcha/router/0.29.0_j3zmomtpxofkksqf2tohftm2au:
+  /@fangcha/router/0.29.0_ohhkmspsyvqteoro23nlqiymwi:
     resolution: {integrity: sha512-qry4fuFcaQxMqoROHUYlPreJ+NK3OL8oXkIyKLRkAMDRqVhGnkSNcxOvMticU7jomWqGvzGEiyS76awEW/DFBw==}
     peerDependencies:
       '@fangcha/backend-kit': ^*
     dependencies:
       '@fangcha/app-error': 1.6.0
-      '@fangcha/backend-kit': 0.59.0
+      '@fangcha/backend-kit': 0.60.0
       '@fangcha/swagger': 0.1.1
       '@fangcha/tools': 1.24.0
       '@koa/router': 12.0.0
@@ -1554,13 +1571,13 @@ packages:
       - supports-color
     dev: false
 
-  /@fangcha/session/0.2.0_j3zmomtpxofkksqf2tohftm2au:
+  /@fangcha/session/0.2.0_ohhkmspsyvqteoro23nlqiymwi:
     resolution: {integrity: sha512-0C+f8aBZQWtWyVgHGfwAmzXvlmE/aefOMvWTm3A5c7SADVy95ws352Bxt1Ewz2jN1ESrnQEJnM8xMsUog7xjbw==}
     peerDependencies:
       '@fangcha/backend-kit': '*'
     dependencies:
-      '@fangcha/backend-kit': 0.59.0
-      '@fangcha/router': 0.29.0_j3zmomtpxofkksqf2tohftm2au
+      '@fangcha/backend-kit': 0.60.0
+      '@fangcha/router': 0.29.0_ohhkmspsyvqteoro23nlqiymwi
       '@fangcha/tools': 1.24.0
     transitivePeerDependencies:
       - supports-color
@@ -1600,7 +1617,7 @@ packages:
       vue-router: 3.1.5_vue@2.6.14
     dev: true
 
-  /@fangcha/web-auth-sdk/0.6.0_m3tafm2o6xouetq2cejozu4maa:
+  /@fangcha/web-auth-sdk/0.6.0_csib6ttxu7jolfqzgwp2p6ulnq:
     resolution: {integrity: sha512-wjMfE2QAMfGi/JgIJJWXbdpnsKQxFYe772k753O36haTtFg83U8ozvVG/m8hWNIXVv7JTOm06ZctzKi/7HPs+Q==}
     peerDependencies:
       '@fangcha/account': '*'
@@ -1614,8 +1631,8 @@ packages:
       '@fangcha/account-models': 0.3.0
       '@fangcha/app-request': 1.7.0
       '@fangcha/app-request-extensions': 0.2.0
-      '@fangcha/backend-kit': 0.59.0
-      '@fangcha/router': 0.29.0_j3zmomtpxofkksqf2tohftm2au
+      '@fangcha/backend-kit': 0.60.0
+      '@fangcha/router': 0.29.0_ohhkmspsyvqteoro23nlqiymwi
       '@fangcha/sso-models': 0.4.0_lo4lkqdrjdpgomigjfyzrz4tge
     dev: false
 
