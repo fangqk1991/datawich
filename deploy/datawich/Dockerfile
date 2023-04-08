@@ -70,6 +70,7 @@ ARG commitSHA=Unknown
 RUN sed -i 's/COMMIT_SHA/'${commitSHA}'/g' /etc/nginx/http.d/datawich.nginx.conf
 RUN sed -i 's/COMMIT_SHA/'${commitSHA}'/g' ./packages/datawich-backend/ecosystem.config.js
 RUN sed -i 's/COMMIT_SHA/'${commitSHA}'/g' ./packages/datawich-frontend/dist/index.html
+RUN sed -i 's/COMMIT_SHA/'${commitSHA}'/g' ./packages/datawich-react/dist/index.html
 LABEL commitSHA="${commitSHA}"
 
 CMD nginx && /data/deps/on-container-start.sh && pm2-runtime ./packages/datawich-backend/ecosystem.config.js --env ${ENV}

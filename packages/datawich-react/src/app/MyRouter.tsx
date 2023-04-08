@@ -9,7 +9,7 @@ import { MyMenu } from './MyMenu'
 export const MyRouter = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout appName='TmplDemo' menu={MyMenu} />,
+    element: <MainLayout appName='Datawich 🍰' menu={MyMenu} />,
     errorElement: <RouteErrorBoundary />,
     children: [
       {

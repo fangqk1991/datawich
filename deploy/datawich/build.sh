@@ -17,6 +17,7 @@ docker container stop ${containerName} || true
 docker container rm ${containerName} || true
 
 docker run --name ${containerName} --hostname=`hostname` -d \
+  -p 3298:3298 \
   -p 3299:3299 \
   -e ENV=${env} \
   -e NODE_CONFIG_EXTRA_JS=/data/datawich/config/docker.extras.config.js \
