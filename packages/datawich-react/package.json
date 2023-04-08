@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "datawich-react",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "build": "rm -rf dist && webpack --config webpack.prod.js",
+    "build:dev": "rm -rf dist && webpack --config webpack.staging.js"
+  },
+  "devDependencies": {
+    "@web/datawich-common": "workspace:*"
+  }
+}
