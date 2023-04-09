@@ -10,7 +10,6 @@ export const useMenu = () => {
       {
         key: 'M_DataApps',
         name: '数据应用',
-        path: '/v1/page-1',
         icon: <DesktopOutlined />,
         children: [
           {

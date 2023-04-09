@@ -3,7 +3,7 @@ import React from 'react'
 import { MainLayout } from '../core/MainLayout'
 import { RouteErrorBoundary } from '@fangcha/react'
 import { Button } from 'antd'
-import { HomeView } from '../core/HomeView'
+import { DataAppListView } from '../data-app/DataAppListView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -13,7 +13,11 @@ export const MyRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <HomeView />,
+        element: <DataAppListView />,
+      },
+      {
+        path: '/v1/data-app',
+        element: <DataAppListView />,
       },
       {
         path: '/v1/page-1',
