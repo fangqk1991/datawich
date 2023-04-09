@@ -26,11 +26,12 @@ export const HomeView: React.FC = () => {
         <li>环境: {appInfo.env}</li>
         <li>主机: {appInfo.runningMachine}</li>
         <li>
-          {appInfo.tags && appInfo.tags.map((tag) => (
-            <Tag color='green' key={tag}>
-              {tag}
-            </Tag>
-          ))}
+          {appInfo.tags &&
+            appInfo.tags.map((tag) => (
+              <Tag color='green' key={tag}>
+                {tag}
+              </Tag>
+            ))}
         </li>
       </ul>
       <h3>UserInfo</h3>
