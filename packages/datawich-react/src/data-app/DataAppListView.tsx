@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Card, Spin } from 'antd'
+import { Breadcrumb, Card, Divider, Spin } from 'antd'
 import { DataAppApis } from '@web/datawich-common/web-api'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { useNavigate } from 'react-router-dom'
-import { ReactI18n } from '../core/ReactI18n'
+import { LS } from '../core/ReactI18n'
 
 export const DataAppListView: React.FC = () => {
   const [appList, setAppList] = useState<DataModelModel[]>()
@@ -23,8 +23,11 @@ export const DataAppListView: React.FC = () => {
   }
 
   return (
-    <>
-      <h2>{ReactI18n.t('[i18n] Data Apps')}</h2>
+    <div>
+      <Breadcrumb>
+        <Breadcrumb.Item>{LS('[i18n] Data Apps')}</Breadcrumb.Item>
+      </Breadcrumb>
+      <Divider style={{ margin: '12px 0' }} />
       <Card>
         {appList.map((dataApp) => (
           <Card.Grid
@@ -40,6 +43,6 @@ export const DataAppListView: React.FC = () => {
           </Card.Grid>
         ))}
       </Card>
-    </>
+    </div>
   )
 }

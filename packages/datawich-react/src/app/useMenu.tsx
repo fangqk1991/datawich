@@ -1,6 +1,6 @@
 import { AppstoreOutlined, DesktopOutlined, UserOutlined } from '@ant-design/icons'
 import { Route } from '@ant-design/pro-layout/es/typing'
-import { ReactI18n } from '../core/ReactI18n'
+import { LS } from '../core/ReactI18n'
 
 export const useMenu = () => {
   // const visitorCtx = useVisitorCtx()
@@ -10,27 +10,27 @@ export const useMenu = () => {
     children: [
       {
         key: 'M_DataApps',
-        name: ReactI18n.t('[i18n] Data Apps'),
+        name: LS('[i18n] Data Apps'),
         icon: <DesktopOutlined />,
         children: [
           {
             path: '/v1/data-app',
-            name: ReactI18n.t('[i18n] All Apps'),
+            name: LS('[i18n] All Apps'),
           },
         ],
       },
       {
         key: 'M_DataModels',
-        name: ReactI18n.t('[i18n] Management Center'),
+        name: LS('[i18n] Management Center'),
         icon: <AppstoreOutlined />,
         children: [
           {
             path: '/v1/data-model',
-            name: ReactI18n.t('[i18n] Data Model'),
+            name: LS('[i18n] Data Model'),
           },
           {
             path: '/v1/model-client',
-            name: ReactI18n.t('[i18n] API Clients'),
+            name: LS('[i18n] API Clients'),
           },
         ],
       },

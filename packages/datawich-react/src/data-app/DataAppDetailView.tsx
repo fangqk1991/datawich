@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Card, Spin } from 'antd'
+import { Breadcrumb, Card, Divider, Spin } from 'antd'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { DataModelModel } from '@fangcha/datawich-service'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
+import { LS } from '../core/ReactI18n'
 
-export const DataDisplayView: React.FC = () => {
+export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
 
   const [version] = useState(0)
@@ -24,5 +25,16 @@ export const DataDisplayView: React.FC = () => {
     return <Spin size='large' />
   }
 
-  return <Card>{dataModel.name}</Card>
+  return (
+    <div>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to={{ pathname: `/v1/data-app` }}>{LS('[i18n] Data Apps')}</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{dataModel.name}</Breadcrumb.Item>
+      </Breadcrumb>
+      <Divider style={{ margin: '12px 0' }} />
+      <Card>{dataModel.name}</Card>
+    </div>
+  )
 }

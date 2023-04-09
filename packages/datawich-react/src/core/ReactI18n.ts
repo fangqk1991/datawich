@@ -19,8 +19,10 @@ Object.keys(DatawichI18N).forEach((key) => {
 })
 
 i18next.init({
-  lng: 'en',
+  lng: 'zh',
   resources: resources,
 })
 
 export const ReactI18n = i18next
+
+export const LS = i18next.t.bind(i18next)
