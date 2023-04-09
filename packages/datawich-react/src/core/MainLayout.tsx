@@ -5,15 +5,15 @@ import { ConfigProvider, Dropdown } from 'antd'
 import { useVisitorCtx } from '@fangcha/auth-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { WebAuthApis } from '@fangcha/sso-models'
-import { Route } from '@ant-design/pro-layout/es/typing'
+import { useMenu } from '../app/useMenu'
 
 interface Props {
   appName: string
-  menu: Route
 }
 
-export const MainLayout: React.FC<Props> = ({ appName, menu }) => {
+export const MainLayout: React.FC<Props> = ({ appName }) => {
   const visitorCtx = useVisitorCtx()
+  const menu = useMenu()
 
   const { userInfo } = visitorCtx
 

@@ -4,12 +4,11 @@ import { MainLayout } from '../core/MainLayout'
 import { RouteErrorBoundary } from '@fangcha/react'
 import { Button } from 'antd'
 import { HomeView } from '../core/HomeView'
-import { MyMenu } from './MyMenu'
 
 export const MyRouter = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout appName='Datawich 🍰' menu={MyMenu} />,
+    element: <MainLayout appName='Datawich 🍰' />,
     errorElement: <RouteErrorBoundary />,
     children: [
       {
