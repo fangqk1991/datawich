@@ -9,6 +9,7 @@
     "build:dev": "rm -rf dist && webpack --config webpack.staging.js"
   },
   "devDependencies": {
-    "@web/datawich-common": "workspace:*"
+    "@web/datawich-common": "workspace:*",
+    "i18next": "^22.4.14"
   }
 }

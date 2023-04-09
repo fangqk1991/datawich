@@ -1,4 +1,8 @@
 export const DatawichI18N = {
+  '[i18n] Management Center': {
+    en: `Management`,
+    zh: `管理中心`,
+  },
   '[i18n] Model List': {
     en: `Models`,
     zh: `模型列表`,
@@ -6,6 +10,14 @@ export const DatawichI18N = {
   '[i18n] Data Apps': {
     en: `Data Apps`,
     zh: `数据应用`,
+  },
+  '[i18n] All Apps': {
+    en: `All Apps`,
+    zh: `所有应用`,
+  },
+  '[i18n] Data Model': {
+    en: `Data Model`,
+    zh: `模型管理`,
   },
   '[i18n] API Clients': {
     en: `API Clients`,

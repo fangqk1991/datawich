@@ -278,6 +278,9 @@ importers:
       '@web/datawich-common':
         specifier: workspace:*
         version: link:../../services/datawich-common
+      i18next:
+        specifier: ^22.4.14
+        version: 22.4.14
 
   services/datawich-common: {}
 
@@ -1750,13 +1753,6 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /@babel/runtime@7.15.4:
-    resolution: {integrity: sha512-99catp6bHCaxr4sJ/DbTGgHS4+Rs2RVd2g7iOap6SLGPDknRK9ztKNsE/Fg6QhSeh1FGE5f6gHGQmvvn3I3xhw==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.9
-    dev: true
-
   /@babel/runtime@7.21.0:
     resolution: {integrity: sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==}
     engines: {node: '>=6.9.0'}
@@ -2659,7 +2655,7 @@ packages:
       react: ^16.8.0
       react-dom: ^16.8.0
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.21.0
       prop-types: 15.8.1
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
@@ -2671,7 +2667,7 @@ packages:
       react: ^16.8.0
       react-dom: ^16.8.0
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.21.0
       prop-types: 15.8.1
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
@@ -6882,6 +6878,12 @@ packages:
     hasBin: true
     dev: true
 
+  /i18next@22.4.14:
+    resolution: {integrity: sha512-VtLPtbdwGn0+DAeE00YkiKKXadkwg+rBUV+0v8v0ikEjwdiJ0gmYChVE4GIa9HXymY6wKapkL93vGT7xpq6aTw==}
+    dependencies:
+      '@babel/runtime': 7.21.0
+    dev: true
+
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
@@ -10011,7 +10013,7 @@ packages:
     peerDependencies:
       react: 0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.21.0
       '@hypnosphi/create-react-context': 0.3.1(prop-types@15.8.1)(react@16.14.0)
       deep-equal: 1.1.1
       popper.js: 1.16.1
@@ -10194,14 +10196,10 @@ packages:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: true
 
-  /regenerator-runtime@0.13.9:
-    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
-    dev: true
-
   /regenerator-transform@0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.21.0
     dev: true
 
   /regex-parser@2.2.11:
@@ -10552,7 +10550,7 @@ packages:
       react: ^16.8.0
       react-dom: ^16.8.0
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.21.0
       '@semantic-ui-react/event-stack': 3.1.2(react-dom@16.14.0)(react@16.14.0)
       '@stardust-ui/react-component-event-listener': 0.38.0(react-dom@16.14.0)(react@16.14.0)
       '@stardust-ui/react-component-ref': 0.38.0(react-dom@16.14.0)(react@16.14.0)

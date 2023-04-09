@@ -4,6 +4,7 @@ import { MainLayout } from '../core/MainLayout'
 import { RouteErrorBoundary } from '@fangcha/react'
 import { Button } from 'antd'
 import { DataAppListView } from '../data-app/DataAppListView'
+import { DataDisplayView } from '../data-app/DataDisplayView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: '/v1/data-app',
         element: <DataAppListView />,
+      },
+      {
+        path: '/v1/data-app/:modelKey',
+        element: <DataDisplayView />,
       },
       {
         path: '/v1/page-1',

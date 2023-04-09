@@ -1,5 +1,6 @@
 import { AppstoreOutlined, DesktopOutlined, UserOutlined } from '@ant-design/icons'
 import { Route } from '@ant-design/pro-layout/es/typing'
+import { ReactI18n } from '../core/ReactI18n'
 
 export const useMenu = () => {
   // const visitorCtx = useVisitorCtx()
@@ -9,28 +10,27 @@ export const useMenu = () => {
     children: [
       {
         key: 'M_DataApps',
-        name: '数据应用',
+        name: ReactI18n.t('[i18n] Data Apps'),
         icon: <DesktopOutlined />,
         children: [
           {
             path: '/v1/data-app',
-            name: '所有应用',
+            name: ReactI18n.t('[i18n] All Apps'),
           },
         ],
       },
       {
         key: 'M_DataModels',
-        path: '/v1/page-2',
-        name: '模型管理',
+        name: ReactI18n.t('[i18n] Management Center'),
         icon: <AppstoreOutlined />,
         children: [
           {
             path: '/v1/data-model',
-            name: '模型管理',
+            name: ReactI18n.t('[i18n] Data Model'),
           },
           {
             path: '/v1/model-client',
-            name: 'API 应用管理',
+            name: ReactI18n.t('[i18n] API Clients'),
           },
         ],
       },
