@@ -3,7 +3,7 @@ import { TypicalExcel } from '@fangcha/tools/lib/excel'
 import { SearchBuilder } from '@fangcha/tools/lib/database'
 import { SQLSearcher } from 'fc-sql'
 import * as fs from 'fs'
-import { CsvMaker, makeUUID, SelectOption } from '@fangcha/tools'
+import { CsvMaker, makeUUID, PageResult, SelectOption } from '@fangcha/tools'
 import { logger } from '@fangcha/logger'
 import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
 import assert from '@fangcha/assert'
@@ -15,7 +15,7 @@ import {
   GeneralDataChecker,
   GeneralDataFormatter,
   GeneralDataHelper,
-  ModelFieldModel
+  ModelFieldModel,
 } from '@fangcha/datawich-service'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { ModelDataInfo } from './ModelDataInfo'
@@ -149,7 +149,10 @@ export class ModelDataHandler {
     return items
   }
 
-  public async getListData(options: FilterOptions = {}) {
+  /**
+   * @deprecated
+   */
+  public async deprecated_getListData(options: FilterOptions = {}) {
     const searcher = await this.dataSearcherWithFilter(options)
     options._offset = Math.max(options._offset || 0, 0)
     options._length = Math.max(Math.min(options._length || 100, 10000), 0)
@@ -159,6 +162,20 @@ export class ModelDataHandler {
       elements: items,
       totalSize: await searcher.queryCount(),
     }
+  }
+
+  public async getPageResult(options: FilterOptions = {}): Promise<PageResult> {
+    const searcher = await this.dataSearcherWithFilter(options)
+    options._offset = Math.max(options._offset || 0, 0)
+    options._length = Math.max(Math.min(options._length || 100, 10000), 0)
+    searcher.setLimitInfo(options._offset, options._length)
+    const items = await this.queryItems(searcher)
+    return {
+      offset: options._offset,
+      length: items.length,
+      totalCount: await searcher.queryCount(),
+      items: items,
+    } as PageResult
   }
 
   public async checkDataAccessible(email: string, dataId: string) {

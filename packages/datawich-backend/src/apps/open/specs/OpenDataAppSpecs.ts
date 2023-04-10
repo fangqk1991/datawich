@@ -25,14 +25,14 @@ factory.prepare(OpenDataAppApis.ModelFieldListGet, async (ctx) => {
 factory.prepare(OpenDataAppApis.DataAppRecordPageDataSearch, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const options = { ...ctx.request.body }
-    ctx.body = await new ModelDataHandler(dataModel).getListData(options)
+    ctx.body = await new ModelDataHandler(dataModel).deprecated_getListData(options)
   })
 })
 
 factory.prepare(OpenDataAppApis.DataAppRecordPageDataGet, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const options = { ...ctx.request.query }
-    ctx.body = await new ModelDataHandler(dataModel).getListData(options)
+    ctx.body = await new ModelDataHandler(dataModel).deprecated_getListData(options)
   })
 })
 

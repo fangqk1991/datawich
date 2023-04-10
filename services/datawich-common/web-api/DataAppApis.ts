@@ -14,6 +14,11 @@ export const DataAppApis = {
     route: '/api/v1/data-app/:modelKey/record',
     description: '获取应用数据列表',
   },
+  DataAppRecordListGetV2: {
+    method: 'GET',
+    route: '/api/v2/data-app/:modelKey/record',
+    description: '获取应用数据列表',
+  },
   DataAppExcelExport: {
     method: 'POST',
     route: '/api/v1/data-app/:modelKey/export-xls',

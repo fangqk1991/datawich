@@ -24,9 +24,13 @@ export const DataAppListView: React.FC = () => {
 
   return (
     <div>
-      <Breadcrumb>
-        <Breadcrumb.Item>{LS('[i18n] Data Apps')}</Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb
+        items={[
+          {
+            title: LS('[i18n] Data Apps'),
+          },
+        ]}
+      />
       <Divider style={{ margin: '12px 0' }} />
       <Card>
         {appList.map((dataApp) => (
