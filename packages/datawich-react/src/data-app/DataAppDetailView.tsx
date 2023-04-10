@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Divider, Spin } from 'antd'
-import { DataAppApis, DataModelApis } from '@web/datawich-common/web-api'
-import { DataModelModel } from '@fangcha/datawich-service'
+import { DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
+import { DataModelModel, ModelFieldModel } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { TableView } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
+import { FieldHelper } from '@web/datawich-common/models'
+import { MyDataColumn } from './MyDataColumn'
 
 interface DataRecord {
   rid: number
@@ -32,16 +34,40 @@ export const DataAppDetailView: React.FC = () => {
 
   const [version] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
+  const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
+
+  const allFields = useMemo(() => {
+    const items: ModelFieldModel[] = []
+    for (const field of mainFields) {
+      items.push(field)
+      field.refFieldLinks.forEach((link) => {
+        if (link.isInline) {
+          items.push(...link.referenceFields)
+        }
+      })
+    }
+    return items
+  }, [mainFields])
+
+  const displayFields = useMemo(() => {
+    return FieldHelper.makeDisplayFields(mainFields)
+  }, [mainFields])
 
   useEffect(() => {
+    MyRequest(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, modelKey))
+      .quickSend()
+      .then((response) => {
+        setMainFields(response)
+      })
+
     MyRequest(new CommonAPI(DataModelApis.DataModelInfoGet, modelKey))
       .quickSend()
       .then((response) => {
         setDataModel(response)
       })
-  }, [version])
+  }, [])
 
-  if (!dataModel) {
+  if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
   }
 
@@ -64,10 +90,12 @@ export const DataAppDetailView: React.FC = () => {
           return `${item.rid}`
         }}
         columns={[
-          {
-            title: 'rid',
-            render: (item: DataRecord) => <>{item.rid}</>,
-          },
+          ...displayFields.map((field) => {
+            return {
+              title: field.name,
+              render: (item: DataRecord) => <MyDataColumn field={field} data={item} />,
+            }
+          }),
         ]}
         defaultSettings={{
           pageSize: 10,
