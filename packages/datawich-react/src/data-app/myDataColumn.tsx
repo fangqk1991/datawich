@@ -2,12 +2,13 @@ import React from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyDataCell } from './MyDataCell'
 import { ColumnType } from 'antd/es/table/interface'
-import { Select } from 'antd'
+import { Button, Popover, Select } from 'antd'
 
 interface Props {
   field: ModelFieldModel
   filterOptions?: {}
   onFilterChange?: (params: {}) => void
+  tagsCheckedMap?: any
 }
 
 export const myDataColumn = (props: Props): ColumnType<any> => {
@@ -40,31 +41,12 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
 
   let header = <div>{field.name}</div>
   switch (field.fieldType) {
-    case FieldType.Unknown:
-      break
-    case FieldType.Integer:
-      break
-    case FieldType.Float:
-      break
-    case FieldType.SingleLineText:
-      break
-    case FieldType.MultipleLinesText:
-      break
-    case FieldType.JSON:
-      break
-    case FieldType.StringList:
-      break
-    case FieldType.Link:
-      break
-    case FieldType.RichText:
-      break
     case FieldType.Enum:
-      break
     case FieldType.TextEnum:
       header = (
         <Select
           defaultValue={filterOptions[filterKey] || ''}
-          style={{ width: 120 }}
+          style={{ width: '100%' }}
           onChange={(value) => {
             if (props.onFilterChange) {
               props.onFilterChange({ [filterKey]: value })
@@ -82,24 +64,16 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       )
       break
     case FieldType.MultiEnum:
-      break
-    case FieldType.Tags:
-      break
-    case FieldType.Date:
-      break
-    case FieldType.Datetime:
-      break
-    case FieldType.ReadonlyText:
-      break
-    case FieldType.Attachment:
-      break
-    case FieldType.User:
-      break
-    case FieldType.Group:
-      break
-    case FieldType.Template:
-      break
-    case FieldType.Dummy:
+      console.info(props.tagsCheckedMap)
+      header = (
+        <Popover content={'!!!!'} title='Title' trigger='click'>
+          <Button type={'link'}>
+            {filterOptions[filterKey]
+              ? GeneralDataHelper.getCheckedTagsForField(field, props.tagsCheckedMap || {}).join(', ')
+              : field.name}
+          </Button>
+        </Popover>
+      )
       break
   }
   return {

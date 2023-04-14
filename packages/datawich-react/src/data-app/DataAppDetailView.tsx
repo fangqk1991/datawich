@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Divider, Spin } from 'antd'
 import { DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
-import { DataModelModel, ModelFieldModel } from '@fangcha/datawich-service'
+import { DataModelModel, FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
@@ -50,6 +50,18 @@ export const DataAppDetailView: React.FC = () => {
     return items
   }, [mainFields])
 
+  const fullTagsCheckedMap = useMemo(() => {
+    return allFields
+      .filter((field) => field.fieldType === FieldType.MultiEnum)
+      .reduce((result, field) => {
+        result[field.filterKey] = GeneralDataHelper.extractMultiEnumCheckedMapForValue(
+          queryParams[field.filterKey] || '',
+          field.options
+        )
+        return result
+      }, {})
+  }, [allFields, queryParams])
+
   const displayFields = useMemo(() => {
     return FieldHelper.makeDisplayFields(mainFields)
   }, [mainFields])
@@ -96,6 +108,7 @@ export const DataAppDetailView: React.FC = () => {
               field: field,
               filterOptions: queryParams,
               onFilterChange: (params) => updateQueryParams(params),
+              tagsCheckedMap: fullTagsCheckedMap[field.filterKey],
             })
           ),
         ]}
