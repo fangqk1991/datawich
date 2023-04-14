@@ -4,6 +4,7 @@ import { LinkOutlined } from '@ant-design/icons'
 import { Tag } from 'antd'
 import { MyTagsPanel } from './MyTagsPanel'
 import { DataColumnExtension } from './DataColumnExtension'
+import { MultiEnumContainer } from './MultiEnumContainer'
 
 interface Props {
   field: ModelFieldModel
@@ -54,10 +55,10 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.RichText:
             break
           case FieldType.Enum:
-            break
           case FieldType.TextEnum:
-          case FieldType.MultiEnum:
             return field.value2LabelMap[value]
+          case FieldType.MultiEnum:
+            return <MultiEnumContainer options={field.options} value={value} />
           case FieldType.Tags:
             break
           case FieldType.Date:

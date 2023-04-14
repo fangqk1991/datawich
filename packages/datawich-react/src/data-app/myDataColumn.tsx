@@ -81,7 +81,6 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
               }}
             />
           }
-          title='Title'
           trigger='click'
         >
           <Button type={'link'}>{filterOptions[filterKey] ? checkedList.join(', ') : field.name}</Button>
