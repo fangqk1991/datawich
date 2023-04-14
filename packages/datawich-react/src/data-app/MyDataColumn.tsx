@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Tag } from 'antd'
+import { MyTagsPanel } from './MyTagsPanel'
 
 interface Props {
   field: ModelFieldModel
@@ -31,7 +32,15 @@ export const MyDataColumn: React.FC<Props> = (props) => {
           case FieldType.JSON:
             break
           case FieldType.StringList:
-            break
+            return (
+              <MyTagsPanel
+                inline={false}
+                values={value}
+                tagProps={{
+                  color: 'geekblue',
+                }}
+              />
+            )
           case FieldType.Link:
             return (
               <a href={value} target='_blank'>
