@@ -2,7 +2,7 @@ import React from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyDataCell } from './MyDataCell'
 import { ColumnType } from 'antd/es/table/interface'
-import { Button, Popover, Select } from 'antd'
+import { Button, Checkbox, Popover, Select } from 'antd'
 
 interface Props {
   field: ModelFieldModel
@@ -64,14 +64,27 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       )
       break
     case FieldType.MultiEnum:
-      console.info(props.tagsCheckedMap)
+      const tagsCheckedMap = props.tagsCheckedMap || {}
+      const checkedList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap)
       header = (
-        <Popover content={'!!!!'} title='Title' trigger='click'>
-          <Button type={'link'}>
-            {filterOptions[filterKey]
-              ? GeneralDataHelper.getCheckedTagsForField(field, props.tagsCheckedMap || {}).join(', ')
-              : field.name}
-          </Button>
+        <Popover
+          content={
+            <Checkbox.Group
+              options={field.options}
+              value={checkedList}
+              onChange={(checkedValue) => {
+                if (props.onFilterChange) {
+                  props.onFilterChange({
+                    [filterKey]: checkedValue.join(','),
+                  })
+                }
+              }}
+            />
+          }
+          title='Title'
+          trigger='click'
+        >
+          <Button type={'link'}>{filterOptions[filterKey] ? checkedList.join(', ') : field.name}</Button>
         </Popover>
       )
       break
