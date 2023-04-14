@@ -35,7 +35,7 @@ export const DataColumnExtension: React.FC<Props> = (props) => {
           ))}
         </>
       )}
-      {props.data[dataKey] && (
+      {!!props.data[dataKey] && (
         <>
           {outerLinks.map((link) => (
             <Tag

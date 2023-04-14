@@ -6,10 +6,10 @@ import { DataModelModel, ModelFieldModel } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { TableView } from '@fangcha/react'
+import { TableView, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper } from '@web/datawich-common/models'
-import { MyDataCell } from './MyDataCell'
+import { myDataColumn } from './myDataColumn'
 
 interface DataRecord {
   rid: number
@@ -31,6 +31,7 @@ const trimParams = (params: {}) => {
 
 export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
+  const { queryParams, updateQueryParams } = useQueryParams()
 
   const [version] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
@@ -90,12 +91,13 @@ export const DataAppDetailView: React.FC = () => {
           return `${item.rid}`
         }}
         columns={[
-          ...displayFields.map((field) => {
-            return {
-              title: field.name,
-              render: (item: DataRecord) => <MyDataCell field={field} data={item} />,
-            }
-          }),
+          ...displayFields.map((field) =>
+            myDataColumn({
+              field: field,
+              filterOptions: queryParams,
+              onFilterChange: (params) => updateQueryParams(params),
+            })
+          ),
         ]}
         defaultSettings={{
           pageSize: 10,
@@ -103,8 +105,9 @@ export const DataAppDetailView: React.FC = () => {
           sortDirection: 'descending',
         }}
         loadData={async (retainParams) => {
+          const params = Object.assign({}, retainParams, queryParams)
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
-          request.setQueryParams(trimParams(retainParams))
+          request.setQueryParams(trimParams(params))
           return request.quickSend<PageResult<DataRecord>>()
         }}
       />
