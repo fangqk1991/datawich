@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const MyDataColumn: React.FC<Props> = (props) => {
+  const field = props.field
   const dataKey = useMemo(() => {
     return GeneralDataHelper.calculateDataKey(props.field, props.superField)
   }, [props.field, props.superField])
@@ -20,7 +21,7 @@ export const MyDataColumn: React.FC<Props> = (props) => {
     <div>
       {(() => {
         const value = props.data[dataKey]
-        switch (props.field.fieldType) {
+        switch (field.fieldType) {
           case FieldType.Integer:
             break
           case FieldType.Float:
@@ -54,9 +55,8 @@ export const MyDataColumn: React.FC<Props> = (props) => {
           case FieldType.Enum:
             break
           case FieldType.TextEnum:
-            break
           case FieldType.MultiEnum:
-            break
+            return field.value2LabelMap[value]
           case FieldType.Tags:
             break
           case FieldType.Date:
