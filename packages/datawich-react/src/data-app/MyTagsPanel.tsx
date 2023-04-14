@@ -21,9 +21,8 @@ export const MyTagsPanel: React.FC<Props> = (props) => {
     <div style={{ width: props.width || 'auto' }}>
       {options.map((option) => {
         return (
-          <>
+          <div key={option.value} style={{ display: props.inline ? 'inline-block' : 'block' }}>
             <Tag
-              key={option.value}
               {...(props.tagProps || {})}
               style={{
                 whiteSpace: 'normal',
@@ -31,8 +30,7 @@ export const MyTagsPanel: React.FC<Props> = (props) => {
             >
               {option.label}
             </Tag>
-            {!props.inline && <br />}
-          </>
+          </div>
         )
       })}
     </div>

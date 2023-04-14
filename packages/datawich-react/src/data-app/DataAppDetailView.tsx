@@ -9,7 +9,7 @@ import { LS } from '../core/ReactI18n'
 import { TableView } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper } from '@web/datawich-common/models'
-import { MyDataColumn } from './MyDataColumn'
+import { MyDataCell } from './MyDataCell'
 
 interface DataRecord {
   rid: number
@@ -93,7 +93,7 @@ export const DataAppDetailView: React.FC = () => {
           ...displayFields.map((field) => {
             return {
               title: field.name,
-              render: (item: DataRecord) => <MyDataColumn field={field} data={item} />,
+              render: (item: DataRecord) => <MyDataCell field={field} data={item} />,
             }
           }),
         ]}

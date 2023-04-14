@@ -22,7 +22,7 @@ importers:
       '@fangcha/logger': ^0.5.0
       '@fangcha/logic': workspace:*
       '@fangcha/oss-service': ^0.9.0
-      '@fangcha/react': ^0.14.0
+      '@fangcha/react': ^0.15.1
       '@fangcha/resque': ^1.5.0
       '@fangcha/router': ^0.29.0
       '@fangcha/session': ^0.2.0
@@ -131,7 +131,7 @@ importers:
       '@fangcha/auth-react': 0.12.0
       '@fangcha/eslint': 0.8.0_typescript@4.9.5
       '@fangcha/generator': 0.2.0
-      '@fangcha/react': 0.14.0_moment@2.29.4
+      '@fangcha/react': 0.15.1_moment@2.29.4
       '@fangcha/vue': 0.78.0
       '@fangcha/webpack': 0.15.0_fvb3eha3htfbbehlemkzqjpy4m
       '@types/assert': 1.5.6
@@ -2096,8 +2096,8 @@ packages:
     resolution: {integrity: sha512-ySpChkvNNotz7vFMiYCwHVf46I7hJNI0SpZwFIr+yhbM38M7bm/96NnD8C/BRN9Qc8BQugSTeB71iSj9DoC6+Q==}
     dev: false
 
-  /@fangcha/react/0.14.0_moment@2.29.4:
-    resolution: {integrity: sha512-Q0g/VgdzyrjGZ6eA983a3CBx/gVOcb5RhfLx/ZM+K5G0iDtbpdCuyP9XabEBBuiQc/tGF37e2Y67wEm+yNDBQg==}
+  /@fangcha/react/0.15.1_moment@2.29.4:
+    resolution: {integrity: sha512-Zal5BoFKhZwkutm1OvePJWWF+wXzNU04srz5i1aI0AJ2SkICKAKDdognJoi8I+55ZHzaRa5tQjB4lUC51rpB4A==}
     dependencies:
       '@ant-design/pro-components': 2.4.4_mxarhxqjcqlcspet2rjm7zmpei
       '@emotion/react': 11.10.6_react@18.2.0

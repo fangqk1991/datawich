@@ -3,6 +3,7 @@ import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich
 import { LinkOutlined } from '@ant-design/icons'
 import { Tag } from 'antd'
 import { MyTagsPanel } from './MyTagsPanel'
+import { DataColumnExtension } from './DataColumnExtension'
 
 interface Props {
   field: ModelFieldModel
@@ -12,7 +13,7 @@ interface Props {
   data: any
 }
 
-export const MyDataColumn: React.FC<Props> = (props) => {
+export const MyDataCell: React.FC<Props> = (props) => {
   const field = props.field
   const dataKey = useMemo(() => {
     return GeneralDataHelper.calculateDataKey(props.field, props.superField)
@@ -46,7 +47,7 @@ export const MyDataColumn: React.FC<Props> = (props) => {
             return (
               <a href={value} target='_blank'>
                 <Tag color={'red'}>
-                  Link <LinkOutlined />
+                  <LinkOutlined /> Link
                 </Tag>
               </a>
             )
@@ -78,6 +79,7 @@ export const MyDataColumn: React.FC<Props> = (props) => {
         }
         return <>{props.data[dataKey]}</>
       })()}
+      <DataColumnExtension field={props.field} superField={props.superField} data={props.data} />
     </div>
   )
 }
