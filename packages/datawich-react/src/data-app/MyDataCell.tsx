@@ -2,10 +2,9 @@ import React, { useMemo } from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Tag } from 'antd'
-import { MyTagsPanel } from './MyTagsPanel'
+import { MyTagsPanel, MyRichTextPanel } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
-import { MyRichTextPanel } from './MyRichTextPanel'
 import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
 
 interface Props {

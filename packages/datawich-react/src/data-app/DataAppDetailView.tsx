@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Divider, Spin } from 'antd'
-import { DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
+import { Breadcrumb, Button, Divider, message, Space, Spin } from 'antd'
+import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { DataModelModel, FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { TableView, useQueryParams } from '@fangcha/react'
+import { MultiplePickerDialog, TableView, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 
 interface DataRecord {
@@ -36,6 +36,7 @@ export const DataAppDetailView: React.FC = () => {
   const [version] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
+  const [hiddenFieldsMap, setHiddenFieldsMap] = useState<{ [p: string]: boolean }>({})
 
   const allFields = useMemo(() => {
     const items: ModelFieldModel[] = []
@@ -63,8 +64,16 @@ export const DataAppDetailView: React.FC = () => {
   }, [allFields, queryParams])
 
   const displayFields = useMemo(() => {
-    return FieldHelper.makeDisplayFields(mainFields)
-  }, [mainFields])
+    return FieldHelper.makeDisplayFields(mainFields.filter((item) => !hiddenFieldsMap[item.filterKey]))
+  }, [mainFields, hiddenFieldsMap])
+
+  const reloadDisplaySettings = async () => {
+    const request = MyRequest(
+      new CommonAPI(CommonProfileApis.ProfileInfoGet, ProfileEvent.UserModelAppDisplay, modelKey)
+    )
+    const displaySettings = await request.quickSend()
+    setHiddenFieldsMap(displaySettings.hiddenFieldsMap || {})
+  }
 
   useEffect(() => {
     MyRequest(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, modelKey))
@@ -78,6 +87,8 @@ export const DataAppDetailView: React.FC = () => {
       .then((response) => {
         setDataModel(response)
       })
+
+    reloadDisplaySettings()
   }, [])
 
   if (!dataModel || mainFields.length === 0) {
@@ -96,6 +107,45 @@ export const DataAppDetailView: React.FC = () => {
           },
         ]}
       />
+      <Divider style={{ margin: '12px 0' }} />
+      <Space>
+        <Button
+          onClick={() => {
+            const dialog = new MultiplePickerDialog({
+              options: allFields.map((field) => {
+                return {
+                  label: field.name,
+                  value: field.filterKey,
+                }
+              }),
+              checkedList: allFields.filter((item) => !hiddenFieldsMap[item.filterKey]).map((item) => item.filterKey),
+            })
+            dialog.title = `管理展示字段`
+            dialog.show(async (checkedList) => {
+              const checkedMap = checkedList.reduce((result, cur) => {
+                result[`${cur}`] = true
+                return result
+              }, {})
+              const request = MyRequest(
+                new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
+              )
+              request.setBodyData({
+                hiddenFieldsMap: allFields
+                  .filter((field) => !checkedMap[field.filterKey])
+                  .reduce((result, cur) => {
+                    result[cur.filterKey] = true
+                    return result
+                  }, {}),
+              })
+              await request.execute()
+              message.success('调整成功')
+              await reloadDisplaySettings()
+            })
+          }}
+        >
+          管理展示字段
+        </Button>
+      </Space>
       <Divider style={{ margin: '12px 0' }} />
       <TableView
         version={version}

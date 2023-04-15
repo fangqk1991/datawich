@@ -1,6 +1,6 @@
 import React from 'react'
 import { GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
-import { MyTagsPanel } from './MyTagsPanel'
+import { MyTagsPanel } from '@fangcha/react'
 
 interface Props {
   field: ModelFieldModel
