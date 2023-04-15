@@ -6,6 +6,7 @@ import { MyTagsPanel } from './MyTagsPanel'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
 import { MyRichTextPanel } from './MyRichTextPanel'
+import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
 
 interface Props {
   field: ModelFieldModel
@@ -69,7 +70,14 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.ReadonlyText:
             break
           case FieldType.Attachment:
-            break
+            const info = props.data[GeneralDataHelper.attachmentEntityKey(field.dataKey)] as OssFileInfo
+            return (
+              !!info && (
+                <a href={info.url} target='_blank'>
+                  点击查看
+                </a>
+              )
+            )
           case FieldType.User:
             break
           case FieldType.Group:
