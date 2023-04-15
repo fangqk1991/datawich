@@ -5,6 +5,7 @@ import { Tag } from 'antd'
 import { MyTagsPanel } from './MyTagsPanel'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
+import { MyRichTextPanel } from './MyRichTextPanel'
 
 interface Props {
   field: ModelFieldModel
@@ -53,7 +54,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
               </a>
             )
           case FieldType.RichText:
-            break
+            return <MyRichTextPanel style={{ width: '200px' }} htmlContent={value} />
           case FieldType.Enum:
           case FieldType.TextEnum:
             return field.value2LabelMap[value]
