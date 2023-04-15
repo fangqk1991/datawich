@@ -33,7 +33,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.SingleLineText:
             break
           case FieldType.MultipleLinesText:
-            break
+            return <pre>{value}</pre>
           case FieldType.JSON:
             break
           case FieldType.StringList:
