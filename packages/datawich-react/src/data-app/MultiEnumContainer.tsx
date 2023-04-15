@@ -1,10 +1,9 @@
 import React from 'react'
-import { GeneralDataHelper } from '@fangcha/datawich-service'
-import { SelectOption } from '@fangcha/tools'
+import { GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyTagsPanel } from './MyTagsPanel'
 
 interface Props {
-  options: SelectOption[]
+  field: ModelFieldModel
   value: string
 }
 
@@ -13,6 +12,9 @@ export const MultiEnumContainer: React.FC<Props> = (props) => {
     <MyTagsPanel
       inline={true}
       values={GeneralDataHelper.extractMultiEnumItems(props.value)}
+      describeFunc={(value) => {
+        return props.field.value2LabelMap[value]
+      }}
       tagProps={{
         color: 'geekblue',
       }}

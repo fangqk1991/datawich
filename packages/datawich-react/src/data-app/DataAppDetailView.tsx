@@ -102,6 +102,9 @@ export const DataAppDetailView: React.FC = () => {
         rowKey={(item: DataRecord) => {
           return `${item.rid}`
         }}
+        tableProps={{
+          size: 'small',
+        }}
         columns={[
           ...displayFields.map((field) =>
             myDataColumn({
