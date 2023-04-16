@@ -118,20 +118,19 @@ export const DataAppDetailView: React.FC = () => {
         ]}
       />
       <Divider style={{ margin: '12px 0' }} />
-      <Space>
+      <Space wrap={true}>
         <Input.Search
           value={keywords}
           onChange={({ target: { value } }) => setKeywords(value)}
           placeholder='Keywords'
-          style={{ width: 300 }}
           onSearch={(keywords: string) => {
             updateQueryParams({
               keywords: keywords,
             })
           }}
+          allowClear
           enterButton
         />
-
         <Button
           onClick={() => {
             const dialog = new MultiplePickerDialog({

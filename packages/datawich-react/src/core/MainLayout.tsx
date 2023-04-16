@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons'
-import { PageContainer, ProLayout } from '@ant-design/pro-layout'
+import { ProLayout } from '@ant-design/pro-layout'
 import React from 'react'
 import { ConfigProvider, Dropdown } from 'antd'
 import { useVisitorCtx } from '@fangcha/auth-react'
@@ -29,6 +29,12 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
       }}
     >
       <ProLayout
+        token={{
+          pageContainer: {
+            paddingInlinePageContainerContent: 20,
+            paddingBlockPageContainerContent: 20,
+          },
+        }}
         logo={null}
         title={appName}
         fixSiderbar={true}
@@ -104,15 +110,7 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
           </a>
         )}
       >
-        <PageContainer
-          header={{
-            title: '',
-            // 隐藏面包屑
-            breadcrumb: {},
-          }}
-        >
-          <Outlet />
-        </PageContainer>
+        <Outlet />
       </ProLayout>
     </ConfigProvider>
   )
