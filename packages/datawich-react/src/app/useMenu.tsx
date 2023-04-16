@@ -15,7 +15,7 @@ export const useMenu = () => {
         icon: <DesktopOutlined />,
         children: [
           {
-            path: '/v1/data-app',
+            path: '/v1/all-data-app',
             name: LS('[i18n] All Apps'),
           },
           ...favorAppsCtx.favorApps.map((item) => ({

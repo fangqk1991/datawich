@@ -22,7 +22,7 @@ export const MyRouter = createBrowserRouter([
         element: <DataAppListView />,
       },
       {
-        path: '/v1/data-app',
+        path: '/v1/all-data-app',
         element: <DataAppListView />,
       },
       {

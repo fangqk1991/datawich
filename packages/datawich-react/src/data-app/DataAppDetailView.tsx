@@ -10,6 +10,7 @@ import { MultiplePickerDialog, TableView, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
+import { useFavorAppsCtx } from '../core/FavorAppsContext'
 
 interface DataRecord {
   rid: number
@@ -32,6 +33,8 @@ const trimParams = (params: {}) => {
 export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
   const { queryParams, updateQueryParams } = useQueryParams()
+  const favorAppsCtx = useFavorAppsCtx()
+  const favored = favorAppsCtx.checkAppFavor(modelKey)
 
   const [version] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
@@ -103,7 +106,12 @@ export const DataAppDetailView: React.FC = () => {
             title: <Link to={{ pathname: `/v1/data-app` }}>{LS('[i18n] Data Apps')}</Link>,
           },
           {
-            title: dataModel.name,
+            title: (
+              <Space>
+                {dataModel.name} |
+                <a onClick={() => favorAppsCtx.toggleAppFavor(modelKey)}>{favored ? '取消关注' : '关注'}</a>
+              </Space>
+            ),
           },
         ]}
       />
