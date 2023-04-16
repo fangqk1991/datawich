@@ -5,11 +5,16 @@ import { RouteErrorBoundary } from '@fangcha/react'
 import { Button } from 'antd'
 import { DataAppListView } from '../data-app/DataAppListView'
 import { DataAppDetailView } from '../data-app/DataAppDetailView'
+import { FavorAppsProvider } from '../core/FavorAppsContext'
 
 export const MyRouter = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout appName='Datawich 🍰' />,
+    element: (
+      <FavorAppsProvider>
+        <MainLayout appName='Datawich 🍰' />
+      </FavorAppsProvider>
+    ),
     errorElement: <RouteErrorBoundary />,
     children: [
       {

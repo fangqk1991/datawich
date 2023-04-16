@@ -1,9 +1,10 @@
 import { AppstoreOutlined, DesktopOutlined, UserOutlined } from '@ant-design/icons'
 import { Route } from '@ant-design/pro-layout/es/typing'
 import { LS } from '../core/ReactI18n'
+import { useFavorAppsCtx } from '../core/FavorAppsContext'
 
 export const useMenu = () => {
-  // const visitorCtx = useVisitorCtx()
+  const favorAppsCtx = useFavorAppsCtx()
 
   const myMenu: Route = {
     path: '/',
@@ -17,6 +18,10 @@ export const useMenu = () => {
             path: '/v1/data-app',
             name: LS('[i18n] All Apps'),
           },
+          ...favorAppsCtx.favorApps.map((item) => ({
+            path: `/v1/data-app/${item.modelKey}`,
+            name: item.name,
+          })),
         ],
       },
       {

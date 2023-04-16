@@ -49,7 +49,7 @@ export const DataAppDetailView: React.FC = () => {
       })
     }
     return items
-  }, [mainFields])
+  }, [modelKey, mainFields])
 
   const fullTagsCheckedMap = useMemo(() => {
     return allFields
@@ -89,7 +89,7 @@ export const DataAppDetailView: React.FC = () => {
       })
 
     reloadDisplaySettings()
-  }, [])
+  }, [modelKey])
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
