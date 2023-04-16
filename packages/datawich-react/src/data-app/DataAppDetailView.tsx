@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Button, Divider, message, Space, Spin } from 'antd'
+import { Breadcrumb, Button, Divider, message, Space, Spin, Input } from 'antd'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { DataModelModel, FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
@@ -32,7 +32,9 @@ const trimParams = (params: {}) => {
 
 export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
-  const { queryParams, updateQueryParams } = useQueryParams()
+  const { queryParams, updateQueryParams } = useQueryParams<{ keywords: string }>()
+  const [keywords, setKeywords] = useState(queryParams.keywords)
+
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
 
@@ -117,6 +119,19 @@ export const DataAppDetailView: React.FC = () => {
       />
       <Divider style={{ margin: '12px 0' }} />
       <Space>
+        <Input.Search
+          value={keywords}
+          onChange={({ target: { value } }) => setKeywords(value)}
+          placeholder='Keywords'
+          style={{ width: 300 }}
+          onSearch={(keywords: string) => {
+            updateQueryParams({
+              keywords: keywords,
+            })
+          }}
+          enterButton
+        />
+
         <Button
           onClick={() => {
             const dialog = new MultiplePickerDialog({
