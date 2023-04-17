@@ -105,7 +105,7 @@ export const DataAppDetailView: React.FC = () => {
       <Breadcrumb
         items={[
           {
-            title: <Link to={{ pathname: `/v1/data-app` }}>{LS('[i18n] Data Apps')}</Link>,
+            title: <Link to={{ pathname: `/v1/all-data-app` }}>{LS('[i18n] Data Apps')}</Link>,
           },
           {
             title: (
