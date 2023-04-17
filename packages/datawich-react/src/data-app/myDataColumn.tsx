@@ -6,6 +6,7 @@ import { Button, Checkbox, Popover, Select } from 'antd'
 
 interface Props {
   field: ModelFieldModel
+  superField?: ModelFieldModel
   filterOptions?: {}
   onFilterChange?: (params: {}) => void
   tagsCheckedMap?: any
@@ -13,6 +14,7 @@ interface Props {
 
 export const myDataColumn = (props: Props): ColumnType<any> => {
   const field = props.field
+  const superField = props.superField
   const filterOptions = props.filterOptions || {}
   const filterKey = field.filterKey
 
@@ -90,6 +92,6 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   }
   return {
     title: header,
-    render: (item: any) => <MyDataCell field={field} data={item} />,
+    render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
   }
 }

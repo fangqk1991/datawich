@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Button, Divider, message, Space, Spin, Input } from 'antd'
+import { Breadcrumb, Button, Divider, Input, message, Space, Spin } from 'antd'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { DataModelModel, FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
@@ -176,16 +176,39 @@ export const DataAppDetailView: React.FC = () => {
         }}
         tableProps={{
           size: 'small',
+          bordered: true,
         }}
         columns={[
-          ...displayFields.map((field) =>
-            myDataColumn({
-              field: field,
-              filterOptions: queryParams,
-              onFilterChange: (params) => updateQueryParams(params),
-              tagsCheckedMap: fullTagsCheckedMap[field.filterKey],
+          ...displayFields
+            .map((field) => {
+              const columns = [
+                myDataColumn({
+                  field: field,
+                  filterOptions: queryParams,
+                  onFilterChange: (params) => updateQueryParams(params),
+                  tagsCheckedMap: fullTagsCheckedMap[field.filterKey],
+                }),
+              ]
+              for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
+                columns.push({
+                  title: `${field.name} 关联`,
+                  children: fieldLink.referenceFields.map((refField) =>
+                    myDataColumn({
+                      field: refField,
+                      superField: field,
+                      filterOptions: queryParams,
+                      onFilterChange: (params) => updateQueryParams(params),
+                      tagsCheckedMap: fullTagsCheckedMap[refField.filterKey],
+                    })
+                  ),
+                })
+              }
+              return columns
             })
-          ),
+            .reduce((result, cur) => {
+              result.push(...cur)
+              return result
+            }, []),
         ]}
         defaultSettings={{
           pageSize: 10,
