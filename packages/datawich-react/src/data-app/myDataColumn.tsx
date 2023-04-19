@@ -3,6 +3,7 @@ import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich
 import { MyDataCell } from './MyDataCell'
 import { ColumnType } from 'antd/es/table/interface'
 import { Button, Checkbox, Popover, Select } from 'antd'
+import * as moment from 'moment'
 
 interface Props {
   field: ModelFieldModel
@@ -90,8 +91,24 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       )
       break
   }
+  const dataKey = GeneralDataHelper.calculateDataKey(field, superField)
+
   return {
     title: header,
     render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
+    key: filterKey,
+    sorter: (() => {
+      switch (field.fieldType) {
+        case FieldType.Integer:
+        case FieldType.Float:
+          return (a, b) => a[dataKey] - b[dataKey]
+        case FieldType.SingleLineText:
+          return (a, b) => (a[dataKey] || '').localeCompare(b[dataKey])
+        case FieldType.Date:
+        case FieldType.Datetime:
+          return (a, b) => moment(a[dataKey]).valueOf() - moment(b[dataKey]).valueOf()
+      }
+      return undefined
+    })(),
   }
 }

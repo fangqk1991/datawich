@@ -32,7 +32,7 @@ const trimParams = (params: {}) => {
 
 export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
-  const { queryParams, updateQueryParams } = useQueryParams<{ keywords: string }>()
+  const { queryParams, updateQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [keywords, setKeywords] = useState(queryParams.keywords)
 
   const favorAppsCtx = useFavorAppsCtx()
@@ -177,6 +177,14 @@ export const DataAppDetailView: React.FC = () => {
         tableProps={{
           size: 'small',
           bordered: true,
+          onChange: (pagination, filters, sorter, extra) => {
+            if (sorter) {
+              updateQueryParams({
+                sortKey: sorter['columnKey'],
+                sortDirection: sorter['order'],
+              })
+            }
+          },
         }}
         columns={[
           ...displayFields
@@ -212,8 +220,8 @@ export const DataAppDetailView: React.FC = () => {
         ]}
         defaultSettings={{
           pageSize: 10,
-          sortKey: 'createTime',
-          sortDirection: 'descending',
+          sortKey: queryParams.sortKey,
+          sortDirection: queryParams.sortDirection,
         }}
         loadData={async (retainParams) => {
           const params = Object.assign({}, retainParams, queryParams)
