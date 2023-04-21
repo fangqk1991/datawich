@@ -5,6 +5,8 @@ import {
   FieldTypeDescriptor,
   ModelFieldExtrasData,
   ModelFieldModel,
+  NumberFormat,
+  NumberFormatDescriptor,
 } from '@fangcha/datawich-service'
 import EnumFieldExtension from './EnumFieldExtension'
 import TagsFieldExtension from './TagsFieldExtension'
@@ -28,14 +30,18 @@ import { FieldHelper } from '@web/datawich-common/models'
         </el-form-item>
         <el-form-item label="字段类型" :required="true">
           <el-radio-group v-model="data.fieldType" :disabled="forEditing">
-            <el-radio-button v-for="option in fieldTypeOptions" :key="option.value" :label="option.value" :disabled="option.disabled">
+            <el-radio-button
+              v-for="option in fieldTypeOptions"
+              :key="option.value"
+              :label="option.value"
+              :disabled="option.disabled"
+            >
               {{ option.value | describe_model_field_type }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="字段 Key" :required="true">
-          <el-input v-model="data.fieldKey" type="text" style="width: 200px;" :disabled="forEditing">
-          </el-input>
+          <el-input v-model="data.fieldKey" type="text" style="width: 200px;" :disabled="forEditing"> </el-input>
         </el-form-item>
         <el-form-item label="字段名称" :required="true">
           <el-input v-model="data.name" type="text" style="width: 200px;"> </el-input>
@@ -57,9 +63,7 @@ import { FieldHelper } from '@web/datawich-common/models'
             设置默认值
             <el-tooltip class="item" effect="dark" placement="top">
               <span class="el-icon-question" />
-              <div slot="content">
-                默认值仅用于前端默认填充，不涉及 DB 层面定义
-              </div>
+              <div slot="content">默认值仅用于前端默认填充，不涉及 DB 层面定义</div>
             </el-tooltip>
           </span>
           <el-radio-group v-model="data.useDefault">
@@ -86,8 +90,14 @@ import { FieldHelper } from '@web/datawich-common/models'
           <el-input v-model="data.dateRange.ceil" type="text" placeholder="日期上限" style="width: 120px;"> </el-input>
         </el-form-item>
         <el-form-item label="正则约束">
-          <el-input v-model="data.extrasData.matchRegex" type="text" style="width: 200px;">
-          </el-input>
+          <el-input v-model="data.extrasData.matchRegex" type="text" style="width: 200px;"> </el-input>
+        </el-form-item>
+        <el-form-item v-if="isNumberType" label="数字格式" :required="true">
+          <el-radio-group v-model="data.extrasData.numberFormat">
+            <el-radio-button v-for="option in numberFormatOptions" :key="option.value" :label="option.value">{{
+              option.label
+            }}</el-radio-button>
+          </el-radio-group>
         </el-form-item>
         <el-form-item v-if="canBeSearchable" label="可搜索" :required="true">
           <el-radio-group v-model="data.searchable">
@@ -101,32 +111,19 @@ import { FieldHelper } from '@web/datawich-common/models'
             </div>
           </el-tooltip>
         </el-form-item>
-        <enum-field-extension
-          v-if="isEnumType"
-          :data="data"
-          :model-key="modelKey"
-          :for-editing="forEditing"
-        />
-        <tags-field-extension
-          v-if="isTagsType"
-          :data="data"
-          :model-key="modelKey"
-          :for-editing="forEditing"
-        />
+        <enum-field-extension v-if="isEnumType" :data="data" :model-key="modelKey" :for-editing="forEditing" />
+        <tags-field-extension v-if="isTagsType" :data="data" :model-key="modelKey" :for-editing="forEditing" />
       </el-form>
       <el-form v-if="forEditing" class="my-mini-form mt-3" label-width="120px" size="mini">
         <el-form-item label="Key 别名">
-          <el-input v-model="data.keyAlias" type="text" style="width: 200px;">
-          </el-input>
+          <el-input v-model="data.keyAlias" type="text" style="width: 200px;"> </el-input>
         </el-form-item>
         <el-form-item>
           <span slot="label">
             Readonly
             <el-tooltip class="item" effect="dark" placement="top">
               <span class="el-icon-question" />
-              <div slot="content">
-                用户不可在表单中进行输入/修改
-              </div>
+              <div slot="content">用户不可在表单中进行输入/修改</div>
             </el-tooltip>
           </span>
           <el-radio-group v-model="data.extrasData.readonly">
@@ -136,7 +133,9 @@ import { FieldHelper } from '@web/datawich-common/models'
         </el-form-item>
       </el-form>
       <template slot="footer">
-        <el-checkbox v-if="!forBind && !forEditing && !copingFieldKey" v-model="continueToCreate" class="mr-2">继续添加</el-checkbox>
+        <el-checkbox v-if="!forBind && !forEditing && !copingFieldKey" v-model="continueToCreate" class="mr-2"
+          >继续添加</el-checkbox
+        >
         <el-button size="small" @click="dismiss">{{ LS('Cancel') }}</el-button>
         <el-button size="small" type="primary" @click="onSubmit">{{ LS('Confirm') }}</el-button>
       </template>
@@ -152,6 +151,8 @@ export default class ModelFieldDialog extends CustomDialog {
     result[cur] = FieldTypeDescriptor.checkValueValid(cur)
     return result
   }, {})
+
+  numberFormatOptions = NumberFormatDescriptor.options()
 
   get fieldTypeOptions() {
     const options = this.fullFieldTypeOptions.filter((option) => {
@@ -201,6 +202,7 @@ export default class ModelFieldDialog extends CustomDialog {
     extrasData: {
       readonly: false,
       matchRegex: '',
+      numberFormat: NumberFormat.Normal,
     } as ModelFieldExtrasData,
   }
 
@@ -211,6 +213,10 @@ export default class ModelFieldDialog extends CustomDialog {
   @Watch('data.fieldType', { immediate: true })
   onFieldTypeChanged(value: string) {
     this.useNormalField = !FieldHelper.checkSpecialField(value as FieldType)
+  }
+
+  get isNumberType() {
+    return this.data.fieldType === FieldType.Integer || this.data.fieldType === FieldType.Float
   }
 
   get canBeSearchable() {

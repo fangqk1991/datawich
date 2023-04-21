@@ -3,6 +3,7 @@ import { FieldLinkModel } from './FieldLinkModel'
 import { FieldType } from './FieldType'
 import { Raw_ModelField } from './ModelFieldTypes'
 import { LogicExpression } from '@fangcha/logic'
+import { NumberFormat } from './NumberFormat'
 
 export interface DateRange {
   floor: string
@@ -32,6 +33,7 @@ export interface ModelFieldExtrasData {
   nameI18n: I18nTextData
   readonly: boolean
   matchRegex: string
+  numberFormat?: NumberFormat
   visibleLogic?: LogicExpression
   requiredLogic?: LogicExpression
 }

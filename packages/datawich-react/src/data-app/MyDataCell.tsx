@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
-import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldType, GeneralDataHelper, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Tag } from 'antd'
-import { MyTagsPanel, MyRichTextPanel } from '@fangcha/react'
+import { MyRichTextPanel, MyTagsPanel } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
 import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
@@ -26,8 +26,15 @@ export const MyDataCell: React.FC<Props> = (props) => {
         const value = props.data[dataKey]
         switch (field.fieldType) {
           case FieldType.Integer:
-            break
           case FieldType.Float:
+            if (value && field.extrasData.numberFormat === NumberFormat.Percent) {
+              const valueText = `${(Number(value || 0) * 100).toFixed(2)}%`
+              if (value > 0) {
+                return <b style={{ color: '#28a745' }}>{valueText}</b>
+              } else if (value < 0) {
+                return <b style={{ color: '#dc3545' }}>{valueText}</b>
+              }
+            }
             break
           case FieldType.SingleLineText:
             break
@@ -86,7 +93,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.Dummy:
             break
         }
-        return <>{props.data[dataKey]}</>
+        return <>{value}</>
       })()}
       <DataColumnExtension field={props.field} superField={props.superField} data={props.data} />
     </div>

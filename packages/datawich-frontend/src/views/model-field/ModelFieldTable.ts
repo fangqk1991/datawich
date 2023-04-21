@@ -12,7 +12,7 @@ import {
   TextPreviewDialog,
   ViewController,
 } from '@fangcha/vue'
-import { FieldActionModel, FieldIndexModel, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldActionModel, FieldIndexModel, FieldType, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
@@ -116,6 +116,9 @@ import { LogicExpressionHelper } from '@fangcha/logic'
           <el-tag v-if="scope.row.isSystem" size="mini">系统字段</el-tag>
           <el-tag v-if="scope.row.searchable" size="mini">可搜索</el-tag>
           <el-tag v-if="scope.row.useEnumSelector" size="mini">快速编辑</el-tag>
+          <el-tag v-if="scope.row.extrasData.numberFormat === NumberFormat.Percent" size="mini" type="warning"
+            >Percent</el-tag
+          >
           <el-tag v-if="scope.row.extrasData.readonly" size="mini" type="warning">Readonly</el-tag>
           <el-tag v-if="scope.row.extrasData.matchRegex" size="mini" type="danger">{{
             scope.row.extrasData.matchRegex
@@ -182,6 +185,7 @@ export class ModelFieldTable extends ViewController {
   @Prop({ default: false, type: Boolean }) readonly simpleMode!: boolean
 
   FieldType = FieldType
+  NumberFormat = NumberFormat
 
   fields: ModelFieldModel[] = []
   fieldMap: { [p: string]: ModelFieldModel } = {}
