@@ -49,6 +49,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
             return (
               <MyTagsPanel
                 inline={false}
+                thin={true}
                 values={value}
                 tagProps={{
                   color: 'geekblue',
