@@ -33,6 +33,7 @@ export interface ModelFieldExtrasData {
   nameI18n: I18nTextData
   readonly: boolean
   matchRegex: string
+  fixedColumn?: boolean
   numberFormat?: NumberFormat
   visibleLogic?: LogicExpression
   requiredLogic?: LogicExpression

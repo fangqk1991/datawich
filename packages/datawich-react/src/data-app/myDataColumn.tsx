@@ -97,6 +97,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
     title: header,
     render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
     key: filterKey,
+    fixed: field.extrasData.fixedColumn ? 'left' : undefined,
     sorter: (() => {
       switch (field.fieldType) {
         case FieldType.Integer:
