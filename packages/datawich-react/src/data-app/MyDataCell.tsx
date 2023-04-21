@@ -29,11 +29,13 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.Float:
             const realValue = value || 0
             if (field.extrasData.numberFormat === NumberFormat.Percent) {
-              const valueText = `${(Number(value || 0) * 100).toFixed(2)}%`
-              if (value > 0) {
+              const valueText = `${(realValue * 100).toFixed(2)}%`
+              if (realValue > 0) {
                 return <b style={{ color: '#28a745' }}>{valueText}</b>
-              } else if (value < 0) {
+              } else if (realValue < 0) {
                 return <b style={{ color: '#dc3545' }}>{valueText}</b>
+              } else {
+                return <b>{valueText}</b>
               }
             }
             break
