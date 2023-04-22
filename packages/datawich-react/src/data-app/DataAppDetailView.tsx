@@ -178,11 +178,22 @@ export const DataAppDetailView: React.FC = () => {
           size: 'small',
           bordered: true,
           onChange: (pagination, filters, sorter, extra) => {
+            const newParams: any = {}
             if (sorter) {
-              updateQueryParams({
+              Object.assign(newParams, {
                 sortKey: sorter['columnKey'],
                 sortDirection: sorter['order'],
               })
+            }
+            if (pagination) {
+              Object.assign(newParams, {
+                pageNumber: pagination.current,
+                pageSize: pagination.pageSize,
+              })
+            }
+
+            if (Object.keys(newParams).length > 0) {
+              updateQueryParams(newParams)
             }
           },
         }}
@@ -219,7 +230,8 @@ export const DataAppDetailView: React.FC = () => {
             }, []),
         ]}
         defaultSettings={{
-          pageSize: 10,
+          pageSize: Number(queryParams.pageSize) || 10,
+          pageNumber: Number(queryParams.pageNumber) || 1,
           sortKey: queryParams.sortKey,
           sortDirection: queryParams.sortDirection,
         }}
