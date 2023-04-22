@@ -32,13 +32,13 @@ const trimParams = (params: {}) => {
 
 export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
-  const { queryParams, updateQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
+  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [keywords, setKeywords] = useState(queryParams.keywords)
 
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
 
-  const [version] = useState(0)
+  const [version, setVersion] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
   const [hiddenFieldsMap, setHiddenFieldsMap] = useState<{ [p: string]: boolean }>({})
@@ -94,7 +94,7 @@ export const DataAppDetailView: React.FC = () => {
       })
 
     reloadDisplaySettings()
-  }, [modelKey])
+  }, [modelKey, version])
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
@@ -132,6 +132,14 @@ export const DataAppDetailView: React.FC = () => {
           enterButton
         />
         <Button
+          onClick={() => {
+            setQueryParams({})
+          }}
+        >
+          重置过滤器
+        </Button>
+        <Button
+          type={'primary'}
           onClick={() => {
             const dialog = new MultiplePickerDialog({
               options: allFields.map((field) => {
@@ -174,28 +182,10 @@ export const DataAppDetailView: React.FC = () => {
         rowKey={(item: DataRecord) => {
           return `${item.rid}`
         }}
+        reactiveQuery={true}
         tableProps={{
           size: 'small',
           bordered: true,
-          onChange: (pagination, filters, sorter, extra) => {
-            const newParams: any = {}
-            if (sorter) {
-              Object.assign(newParams, {
-                sortKey: sorter['columnKey'],
-                sortDirection: sorter['order'],
-              })
-            }
-            if (pagination) {
-              Object.assign(newParams, {
-                pageNumber: pagination.current,
-                pageSize: pagination.pageSize,
-              })
-            }
-
-            if (Object.keys(newParams).length > 0) {
-              updateQueryParams(newParams)
-            }
-          },
         }}
         columns={[
           ...displayFields
@@ -229,12 +219,12 @@ export const DataAppDetailView: React.FC = () => {
               return result
             }, []),
         ]}
-        defaultSettings={{
-          pageSize: Number(queryParams.pageSize) || 10,
-          pageNumber: Number(queryParams.pageNumber) || 1,
-          sortKey: queryParams.sortKey,
-          sortDirection: queryParams.sortDirection,
-        }}
+        // defaultSettings={{
+        //   pageSize: Number(queryParams.pageSize) || 10,
+        //   pageNumber: Number(queryParams.pageNumber) || 1,
+        //   sortKey: queryParams.sortKey,
+        //   sortDirection: queryParams.sortDirection,
+        // }}
         loadData={async (retainParams) => {
           const params = Object.assign({}, retainParams, queryParams)
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))

@@ -98,7 +98,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
     render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
     key: filterKey,
     fixed: field.extrasData.fixedColumn ? 'left' : undefined,
-    defaultSortOrder: filterOptions['sortKey'] === filterKey ? filterOptions['sortDirection'] : undefined,
+    sortOrder: filterOptions['sortKey'] === filterKey ? filterOptions['sortDirection'] : undefined,
     sorter: (() => {
       switch (field.fieldType) {
         case FieldType.Integer:
