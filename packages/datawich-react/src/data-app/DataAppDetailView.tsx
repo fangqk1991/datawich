@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Button, Divider, Input, message, Space, Spin } from 'antd'
+import { Breadcrumb, Button, Divider, Form, Input, message, Space, Spin } from 'antd'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { DataModelModel, FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
+import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 
 interface DataRecord {
   rid: number
@@ -33,6 +34,7 @@ const trimParams = (params: {}) => {
 export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
+
   const [keywords, setKeywords] = useState(queryParams.keywords)
 
   const favorAppsCtx = useFavorAppsCtx()
@@ -96,6 +98,8 @@ export const DataAppDetailView: React.FC = () => {
     reloadDisplaySettings()
   }, [modelKey, version])
 
+  const [filterForm] = Form.useForm()
+
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
   }
@@ -118,6 +122,31 @@ export const DataAppDetailView: React.FC = () => {
         ]}
       />
       <Divider style={{ margin: '12px 0' }} />
+
+      <ProForm form={filterForm} submitter={false}>
+        {allFields
+          .filter((field) => [FieldType.Date, FieldType.Datetime].includes(field.fieldType as FieldType))
+          .map((field) => {
+            return (
+              <ProFormDateRangePicker
+                key={field.filterKey}
+                name={field.filterKey}
+                label={field.name}
+                placeholder={['开始时间', '结束时间']}
+                fieldProps={{
+                  format: (value) => value.format('YYYY-MM-DD'),
+                  onChange: (values) => {
+                    const dateRange = values ? values.map((item: any) => item.format('YYYY-MM-DD')) : []
+                    updateQueryParams({
+                      [field.filterKey]: dateRange,
+                    })
+                  },
+                }}
+              />
+            )
+          })}
+      </ProForm>
+
       <Space wrap={true}>
         <Input.Search
           value={keywords}
@@ -134,6 +163,7 @@ export const DataAppDetailView: React.FC = () => {
         <Button
           onClick={() => {
             setQueryParams({})
+            filterForm.resetFields()
           }}
         >
           重置过滤器
