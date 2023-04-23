@@ -48,6 +48,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
     case FieldType.TextEnum:
       header = (
         <Select
+          key={`${filterKey}-${filterOptions[filterKey]}`}
           defaultValue={filterOptions[filterKey] || ''}
           style={{ width: '100%' }}
           onChange={(value) => {
