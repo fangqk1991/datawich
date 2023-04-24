@@ -163,6 +163,7 @@ export const DataAppDetailView: React.FC = () => {
         <Button
           onClick={() => {
             setQueryParams({})
+            setKeywords('')
             filterForm.resetFields()
           }}
         >
