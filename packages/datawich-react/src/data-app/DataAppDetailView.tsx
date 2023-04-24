@@ -83,6 +83,9 @@ export const DataAppDetailView: React.FC = () => {
   }
 
   useEffect(() => {
+    setKeywords('')
+    filterForm.resetFields()
+
     MyRequest(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, modelKey))
       .quickSend()
       .then((response) => {
