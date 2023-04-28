@@ -142,73 +142,71 @@ export class WideSearcherBuilder {
         }
       }
     }
-    Object.keys(options)
-      .filter((filterKey) => filterKey in filterMapper && !!options[filterKey])
-      .forEach((filterKey) => {
-        const filterValue = options[filterKey]
-        const entity = filterMapper[filterKey]
-        const columnName = entity.columnName
-        const field = entity.field
-        switch (field.fieldType as FieldType) {
-          case FieldType.MultipleLinesText:
-          case FieldType.JSON:
-          case FieldType.StringList:
-          case FieldType.Link:
-            break
-          case FieldType.RichText:
-            break
-          case FieldType.SingleLineText:
-          case FieldType.Enum:
-          case FieldType.TextEnum:
-          case FieldType.User:
-          case FieldType.Integer:
-          case FieldType.Float:
-          case FieldType.ReadonlyText:
-            searcher.addConditionKV(columnName, filterValue)
-            break
-          case FieldType.MultiEnum: {
+    for (const rawKey of Object.keys(options)) {
+      const isOpposite = rawKey.endsWith('.not')
+      const filterKey = isOpposite ? rawKey.replace(/\.not$/, '') : rawKey
+      if (!filterMapper[filterKey] || !options[rawKey]) {
+        continue
+      }
+      const filterValue = options[rawKey]
+      const entity = filterMapper[filterKey]
+      const columnName = entity.columnName
+      const field = entity.field
+      switch (field.fieldType as FieldType) {
+        case FieldType.SingleLineText:
+        case FieldType.Enum:
+        case FieldType.TextEnum:
+        case FieldType.User:
+        case FieldType.Integer:
+        case FieldType.Float:
+        case FieldType.ReadonlyText:
+          searcher.addConditionKV(columnName, filterValue)
+          break
+        case FieldType.MultiEnum: {
+          if (isOpposite) {
+            for (const val of GeneralDataHelper.extractMultiEnumItems(filterValue)) {
+              searcher.addSpecialCondition(`NOT FIND_IN_SET(?, ${columnName})`, val)
+            }
+          } else {
             const builder = new SearchBuilder()
             builder.addCondition(`1 = 0`)
             for (const val of GeneralDataHelper.extractMultiEnumItems(filterValue)) {
               builder.addCondition(`FIND_IN_SET(?, ${columnName})`, val)
             }
             builder.injectToSearcher(searcher)
-            break
           }
-          case FieldType.Tags:
-            if (Number(filterValue) > 0) {
-              searcher.addSpecialCondition(`(${columnName} & ?) > 0`, filterValue)
-            }
-            break
-          case FieldType.Date:
-            if (Array.isArray(filterValue) && filterValue.length === 2) {
-              searcher.addSpecialCondition(`${columnName} BETWEEN ? AND ?`, filterValue[0], filterValue[1])
-            }
-            break
-          case FieldType.Datetime:
-            if (Array.isArray(filterValue) && filterValue.length === 2) {
-              const [startStr, endStr] = filterValue
-              const startMoment = moment.utc(startStr)
-              const endMoment = moment.utc(endStr)
-              if (/^\d{4}-\d{2}-\d{2}$/.test(startStr)) {
-                startMoment.startOf('day')
-              }
-              if (/^\d{4}-\d{2}-\d{2}$/.test(endStr)) {
-                endMoment.endOf('day')
-              }
-              searcher.addSpecialCondition(
-                `${columnName} BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)`,
-                startMoment.unix(),
-                endMoment.unix()
-              )
-            }
-            break
-          case FieldType.Attachment:
-            break
-          default:
-            break
+          break
         }
-      })
+        case FieldType.Tags:
+          if (Number(filterValue) > 0) {
+            searcher.addSpecialCondition(`(${columnName} & ?) > 0`, filterValue)
+          }
+          break
+        case FieldType.Date:
+          if (Array.isArray(filterValue) && filterValue.length === 2) {
+            searcher.addSpecialCondition(`${columnName} BETWEEN ? AND ?`, filterValue[0], filterValue[1])
+          }
+          break
+        case FieldType.Datetime:
+          if (Array.isArray(filterValue) && filterValue.length === 2) {
+            const [startStr, endStr] = filterValue
+            const startMoment = moment.utc(startStr)
+            const endMoment = moment.utc(endStr)
+            if (/^\d{4}-\d{2}-\d{2}$/.test(startStr)) {
+              startMoment.startOf('day')
+            }
+            if (/^\d{4}-\d{2}-\d{2}$/.test(endStr)) {
+              endMoment.endOf('day')
+            }
+            searcher.addSpecialCondition(
+              `${columnName} BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)`,
+              startMoment.unix(),
+              endMoment.unix()
+            )
+          }
+          break
+      }
+    }
     return searcher
   }
 

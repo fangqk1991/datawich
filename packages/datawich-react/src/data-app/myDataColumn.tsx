@@ -1,5 +1,5 @@
 import React from 'react'
-import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldType, GeneralDataHelper, ModelFieldModel, TagsCheckedMap } from '@fangcha/datawich-service'
 import { MyDataCell } from './MyDataCell'
 import { ColumnType } from 'antd/es/table/interface'
 import { Checkbox, Select } from 'antd'
@@ -10,7 +10,7 @@ interface Props {
   superField?: ModelFieldModel
   filterOptions?: {}
   onFilterChange?: (params: {}) => void
-  tagsCheckedMap?: any
+  tagsCheckedMap?: TagsCheckedMap
 }
 
 export const myDataColumn = (props: Props): ColumnType<any> => {
@@ -18,6 +18,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   const superField = props.superField
   const filterOptions = props.filterOptions || {}
   const filterKey = field.filterKey
+  const filterKeyForNot = `${filterKey}.not`
 
   const getOptionsForEnumField = (data?: any) => {
     let options = field.options || []
@@ -68,18 +69,34 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       )
       break
     case FieldType.MultiEnum:
-      const tagsCheckedMap = props.tagsCheckedMap || {}
-      const checkedList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap)
+      const tagsCheckedMap: TagsCheckedMap = props.tagsCheckedMap || {
+        including: {},
+        excluding: {},
+      }
+      const includingList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap.including)
+      const excludingList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap.excluding)
       filterView = (
         <>
           <h4 style={{ margin: '0 0 8px' }}>Including anyOf</h4>
           <Checkbox.Group
             options={field.options}
-            value={checkedList}
+            value={includingList}
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
                   [filterKey]: checkedValue.join(','),
+                })
+              }
+            }}
+          />
+          <h4 style={{ margin: '8px 0' }}>Excluding anyOf</h4>
+          <Checkbox.Group
+            options={field.options}
+            value={excludingList}
+            onChange={(checkedValue) => {
+              if (props.onFilterChange) {
+                props.onFilterChange({
+                  [filterKeyForNot]: checkedValue.join(','),
                 })
               }
             }}
@@ -93,7 +110,9 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   return {
     className:
       filterOptions &&
-      (filterOptions[filterKey] || (filterOptions['sortKey'] === filterKey && !!filterOptions['sortDirection']))
+      (filterOptions[filterKey] ||
+        filterOptions[filterKeyForNot] ||
+        (filterOptions['sortKey'] === filterKey && !!filterOptions['sortDirection']))
         ? 'bg-highlight'
         : '',
     title: <div>{header}</div>,
@@ -114,7 +133,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       }
       return undefined
     })(),
-    filtered: !!filterOptions[filterKey],
+    filtered: !!filterOptions[filterKey] || filterOptions[filterKeyForNot],
     filterDropdown: filterView ? <div style={{ padding: '8px' }}>{filterView}</div> : undefined,
   }
 }
