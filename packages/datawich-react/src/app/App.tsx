@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom'
 import { MyRouter } from './MyRouter'
 import { ReactDialogTheme } from '@fangcha/react'
 import { VisitorProvider } from '@fangcha/auth-react'
+import './app.scss'
 
 ReactDialogTheme.colorPrimary = 'rgb(221 115 164)'
 

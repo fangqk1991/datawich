@@ -42,7 +42,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
     return options
   }
 
-  let header = <div>{field.name}</div>
+  let header = <>{field.name}</>
   switch (field.fieldType) {
     case FieldType.Enum:
     case FieldType.TextEnum:
@@ -95,7 +95,8 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   const dataKey = GeneralDataHelper.calculateDataKey(field, superField)
 
   return {
-    title: header,
+    className: props.filterOptions && props.filterOptions[filterKey] ? 'bg-highlight' : '',
+    title: <div>{header}</div>,
     render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
     key: filterKey,
     fixed: field.extrasData.fixedColumn ? 'left' : undefined,
