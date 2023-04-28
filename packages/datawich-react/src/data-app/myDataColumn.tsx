@@ -71,17 +71,20 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       const tagsCheckedMap = props.tagsCheckedMap || {}
       const checkedList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap)
       filterView = (
-        <Checkbox.Group
-          options={field.options}
-          value={checkedList}
-          onChange={(checkedValue) => {
-            if (props.onFilterChange) {
-              props.onFilterChange({
-                [filterKey]: checkedValue.join(','),
-              })
-            }
-          }}
-        />
+        <>
+          <h4 style={{ margin: '0 0 8px' }}>Including anyOf</h4>
+          <Checkbox.Group
+            options={field.options}
+            value={checkedList}
+            onChange={(checkedValue) => {
+              if (props.onFilterChange) {
+                props.onFilterChange({
+                  [filterKey]: checkedValue.join(','),
+                })
+              }
+            }}
+          />
+        </>
       )
       break
   }
@@ -111,6 +114,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       }
       return undefined
     })(),
+    filtered: !!filterOptions[filterKey],
     filterDropdown: filterView ? <div style={{ padding: '8px' }}>{filterView}</div> : undefined,
   }
 }
