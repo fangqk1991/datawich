@@ -94,7 +94,11 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   const dataKey = GeneralDataHelper.calculateDataKey(field, superField)
 
   return {
-    className: props.filterOptions && props.filterOptions[filterKey] ? 'bg-highlight' : '',
+    className:
+      filterOptions &&
+      (filterOptions[filterKey] || (filterOptions['sortKey'] === filterKey && !!filterOptions['sortDirection']))
+        ? 'bg-highlight'
+        : '',
     title: <div>{header}</div>,
     render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
     key: filterKey,
