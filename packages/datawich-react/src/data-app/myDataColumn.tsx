@@ -2,7 +2,7 @@ import React from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyDataCell } from './MyDataCell'
 import { ColumnType } from 'antd/es/table/interface'
-import { Button, Checkbox, Popover, Select } from 'antd'
+import { Checkbox, Select } from 'antd'
 import * as moment from 'moment'
 
 interface Props {
@@ -43,6 +43,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   }
 
   let header = <>{field.name}</>
+  let filterView: any = undefined
   switch (field.fieldType) {
     case FieldType.Enum:
     case FieldType.TextEnum:
@@ -69,25 +70,18 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
     case FieldType.MultiEnum:
       const tagsCheckedMap = props.tagsCheckedMap || {}
       const checkedList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap)
-      header = (
-        <Popover
-          content={
-            <Checkbox.Group
-              options={field.options}
-              value={checkedList}
-              onChange={(checkedValue) => {
-                if (props.onFilterChange) {
-                  props.onFilterChange({
-                    [filterKey]: checkedValue.join(','),
-                  })
-                }
-              }}
-            />
-          }
-          trigger='click'
-        >
-          <Button type={'link'}>{filterOptions[filterKey] ? checkedList.join(', ') : field.name}</Button>
-        </Popover>
+      filterView = (
+        <Checkbox.Group
+          options={field.options}
+          value={checkedList}
+          onChange={(checkedValue) => {
+            if (props.onFilterChange) {
+              props.onFilterChange({
+                [filterKey]: checkedValue.join(','),
+              })
+            }
+          }}
+        />
       )
       break
   }
@@ -117,5 +111,6 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       }
       return undefined
     })(),
+    filterDropdown: filterView ? <div style={{ padding: '8px' }}>{filterView}</div> : undefined,
   }
 }
