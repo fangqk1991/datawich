@@ -572,6 +572,10 @@ export class ModelDataHandler {
         } else {
           adder.insertKV(fieldKey, customData[fieldKey])
         }
+      } else {
+        if (field.useDefault) {
+          adder.insertKV(fieldKey, field.defaultValue)
+        }
       }
     }
     await adder.execute()
