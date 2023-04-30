@@ -12,12 +12,13 @@ import {
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { MultiplePickerDialog, TableView, useQueryParams } from '@fangcha/react'
+import { TableView, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
+import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 
 interface DataRecord {
   rid: number
@@ -187,7 +188,7 @@ export const DataAppDetailView: React.FC = () => {
         <Button
           type={'primary'}
           onClick={() => {
-            const dialog = new MultiplePickerDialog({
+            const dialog = new FieldsDisplaySettingDialog({
               options: allFields.map((field) => {
                 return {
                   label: field.name,
