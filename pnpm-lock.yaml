@@ -176,9 +176,6 @@ importers:
       '@types/node':
         specifier: ^18.13.0
         version: 18.15.11
-      '@types/react-beautiful-dnd':
-        specifier: ^13.1.4
-        version: 13.1.4
       '@types/shelljs':
         specifier: ^0.8.8
         version: 0.8.12
@@ -227,9 +224,6 @@ importers:
       nyc:
         specifier: ^15.1.0
         version: 15.1.0
-      react-beautiful-dnd:
-        specifier: ^13.1.1
-        version: 13.1.1(react-dom@18.2.0)(react@18.2.0)
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
