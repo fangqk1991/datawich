@@ -28,6 +28,7 @@ interface DataRecord {
 interface DisplaySettings {
   hiddenFieldsMap: { [p: string]: boolean }
   checkedList: string[]
+  fixedList: string[]
 }
 
 const trimParams = (params: {}) => {
@@ -58,7 +59,15 @@ export const DataAppDetailView: React.FC = () => {
   const [displaySettings, setDisplaySettings] = useState<DisplaySettings>({
     hiddenFieldsMap: {},
     checkedList: [],
+    fixedList: [],
   })
+
+  const fixedColumnMap = useMemo(() => {
+    return displaySettings.fixedList.reduce((result, cur) => {
+      result[cur] = true
+      return result
+    }, {})
+  }, [displaySettings])
 
   const allFields = useMemo(() => {
     const items: ModelFieldModel[] = []
@@ -219,10 +228,10 @@ export const DataAppDetailView: React.FC = () => {
                 }
               }),
               checkedList: displayFields.map((item) => item.filterKey),
+              fixedList: displaySettings.fixedList,
             })
-            dialog.title = `管理展示字段`
-            dialog.show(async (checkedList) => {
-              const checkedMap = checkedList.reduce((result, cur) => {
+            dialog.show(async (params) => {
+              const checkedMap = params.checkedList.reduce((result, cur) => {
                 result[`${cur}`] = true
                 return result
               }, {})
@@ -230,7 +239,8 @@ export const DataAppDetailView: React.FC = () => {
                 new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
               )
               request.setBodyData({
-                checkedList: checkedList,
+                fixedList: params.fixedList,
+                checkedList: params.checkedList,
                 hiddenFieldsMap: allFields
                   .filter((field) => !checkedMap[field.filterKey])
                   .reduce((result, cur) => {
@@ -267,6 +277,7 @@ export const DataAppDetailView: React.FC = () => {
                   filterOptions: queryParams,
                   onFilterChange: (params) => updateQueryParams(params),
                   tagsCheckedMap: fullTagsCheckedMap[field.filterKey],
+                  fixedColumn: fixedColumnMap[field.filterKey],
                 }),
               ]
               for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
@@ -279,6 +290,7 @@ export const DataAppDetailView: React.FC = () => {
                       filterOptions: queryParams,
                       onFilterChange: (params) => updateQueryParams(params),
                       tagsCheckedMap: fullTagsCheckedMap[refField.filterKey],
+                      fixedColumn: fixedColumnMap[field.filterKey],
                     })
                   ),
                 })

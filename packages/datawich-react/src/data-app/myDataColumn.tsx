@@ -11,6 +11,7 @@ interface Props {
   filterOptions?: {}
   onFilterChange?: (params: {}) => void
   tagsCheckedMap?: TagsCheckedMap
+  fixedColumn?: boolean
 }
 
 export const myDataColumn = (props: Props): ColumnType<any> => {
@@ -118,7 +119,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
     title: <div>{header}</div>,
     render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
     key: filterKey,
-    fixed: field.extrasData.fixedColumn ? 'left' : undefined,
+    fixed: props.fixedColumn ? 'left' : undefined,
     sortOrder: filterOptions['sortKey'] === filterKey ? filterOptions['sortDirection'] : undefined,
     sorter: (() => {
       switch (field.fieldType) {

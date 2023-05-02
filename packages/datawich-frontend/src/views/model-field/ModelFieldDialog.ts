@@ -131,13 +131,6 @@ import { FieldHelper } from '@web/datawich-common/models'
             <el-radio-button :key="false" :label="false">False</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item>
-          <span slot="label"> 固定列展示 </span>
-          <el-radio-group v-model="data.extrasData.fixedColumn">
-            <el-radio-button :key="true" :label="true">True</el-radio-button>
-            <el-radio-button :key="false" :label="false">False</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
       </el-form>
       <template slot="footer">
         <el-checkbox v-if="!forBind && !forEditing && !copingFieldKey" v-model="continueToCreate" class="mr-2"
