@@ -14,13 +14,13 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, SelectOption[
   public rawComponent(): React.FC<Props> {
     return (props) => {
       const [checkedList, setCheckedList] = useState(props.checkedList || [])
-      const checkedMap = useMemo(() => {
-        return checkedList.reduce((result, cur) => {
-          result[cur] = true
+      const checkedOptions = useMemo(() => {
+        const optionsMap = props.options.reduce((result, item) => {
+          result[item.value] = item
           return result
         }, {})
-      }, [checkedList])
-      const checkedOptions = props.options.filter((item) => checkedMap[item.value])
+        return checkedList.map((filterKey) => optionsMap[filterKey]).filter((item) => !!item)
+      }, [checkedList, props.options])
 
       props.context.handleResult = () => {
         return checkedList
