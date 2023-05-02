@@ -124,6 +124,7 @@ export const DataAppDetailView: React.FC = () => {
     const displaySettings = await request.quickSend<DisplaySettings>()
     displaySettings.hiddenFieldsMap = displaySettings.hiddenFieldsMap || {}
     displaySettings.checkedList = displaySettings.checkedList || []
+    displaySettings.fixedList = displaySettings.fixedList || []
     setDisplaySettings(displaySettings)
   }
 
