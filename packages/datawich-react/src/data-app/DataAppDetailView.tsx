@@ -25,6 +25,11 @@ interface DataRecord {
   _data_id: string
 }
 
+interface DisplaySettings {
+  hiddenFieldsMap: { [p: string]: boolean }
+  checkedList: string[]
+}
+
 const trimParams = (params: {}) => {
   params = params || {}
   const newParams = {}
@@ -50,7 +55,10 @@ export const DataAppDetailView: React.FC = () => {
   const [version, setVersion] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
-  const [hiddenFieldsMap, setHiddenFieldsMap] = useState<{ [p: string]: boolean }>({})
+  const [displaySettings, setDisplaySettings] = useState<DisplaySettings>({
+    hiddenFieldsMap: {},
+    checkedList: [],
+  })
 
   const allFields = useMemo(() => {
     const items: ModelFieldModel[] = []
@@ -84,15 +92,30 @@ export const DataAppDetailView: React.FC = () => {
   }, [allFields, queryParams])
 
   const displayFields = useMemo(() => {
-    return FieldHelper.makeDisplayFields(mainFields.filter((item) => !hiddenFieldsMap[item.filterKey]))
-  }, [mainFields, hiddenFieldsMap])
+    const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
+      result[cur] = true
+      return result
+    }, {})
+    let displayItems = mainFields.filter((item) => !displaySettings.hiddenFieldsMap[item.filterKey])
+    const fieldMap = displayItems.reduce((result, cur) => {
+      result[cur.filterKey] = cur
+      return result
+    }, {})
+    displayItems = [
+      ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
+      ...displayItems.filter((item) => !checkedMap[item.filterKey]),
+    ]
+    return FieldHelper.makeDisplayFields(displayItems)
+  }, [mainFields, displaySettings])
 
   const reloadDisplaySettings = async () => {
     const request = MyRequest(
       new CommonAPI(CommonProfileApis.ProfileInfoGet, ProfileEvent.UserModelAppDisplay, modelKey)
     )
-    const displaySettings = await request.quickSend()
-    setHiddenFieldsMap(displaySettings.hiddenFieldsMap || {})
+    const displaySettings = await request.quickSend<DisplaySettings>()
+    displaySettings.hiddenFieldsMap = displaySettings.hiddenFieldsMap || {}
+    displaySettings.checkedList = displaySettings.checkedList || []
+    setDisplaySettings(displaySettings)
   }
 
   useEffect(() => {
@@ -195,7 +218,9 @@ export const DataAppDetailView: React.FC = () => {
                   value: field.filterKey,
                 }
               }),
-              checkedList: allFields.filter((item) => !hiddenFieldsMap[item.filterKey]).map((item) => item.filterKey),
+              checkedList: allFields
+                .filter((item) => !displaySettings.hiddenFieldsMap[item.filterKey])
+                .map((item) => item.filterKey),
             })
             dialog.title = `管理展示字段`
             dialog.show(async (checkedList) => {
@@ -207,6 +232,7 @@ export const DataAppDetailView: React.FC = () => {
                 new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
               )
               request.setBodyData({
+                checkedList: checkedList,
                 hiddenFieldsMap: allFields
                   .filter((field) => !checkedMap[field.filterKey])
                   .reduce((result, cur) => {
