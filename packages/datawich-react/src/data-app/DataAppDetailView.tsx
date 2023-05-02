@@ -218,9 +218,7 @@ export const DataAppDetailView: React.FC = () => {
                   value: field.filterKey,
                 }
               }),
-              checkedList: allFields
-                .filter((item) => !displaySettings.hiddenFieldsMap[item.filterKey])
-                .map((item) => item.filterKey),
+              checkedList: displayFields.map((item) => item.filterKey),
             })
             dialog.title = `管理展示字段`
             dialog.show(async (checkedList) => {
