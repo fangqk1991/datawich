@@ -100,7 +100,7 @@ export const DataAppDetailView: React.FC = () => {
       }, {} as { [p: string]: TagsCheckedMap })
   }, [allFields, queryParams])
 
-  const displayFields = useMemo(() => {
+  const mainDisplayFields = useMemo(() => {
     const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
       result[cur] = true
       return result
@@ -222,16 +222,12 @@ export const DataAppDetailView: React.FC = () => {
           type={'primary'}
           onClick={() => {
             const dialog = new FieldsDisplaySettingDialog({
-              options: allFields.map((field) => {
-                return {
-                  label: field.name,
-                  value: field.filterKey,
-                }
-              }),
+              mainFields: mainFields,
+              allFields: allFields,
               checkedList:
                 displaySettings.checkedList.length > 0
                   ? displaySettings.checkedList
-                  : displayFields.map((item) => item.filterKey),
+                  : mainDisplayFields.map((item) => item.filterKey),
               fixedList: displaySettings.fixedList,
             })
             dialog.show(async (params) => {
@@ -273,7 +269,7 @@ export const DataAppDetailView: React.FC = () => {
           bordered: true,
         }}
         columns={[
-          ...displayFields
+          ...mainDisplayFields
             .map((field) => {
               const columns = [
                 myDataColumn({

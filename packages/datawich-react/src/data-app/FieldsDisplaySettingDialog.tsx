@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react'
 import { Checkbox, Select } from 'antd'
 import { DialogProps, DraggableOptionsPanel, ReactDialog } from '@fangcha/react'
-import { SelectOption } from '@fangcha/tools'
+import { ModelFieldModel } from '@fangcha/datawich-service'
 
 interface Props extends DialogProps {
-  options: SelectOption[]
+  allFields: ModelFieldModel[]
+  mainFields: ModelFieldModel[]
   checkedList?: any[]
   fixedList?: string[]
 }
@@ -22,13 +23,23 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
     return (props) => {
       const [checkedList, setCheckedList] = useState(props.checkedList || [])
       const [fixedList, setFixedList] = useState(props.fixedList || [])
+
+      const checkOptions = useMemo(() => {
+        return props.allFields.map((field) => {
+          return {
+            label: field.name,
+            value: field.filterKey,
+          }
+        })
+      }, [props.allFields])
+
       const checkedOptions = useMemo(() => {
-        const optionsMap = props.options.reduce((result, item) => {
+        const optionsMap = checkOptions.reduce((result, item) => {
           result[item.value] = item
           return result
         }, {})
         return checkedList.map((filterKey) => optionsMap[filterKey]).filter((item) => !!item)
-      }, [checkedList, props.options])
+      }, [checkedList, checkOptions])
 
       props.context.handleResult = () => {
         return {
@@ -41,7 +52,7 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
         <div>
           <Checkbox.Group
             style={{ display: 'block' }}
-            options={props.options}
+            options={checkOptions}
             value={checkedList}
             onChange={(checkedValues) => setCheckedList(checkedValues)}
           />
