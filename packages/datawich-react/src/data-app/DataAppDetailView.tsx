@@ -228,7 +228,10 @@ export const DataAppDetailView: React.FC = () => {
                   value: field.filterKey,
                 }
               }),
-              checkedList: displayFields.map((item) => item.filterKey),
+              checkedList:
+                displaySettings.checkedList.length > 0
+                  ? displaySettings.checkedList
+                  : displayFields.map((item) => item.filterKey),
               fixedList: displaySettings.fixedList,
             })
             dialog.show(async (params) => {
@@ -284,16 +287,18 @@ export const DataAppDetailView: React.FC = () => {
               for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
                 columns.push({
                   title: `${field.name} 关联`,
-                  children: fieldLink.referenceFields.map((refField) =>
-                    myDataColumn({
-                      field: refField,
-                      superField: field,
-                      filterOptions: queryParams,
-                      onFilterChange: (params) => updateQueryParams(params),
-                      tagsCheckedMap: fullTagsCheckedMap[refField.filterKey],
-                      fixedColumn: fixedColumnMap[field.filterKey],
-                    })
-                  ),
+                  children: fieldLink.referenceFields
+                    .filter((refField) => !displaySettings.hiddenFieldsMap[refField.filterKey])
+                    .map((refField) =>
+                      myDataColumn({
+                        field: refField,
+                        superField: field,
+                        filterOptions: queryParams,
+                        onFilterChange: (params) => updateQueryParams(params),
+                        tagsCheckedMap: fullTagsCheckedMap[refField.filterKey],
+                        fixedColumn: fixedColumnMap[refField.filterKey],
+                      })
+                    ),
                 })
               }
               return columns
