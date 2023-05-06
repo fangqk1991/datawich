@@ -24,22 +24,41 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
       const [checkedList, setCheckedList] = useState(props.checkedList || [])
       const [fixedList, setFixedList] = useState(props.fixedList || [])
 
-      const checkOptions = useMemo(() => {
-        return props.allFields.map((field) => {
-          return {
-            label: field.name,
-            value: field.filterKey,
-          }
-        })
-      }, [props.allFields])
-
-      const checkedOptions = useMemo(() => {
-        const optionsMap = checkOptions.reduce((result, item) => {
-          result[item.value] = item
+      const checkedMap = useMemo(() => {
+        return checkedList.reduce((result, cur) => {
+          result[cur] = true
           return result
         }, {})
+      }, [checkedList])
+
+      const optionsMap = useMemo(() => {
+        return props.allFields
+          .map((field) => {
+            return {
+              label: field.name,
+              value: field.filterKey,
+            }
+          })
+          .reduce((result, item) => {
+            result[item.value] = item
+            return result
+          }, {})
+      }, [props.allFields])
+
+      const checkedFieldOptions = useMemo(() => {
         return checkedList.map((filterKey) => optionsMap[filterKey]).filter((item) => !!item)
-      }, [checkedList, checkOptions])
+      }, [checkedList])
+
+      const uncheckedFieldOptions = useMemo(() => {
+        return props.allFields
+          .filter((field) => !checkedMap[field.filterKey])
+          .map((field) => optionsMap[field.filterKey])
+          .filter((item) => !!item)
+      }, [checkedMap])
+
+      const allFieldOptions = useMemo(() => {
+        return [...checkedFieldOptions, ...uncheckedFieldOptions]
+      }, [checkedFieldOptions, uncheckedFieldOptions])
 
       props.context.handleResult = () => {
         return {
@@ -52,7 +71,7 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
         <div>
           <Checkbox.Group
             style={{ display: 'block' }}
-            options={checkOptions}
+            options={allFieldOptions}
             value={checkedList}
             onChange={(checkedValues) => setCheckedList(checkedValues)}
           />
@@ -66,11 +85,11 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
             onChange={(items) => {
               setFixedList(items)
             }}
-            options={checkedOptions}
+            options={checkedFieldOptions}
           />
           <h4 style={{ margin: '12px 0 4px' }}>调整顺序</h4>
           <DraggableOptionsPanel
-            options={checkedOptions}
+            options={checkedFieldOptions}
             onChange={(newOptions) => {
               setCheckedList(newOptions.map((item) => item.value))
             }}
