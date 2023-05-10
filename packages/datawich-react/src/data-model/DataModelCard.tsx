@@ -1,14 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Tag, Tooltip } from 'antd'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { CheckCircleOutlined, InfoCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { AccessLevel, AccessLevelDescriptor, describeAccessLevelDetail } from '@web/datawich-common/models'
+import { MyRequest } from '@fangcha/auth-react'
+import { CommonAPI } from '@fangcha/app-request'
+import { DataModelApis } from '@web/datawich-common/web-api'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   dataApp: DataModelModel
 }
 
 export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
+  const navigate = useNavigate()
+
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    const request = MyRequest(new CommonAPI(DataModelApis.DataModelSummaryInfoGet, dataApp.modelKey))
+    request.quickSend<{ count: number }>().then(({ count }) => {
+      setCount(count)
+    })
+  }, [dataApp.modelKey])
   return (
     <div>
       <h4
@@ -73,7 +86,17 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
           {AccessLevelDescriptor.describe(dataApp.accessLevel)}{' '}
           <Tooltip title={describeAccessLevelDetail(dataApp.accessLevel as AccessLevel)}>
             <InfoCircleOutlined />
-          </Tooltip>
+          </Tooltip>{' '}
+          | <b>{count} 条记录</b>
+        </li>
+        <li>
+          <a
+            onClick={() => {
+              navigate(`/v1/data-app/${dataApp.modelKey}`)
+            }}
+          >
+            查看应用
+          </a>
         </li>
       </ul>
     </div>

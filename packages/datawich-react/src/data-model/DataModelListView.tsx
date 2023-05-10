@@ -3,13 +3,11 @@ import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Card, Divider, Spin } from 'antd'
 import { DataAppApis } from '@web/datawich-common/web-api'
 import { DataModelModel } from '@fangcha/datawich-service'
-import { useNavigate } from 'react-router-dom'
 import { LS } from '../core/ReactI18n'
 import { DataModelCard } from './DataModelCard'
 
 export const DataModelListView: React.FC = () => {
   const [appList, setAppList] = useState<DataModelModel[]>()
-  const navigate = useNavigate()
 
   useEffect(() => {
     MyRequest(DataAppApis.DataAppListGet)
@@ -41,9 +39,6 @@ export const DataModelListView: React.FC = () => {
               padding: '16px',
             }}
             key={dataApp.modelKey}
-            onClick={() => {
-              navigate(`/v1/data-app/${dataApp.modelKey}`)
-            }}
           >
             <DataModelCard dataApp={dataApp} />
           </Card.Grid>
