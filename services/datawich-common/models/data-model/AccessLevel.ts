@@ -19,8 +19,8 @@ const describe = (code: AccessLevel) => {
   }
 }
 
-export const describeAccessLevelDetail = (code: AccessLevel) => {
-  switch (code) {
+export const describeAccessLevelDetail = (code: string) => {
+  switch (code as AccessLevel) {
     case AccessLevel.Protected:
       return '受保护的（模型相关组成员可用）'
     case AccessLevel.Public_OnlyFeature:

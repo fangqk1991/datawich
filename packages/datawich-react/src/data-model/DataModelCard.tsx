@@ -54,7 +54,7 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
       >
         <li>
           <Space>
-            {dataApp.isOnline && (
+            {dataApp.isOnline ? (
               <span
                 style={{
                   color: '#67C23A',
@@ -62,8 +62,7 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
               >
                 已发布 <CheckCircleOutlined />
               </span>
-            )}
-            {!dataApp.isOnline && (
+            ) : (
               <span
                 style={{
                   color: '#F56C6C',

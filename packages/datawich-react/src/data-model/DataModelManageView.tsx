@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { useQueryParams } from '@fangcha/react'
+import { ModelInfoFragment } from './ModelInfoFragment'
 
 interface DataRecord {
   rid: number
@@ -78,7 +79,7 @@ export const DataModelManageView: React.FC = () => {
           {
             label: LS('[i18n] Basic Info'),
             key: 'fragment-model-info',
-            // children: <AppBasicInfoFragment appInfo={appInfo} onAppInfoChanged={() => setVersion(version + 1)} />,
+            children: <ModelInfoFragment dataModel={dataModel} onModelInfoChanged={() => setVersion(version + 1)} />,
           },
           {
             label: LS('[i18n] Field Structure'),
