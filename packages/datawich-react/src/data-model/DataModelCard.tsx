@@ -90,13 +90,22 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
           | <b>{count} 条记录</b>
         </li>
         <li>
-          <a
-            onClick={() => {
-              navigate(`/v1/data-app/${dataApp.modelKey}`)
-            }}
-          >
-            查看应用
-          </a>
+          <Space>
+            <a
+              onClick={() => {
+                navigate(`/v1/data-model/${dataApp.modelKey}`)
+              }}
+            >
+              管理模型
+            </a>
+            <a
+              onClick={() => {
+                navigate(`/v1/data-app/${dataApp.modelKey}`)
+              }}
+            >
+              查看应用
+            </a>
+          </Space>
         </li>
       </ul>
     </div>

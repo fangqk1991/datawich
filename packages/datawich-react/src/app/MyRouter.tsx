@@ -6,6 +6,7 @@ import { DataAppListView } from '../data-app/DataAppListView'
 import { DataAppDetailView } from '../data-app/DataAppDetailView'
 import { FavorAppsProvider } from '../core/FavorAppsContext'
 import { DataModelListView } from '../data-model/DataModelListView'
+import { DataModelManageView } from '../data-model/DataModelManageView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: '/v1/data-model',
         element: <DataModelListView />,
+      },
+      {
+        path: '/v1/data-model/:modelKey',
+        element: <DataModelManageView />,
       },
       {
         path: '*',
