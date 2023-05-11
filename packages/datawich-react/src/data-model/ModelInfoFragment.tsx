@@ -1,10 +1,20 @@
-import React from 'react'
-import { Descriptions } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Descriptions, Space } from 'antd'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { AccessLevel, describeAccessLevelDetail } from '@web/datawich-common/models'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
+import { CommonAPI } from '@fangcha/app-request'
+import { DataModelApis } from '@web/datawich-common/web-api'
+import { MyRequest } from '@fangcha/auth-react'
 
 export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
+  const [summaryInfo, setSummaryInfo] = useState<{ count: number }>({
+    count: 0,
+  })
+  useEffect(() => {
+    const request = MyRequest(new CommonAPI(DataModelApis.DataModelSummaryInfoGet, dataModel.modelKey))
+    request.quickSend().then((response) => setSummaryInfo(response))
+  }, [dataModel])
   return (
     <>
       {/*<Button*/}
@@ -80,6 +90,11 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
           {dataModel.isLibrary ? '本模型的 Unique 字段可被其他模型外键关联' : '本模型不可被其他模型关联'}
         </Descriptions.Item>
         <Descriptions.Item label='维护者'>{dataModel.author}</Descriptions.Item>
+        <Descriptions.Item label='概要信息'>
+          <Space>
+            共 <b>{summaryInfo.count}</b> 条记录
+          </Space>
+        </Descriptions.Item>
         <Descriptions.Item label='创建时间'>{dataModel.createTime}</Descriptions.Item>
         <Descriptions.Item label='更新时间'>{dataModel.updateTime}</Descriptions.Item>
         <Descriptions.Item label='应用地址'>
