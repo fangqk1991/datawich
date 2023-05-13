@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { Descriptions, Space } from 'antd'
+import { Button, Descriptions, Space, Tag } from 'antd'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { AccessLevel, describeAccessLevelDetail } from '@web/datawich-common/models'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
+import { DataModelModel } from '@fangcha/datawich-service'
 
 export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
   const [summaryInfo, setSummaryInfo] = useState<{ count: number }>({
     count: 0,
   })
+  const [outerModels, setOuterModels] = useState<DataModelModel[]>([])
   useEffect(() => {
-    const request = MyRequest(new CommonAPI(DataModelApis.DataModelSummaryInfoGet, dataModel.modelKey))
-    request.quickSend().then((response) => setSummaryInfo(response))
+    {
+      const request = MyRequest(new CommonAPI(DataModelApis.DataModelSummaryInfoGet, dataModel.modelKey))
+      request.quickSend().then((response) => setSummaryInfo(response))
+    }
+    if (dataModel.isLibrary) {
+      const request = MyRequest(new CommonAPI(DataModelApis.DataModelOuterModelListGet, dataModel.modelKey))
+      request.quickSend().then((response) => {
+        setOuterModels(response)
+      })
+    }
   }, [dataModel])
+
   return (
     <>
       {/*<Button*/}
@@ -101,6 +112,18 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
           <a href={`/v1/data-app/${dataModel.modelKey}`}>点击查看</a>
         </Descriptions.Item>
       </Descriptions>
+      {outerModels.length > 0 && (
+        <div>
+          <h4>以下模型在引用本模型</h4>
+          <Space>
+            {outerModels.map((model) => (
+              <Button key={model.modelKey} size={'small'}>
+                {model.name}
+              </Button>
+            ))}
+          </Space>
+        </div>
+      )}
     </>
   )
 }
