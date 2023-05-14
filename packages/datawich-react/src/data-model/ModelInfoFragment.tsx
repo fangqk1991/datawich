@@ -117,7 +117,13 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
           <h4>以下模型在引用本模型</h4>
           <Space>
             {outerModels.map((model) => (
-              <Button key={model.modelKey} size={'small'}>
+              <Button
+                key={model.modelKey}
+                size={'small'}
+                onClick={() => {
+                  window.open(`/v1/data-model/${model.modelKey}`)
+                }}
+              >
                 {model.name}
               </Button>
             ))}
