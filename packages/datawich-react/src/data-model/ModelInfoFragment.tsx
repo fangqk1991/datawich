@@ -7,6 +7,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
 import { DataModelModel } from '@fangcha/datawich-service'
+import { ModelMilestonePanel } from './ModelMilestonePanel'
 
 export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
   const [summaryInfo, setSummaryInfo] = useState<{ count: number }>({
@@ -130,6 +131,7 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
           </Space>
         </div>
       )}
+      <ModelMilestonePanel dataModel={dataModel} onModelInfoChanged={() => {}} />
     </>
   )
 }
