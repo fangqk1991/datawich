@@ -6,6 +6,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
+import { MilestoneInfoDialog } from './MilestoneInfoDialog'
 
 export const ModelMilestonePanel: ModelFragmentProtocol = ({ dataModel }) => {
   const [milestoneList, setMilestoneList] = useState<ModelMilestoneModel[]>([])
@@ -20,11 +21,17 @@ export const ModelMilestonePanel: ModelFragmentProtocol = ({ dataModel }) => {
     <div>
       <h4>{LS('[i18n] Model Versions')}</h4>
       <Space>
-        <Tag color={'error'}>
-          master
-        </Tag>
+        <Tag color={'error'}>master</Tag>
         {milestoneList.map((item) => (
-          <Tag key={item.uid} color={'geekblue'}>
+          <Tag
+            key={item.uid}
+            color={'geekblue'}
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              const dialog = MilestoneInfoDialog.dialog(item)
+              dialog.show()
+            }}
+          >
             {item.tagName}
           </Tag>
         ))}
