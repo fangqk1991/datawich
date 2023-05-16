@@ -8,6 +8,8 @@ import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { useQueryParams } from '@fangcha/react'
 import { ModelInfoFragment } from './ModelInfoFragment'
+import { ModelStructureFragment } from './ModelStructureFragment'
+import { ModelAccessFragment } from './ModelAccessFragment'
 
 interface DataRecord {
   rid: number
@@ -84,12 +86,14 @@ export const DataModelManageView: React.FC = () => {
           {
             label: LS('[i18n] Field Structure'),
             key: 'fragment-model-structure',
-            // children: <AppConfigFragment appInfo={appInfo} onAppInfoChanged={() => setVersion(version + 1)} />,
+            children: (
+              <ModelStructureFragment dataModel={dataModel} onModelInfoChanged={() => setVersion(version + 1)} />
+            ),
           },
           {
             label: LS('[i18n] Privacy Management'),
             key: 'fragment-access-management',
-            // children: <AppPermissionFragment appInfo={appInfo} onAppInfoChanged={() => setVersion(version + 1)} />,
+            children: <ModelAccessFragment dataModel={dataModel} onModelInfoChanged={() => setVersion(version + 1)} />,
           },
         ]}
       />
