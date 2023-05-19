@@ -6,7 +6,7 @@ import { FieldLinkTable } from './FieldLinkTable'
 export const ModelStructureFragment: ModelFragmentProtocol = ({ dataModel }) => {
   return (
     <>
-      <ModelFieldTable />
+      <ModelFieldTable modelKey={dataModel.modelKey} />
       <FieldLinkTable />
     </>
   )
