@@ -19,6 +19,7 @@ import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
+import { DataNormalForm } from '../core/DataNormalForm'
 
 interface DataRecord {
   rid: number
@@ -81,6 +82,10 @@ export const DataAppDetailView: React.FC = () => {
     }
     return items
   }, [modelKey, mainFields])
+
+  const writeableFields = useMemo(() => {
+    return mainFields.filter((field) => !field.isSystem)
+  }, [mainFields])
 
   const fullTagsCheckedMap = useMemo(() => {
     return allFields
@@ -257,6 +262,10 @@ export const DataAppDetailView: React.FC = () => {
           管理展示字段
         </Button>
       </Space>
+      <Divider style={{ margin: '12px 0' }} />
+
+      <DataNormalForm allFields={writeableFields} myData={{}} />
+
       <Divider style={{ margin: '12px 0' }} />
       <TableView
         version={version}
