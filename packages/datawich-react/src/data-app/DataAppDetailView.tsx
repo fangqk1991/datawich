@@ -303,6 +303,31 @@ export const DataAppDetailView: React.FC = () => {
               result.push(...cur)
               return result
             }, []),
+          {
+            title: '操作',
+            render: (item) => {
+              return (
+                <Space>
+                  {/*<a style={{ color: '#28a745' }}>复制</a>*/}
+                  <a
+                    onClick={() => {
+                      message.warning('开发中')
+                    }}
+                  >
+                    编辑
+                  </a>
+                  <a
+                    style={{ color: '#dc3545' }}
+                    onClick={() => {
+                      message.warning('开发中')
+                    }}
+                  >
+                    删除
+                  </a>
+                </Space>
+              )
+            },
+          },
         ]}
         // defaultSettings={{
         //   pageSize: Number(queryParams.pageSize) || 10,
