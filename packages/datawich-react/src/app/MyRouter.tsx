@@ -7,6 +7,7 @@ import { DataAppDetailView } from '../data-app/DataAppDetailView'
 import { FavorAppsProvider } from '../core/FavorAppsContext'
 import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
+import { FormDevView } from '../data-app/FormDevView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: '/v1/data-app/:modelKey',
         element: <DataAppDetailView />,
+      },
+      {
+        path: '/v1/data-app-dev/:modelKey',
+        element: <FormDevView />,
       },
       {
         path: '/v1/data-model',
