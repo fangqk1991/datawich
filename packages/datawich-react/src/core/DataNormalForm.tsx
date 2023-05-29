@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react'
-import { ProForm, ProFormRadio, ProFormSelect, ProFormText, ProFormCheckbox } from '@ant-design/pro-components'
-import { Form } from 'antd'
+import { ProForm, ProFormCheckbox, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-components'
+import { Form, Tooltip } from 'antd'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { I18nCode } from '@fangcha/tools'
 import { ReactI18n } from './ReactI18n'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 interface Props {
   allFields: ModelFieldModel[]
@@ -62,7 +63,24 @@ export const DataNormalForm: React.FC<Props> = (props) => {
           return !field.extrasData.readonly
         })()
         return (
-          <ProForm.Item key={field.fieldKey} name={field.fieldKey} label={fieldName} required={!!field.required}>
+          <ProForm.Item
+            key={field.fieldKey}
+            name={field.fieldKey}
+            label={
+              <div>
+                {fieldName}{' '}
+                {field.extrasData.readonly && (
+                  <Tooltip title={'Readonly'}>
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                )}
+              </div>
+            }
+            required={!!field.required}
+            style={{
+              margin: 0,
+            }}
+          >
             {(() => {
               switch (field.fieldType) {
                 case FieldType.Integer:
@@ -96,7 +114,15 @@ export const DataNormalForm: React.FC<Props> = (props) => {
                   if (optionsForEnumField.length < 5) {
                     return <ProFormRadio.Group options={optionsForEnumField} radioType='button' disabled={!editable} />
                   }
-                  return <ProFormSelect options={optionsForEnumField} disabled={!editable} />
+                  return (
+                    <ProFormSelect
+                      options={optionsForEnumField}
+                      disabled={!editable}
+                      style={{
+                        width: 'auto',
+                      }}
+                    />
+                  )
                 }
                 case FieldType.MultiEnum: {
                   return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
