@@ -1,5 +1,13 @@
 import React, { useMemo } from 'react'
-import { ProForm, ProFormCheckbox, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-components'
+import {
+  ProForm,
+  ProFormCheckbox,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+  ProFormDigit,
+  ProFormTextArea,
+} from '@ant-design/pro-components'
 import { Form, Tooltip } from 'antd'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
@@ -84,18 +92,13 @@ export const DataNormalForm: React.FC<Props> = (props) => {
             {(() => {
               switch (field.fieldType) {
                 case FieldType.Integer:
-                  break
                 case FieldType.Float:
-                  break
-                case FieldType.SingleLineText:
-                  break
+                  return <ProFormDigit disabled={!editable} />
                 case FieldType.MultipleLinesText:
-                  break
-                case FieldType.JSON:
-                  break
-                case FieldType.StringList:
-                  break
                 case FieldType.Link:
+                case FieldType.JSON:
+                  return <ProFormTextArea disabled={!editable} />
+                case FieldType.StringList:
                   break
                 case FieldType.RichText:
                   break
@@ -127,8 +130,6 @@ export const DataNormalForm: React.FC<Props> = (props) => {
                 case FieldType.MultiEnum: {
                   return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
                 }
-                case FieldType.Tags:
-                  break
                 case FieldType.Date:
                   break
                 case FieldType.Datetime:
