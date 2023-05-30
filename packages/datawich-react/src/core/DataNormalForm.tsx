@@ -7,6 +7,7 @@ import {
   ProFormText,
   ProFormDigit,
   ProFormTextArea,
+  ProFormDatePicker,
 } from '@ant-design/pro-components'
 import { Form, Tooltip } from 'antd'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
@@ -98,10 +99,6 @@ export const DataNormalForm: React.FC<Props> = (props) => {
                 case FieldType.Link:
                 case FieldType.JSON:
                   return <ProFormTextArea disabled={!editable} />
-                case FieldType.StringList:
-                  break
-                case FieldType.RichText:
-                  break
                 case FieldType.Enum:
                 case FieldType.TextEnum: {
                   const optionsForEnumField = (() => {
@@ -131,20 +128,16 @@ export const DataNormalForm: React.FC<Props> = (props) => {
                   return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
                 }
                 case FieldType.Date:
-                  break
+                  return <ProFormDatePicker />
                 case FieldType.Datetime:
                   break
-                case FieldType.ReadonlyText:
+                case FieldType.StringList:
+                  break
+                case FieldType.RichText:
                   break
                 case FieldType.Attachment:
                   break
                 case FieldType.User:
-                  break
-                case FieldType.Group:
-                  break
-                case FieldType.Template:
-                  break
-                case FieldType.Dummy:
                   break
               }
               return <ProFormText disabled={!editable} />
@@ -152,8 +145,6 @@ export const DataNormalForm: React.FC<Props> = (props) => {
           </ProForm.Item>
         )
       })}
-      {/*<ProFormText name='target' label='Target' placeholder={'例: 10.0.0.0:80'} required={true} />*/}
-      {/*<ProFormDigit name='weight' label='权重' placeholder={'例: 1000'} required={true} />*/}
     </ProForm>
   )
 }
