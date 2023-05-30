@@ -2,12 +2,13 @@ import React, { useMemo } from 'react'
 import {
   ProForm,
   ProFormCheckbox,
+  ProFormDatePicker,
+  ProFormDateTimePicker,
+  ProFormDigit,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-  ProFormDigit,
   ProFormTextArea,
-  ProFormDatePicker,
 } from '@ant-design/pro-components'
 import { Form, Tooltip } from 'antd'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
@@ -130,9 +131,9 @@ export const DataNormalForm: React.FC<Props> = (props) => {
                 case FieldType.Date:
                   return <ProFormDatePicker />
                 case FieldType.Datetime:
-                  break
+                  return <ProFormDateTimePicker />
                 case FieldType.StringList:
-                  break
+                  return <ProFormSelect mode='tags' />
                 case FieldType.RichText:
                   break
                 case FieldType.Attachment:
