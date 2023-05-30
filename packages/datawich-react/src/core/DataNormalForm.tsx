@@ -135,10 +135,7 @@ export const DataNormalForm: React.FC<Props> = (props) => {
                 case FieldType.StringList:
                   return <ProFormSelect mode='tags' />
                 case FieldType.RichText:
-                  break
-                case FieldType.Attachment:
-                  break
-                case FieldType.User:
+                  // TODO: RichText
                   break
               }
               return <ProFormText disabled={!editable} />
