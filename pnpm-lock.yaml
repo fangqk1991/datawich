@@ -11,8 +11,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       '@fangcha/app-models':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@fangcha/app-request':
         specifier: ^1.8.0
         version: 1.8.0
@@ -20,8 +20,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@fangcha/backend-kit':
-        specifier: ^0.61.0
-        version: 0.61.0
+        specifier: ^0.62.0
+        version: 0.62.0
       '@fangcha/bot-kit':
         specifier: ^0.1.0
         version: 0.1.0
@@ -48,10 +48,10 @@ importers:
         version: 1.5.0
       '@fangcha/router':
         specifier: ^0.30.0
-        version: 0.30.0(@fangcha/backend-kit@0.61.0)
+        version: 0.30.0(@fangcha/backend-kit@0.62.0)
       '@fangcha/session':
         specifier: ^0.2.0
-        version: 0.2.0(@fangcha/backend-kit@0.61.0)
+        version: 0.2.0(@fangcha/backend-kit@0.62.0)
       '@fangcha/sso-models':
         specifier: ^0.6.0
         version: 0.6.0(@fangcha/account-models@0.15.0)
@@ -59,8 +59,8 @@ importers:
         specifier: ^1.25.2
         version: 1.25.2
       '@fangcha/web-auth-sdk':
-        specifier: ^0.7.0
-        version: 0.7.0(@fangcha/account-models@0.15.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.61.0)(@fangcha/router@0.30.0)(@fangcha/sso-models@0.6.0)
+        specifier: ^0.7.1
+        version: 0.7.1(@fangcha/account-models@0.15.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.62.0)(@fangcha/router@0.30.0)(@fangcha/sso-models@0.6.0)
       axios:
         specifier: ^1.3.2
         version: 1.3.5
@@ -2061,8 +2061,8 @@ packages:
   /@fangcha/app-error@1.6.0:
     resolution: {integrity: sha512-8X/WE1W+YRePXzlK8hALIkMNPsfB7fOydzsDHdjj9Gd19YWTF5Z4A8NTSQDAKvDrngFkh73aPWKUq12EXo2a7g==}
 
-  /@fangcha/app-models@0.1.0:
-    resolution: {integrity: sha512-QX3LgoApk8g8gDdayuQB7gDSTToNHv77Rpzz4gjL9iachqnlBZpUphUgwa1fs2Ev0N0vjoiVl+dI+o3Mc7cDNA==}
+  /@fangcha/app-models@0.2.0:
+    resolution: {integrity: sha512-RMLU2nYAxCUra9NJttGpXOsG0uSLu+092FGwj2+V1z9VwrrJYS2sYi9gntZROcF51L0EpmCXQtNH2GYUDUiZww==}
     dev: false
 
   /@fangcha/app-request-extensions@0.2.0:
@@ -2112,11 +2112,11 @@ packages:
       - '@popperjs/core'
     dev: true
 
-  /@fangcha/backend-kit@0.61.0:
-    resolution: {integrity: sha512-HETNBYIPAe5oghPlnsjt6z6zEWjWCzInHZn/GK4vDefvRMAfz1jUwffEcg+IntwxSTmiutsWkHqUyfbqwD9vTg==}
+  /@fangcha/backend-kit@0.62.0:
+    resolution: {integrity: sha512-F/wKcvWoPwzB502N6P4KUgXboO6dXR8tHg4icD0S//nYE7jAb2nfkb6nFm3tFKlhYi3qa4EDxTN+s0qY/uOXHg==}
     dependencies:
       '@fangcha/app-error': 1.6.0
-      '@fangcha/app-models': 0.1.0
+      '@fangcha/app-models': 0.2.0
       '@fangcha/app-request': 1.8.0
       '@fangcha/app-request-extensions': 0.2.0
       '@fangcha/assert': 1.2.0
@@ -2239,13 +2239,13 @@ packages:
       - supports-color
     dev: false
 
-  /@fangcha/router@0.30.0(@fangcha/backend-kit@0.61.0):
+  /@fangcha/router@0.30.0(@fangcha/backend-kit@0.62.0):
     resolution: {integrity: sha512-qHdlag6Be9FOV9WJGn4GL0eH7zp75ZfctUZtRzlqmUdq233ocleUNY8QWZbUgGwDp9GWfrCBQCdn0LsngFfoZg==}
     peerDependencies:
       '@fangcha/backend-kit': ^*
     dependencies:
       '@fangcha/app-error': 1.6.0
-      '@fangcha/backend-kit': 0.61.0
+      '@fangcha/backend-kit': 0.62.0
       '@fangcha/swagger': 0.1.1
       '@fangcha/tools': 1.24.0
       '@koa/router': 12.0.0
@@ -2260,13 +2260,13 @@ packages:
       - supports-color
     dev: false
 
-  /@fangcha/session@0.2.0(@fangcha/backend-kit@0.61.0):
+  /@fangcha/session@0.2.0(@fangcha/backend-kit@0.62.0):
     resolution: {integrity: sha512-0C+f8aBZQWtWyVgHGfwAmzXvlmE/aefOMvWTm3A5c7SADVy95ws352Bxt1Ewz2jN1ESrnQEJnM8xMsUog7xjbw==}
     peerDependencies:
       '@fangcha/backend-kit': '*'
     dependencies:
-      '@fangcha/backend-kit': 0.61.0
-      '@fangcha/router': 0.30.0(@fangcha/backend-kit@0.61.0)
+      '@fangcha/backend-kit': 0.62.0
+      '@fangcha/router': 0.30.0(@fangcha/backend-kit@0.62.0)
       '@fangcha/tools': 1.25.2
     transitivePeerDependencies:
       - supports-color
@@ -2313,14 +2313,14 @@ packages:
       vue-router: 3.6.5(vue@2.7.14)
     dev: true
 
-  /@fangcha/web-auth-sdk@0.7.0(@fangcha/account-models@0.15.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.61.0)(@fangcha/router@0.30.0)(@fangcha/sso-models@0.6.0):
-    resolution: {integrity: sha512-YVn1IX3XxXWybUtCz++8WoKJwr+ITzbFaNqWy1Gwj5OBxGzHaStFOzG/X8LtbaQY3di0YlvF9id3c59MA8imYg==}
+  /@fangcha/web-auth-sdk@0.7.1(@fangcha/account-models@0.15.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.62.0)(@fangcha/router@0.30.0)(@fangcha/sso-models@0.6.0):
+    resolution: {integrity: sha512-suDxhQ0FDInIqbdiEBzjcUm+eOoPO1Qy7bmcheYqeSG9CLDZyhN6D+TTyOmahxpAfxBZauKbwE7w5EFNo2CzHQ==}
     peerDependencies:
       '@fangcha/account': '*'
       '@fangcha/account-models': '*'
       '@fangcha/app-request': '*'
       '@fangcha/app-request-extensions': '*'
-      '@fangcha/backend-kit': ^0.60.0
+      '@fangcha/backend-kit': ^0.61.0
       '@fangcha/router': '*'
       '@fangcha/sso-models': '*'
     dependencies:
@@ -2328,8 +2328,8 @@ packages:
       '@fangcha/account-models': 0.15.0
       '@fangcha/app-request': 1.8.0
       '@fangcha/app-request-extensions': 0.2.0
-      '@fangcha/backend-kit': 0.61.0
-      '@fangcha/router': 0.30.0(@fangcha/backend-kit@0.61.0)
+      '@fangcha/backend-kit': 0.62.0
+      '@fangcha/router': 0.30.0(@fangcha/backend-kit@0.62.0)
       '@fangcha/sso-models': 0.6.0(@fangcha/account-models@0.15.0)
     dev: false
 
