@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   ProForm,
   ProFormCheckbox,
@@ -10,12 +10,13 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Form, Tooltip } from 'antd'
+import { Button, Form, Tooltip } from 'antd'
 import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { I18nCode } from '@fangcha/tools'
 import { ReactI18n } from './ReactI18n'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import { JsonPre } from '@fangcha/react'
 
 interface Props {
   allFields: ModelFieldModel[]
@@ -54,95 +55,111 @@ export const DataNormalForm: React.FC<Props> = (props) => {
       }, {})
   }, [props.allFields])
 
+  const [previewData, setPreviewData] = useState({})
+
   const [form] = Form.useForm<any>()
   const params = {}
 
   return (
-    <ProForm form={form} autoFocusFirstInput initialValues={params} submitter={false}>
-      {visibleFields.map((field) => {
-        const nameI18n = field.extrasData.nameI18n || {}
-        const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
-        const fieldName = nameI18n[code] || field.name
-        const editable = (() => {
-          if (props.readonly) {
-            return false
-          }
-          if (props.forceEditing) {
-            return true
-          }
-          return !field.extrasData.readonly
-        })()
-        return (
-          <ProForm.Item
-            key={field.fieldKey}
-            name={field.fieldKey}
-            label={
-              <div>
-                {fieldName}{' '}
-                {field.extrasData.readonly && (
-                  <Tooltip title={'Readonly'}>
-                    <InfoCircleOutlined />
-                  </Tooltip>
-                )}
-              </div>
+    <div>
+      <JsonPre value={previewData} />
+      <Button
+        onClick={() => {
+          const data = form.getFieldsValue()
+          setPreviewData(data)
+        }}
+      >
+        Refresh
+      </Button>
+      <hr />
+      <ProForm form={form} autoFocusFirstInput initialValues={params} submitter={false}>
+        {visibleFields.map((field) => {
+          const nameI18n = field.extrasData.nameI18n || {}
+          const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
+          const fieldName = nameI18n[code] || field.name
+          const editable = (() => {
+            if (props.readonly) {
+              return false
             }
-            required={!!field.required}
-            style={{
-              margin: 0,
-            }}
-          >
-            {(() => {
-              switch (field.fieldType) {
-                case FieldType.Integer:
-                case FieldType.Float:
-                  return <ProFormDigit disabled={!editable} />
-                case FieldType.MultipleLinesText:
-                case FieldType.Link:
-                case FieldType.JSON:
-                  return <ProFormTextArea disabled={!editable} />
-                case FieldType.Enum:
-                case FieldType.TextEnum: {
-                  const optionsForEnumField = (() => {
-                    if (!field.constraintKey) {
-                      return field.options
-                    }
-                    const constraintValue = props.myData[field.constraintKey] || ''
-                    return field.options.filter((option) => {
-                      const restraintValueMap = option['restraintValueMap'] || {}
-                      return !!restraintValueMap[constraintValue]
-                    })
-                  })()
-                  if (optionsForEnumField.length < 5) {
-                    return <ProFormRadio.Group options={optionsForEnumField} radioType='button' disabled={!editable} />
-                  }
-                  return (
-                    <ProFormSelect
-                      options={optionsForEnumField}
-                      disabled={!editable}
-                      style={{
-                        width: 'auto',
-                      }}
-                    />
-                  )
-                }
-                case FieldType.MultiEnum: {
-                  return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
-                }
-                case FieldType.Date:
-                  return <ProFormDatePicker />
-                case FieldType.Datetime:
-                  return <ProFormDateTimePicker />
-                case FieldType.StringList:
-                  return <ProFormSelect mode='tags' />
-                case FieldType.RichText:
-                  // TODO: RichText
-                  break
+            if (props.forceEditing) {
+              return true
+            }
+            return !field.extrasData.readonly
+          })()
+          return (
+            <ProForm.Item
+              key={field.fieldKey}
+              name={field.fieldKey}
+              label={
+                <div>
+                  {fieldName}{' '}
+                  {field.extrasData.readonly && (
+                    <Tooltip title={'Readonly'}>
+                      <InfoCircleOutlined />
+                    </Tooltip>
+                  )}
+                </div>
               }
-              return <ProFormText disabled={!editable} />
-            })()}
-          </ProForm.Item>
-        )
-      })}
-    </ProForm>
+              required={!!field.required}
+              style={{
+                margin: 0,
+              }}
+            >
+              {(() => {
+                switch (field.fieldType) {
+                  case FieldType.Integer:
+                  case FieldType.Float:
+                    return <ProFormDigit disabled={!editable} />
+                  case FieldType.MultipleLinesText:
+                  case FieldType.Link:
+                  case FieldType.JSON:
+                    return <ProFormTextArea disabled={!editable} />
+                  case FieldType.Enum:
+                  case FieldType.TextEnum: {
+                    const optionsForEnumField = (() => {
+                      if (!field.constraintKey) {
+                        return field.options
+                      }
+                      const constraintValue = props.myData[field.constraintKey] || ''
+                      return field.options.filter((option) => {
+                        const restraintValueMap = option['restraintValueMap'] || {}
+                        return !!restraintValueMap[constraintValue]
+                      })
+                    })()
+                    if (optionsForEnumField.length < 5) {
+                      return (
+                        <ProFormRadio.Group options={optionsForEnumField} radioType='button' disabled={!editable} />
+                      )
+                    }
+                    return (
+                      <ProFormSelect
+                        options={optionsForEnumField}
+                        disabled={!editable}
+                        style={{
+                          width: 'auto',
+                        }}
+                      />
+                    )
+                  }
+                  case FieldType.MultiEnum: {
+                    return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
+                  }
+                  case FieldType.Date:
+                    return <ProFormDatePicker />
+                  case FieldType.Datetime:
+                    return <ProFormDateTimePicker />
+                  case FieldType.StringList:
+                    return <ProFormSelect mode='tags' />
+                  case FieldType.RichText:
+                    // TODO: RichText
+                    break
+                }
+                return <ProFormText disabled={!editable} />
+              })()}
+            </ProForm.Item>
+          )
+        })}
+      </ProForm>
+    </div>
   )
 }
