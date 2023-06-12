@@ -10,8 +10,8 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Button, Form, Tooltip } from 'antd'
-import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { Button, Form, message, Tooltip } from 'antd'
+import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { I18nCode } from '@fangcha/tools'
 import { ReactI18n } from './ReactI18n'
@@ -66,6 +66,18 @@ export const DataNormalForm: React.FC<Props> = (props) => {
       <Button
         onClick={() => {
           const data = form.getFieldsValue()
+          const errorMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(
+            data,
+            props.allFields.filter((item) => !item.extrasData.readonly)
+          )
+          if (Object.keys(errorMap).length > 0) {
+            const errorMsg = Object.keys(errorMap)
+              .map((errKey) => errorMap[errKey])
+              .join('，')
+            message.error(errorMsg)
+            // throw new Error(errorMsg)
+          }
+
           setPreviewData(data)
         }}
       >
