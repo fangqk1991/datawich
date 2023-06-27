@@ -135,8 +135,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@fangcha/react':
-        specifier: ^0.24.1
-        version: 0.24.1(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2)
+        specifier: ^0.26.0
+        version: 0.26.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2)
       '@fangcha/vue':
         specifier: ^0.78.0
         version: 0.78.0
@@ -2202,8 +2202,8 @@ packages:
     resolution: {integrity: sha512-ySpChkvNNotz7vFMiYCwHVf46I7hJNI0SpZwFIr+yhbM38M7bm/96NnD8C/BRN9Qc8BQugSTeB71iSj9DoC6+Q==}
     dev: false
 
-  /@fangcha/react@0.24.1(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2):
-    resolution: {integrity: sha512-hN9ACVB59pgNoHruBxv+rYaTSwmcvuz4BVyPWt2jRJeFDCDtfLIGyKLGDrOnXejPViu5NAYaz91pb8Q0q+aYVA==}
+  /@fangcha/react@0.26.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2):
+    resolution: {integrity: sha512-nkk1MnXrac7JGU25WdOvOdBcA/sFMo9lPKdPgSY1fX46ROg8dQGLIr4z+H4Vp6l8sqLClqivngs61IPDolMvEw==}
     dependencies:
       '@ant-design/pro-components': 2.4.4(antd@5.4.2)(prop-types@15.8.1)(rc-field-form@1.29.2)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/react': 11.10.6(react@18.2.0)
