@@ -176,7 +176,7 @@ export const DataAppDetailView: React.FC = () => {
       />
       <Divider style={{ margin: '12px 0' }} />
 
-      <ProForm form={filterForm} submitter={false} layout={'horizontal'}>
+      <ProForm form={filterForm} autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>
         {allFields
           .filter((field) => [FieldType.Date, FieldType.Datetime].includes(field.fieldType as FieldType))
           .map((field) => {
