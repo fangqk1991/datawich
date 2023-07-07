@@ -114,4 +114,10 @@ export const OpenDataAppApis = {
     description: '获取模型指定数据信息',
     detailInfo: 'uniqueFieldKey 必须具备唯一索引',
   },
+  ModelDataExistsCheck: {
+    method: 'POST',
+    route: '/api/data-app/v1/data-model/:modelKey/data/:uniqueFieldKey/:fieldValue/check-exists',
+    description: '检查记录是否存在',
+    detailInfo: 'uniqueFieldKey 必须具备唯一索引',
+  },
 }

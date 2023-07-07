@@ -109,4 +109,15 @@ factory.prepare(OpenDataAppApis.ModelDataInfoGet, async (ctx) => {
   })
 })
 
+factory.prepare(OpenDataAppApis.ModelDataExistsCheck, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    assert.ok(!!ctx.params.uniqueFieldKey, 'uniqueFieldKey 不合法')
+    assert.ok(!!ctx.params.fieldValue, 'fieldValue 不合法')
+    const data = (await dataModel.findData(ctx.params.uniqueFieldKey, ctx.params.fieldValue))!
+    ctx.body = {
+      result: !!data,
+    }
+  })
+})
+
 export const OpenDataAppSpecs = factory.buildSpecs()
