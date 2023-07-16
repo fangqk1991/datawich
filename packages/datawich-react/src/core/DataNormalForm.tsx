@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useMemo } from 'react'
 import {
   ProForm,
   ProFormCheckbox,
@@ -8,15 +8,14 @@ import {
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-  ProFormTextArea
+  ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Button, Form, message, Tooltip } from 'antd'
+import { Form, message, Tooltip } from 'antd'
 import { FieldType, GeneralDataChecker, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { I18nCode } from '@fangcha/tools'
 import { ReactI18n } from './ReactI18n'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { JsonPre } from '@fangcha/react'
 
 interface Props {
   allFields: ModelFieldModel[]
@@ -27,7 +26,7 @@ interface Props {
   myData: any
 }
 
-export const DataNormalForm: React.FC<Props> = (props) => {
+export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
   const visibleFields = useMemo(() => {
     const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
     props.allFields.forEach((field) => {
@@ -43,44 +42,38 @@ export const DataNormalForm: React.FC<Props> = (props) => {
     })
   }, [props.allFields])
 
-  const [previewData, setPreviewData] = useState({})
-
   const [form] = Form.useForm<any>()
+
+  useImperativeHandle(ref, () => ({
+    exportResult: () => {
+      const data = form.getFieldsValue()
+      props.allFields
+        .filter((field) => field.fieldType === FieldType.MultiEnum)
+        .forEach((field) => {
+          if (Array.isArray(data[field.fieldKey])) {
+            data[field.fieldKey] = data[field.fieldKey].join(',')
+          }
+        })
+
+      const errorMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(
+        data,
+        props.allFields.filter((item) => !item.extrasData.readonly)
+      )
+      if (Object.keys(errorMap).length > 0) {
+        const errorMsg = Object.keys(errorMap)
+          .map((errKey) => errorMap[errKey])
+          .join('，')
+        message.error(errorMsg)
+        throw new Error(errorMsg)
+      }
+      return data
+    },
+  }))
+
   const params = {}
 
   return (
     <div>
-      <JsonPre value={previewData} />
-      <Button
-        onClick={() => {
-          const data = form.getFieldsValue()
-
-          props.allFields
-            .filter((field) => field.fieldType === FieldType.MultiEnum)
-            .forEach((field) => {
-              if (Array.isArray(data[field.fieldKey])) {
-                data[field.fieldKey] = data[field.fieldKey].join(',')
-              }
-            })
-
-          const errorMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(
-            data,
-            props.allFields.filter((item) => !item.extrasData.readonly)
-          )
-          if (Object.keys(errorMap).length > 0) {
-            const errorMsg = Object.keys(errorMap)
-              .map((errKey) => errorMap[errKey])
-              .join('，')
-            message.error(errorMsg)
-            // throw new Error(errorMsg)
-          }
-
-          setPreviewData(data)
-        }}
-      >
-        Refresh
-      </Button>
-      <hr />
       <ProForm form={form} autoFocusFirstInput initialValues={params} submitter={false}>
         {visibleFields.map((field) => {
           const nameI18n = field.extrasData.nameI18n || {}
@@ -171,4 +164,4 @@ export const DataNormalForm: React.FC<Props> = (props) => {
       </ProForm>
     </div>
   )
-}
+})

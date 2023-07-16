@@ -18,12 +18,7 @@ import { DataDialogProtocol } from './DataDialogProtocol'
       :close-on-click-modal="false"
       :callback="callback"
     >
-      <data-normal-form
-        ref="my-form"
-        :model-key="modelKey"
-        :my-data="myData"
-        :all-fields="allFields"
-      />
+      <data-normal-form ref="my-form" :model-key="modelKey" :my-data="myData" :all-fields="allFields" />
     </typical-dialog-view>
   `,
 })

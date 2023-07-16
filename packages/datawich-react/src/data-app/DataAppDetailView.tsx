@@ -7,7 +7,7 @@ import {
   FieldType,
   GeneralDataHelper,
   ModelFieldModel,
-  TagsCheckedMap,
+  TagsCheckedMap
 } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
@@ -19,6 +19,7 @@ import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
+import { GeneralDataDialog } from './GeneralDataDialog'
 
 interface DataRecord {
   rid: number
@@ -174,6 +175,7 @@ export const DataAppDetailView: React.FC = () => {
           },
         ]}
       />
+
       <Divider style={{ margin: '12px 0' }} />
 
       <ProForm form={filterForm} autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>
@@ -261,6 +263,25 @@ export const DataAppDetailView: React.FC = () => {
           管理展示字段
         </Button>
       </Space>
+
+      <div style={{ marginTop: '8px' }}>
+        <Button
+          type={'primary'}
+          onClick={() => {
+            const dialog = new GeneralDataDialog({
+              mainFields: mainFields,
+              modelKey: modelKey,
+            })
+            dialog.show((params) => {
+              message.success(JSON.stringify(params))
+              message.error('开发中')
+            })
+          }}
+        >
+          添加数据
+        </Button>
+      </div>
+
       <Divider style={{ margin: '12px 0' }} />
       <TableView
         version={version}
