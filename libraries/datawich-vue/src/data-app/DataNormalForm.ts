@@ -56,8 +56,19 @@ const _getCalcDate = (dateDesc: string) => {
           </el-tooltip>
         </span>
         <template v-if="field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum">
-          <el-select v-if="field.options.length > 5" v-model="myData[field.fieldKey]" :disabled="!checkFieldEditable(field)" filterable style="width: 100%;">
-            <el-option v-for="option in optionsForEnumField(field)" :key="option.value" :label="getOptionLabel(option)" :value="option.value" />
+          <el-select
+            v-if="field.options.length > 5"
+            v-model="myData[field.fieldKey]"
+            :disabled="!checkFieldEditable(field)"
+            filterable
+            style="width: 100%;"
+          >
+            <el-option
+              v-for="option in optionsForEnumField(field)"
+              :key="option.value"
+              :label="getOptionLabel(option)"
+              :value="option.value"
+            />
           </el-select>
           <el-radio-group v-else v-model="myData[field.fieldKey]" :disabled="!checkFieldEditable(field)">
             <el-radio-button v-for="item in optionsForEnumField(field)" :key="item.value" :label="item.value">
@@ -102,7 +113,13 @@ const _getCalcDate = (dateDesc: string) => {
             :disabled="!checkFieldEditable(field)"
             @select="onSearchItemPicked"
           />
-          <el-input v-else v-model="myData[field.fieldKey]" type="text" style="width: 200px;" :disabled="!checkFieldEditable(field)" />
+          <el-input
+            v-else
+            v-model="myData[field.fieldKey]"
+            type="text"
+            style="width: 200px;"
+            :disabled="!checkFieldEditable(field)"
+          />
         </template>
         <template v-if="checkFieldNumberWidget(field)">
           <el-select
@@ -120,12 +137,7 @@ const _getCalcDate = (dateDesc: string) => {
               :value="item.value"
             />
           </el-select>
-          <el-input
-            v-else
-            v-model="myData[field.fieldKey]"
-            type="number"
-            :disabled="!checkFieldEditable(field)"
-          >
+          <el-input v-else v-model="myData[field.fieldKey]" type="number" :disabled="!checkFieldEditable(field)">
           </el-input>
         </template>
         <el-input

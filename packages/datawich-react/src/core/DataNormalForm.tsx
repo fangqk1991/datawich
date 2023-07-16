@@ -8,10 +8,10 @@ import {
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-  ProFormTextArea,
+  ProFormTextArea
 } from '@ant-design/pro-components'
 import { Button, Form, message, Tooltip } from 'antd'
-import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldType, GeneralDataChecker, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { I18nCode } from '@fangcha/tools'
 import { ReactI18n } from './ReactI18n'
@@ -43,18 +43,6 @@ export const DataNormalForm: React.FC<Props> = (props) => {
     })
   }, [props.allFields])
 
-  const multiEnumCheckedMap = useMemo(() => {
-    return props.allFields
-      .filter((field) => field.fieldType === FieldType.MultiEnum)
-      .reduce((result, field) => {
-        result[field.fieldKey] = GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-          props.myData[field.fieldKey],
-          field.options
-        )
-        return result
-      }, {})
-  }, [props.allFields])
-
   const [previewData, setPreviewData] = useState({})
 
   const [form] = Form.useForm<any>()
@@ -66,6 +54,15 @@ export const DataNormalForm: React.FC<Props> = (props) => {
       <Button
         onClick={() => {
           const data = form.getFieldsValue()
+
+          props.allFields
+            .filter((field) => field.fieldType === FieldType.MultiEnum)
+            .forEach((field) => {
+              if (Array.isArray(data[field.fieldKey])) {
+                data[field.fieldKey] = data[field.fieldKey].join(',')
+              }
+            })
+
           const errorMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(
             data,
             props.allFields.filter((item) => !item.extrasData.readonly)
