@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Button, Divider, Form, Input, message, Space, Spin } from 'antd'
+import { Breadcrumb, Button, Divider, Input, message, Space, Spin } from 'antd'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
   FieldType,
   GeneralDataHelper,
   ModelFieldModel,
-  TagsCheckedMap
+  TagsCheckedMap,
 } from '@fangcha/datawich-service'
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
@@ -20,6 +20,7 @@ import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { GeneralDataDialog } from './GeneralDataDialog'
+import * as dayjs from 'dayjs'
 
 interface DataRecord {
   rid: number
@@ -49,7 +50,16 @@ export const DataAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
 
-  const [keywords, setKeywords] = useState(queryParams.keywords)
+  const filterOptions = useMemo(() => {
+    return {
+      ...queryParams,
+    }
+  }, [queryParams])
+
+  const [keywords, setKeywords] = useState('')
+  useEffect(() => {
+    setKeywords(filterOptions.keywords || '')
+  }, [filterOptions.keywords])
 
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
@@ -93,17 +103,17 @@ export const DataAppDetailView: React.FC = () => {
       .reduce((result, field) => {
         result[field.filterKey] = {
           including: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            queryParams[field.filterKey] || '',
+            filterOptions[field.filterKey] || '',
             field.options
           ),
           excluding: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            queryParams[`${field.filterKey}.not`] || '',
+            filterOptions[`${field.filterKey}.not`] || '',
             field.options
           ),
         }
         return result
       }, {} as { [p: string]: TagsCheckedMap })
-  }, [allFields, queryParams])
+  }, [allFields, filterOptions])
 
   const mainDisplayFields = useMemo(() => {
     const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
@@ -134,9 +144,6 @@ export const DataAppDetailView: React.FC = () => {
   }
 
   useEffect(() => {
-    setKeywords('')
-    filterForm.resetFields()
-
     MyRequest(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, modelKey))
       .quickSend()
       .then((response) => {
@@ -151,8 +158,6 @@ export const DataAppDetailView: React.FC = () => {
 
     reloadDisplaySettings()
   }, [modelKey, version])
-
-  const [filterForm] = Form.useForm()
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
@@ -178,7 +183,7 @@ export const DataAppDetailView: React.FC = () => {
 
       <Divider style={{ margin: '12px 0' }} />
 
-      <ProForm form={filterForm} autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>
+      <ProForm autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>
         {allFields
           .filter((field) => [FieldType.Date, FieldType.Datetime].includes(field.fieldType as FieldType))
           .map((field) => {
@@ -189,6 +194,10 @@ export const DataAppDetailView: React.FC = () => {
                 label={field.name}
                 placeholder={['开始时间', '结束时间']}
                 fieldProps={{
+                  value:
+                    Array.isArray(filterOptions[field.filterKey]) && filterOptions[field.filterKey].length === 2
+                      ? filterOptions[field.filterKey].map((date: string) => dayjs(date))
+                      : [null, null],
                   format: (value) => value.format('YYYY-MM-DD'),
                   onChange: (values) => {
                     const dateRange = values ? values.map((item: any) => item.format('YYYY-MM-DD')) : []
@@ -219,7 +228,6 @@ export const DataAppDetailView: React.FC = () => {
           onClick={() => {
             setQueryParams({})
             setKeywords('')
-            filterForm.resetFields()
           }}
         >
           重置过滤器
@@ -299,7 +307,7 @@ export const DataAppDetailView: React.FC = () => {
               const columns = [
                 myDataColumn({
                   field: field,
-                  filterOptions: queryParams,
+                  filterOptions: filterOptions,
                   onFilterChange: (params) => updateQueryParams(params),
                   tagsCheckedMap: fullTagsCheckedMap[field.filterKey],
                   fixedColumn: fixedColumnMap[field.filterKey],
@@ -314,7 +322,7 @@ export const DataAppDetailView: React.FC = () => {
                       myDataColumn({
                         field: refField,
                         superField: field,
-                        filterOptions: queryParams,
+                        filterOptions: filterOptions,
                         onFilterChange: (params) => updateQueryParams(params),
                         tagsCheckedMap: fullTagsCheckedMap[refField.filterKey],
                         fixedColumn: fixedColumnMap[refField.filterKey],
@@ -361,7 +369,7 @@ export const DataAppDetailView: React.FC = () => {
         //   sortDirection: queryParams.sortDirection,
         // }}
         loadData={async (retainParams) => {
-          const params = Object.assign({}, retainParams, queryParams)
+          const params = Object.assign({}, retainParams, filterOptions)
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
           request.setQueryParams(trimParams(params))
           return request.quickSend<PageResult<DataRecord>>()
