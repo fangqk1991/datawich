@@ -74,8 +74,8 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
         including: {},
         excluding: {},
       }
-      const includingList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap.including)
-      const excludingList = GeneralDataHelper.getCheckedTagsForField(field, tagsCheckedMap.excluding)
+      const includingList = GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.including)
+      const excludingList = GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.excluding)
       filterView = (
         <>
           <h4 style={{ margin: '0 0 8px' }}>Including anyOf</h4>
