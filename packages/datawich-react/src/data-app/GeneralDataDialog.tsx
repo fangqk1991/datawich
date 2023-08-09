@@ -10,6 +10,7 @@ interface Props extends DialogProps {
 }
 
 export class GeneralDataDialog extends ReactDialog<Props> {
+  width = '80%'
   title = '数据记录'
 
   public rawComponent(): React.FC<Props> {

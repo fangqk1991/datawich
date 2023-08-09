@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Divider, Input, message, Space, Spin } from 'antd'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
@@ -12,7 +12,7 @@ import {
 import { Link, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { TableView, useQueryParams } from '@fangcha/react'
+import { ConfirmDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
@@ -47,6 +47,8 @@ const trimParams = (params: {}) => {
 }
 
 export const DataAppDetailView: React.FC = () => {
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+
   const { modelKey = '' } = useParams()
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
 
@@ -301,8 +303,8 @@ export const DataAppDetailView: React.FC = () => {
           size: 'small',
           bordered: true,
         }}
-        columns={[
-          ...mainDisplayFields
+        columns={TableViewColumn.makeColumns<DataRecord>([
+          ...(mainDisplayFields
             .map((field) => {
               const columns = [
                 myDataColumn({
@@ -335,7 +337,7 @@ export const DataAppDetailView: React.FC = () => {
             .reduce((result, cur) => {
               result.push(...cur)
               return result
-            }, []),
+            }, []) as any[]),
           {
             title: '操作',
             render: (item) => {
@@ -351,8 +353,18 @@ export const DataAppDetailView: React.FC = () => {
                   </a>
                   <a
                     style={{ color: '#dc3545' }}
-                    onClick={() => {
-                      message.warning('开发中')
+                    onClick={async () => {
+                      const dialog = new ConfirmDialog({
+                        content: '是否删除本记录？',
+                      })
+                      dialog.show(async () => {
+                        const request = MyRequest(
+                          new CommonAPI(DataAppApis.DataAppRecordDelete, modelKey, item._data_id)
+                        )
+                        await request.execute()
+                        message.success('删除成功')
+                        forceUpdate()
+                      })
                     }}
                   >
                     删除
@@ -361,7 +373,7 @@ export const DataAppDetailView: React.FC = () => {
               )
             },
           },
-        ]}
+        ])}
         // defaultSettings={{
         //   pageSize: Number(queryParams.pageSize) || 10,
         //   pageNumber: Number(queryParams.pageNumber) || 1,
