@@ -278,9 +278,13 @@ export const DataAppDetailView: React.FC = () => {
               mainFields: mainFields,
               modelKey: modelKey,
             })
-            dialog.show((params) => {
-              message.success(JSON.stringify(params))
-              message.error('开发中')
+            dialog.title = '新建数据记录'
+            dialog.show(async (params) => {
+              const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordCreate, modelKey))
+              request.setBodyData(params)
+              await request.execute()
+              message.success('创建成功')
+              forceUpdate()
             })
           }}
         >

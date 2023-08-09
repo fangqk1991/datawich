@@ -27,6 +27,17 @@ interface Props {
 }
 
 export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
+  const myData = {
+    ...props.myData,
+  }
+  props.allFields
+    .filter((field) => field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime)
+    .forEach((field) => {
+      if (myData[field.fieldKey] !== undefined && !myData[field.fieldKey]) {
+        myData[field.fieldKey] = null
+      }
+    })
+
   const visibleFields = useMemo(() => {
     const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
     props.allFields.forEach((field) => {
@@ -36,7 +47,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
     })
     return props.allFields.filter((field) => {
       if (visibleLogicMap[field.fieldKey]) {
-        return LogicExpressionHelper.calcExpression(visibleLogicMap[field.fieldKey], props.myData)
+        return LogicExpressionHelper.calcExpression(visibleLogicMap[field.fieldKey], myData)
       }
       return true
     })
@@ -90,7 +101,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
 
   return (
     <div>
-      <ProForm form={form} autoFocusFirstInput initialValues={props.myData} submitter={false}>
+      <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false}>
         {visibleFields.map((field) => {
           const nameI18n = field.extrasData.nameI18n || {}
           const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
@@ -138,7 +149,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                       if (!field.constraintKey) {
                         return field.options
                       }
-                      const constraintValue = props.myData[field.constraintKey] || ''
+                      const constraintValue = myData[field.constraintKey] || ''
                       return field.options.filter((option) => {
                         const restraintValueMap = option['restraintValueMap'] || {}
                         return !!restraintValueMap[constraintValue]
@@ -167,7 +178,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                       <ProFormDatePicker
                       // fieldProps={{
                       //   format: 'YYYY-MM-DD',
-                      //   value: props.myData[field.fieldKey] ? dayjs(props.myData[field.fieldKey]) : null,
+                      //   value: myData[field.fieldKey] ? dayjs(myData[field.fieldKey]) : null,
                       // }}
                       />
                     )
