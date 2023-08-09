@@ -95,10 +95,6 @@ export const DataAppDetailView: React.FC = () => {
     return items
   }, [modelKey, mainFields])
 
-  const writeableFields = useMemo(() => {
-    return mainFields.filter((field) => !field.isSystem)
-  }, [mainFields])
-
   const fullTagsCheckedMap = useMemo(() => {
     return allFields
       .filter((field) => field.fieldType === FieldType.MultiEnum)
@@ -346,7 +342,22 @@ export const DataAppDetailView: React.FC = () => {
                   {/*<a style={{ color: '#28a745' }}>复制</a>*/}
                   <a
                     onClick={() => {
-                      message.warning('开发中')
+                      const inputData = FieldHelper.cleanDataByModelFields(item, mainFields)
+                      const dialog = new GeneralDataDialog({
+                        mainFields: mainFields,
+                        modelKey: modelKey,
+                        data: inputData,
+                      })
+                      dialog.title = '修改数据记录'
+                      dialog.show(async (params) => {
+                        const request = MyRequest(
+                          new CommonAPI(DataAppApis.DataAppRecordUpdate, modelKey, item._data_id)
+                        )
+                        request.setBodyData(params)
+                        await request.execute()
+                        message.success('修改成功')
+                        forceUpdate()
+                      })
                     }}
                   >
                     编辑

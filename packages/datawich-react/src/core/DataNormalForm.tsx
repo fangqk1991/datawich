@@ -54,6 +54,24 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
             data[field.fieldKey] = data[field.fieldKey].join(',')
           }
         })
+      props.allFields
+        .filter((field) => field.fieldType === FieldType.Date)
+        .forEach((field) => {
+          if (data[field.fieldKey] && data[field.fieldKey].format) {
+            data[field.fieldKey] = data[field.fieldKey].format('YYYY-MM-DD')
+          } else if (!data[field.fieldKey]) {
+            data[field.fieldKey] = null
+          }
+        })
+      props.allFields
+        .filter((field) => field.fieldType === FieldType.Datetime)
+        .forEach((field) => {
+          if (data[field.fieldKey] && data[field.fieldKey].format) {
+            data[field.fieldKey] = data[field.fieldKey].format()
+          } else if (!data[field.fieldKey]) {
+            data[field.fieldKey] = null
+          }
+        })
 
       const errorMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(
         data,
@@ -70,11 +88,9 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
     },
   }))
 
-  const params = {}
-
   return (
     <div>
-      <ProForm form={form} autoFocusFirstInput initialValues={params} submitter={false}>
+      <ProForm form={form} autoFocusFirstInput initialValues={props.myData} submitter={false}>
         {visibleFields.map((field) => {
           const nameI18n = field.extrasData.nameI18n || {}
           const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
@@ -147,7 +163,14 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                     return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
                   }
                   case FieldType.Date:
-                    return <ProFormDatePicker />
+                    return (
+                      <ProFormDatePicker
+                      // fieldProps={{
+                      //   format: 'YYYY-MM-DD',
+                      //   value: props.myData[field.fieldKey] ? dayjs(props.myData[field.fieldKey]) : null,
+                      // }}
+                      />
+                    )
                   case FieldType.Datetime:
                     return <ProFormDateTimePicker />
                   case FieldType.StringList:

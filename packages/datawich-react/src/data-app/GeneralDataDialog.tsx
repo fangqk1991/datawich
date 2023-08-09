@@ -15,9 +15,12 @@ export class GeneralDataDialog extends ReactDialog<Props> {
 
   public rawComponent(): React.FC<Props> {
     return (props) => {
-      let data = props.data || {}
-      for (const field of props.mainFields.filter((item) => item.useDefault)) {
-        data[field.dataKey] = field.defaultValue
+      let data = props.data
+      if (!data) {
+        data = {}
+        for (const field of props.mainFields.filter((item) => item.useDefault)) {
+          data[field.dataKey] = field.defaultValue
+        }
       }
       data = JSON.parse(JSON.stringify(data))
 
