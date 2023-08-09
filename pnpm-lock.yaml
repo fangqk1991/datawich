@@ -74,8 +74,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.27.1
-        version: 0.27.1
+        specifier: ^0.28.0
+        version: 0.28.0
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -83,8 +83,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       fc-sql:
-        specifier: ^0.32.0
-        version: 0.32.0
+        specifier: ^0.33.0
+        version: 0.33.0
       file-type:
         specifier: ^12.4.0
         version: 12.4.2
@@ -132,11 +132,11 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0(typescript@4.9.5)
       '@fangcha/generator':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@fangcha/react':
-        specifier: ^0.27.0
-        version: 0.27.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2)
+        specifier: ^0.28.0
+        version: 0.28.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2)
       '@fangcha/vue':
         specifier: ^0.78.0
         version: 0.78.0
@@ -2172,14 +2172,14 @@ packages:
     resolution: {integrity: sha512-bNmUWs8FNwQJmj8903D3zZ5coFHPr6NA1IAm/q8LGwXdu2rM8E3J/5oacDJLAP5xghRTxlr5f5svtV+aKA7Zsg==}
     dev: false
 
-  /@fangcha/generator@0.2.0:
-    resolution: {integrity: sha512-m+wljZf+EBTbxHp97NPzOzAcJMZS6x3zGlur9441XOozfWfjFMt/v1mUwx/IQDjdHGbmN4I7d2Oobs0/wy5h/A==}
+  /@fangcha/generator@0.4.0:
+    resolution: {integrity: sha512-lsuUoBYrBR8QKFc514pL0beyPYhzc73qUd8fef34qz5ozAi7/3Mqj5hpAAsDcne2Ma+megoYEngKJ1Oo9b0yZA==}
     dependencies:
       '@fangcha/swagger': 0.1.1
       '@fangcha/tools': 1.25.2
       '@types/ejs': 3.1.2
       ejs: 3.1.9
-      fc-sql: 0.32.0
+      fc-sql: 0.33.0
     transitivePeerDependencies:
       - ibm_db
       - mariadb
@@ -2202,8 +2202,8 @@ packages:
     resolution: {integrity: sha512-ySpChkvNNotz7vFMiYCwHVf46I7hJNI0SpZwFIr+yhbM38M7bm/96NnD8C/BRN9Qc8BQugSTeB71iSj9DoC6+Q==}
     dev: false
 
-  /@fangcha/react@0.27.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2):
-    resolution: {integrity: sha512-hHGuw1vZnTQgE6yHKeFbwWtSvyka6HpwTTJCoNH+afnb+zzxLnzmsNGGbQX/rmeyFQMzaKJOAQ9PYQUBdDVpYA==}
+  /@fangcha/react@0.28.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2):
+    resolution: {integrity: sha512-r1W5OsQcC8DZoS1CL3MRA73c4iuGxJ22PwlDu/lCv0HMvPX+RzCB0mxhcdgaC7h7tSfU7CA2sEV/LErH8p2C7A==}
     dependencies:
       '@ant-design/pro-components': 2.4.4(antd@5.4.2)(prop-types@15.8.1)(rc-field-form@1.29.2)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/react': 11.10.6(react@18.2.0)
@@ -6216,11 +6216,11 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.27.1:
-    resolution: {integrity: sha512-7PqiA8FToHmsn4SIOxudoGOHsdcHmufMs5gFsLRLlZZVInWD+a3jsyn+CJDNjzxe65Qqbl33silFOJw1eWRc/Q==}
+  /fc-feed@0.28.0:
+    resolution: {integrity: sha512-sJjzSW/Jo9OIBshAkmgQRo+yqB6PBk40Y180e19prU9Gf5zOxPuX9DjycMlyuJKnONAP+cGG0g26YUHEW7sLVg==}
     dependencies:
       fc-model: 0.6.0
-      fc-sql: 0.32.0
+      fc-sql: 0.33.0
     transitivePeerDependencies:
       - ibm_db
       - mariadb
@@ -6241,8 +6241,8 @@ packages:
     resolution: {integrity: sha512-PJlpsjAOCg0RUbekTuJZlyBArs1/hMQnan0LeGLP57+wYXClZ0WJ7J7XeCaCXlkO9NZI05pu+4Xl58DUsyQKeg==}
     dev: false
 
-  /fc-sql@0.32.0:
-    resolution: {integrity: sha512-q7iTLz1R2G6sNE2BYwU0tb+sjZAJYIlEVoui0SczJp5z13lXZu2KGq05txb1rzXW9aHGcVmDLP5VtGQY4zS1BA==}
+  /fc-sql@0.33.0:
+    resolution: {integrity: sha512-O7iwlyXmGU4LEdM53HWC004P8laxxaF1+06RWnrFyDRntbi4IkdJBGVYbBqnU8QCBERMifnsfaHUOeG1c79pRQ==}
     dependencies:
       moment: 2.29.4
       mysql2: 3.2.1
