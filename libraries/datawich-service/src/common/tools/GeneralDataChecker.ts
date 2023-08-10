@@ -25,7 +25,7 @@ export class GeneralDataChecker {
         isRequired = LogicExpressionHelper.calcExpression(field.extrasData.requiredLogic, params)
       }
       if (!curDataId && isRequired) {
-        if (!(field.fieldKey in params)) {
+        if (params[field.fieldKey] === undefined || params[field.fieldKey] === null) {
           errorMap[field.fieldKey] = `${field.name} 不能为空`
           continue
         }
@@ -45,8 +45,8 @@ export class GeneralDataChecker {
         }
       }
 
-      if (field.fieldKey in params) {
-        const value = params[field.fieldKey]
+      const value = params[field.fieldKey]
+      if (value !== undefined && value !== null) {
         switch (field.fieldType as FieldType) {
           case FieldType.Unknown:
             break
@@ -88,9 +88,6 @@ export class GeneralDataChecker {
           case FieldType.Enum:
           case FieldType.TextEnum: {
             const value2LabelMap = field.value2LabelMap
-            if (!isRequired && !value) {
-              break
-            }
             if (!(value in value2LabelMap)) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
@@ -100,9 +97,6 @@ export class GeneralDataChecker {
           }
           case FieldType.MultiEnum: {
             const value2LabelMap = field.value2LabelMap
-            if (!isRequired && !value) {
-              break
-            }
             if (GeneralDataHelper.extractMultiEnumItems(value).find((key) => value2LabelMap[key] === undefined)) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
@@ -135,17 +129,11 @@ export class GeneralDataChecker {
             break
           }
           case FieldType.Date:
-            if (!isRequired && value === null) {
-              break
-            }
             if (!moment(value).isValid()) {
               errorMap[field.fieldKey] = `${field.name} 日期格式有误`
             }
             break
           case FieldType.Datetime:
-            if (!isRequired && value === null) {
-              break
-            }
             if (!moment(value).isValid()) {
               errorMap[field.fieldKey] = `${field.name} 时间格式有误`
             }
