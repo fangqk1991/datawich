@@ -37,6 +37,16 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
         myData[field.fieldKey] = null
       }
     })
+  props.allFields
+    .filter((field) => field.fieldType === FieldType.MultiEnum)
+    .forEach((field) => {
+      if (myData[field.fieldKey] && !Array.isArray(myData[field.fieldKey])) {
+        myData[field.fieldKey] = (myData[field.fieldKey] as string)
+          .split(',')
+          .map((item) => item.trim())
+          .filter((item) => !!item)
+      }
+    })
 
   const visibleFields = useMemo(() => {
     const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
