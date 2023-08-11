@@ -6,6 +6,7 @@ import { MyRichTextPanel, MyTagsPanel } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
 import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
+import * as moment from 'moment'
 
 interface Props {
   field: ModelFieldModel
@@ -76,7 +77,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.Date:
             break
           case FieldType.Datetime:
-            break
+            return value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : ''
           case FieldType.ReadonlyText:
             break
           case FieldType.Attachment:
