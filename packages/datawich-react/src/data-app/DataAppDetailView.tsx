@@ -9,10 +9,10 @@ import {
   ModelFieldModel,
   TagsCheckedMap,
 } from '@fangcha/datawich-service'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { ConfirmDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { ConfirmDialog, TableView, TableViewColumn, useQueryParams, RouterLink } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
@@ -166,7 +166,7 @@ export const DataAppDetailView: React.FC = () => {
       <Breadcrumb
         items={[
           {
-            title: <Link to={{ pathname: `/v1/all-data-app` }}>{LS('[i18n] Data Apps')}</Link>,
+            title: <RouterLink route={'/v1/all-data-app'}>{LS('[i18n] Data Apps')}</RouterLink>,
           },
           {
             title: (

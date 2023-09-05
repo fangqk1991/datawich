@@ -51,7 +51,7 @@
     "@fangcha/generator": "^0.7.0",
     "@fangcha/vue": "^0.78.0",
     "@fangcha/admin-vue": "^0.2.0",
-    "@fangcha/react": "^0.31.0",
+    "@fangcha/react": "^0.32.0",
     "@fangcha/auth-basic": "^0.8.0",
     "@fangcha/auth-react": "^0.14.0",
     "@fangcha/webpack": "^0.16.0",

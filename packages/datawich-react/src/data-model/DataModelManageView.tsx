@@ -3,10 +3,10 @@ import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Divider, Spin, Tabs } from 'antd'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { DataModelModel } from '@fangcha/datawich-service'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { useQueryParams } from '@fangcha/react'
+import { useQueryParams, RouterLink } from '@fangcha/react'
 import { ModelInfoFragment } from './ModelInfoFragment'
 import { ModelStructureFragment } from './ModelStructureFragment'
 import { ModelAccessFragment } from './ModelAccessFragment'
@@ -60,7 +60,7 @@ export const DataModelManageView: React.FC = () => {
       <Breadcrumb
         items={[
           {
-            title: <Link to={{ pathname: `/v1/data-model` }}>{LS('[i18n] Model List')}</Link>,
+            title: <RouterLink route={'/v1/data-model'}>{LS('[i18n] Model List')}</RouterLink>,
           },
           {
             title: dataModel.name,
