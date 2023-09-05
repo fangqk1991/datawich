@@ -1,5 +1,4 @@
 import { FilterOptions } from 'fc-feed'
-import { TypicalExcel } from '@fangcha/tools/lib/excel'
 import { SearchBuilder } from '@fangcha/tools/lib/database'
 import { SQLSearcher } from 'fc-sql'
 import * as fs from 'fs'
@@ -23,6 +22,7 @@ import { WideSearcherBuilder } from './WideSearcherBuilder'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
 import { FieldHelper } from '@web/datawich-common/models'
+import { TypicalExcel } from '@fangcha/excel'
 const archiver = require('archiver')
 
 export class ModelDataHandler {

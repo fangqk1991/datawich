@@ -5,8 +5,8 @@ importers:
   .:
     dependencies:
       '@fangcha/account-models':
-        specifier: ^0.16.0
-        version: 0.16.0
+        specifier: ^0.18.0
+        version: 0.18.0
       '@fangcha/ali-oss':
         specifier: ^1.2.0
         version: 1.2.0
@@ -20,14 +20,17 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@fangcha/backend-kit':
-        specifier: ^0.62.0
-        version: 0.62.0
+        specifier: ^0.63.0
+        version: 0.63.0
       '@fangcha/bot-kit':
         specifier: ^0.1.0
         version: 0.1.0
       '@fangcha/datawich-service':
         specifier: workspace:^
         version: link:libraries/datawich-service
+      '@fangcha/excel':
+        specifier: ^0.5.0
+        version: 0.5.0
       '@fangcha/general-group':
         specifier: ^0.3.0
         version: 0.3.0
@@ -48,19 +51,19 @@ importers:
         version: 1.5.0
       '@fangcha/router':
         specifier: ^0.31.0
-        version: 0.31.0(@fangcha/backend-kit@0.62.0)
+        version: 0.31.0(@fangcha/backend-kit@0.63.0)
       '@fangcha/session':
         specifier: ^0.2.0
-        version: 0.2.0(@fangcha/backend-kit@0.62.0)
+        version: 0.2.0(@fangcha/backend-kit@0.63.0)
       '@fangcha/sso-models':
         specifier: ^0.6.0
-        version: 0.6.0(@fangcha/account-models@0.16.0)
+        version: 0.6.0(@fangcha/account-models@0.18.0)
       '@fangcha/tools':
-        specifier: ^1.25.2
-        version: 1.25.2
+        specifier: ^1.31.0
+        version: 1.31.0
       '@fangcha/web-auth-sdk':
         specifier: ^0.8.0
-        version: 0.8.0(@fangcha/account-models@0.16.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.62.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.6.0)
+        version: 0.8.0(@fangcha/account-models@0.18.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.63.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.6.0)
       axios:
         specifier: ^1.3.2
         version: 1.3.5
@@ -74,8 +77,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.28.0
-        version: 0.28.0
+        specifier: ^0.29.0
+        version: 0.29.0
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -132,17 +135,17 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0(typescript@4.9.5)
       '@fangcha/generator':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.7.0
+        version: 0.7.0
       '@fangcha/react':
-        specifier: ^0.28.0
-        version: 0.28.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2)
+        specifier: ^0.31.0
+        version: 0.31.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2)
       '@fangcha/vue':
         specifier: ^0.78.0
         version: 0.78.0
       '@fangcha/webpack':
-        specifier: ^0.15.0
-        version: 0.15.0(eslint@8.38.0)(lodash@4.17.21)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
+        specifier: ^0.16.0
+        version: 0.16.0(eslint@8.38.0)(lodash@4.17.21)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
       '@types/assert':
         specifier: ^1.4.6
         version: 1.5.6
@@ -959,6 +962,7 @@ packages:
   /@babel/plugin-proposal-async-generator-functions@7.20.7(@babel/core@7.21.4):
     resolution: {integrity: sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -974,6 +978,7 @@ packages:
   /@babel/plugin-proposal-class-properties@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-cumfXOF0+nzZrrN8Rf0t7M+tF6sZc7vhQwYQck9q1/5w2OExlD+b4v4RpMJFaV1Z7WcDRgO6FqvxqxGlwo+RHQ==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -987,6 +992,7 @@ packages:
   /@babel/plugin-proposal-class-static-block@7.21.0(@babel/core@7.21.4):
     resolution: {integrity: sha512-XP5G9MWNUskFuP30IfFSEFB0Z6HzLIUcjYM4bYOPHXl7eiJ9HFv8tWj6TXTN5QODiEhDZAeI4hLok2iHFFV4hw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-static-block instead.
     peerDependencies:
       '@babel/core': ^7.12.0
     dependencies:
@@ -1017,6 +1023,7 @@ packages:
   /@babel/plugin-proposal-dynamic-import@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-1auuwmK+Rz13SJj36R+jqFPMJWyKEDd7lLSdOj4oJK0UTgGueSAtkrCvz9ewmgyU/P941Rv2fQwZJN8s6QruXw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-dynamic-import instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1028,6 +1035,7 @@ packages:
   /@babel/plugin-proposal-export-namespace-from@7.18.9(@babel/core@7.21.4):
     resolution: {integrity: sha512-k1NtHyOMvlDDFeb9G5PhUXuGj8m/wiwojgQVEhJ/fsVsMCpLyOP4h0uGEjYJKrRI+EVPlb5Jk+Gt9P97lOGwtA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1039,6 +1047,7 @@ packages:
   /@babel/plugin-proposal-json-strings@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-lr1peyn9kOdbYc0xr0OdHTZ5FMqS6Di+H0Fz2I/JwMzGmzJETNeOFq2pBySw6X/KFL5EWDjlJuMsUGRFb8fQgQ==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-json-strings instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1050,6 +1059,7 @@ packages:
   /@babel/plugin-proposal-logical-assignment-operators@7.20.7(@babel/core@7.21.4):
     resolution: {integrity: sha512-y7C7cZgpMIjWlKE5T7eJwp+tnRYM89HmRvWM5EQuB5BoHEONjmQ8lSNmBUwOyy/GFRsohJED51YBF79hE1djug==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-logical-assignment-operators instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1061,6 +1071,7 @@ packages:
   /@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1072,6 +1083,7 @@ packages:
   /@babel/plugin-proposal-numeric-separator@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-ozlZFogPqoLm8WBr5Z8UckIoE4YQ5KESVcNudyXOR8uqIkliTEgJ3RoketfG6pmzLdeZF0H/wjE9/cCEitBl7Q==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1083,6 +1095,7 @@ packages:
   /@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.21.4):
     resolution: {integrity: sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1097,6 +1110,7 @@ packages:
   /@babel/plugin-proposal-optional-catch-binding@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-Q40HEhs9DJQyaZfUjjn6vE8Cv4GmMHCYuMGIWUnlxH6400VGxOuwWsPt4FxXxJkC/5eOzgn0z21M9gMT4MOhbw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1108,6 +1122,7 @@ packages:
   /@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.21.4):
     resolution: {integrity: sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1120,6 +1135,7 @@ packages:
   /@babel/plugin-proposal-private-methods@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-nutsvktDItsNn4rpGItSNV2sz1XwS+nfU0Rg8aCx3W3NOKVzdMjJRu0O5OkgDp3ZGICSTbgRpxZoWsxoKRvbeA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1133,6 +1149,7 @@ packages:
   /@babel/plugin-proposal-private-property-in-object@7.21.0(@babel/core@7.21.4):
     resolution: {integrity: sha512-ha4zfehbJjc5MmXBlHec1igel5TJXXLDDRbuJ4+XT2TJcyD9/V1919BA8gMvsdHcNMBy4WBUBiRb3nw/EQUtBw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1148,6 +1165,7 @@ packages:
   /@babel/plugin-proposal-unicode-property-regex@7.18.6(@babel/core@7.21.4):
     resolution: {integrity: sha512-2BShG/d5yoZyXZfVePH91urL5wTG6ASZU9M4o03lKK8u8UW1y08OMttBSOADTcJrnPMpvDXRG3G8fyLh4ovs8w==}
     engines: {node: '>=4'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-unicode-property-regex instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -2022,18 +2040,18 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@fangcha/account-models@0.16.0:
-    resolution: {integrity: sha512-tyt+q5NDcBXD6YYIQUGWjq3UdacgXmuwNU9OIsHDpyUoBFIRnfPKZLsTfgmISDqyk0Ra5YJGFHW+TkAq3HPnMw==}
+  /@fangcha/account-models@0.18.0:
+    resolution: {integrity: sha512-tDD1l007636sP3blXEKXeyqD/UKMsTagSHCd26l7JiS/m+rLc3tMCsSxYYqHo8wxHxafhotW1Zfzv93al+Oypw==}
     dev: false
 
-  /@fangcha/account@0.22.0(@fangcha/account-models@0.16.0)(@types/bcrypt@5.0.0)(bcrypt@5.1.0):
+  /@fangcha/account@0.22.0(@fangcha/account-models@0.18.0)(@types/bcrypt@5.0.0)(bcrypt@5.1.0):
     resolution: {integrity: sha512-R1UgPWh7M17A4pj46UMKYIe9X5w6AfXE6x9ZvOqeuLSquVGnbsJ5yuW0Jcf9A9QIvr6P//CDpc3YVk57tjNEsg==}
     peerDependencies:
       '@fangcha/account-models': '*'
       '@types/bcrypt': ^5.0.0
       bcrypt: ^5.1.0
     dependencies:
-      '@fangcha/account-models': 0.16.0
+      '@fangcha/account-models': 0.18.0
       '@types/bcrypt': 5.0.0
       bcrypt: 5.1.0
     dev: false
@@ -2043,7 +2061,7 @@ packages:
     peerDependencies:
       '@fangcha/vue': '*'
     dependencies:
-      '@fangcha/tools': 1.25.2
+      '@fangcha/tools': 1.31.0
       '@fangcha/vue': 0.78.0
       notification-center-js: 0.2.0
     dev: true
@@ -2071,7 +2089,7 @@ packages:
       '@fangcha/app-error': 1.6.0
       '@fangcha/app-request': 1.8.0
       '@fangcha/logger': 0.5.0
-      '@fangcha/tools': 1.25.2
+      '@fangcha/tools': 1.31.0
       log4js: 6.9.1
     transitivePeerDependencies:
       - debug
@@ -2112,8 +2130,8 @@ packages:
       - '@popperjs/core'
     dev: true
 
-  /@fangcha/backend-kit@0.62.0:
-    resolution: {integrity: sha512-F/wKcvWoPwzB502N6P4KUgXboO6dXR8tHg4icD0S//nYE7jAb2nfkb6nFm3tFKlhYi3qa4EDxTN+s0qY/uOXHg==}
+  /@fangcha/backend-kit@0.63.0:
+    resolution: {integrity: sha512-F6fRe5iqbvLxSRR/l0/7EdGIavLopE0EqAXZs6wI+aIW/OHqm00EiL1SXokoRM3O0vCHW1rwilDhqTvVtXQFQQ==}
     dependencies:
       '@fangcha/app-error': 1.6.0
       '@fangcha/app-models': 0.2.0
@@ -2121,7 +2139,6 @@ packages:
       '@fangcha/app-request-extensions': 0.2.0
       '@fangcha/assert': 1.2.0
       '@fangcha/bot-kit': 0.1.0
-      '@fangcha/tools': 1.25.2
       moment: 2.29.4
     transitivePeerDependencies:
       - debug
@@ -2135,7 +2152,7 @@ packages:
       '@fangcha/app-request': 1.8.0
       '@fangcha/app-request-extensions': 0.2.0
       '@fangcha/assert': 1.2.0
-      '@fangcha/tools': 1.25.2
+      '@fangcha/tools': 1.31.0
       moment: 2.29.4
     transitivePeerDependencies:
       - debug
@@ -2164,6 +2181,12 @@ packages:
       - typescript
     dev: true
 
+  /@fangcha/excel@0.5.0:
+    resolution: {integrity: sha512-2YWOusV3B1IFUfn2j+woedKMvvK7JaypQQdp6g4+dDWMD5d8NumTPpqw5SPvRqWKtB3do4Ej6Z/aZdVC7jG1lQ==}
+    dependencies:
+      exceljs: 4.3.0
+    dev: false
+
   /@fangcha/general-group@0.3.0:
     resolution: {integrity: sha512-Kq/wtqwdc9nxDAzG1LAiSI6jFIpHDaSAIZ0m7b5dr75+pPTUquHD6obtFWpJfgSWlZz2jVzZyNR0f2Uu8Lu4pw==}
     dev: false
@@ -2172,11 +2195,11 @@ packages:
     resolution: {integrity: sha512-bNmUWs8FNwQJmj8903D3zZ5coFHPr6NA1IAm/q8LGwXdu2rM8E3J/5oacDJLAP5xghRTxlr5f5svtV+aKA7Zsg==}
     dev: false
 
-  /@fangcha/generator@0.4.0:
-    resolution: {integrity: sha512-lsuUoBYrBR8QKFc514pL0beyPYhzc73qUd8fef34qz5ozAi7/3Mqj5hpAAsDcne2Ma+megoYEngKJ1Oo9b0yZA==}
+  /@fangcha/generator@0.7.0:
+    resolution: {integrity: sha512-2wVPRrWE/DAanOROitEa0dM37yQ8XSG2+e23Qqs9N9TUNHeKzRplKEEvzTXXHA8Fs2YRWKlIu31fyQmVWaTcAw==}
     dependencies:
       '@fangcha/swagger': 0.1.1
-      '@fangcha/tools': 1.25.2
+      '@fangcha/tools': 1.31.0
       '@types/ejs': 3.1.2
       ejs: 3.1.9
       fc-sql: 0.33.0
@@ -2202,8 +2225,8 @@ packages:
     resolution: {integrity: sha512-ySpChkvNNotz7vFMiYCwHVf46I7hJNI0SpZwFIr+yhbM38M7bm/96NnD8C/BRN9Qc8BQugSTeB71iSj9DoC6+Q==}
     dev: false
 
-  /@fangcha/react@0.28.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2):
-    resolution: {integrity: sha512-r1W5OsQcC8DZoS1CL3MRA73c4iuGxJ22PwlDu/lCv0HMvPX+RzCB0mxhcdgaC7h7tSfU7CA2sEV/LErH8p2C7A==}
+  /@fangcha/react@0.31.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2):
+    resolution: {integrity: sha512-TStaDVcAfUDfuWi/tah1O4s/Mgc9JoJjiR1GN1abbDVKJ1vwOt7z0qBajcOoOR8OLHISegAIgPPaO3QHJVrVzg==}
     dependencies:
       '@ant-design/pro-components': 2.4.4(antd@5.4.2)(prop-types@15.8.1)(rc-field-form@1.29.2)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/react': 11.10.6(react@18.2.0)
@@ -2230,7 +2253,7 @@ packages:
   /@fangcha/resque@1.5.0:
     resolution: {integrity: sha512-nyeL7+yE2c6MuCMrFOtZKjfJHOEYRPKWGTTM54rbJ0t06SChU8GHXdw13at4lpG5fPqxdUGRJPr4jWrlUTy/eg==}
     dependencies:
-      '@fangcha/tools': 1.25.2
+      '@fangcha/tools': 1.31.0
       ioredis: 4.28.5
       moment: 2.29.4
       shelljs: 0.8.5
@@ -2239,15 +2262,15 @@ packages:
       - supports-color
     dev: false
 
-  /@fangcha/router@0.31.0(@fangcha/backend-kit@0.62.0):
+  /@fangcha/router@0.31.0(@fangcha/backend-kit@0.63.0):
     resolution: {integrity: sha512-MS6aGAw2AKZDptJTkJ7uMNqEE7Y6Bc3v3ltlg7HMw8FWPNJ0j8XvaV/P6b3p8oHAf6JNDcntVSlSfPFTpIBNvA==}
     peerDependencies:
       '@fangcha/backend-kit': '*'
     dependencies:
       '@fangcha/app-error': 1.6.0
-      '@fangcha/backend-kit': 0.62.0
+      '@fangcha/backend-kit': 0.63.0
       '@fangcha/swagger': 0.1.1
-      '@fangcha/tools': 1.25.2
+      '@fangcha/tools': 1.31.0
       '@koa/router': 12.0.0
       '@types/jsonwebtoken': 9.0.1
       '@types/koa': 2.13.5
@@ -2260,31 +2283,31 @@ packages:
       - supports-color
     dev: false
 
-  /@fangcha/session@0.2.0(@fangcha/backend-kit@0.62.0):
+  /@fangcha/session@0.2.0(@fangcha/backend-kit@0.63.0):
     resolution: {integrity: sha512-0C+f8aBZQWtWyVgHGfwAmzXvlmE/aefOMvWTm3A5c7SADVy95ws352Bxt1Ewz2jN1ESrnQEJnM8xMsUog7xjbw==}
     peerDependencies:
       '@fangcha/backend-kit': '*'
     dependencies:
-      '@fangcha/backend-kit': 0.62.0
-      '@fangcha/router': 0.31.0(@fangcha/backend-kit@0.62.0)
-      '@fangcha/tools': 1.25.2
+      '@fangcha/backend-kit': 0.63.0
+      '@fangcha/router': 0.31.0(@fangcha/backend-kit@0.63.0)
+      '@fangcha/tools': 1.31.0
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@fangcha/sso-models@0.6.0(@fangcha/account-models@0.16.0):
+  /@fangcha/sso-models@0.6.0(@fangcha/account-models@0.18.0):
     resolution: {integrity: sha512-MD9ZqwP1HL2WSJFN2B1ASiSBgMVS7WTYwPgmDEHBNqAUHBlUNDrYyJuHHJwEhoGxTJ7fWKzhbaSIobQ2s7z1RQ==}
     peerDependencies:
       '@fangcha/account-models': '*'
     dependencies:
-      '@fangcha/account-models': 0.16.0
+      '@fangcha/account-models': 0.18.0
     dev: false
 
   /@fangcha/swagger@0.1.1:
     resolution: {integrity: sha512-NOTpGTPvp2aLCD8EJ+cG/oCd17nl3nmsNV9leVSTq8/M+wNXiYbv21ftZSqHP7/pf9tA5gr9JghizkZI2z5Ing==}
 
-  /@fangcha/tools@1.25.2:
-    resolution: {integrity: sha512-5X67S+UI1hlkMyTKN1boQJIq2SQwcpq2IEsQm6JMZAd79cRmx3dG5D8ma3e+5hxjlw9BLuGtp4zCQ5yiLNAyrg==}
+  /@fangcha/tools@1.31.0:
+    resolution: {integrity: sha512-9O+QxTHA3j1x7KU8TmGdWZX8YLNTZFL5orVZq6rbm9SHh272jxJF1xakJebPwtMq8CXjRuAYmH9WkHmXaekWew==}
     dependencies:
       moment: 2.29.4
       uuid: 9.0.0
@@ -2306,7 +2329,7 @@ packages:
       vue-router: 3.6.5(vue@2.7.14)
     dev: true
 
-  /@fangcha/web-auth-sdk@0.8.0(@fangcha/account-models@0.16.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.62.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.6.0):
+  /@fangcha/web-auth-sdk@0.8.0(@fangcha/account-models@0.18.0)(@fangcha/account@0.22.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.63.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.6.0):
     resolution: {integrity: sha512-YjMe86f2yeZttSpRmMnz7aDrjvmXLwJxTXGsSuU+GlWLoLYci09urdOlyGMHeIXHZEGWSk7NwgUDh0nRVm6kfA==}
     peerDependencies:
       '@fangcha/account': '*'
@@ -2317,17 +2340,17 @@ packages:
       '@fangcha/router': '*'
       '@fangcha/sso-models': '*'
     dependencies:
-      '@fangcha/account': 0.22.0(@fangcha/account-models@0.16.0)(@types/bcrypt@5.0.0)(bcrypt@5.1.0)
-      '@fangcha/account-models': 0.16.0
+      '@fangcha/account': 0.22.0(@fangcha/account-models@0.18.0)(@types/bcrypt@5.0.0)(bcrypt@5.1.0)
+      '@fangcha/account-models': 0.18.0
       '@fangcha/app-request': 1.8.0
       '@fangcha/app-request-extensions': 0.2.0
-      '@fangcha/backend-kit': 0.62.0
-      '@fangcha/router': 0.31.0(@fangcha/backend-kit@0.62.0)
-      '@fangcha/sso-models': 0.6.0(@fangcha/account-models@0.16.0)
+      '@fangcha/backend-kit': 0.63.0
+      '@fangcha/router': 0.31.0(@fangcha/backend-kit@0.63.0)
+      '@fangcha/sso-models': 0.6.0(@fangcha/account-models@0.18.0)
     dev: false
 
-  /@fangcha/webpack@0.15.0(eslint@8.38.0)(lodash@4.17.21)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-QICcQKbCYRXtYvIfR2iYATFFw8Tv91/509JRUQeCLzX8NY/CfkxJXz53CFhpufaabXtu1YjRfi310SouDsSp/Q==}
+  /@fangcha/webpack@0.16.0(eslint@8.38.0)(lodash@4.17.21)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-ET2TMG2Y1vgtDrD9o/RTKsYiNB2D+i7dPZdf3uSw5ys00TiLxUCKYDpUaAGM4zE9MwuZDGmeLIKWId75mqTBxQ==}
     dependencies:
       '@babel/core': 7.21.4
       '@babel/plugin-proposal-decorators': 7.21.0(@babel/core@7.21.4)
@@ -3627,7 +3650,7 @@ packages:
     hasBin: true
     dependencies:
       '@fangcha/ali-oss': 1.2.0
-      '@fangcha/tools': 1.25.2
+      '@fangcha/tools': 1.31.0
       shelljs: 0.8.5
     transitivePeerDependencies:
       - supports-color
@@ -4680,6 +4703,7 @@ packages:
   /consolidate@0.15.1(lodash@4.17.21)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-DW46nrsMJgy9kqAbPt5rKaCr7uFtpo4mSUvLHIUbJEjm0vo+aY5QLwBUq3FK4tRnJr/X0Psc0C4jf/h+HtXSMw==}
     engines: {node: '>= 0.10.0'}
+    deprecated: Please upgrade to consolidate v1.0.0+ as it has been modernized with several long-awaited fixes implemented. Maintenance is supported by Forward Email at https://forwardemail.net ; follow/watch https://github.com/ladjs/consolidate for updates and release changelog
     peerDependencies:
       arc-templates: ^0.5.3
       atpl: '>=0.7.6'
@@ -6216,8 +6240,8 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.28.0:
-    resolution: {integrity: sha512-sJjzSW/Jo9OIBshAkmgQRo+yqB6PBk40Y180e19prU9Gf5zOxPuX9DjycMlyuJKnONAP+cGG0g26YUHEW7sLVg==}
+  /fc-feed@0.29.0:
+    resolution: {integrity: sha512-OfdWusLsca10S7nuOzG6mq7Ota625vLfUUSkBE5GuaUFtqvRKa2LpVDpSsmzWEvGMMaO8K2OV8Ow8rfsEP1jKA==}
     dependencies:
       fc-model: 0.6.0
       fc-sql: 0.33.0

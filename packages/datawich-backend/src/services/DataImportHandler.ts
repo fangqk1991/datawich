@@ -1,4 +1,3 @@
-import { TypicalExcel } from '@fangcha/tools/lib/excel'
 import { Row } from 'exceljs'
 import * as moment from 'moment'
 import { _OSSResource, OSSService } from '@fangcha/oss-service'
@@ -7,6 +6,7 @@ import { _DataModel } from '../models/extensions/_DataModel'
 import { FieldType } from '@fangcha/datawich-service'
 import { GeneralDataHelper } from '@fangcha/datawich-service'
 import { FieldHelper } from '@web/datawich-common/models'
+import { TypicalExcel } from '@fangcha/excel'
 
 const setHintRowStyle = (row: Row) => {
   row.eachCell((cell) => {
