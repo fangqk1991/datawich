@@ -6,15 +6,13 @@ import { AccessLevel, AccessLevelDescriptor, describeAccessLevelDetail } from '@
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataModelApis } from '@web/datawich-common/web-api'
-import { useNavigate } from 'react-router-dom'
+import { RouterLink } from '@fangcha/react'
 
 interface Props {
   dataApp: DataModelModel
 }
 
 export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
-  const navigate = useNavigate()
-
   const [count, setCount] = useState(0)
   useEffect(() => {
     const request = MyRequest(new CommonAPI(DataModelApis.DataModelSummaryInfoGet, dataApp.modelKey))
@@ -90,20 +88,12 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
         </li>
         <li>
           <Space>
-            <a
-              onClick={() => {
-                navigate(`/v1/data-model/${dataApp.modelKey}`)
-              }}
-            >
+            <RouterLink route={'/v1/data-model/:modelKey'} params={{ modelKey: dataApp.modelKey }}>
               管理模型
-            </a>
-            <a
-              onClick={() => {
-                navigate(`/v1/data-app/${dataApp.modelKey}`)
-              }}
-            >
+            </RouterLink>
+            <RouterLink route={'/v1/data-app/:modelKey'} params={{ modelKey: dataApp.modelKey }}>
               查看应用
-            </a>
+            </RouterLink>
           </Space>
         </li>
       </ul>
