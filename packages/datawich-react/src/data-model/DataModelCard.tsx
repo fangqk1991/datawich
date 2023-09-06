@@ -7,6 +7,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataModelApis } from '@web/datawich-common/web-api'
 import { RouterLink } from '@fangcha/react'
+import { AppPages } from '@web/datawich-common/admin-apis'
 
 interface Props {
   dataApp: DataModelModel
@@ -88,10 +89,10 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
         </li>
         <li>
           <Space>
-            <RouterLink route={'/v1/data-model/:modelKey'} params={{ modelKey: dataApp.modelKey }}>
+            <RouterLink route={AppPages.ModelDetailRoute} params={[dataApp.modelKey]}>
               管理模型
             </RouterLink>
-            <RouterLink route={'/v1/data-app/:modelKey'} params={{ modelKey: dataApp.modelKey }}>
+            <RouterLink route={AppPages.DataAppDetailRoute} params={[dataApp.modelKey]}>
               查看应用
             </RouterLink>
           </Space>

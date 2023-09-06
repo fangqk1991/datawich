@@ -5,6 +5,7 @@ import { DataAppApis } from '@web/datawich-common/web-api'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { useNavigate } from 'react-router-dom'
 import { LS } from '../core/ReactI18n'
+import { AppPages } from '@web/datawich-common/admin-apis'
 
 export const DataAppListView: React.FC = () => {
   const [appList, setAppList] = useState<DataModelModel[]>()
@@ -40,7 +41,7 @@ export const DataAppListView: React.FC = () => {
             }}
             key={dataApp.modelKey}
             onClick={() => {
-              navigate(`/v1/data-app/${dataApp.modelKey}`)
+              navigate(AppPages.buildRoute(AppPages.DataAppDetailRoute, [dataApp.modelKey]))
             }}
           >
             <b>{dataApp.name}</b>

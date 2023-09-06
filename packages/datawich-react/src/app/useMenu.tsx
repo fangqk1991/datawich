@@ -2,6 +2,7 @@ import { AppstoreOutlined, DesktopOutlined, UserOutlined } from '@ant-design/ico
 import { Route } from '@ant-design/pro-layout/es/typing'
 import { LS } from '../core/ReactI18n'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
+import { AppPages } from '@web/datawich-common/admin-apis'
 
 export const useMenu = () => {
   const favorAppsCtx = useFavorAppsCtx()
@@ -19,7 +20,7 @@ export const useMenu = () => {
             name: LS('[i18n] All Apps'),
           },
           ...favorAppsCtx.favorApps.map((item) => ({
-            path: `/v1/data-app/${item.modelKey}`,
+            path: AppPages.buildRoute(AppPages.DataAppDetailRoute, [item.modelKey]),
             name: item.name,
           })),
         ],
@@ -30,11 +31,11 @@ export const useMenu = () => {
         icon: <AppstoreOutlined />,
         children: [
           {
-            path: '/v1/data-model',
+            path: AppPages.ModelListRoute,
             name: LS('[i18n] Data Model'),
           },
           {
-            path: '/v1/model-client',
+            path: AppPages.ClientListRoute,
             name: LS('[i18n] API Clients'),
           },
         ],

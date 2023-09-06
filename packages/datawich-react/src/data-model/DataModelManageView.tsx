@@ -6,10 +6,11 @@ import { DataModelModel } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { useQueryParams, RouterLink } from '@fangcha/react'
+import { RouterLink, useQueryParams } from '@fangcha/react'
 import { ModelInfoFragment } from './ModelInfoFragment'
 import { ModelStructureFragment } from './ModelStructureFragment'
 import { ModelAccessFragment } from './ModelAccessFragment'
+import { AppPages } from '@web/datawich-common/admin-apis'
 
 interface DataRecord {
   rid: number
@@ -60,7 +61,7 @@ export const DataModelManageView: React.FC = () => {
       <Breadcrumb
         items={[
           {
-            title: <RouterLink route={'/v1/data-model'}>{LS('[i18n] Model List')}</RouterLink>,
+            title: <RouterLink route={AppPages.ModelListRoute}>{LS('[i18n] Model List')}</RouterLink>,
           },
           {
             title: dataModel.name,
