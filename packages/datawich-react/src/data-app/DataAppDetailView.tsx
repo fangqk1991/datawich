@@ -173,7 +173,10 @@ export const DataAppDetailView: React.FC = () => {
             title: (
               <Space>
                 {dataModel.name} |
-                <a onClick={() => favorAppsCtx.toggleAppFavor(modelKey)}>{favored ? '取消关注' : '关注'}</a>
+                <RouterLink route={DatawichPages.ModelDetailRoute} params={[modelKey]}>
+                  模型管理
+                </RouterLink>
+                |<a onClick={() => favorAppsCtx.toggleAppFavor(modelKey)}>{favored ? '取消关注' : '关注'}</a>
               </Space>
             ),
           },
