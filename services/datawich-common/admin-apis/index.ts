@@ -1,1 +1,1 @@
-export * from './AppPages'
+export * from './DatawichPages'

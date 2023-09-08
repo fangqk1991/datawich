@@ -1,9 +1,10 @@
 import * as assert from 'assert'
 
-export class AppPages {
+export class DatawichPages {
   public static ModelListRoute = '/v1/data-model'
   public static ModelDetailRoute = '/v1/data-model/:modelKey'
 
+  public static AllDataAppsRoute = '/v1/all-data-app'
   public static DataAppListRoute = '/v1/data-app'
   public static DataAppDetailRoute = '/v1/data-app/:modelKey'
 

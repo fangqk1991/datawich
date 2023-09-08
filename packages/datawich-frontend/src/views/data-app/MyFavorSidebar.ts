@@ -7,7 +7,7 @@ import { MyAxios } from '@fangcha/vue/basic'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { getRouterToDataApp } from '../../services/ModelDataHelper'
 import { ProfileEvent } from '@web/datawich-common/models'
-import { AppPages } from '@web/datawich-common/admin-apis'
+import { DatawichPages } from '@web/datawich-common/admin-apis'
 
 class _MyFavorSidebar {
   private _favorApps?: DataModelModel[]
@@ -71,7 +71,7 @@ class _MyFavorSidebar {
       {
         titleEn: '所有应用',
         titleZh: '所有应用',
-        path: AppPages.DataAppListRoute,
+        path: DatawichPages.DataAppListRoute,
       },
       ...links,
     ])

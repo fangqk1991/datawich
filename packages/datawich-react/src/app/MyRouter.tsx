@@ -7,8 +7,7 @@ import { DataAppDetailView } from '../data-app/DataAppDetailView'
 import { FavorAppsProvider } from '../core/FavorAppsContext'
 import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
-import { FormDevView } from '../data-app/FormDevView'
-import { AppPages } from '@web/datawich-common/admin-apis'
+import { DatawichPages } from '@web/datawich-common/admin-apis'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -25,23 +24,19 @@ export const MyRouter = createBrowserRouter([
         element: <DataAppListView />,
       },
       {
-        path: '/v1/all-data-app',
+        path: DatawichPages.AllDataAppsRoute,
         element: <DataAppListView />,
       },
       {
-        path: AppPages.DataAppDetailRoute,
+        path: DatawichPages.DataAppDetailRoute,
         element: <DataAppDetailView />,
       },
       {
-        path: '/v1/data-app-dev/:modelKey',
-        element: <FormDevView />,
-      },
-      {
-        path: AppPages.ModelListRoute,
+        path: DatawichPages.ModelListRoute,
         element: <DataModelListView />,
       },
       {
-        path: AppPages.ModelDetailRoute,
+        path: DatawichPages.ModelDetailRoute,
         element: <DataModelManageView />,
       },
       {

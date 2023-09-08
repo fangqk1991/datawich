@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Button, Divider, Input, message, Space, Spin } from 'antd'
+import { Breadcrumb, Button, Card, Divider, Input, message, Space, Spin } from 'antd'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
@@ -12,7 +12,7 @@ import {
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { ConfirmDialog, TableView, TableViewColumn, useQueryParams, RouterLink } from '@fangcha/react'
+import { ConfirmDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
@@ -21,6 +21,7 @@ import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { GeneralDataDialog } from './GeneralDataDialog'
 import * as dayjs from 'dayjs'
+import { DatawichPages } from '@web/datawich-common/admin-apis'
 
 interface DataRecord {
   rid: number
@@ -166,7 +167,7 @@ export const DataAppDetailView: React.FC = () => {
       <Breadcrumb
         items={[
           {
-            title: <RouterLink route={'/v1/all-data-app'}>{LS('[i18n] Data Apps')}</RouterLink>,
+            title: <RouterLink route={DatawichPages.AllDataAppsRoute}>{LS('[i18n] Data Apps')}</RouterLink>,
           },
           {
             title: (
@@ -180,6 +181,15 @@ export const DataAppDetailView: React.FC = () => {
       />
 
       <Divider style={{ margin: '12px 0' }} />
+
+      {!!dataModel.description && (
+        <>
+          <Card size={'small'}>
+            <pre>{dataModel.description}</pre>
+          </Card>
+          <Divider style={{ margin: '12px 0' }} />
+        </>
+      )}
 
       <ProForm autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>
         {allFields

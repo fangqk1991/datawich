@@ -9,7 +9,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { RouterLink } from '@fangcha/react'
-import { AppPages } from '@web/datawich-common/admin-apis'
+import { DatawichPages } from '@web/datawich-common/admin-apis'
 
 export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
   const [summaryInfo, setSummaryInfo] = useState<{ count: number }>({
@@ -112,7 +112,7 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
         <Descriptions.Item label='创建时间'>{dataModel.createTime}</Descriptions.Item>
         <Descriptions.Item label='更新时间'>{dataModel.updateTime}</Descriptions.Item>
         <Descriptions.Item label='应用地址'>
-          <RouterLink route={AppPages.DataAppDetailRoute} params={[dataModel.modelKey]}>
+          <RouterLink route={DatawichPages.DataAppDetailRoute} params={[dataModel.modelKey]}>
             点击查看
           </RouterLink>
         </Descriptions.Item>

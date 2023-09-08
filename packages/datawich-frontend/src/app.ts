@@ -15,7 +15,7 @@ import { GeneralDataManager } from './services/GeneralDataManager'
 import { DatawichI18N } from '@web/datawich-common/i18n'
 import { MyFavorSidebar } from './views/data-app/MyFavorSidebar'
 import { WebAuthApis } from '@fangcha/sso-models'
-import { AppPages } from '@web/datawich-common/admin-apis'
+import { DatawichPages } from '@web/datawich-common/admin-apis'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
@@ -71,7 +71,7 @@ const _fcApp = new AdminApp({
         {
           titleEn: 'All Apps',
           titleZh: '所有应用',
-          path: AppPages.DataAppListRoute,
+          path: DatawichPages.DataAppListRoute,
         },
       ],
     },
@@ -83,7 +83,7 @@ const _fcApp = new AdminApp({
         {
           titleEn: 'Models',
           titleZh: '模型管理',
-          path: AppPages.ModelListRoute,
+          path: DatawichPages.ModelListRoute,
         },
         // {
         //   titleEn: '用户组管理',
@@ -93,7 +93,7 @@ const _fcApp = new AdminApp({
         {
           titleEn: 'API Clients',
           titleZh: 'API 应用管理',
-          path: AppPages.ClientListRoute,
+          path: DatawichPages.ClientListRoute,
         },
       ],
     },
@@ -112,18 +112,18 @@ const _fcApp = new AdminApp({
   ],
   routes: [
     {
-      path: AppPages.DataAppListRoute,
+      path: DatawichPages.DataAppListRoute,
       component: DataAppListView,
       name: 'DataAppListView',
     },
     {
-      path: AppPages.DataAppDetailRoute,
+      path: DatawichPages.DataAppDetailRoute,
       component: DataDisplayView,
       name: 'DataDisplayView',
       props: true,
     },
     {
-      path: AppPages.ModelListRoute,
+      path: DatawichPages.ModelListRoute,
       component: DataModelListView,
       name: 'DataModelListView',
     },
@@ -138,7 +138,7 @@ const _fcApp = new AdminApp({
       name: 'UserGroupListView',
     },
     {
-      path: AppPages.ClientListRoute,
+      path: DatawichPages.ClientListRoute,
       component: ModelClientListView,
       name: 'ModelClientListView',
     },
