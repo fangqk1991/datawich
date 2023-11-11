@@ -1,12 +1,12 @@
 import { FangchaApp } from '@fangcha/backend-kit'
-import { ResqueObserverHelper, ResqueSdkPlugin } from '@fangcha/backend-kit/lib/resque'
 import { DatawichConfig } from '../DatawichConfig'
 import { GlobalAppConfig } from 'fc-config'
 import { DatawichOssPlugin } from '../services/DatawichOssPlugin'
-import { CommonJob } from '../services/CommonJob'
 import { MyDatabase } from '../services/MyDatabase'
 import { AliyunOSS } from '@fangcha/ali-oss'
 import { _DatawichService } from '../services/_DatawichService'
+import { ResqueSdkPlugin } from '@fangcha/resque-sdk'
+import { MyJobServer } from '../services/MyJobServer'
 
 const app = new FangchaApp({
   env: GlobalAppConfig.Env,
@@ -24,7 +24,7 @@ const app = new FangchaApp({
         ...DatawichConfig.datawichResque.dynamicQueues,
       ],
       moduleMapData: {},
-      observer: ResqueObserverHelper.makeTypicalObserver(CommonJob),
+      jobServer: MyJobServer,
     }),
   ],
   appDidLoad: async () => {
