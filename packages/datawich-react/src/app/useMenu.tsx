@@ -3,9 +3,11 @@ import { Route } from '@ant-design/pro-layout/es/typing'
 import { LS } from '../core/ReactI18n'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { useVisitorCtx } from '@fangcha/auth-react'
 
 export const useMenu = () => {
   const favorAppsCtx = useFavorAppsCtx()
+  const visitorCtx = useVisitorCtx()
 
   const myMenu: Route = {
     path: '/',
@@ -38,6 +40,14 @@ export const useMenu = () => {
             path: DatawichPages.ClientListRoute,
             name: LS('[i18n] API Clients'),
           },
+          // ...(visitorCtx.userInfo.isAdmin
+          //   ? [
+          //       {
+          //         path: DatawichPages.JobListRoute,
+          //         name: LS('[i18n] Task List'),
+          //       },
+          //     ]
+          //   : []),
         ],
       },
       {

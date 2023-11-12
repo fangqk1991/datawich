@@ -27,6 +27,10 @@ export const DatawichI18N = {
     en: `Auth models`,
     zh: `授权模型`,
   },
+  '[i18n] Task List': {
+    en: `Task List`,
+    zh: `任务列表`,
+  },
   '[i18n] Quick Search': {
     en: `Search`,
     zh: `快速检索`,

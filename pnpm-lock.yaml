@@ -149,6 +149,9 @@ importers:
       '@fangcha/generator':
         specifier: ^0.7.0
         version: 0.7.0
+      '@fangcha/job-react':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@fangcha/react':
         specifier: ^0.40.0
         version: 0.40.0(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.29.2)
@@ -2230,6 +2233,10 @@ packages:
   /@fangcha/job-models@0.1.0:
     resolution: {integrity: sha512-pM+L6jzsBoVZK6ymnDpUrrqnJM6/TQA0mV0vlPWGq3cfIPg0sNm3EJrXR5LsIAOeEURtI1VMj2j+V/mm3U/irQ==}
     dev: false
+
+  /@fangcha/job-react@0.1.0:
+    resolution: {integrity: sha512-EruDksFGqDmnML1TbtPD0RynrgNqUj4vFIfHEcMV5tEFllWdiGaimjlNrtUrxIYFHNaQLyRwIyW6VfQ4c9+t1w==}
+    dev: true
 
   /@fangcha/job-sdk@0.2.0:
     resolution: {integrity: sha512-uPWcE5eD4oJlXhLDS7FULaNTXSE82sfzZo4/ipBg/MDok7eOHwhCiGRJCRRonLUCzBtGwa6/XOeoQvR+uXHt7A==}

@@ -11,6 +11,8 @@ import { _DatawichService } from '../services/_DatawichService'
 import { _SessionApp } from '@fangcha/session'
 import { loggerForDev } from '@fangcha/logger'
 import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
+import { JobWebPlugin } from '@fangcha/job-sdk'
+import { MyJobServer } from '../services/MyJobServer'
 
 _SessionApp.setPermissionProtocol({
   checkUserIsAdmin: (email) => {
@@ -54,6 +56,9 @@ const app = new WebApp({
         jwtKey: 'datawich_token_jwt',
         jwtSecret: DatawichConfig.adminJwtSecret,
       },
+    }),
+    JobWebPlugin({
+      jobServer: MyJobServer,
     }),
     DatawichOssPlugin,
   ],
