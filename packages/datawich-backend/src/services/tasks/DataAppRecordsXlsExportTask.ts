@@ -1,5 +1,5 @@
 import { _OSSResource, OSSService, TaskHandlerProtocol } from '@fangcha/oss-service'
-import { ResourceTaskParams } from '@fangcha/oss-service/lib/common/models'
+import { ResourceTaskParams } from '@fangcha/oss-models'
 import { BackendFile } from '@fangcha/tools/lib/file-backend'
 import { DatawichResque } from '../DatawichResque'
 import { _DataModel } from '../../models/extensions/_DataModel'

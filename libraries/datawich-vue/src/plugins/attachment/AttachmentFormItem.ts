@@ -1,6 +1,6 @@
 import { Component } from 'vue-property-decorator'
 import { OssUploadDialog } from '@fangcha/vue/oss-service'
-import { OssFileInfo, OSSResourceModel } from '@fangcha/oss-service/lib/common/models'
+import { OssFileInfo, OSSResourceModel } from '@fangcha/oss-models'
 import { FieldFormItemBase } from '../../core'
 import { _DatawichAttachmentOptions } from './AttachmentOptions'
 import { GeneralDataHelper } from '@fangcha/datawich-service'

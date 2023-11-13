@@ -1,5 +1,5 @@
 import { Component } from '@fangcha/vue'
-import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
+import { OssFileInfo } from '@fangcha/oss-models'
 import { DataColumnBase, DataColumnExtension } from '../../core'
 import { GeneralDataHelper } from '@fangcha/datawich-service'
 

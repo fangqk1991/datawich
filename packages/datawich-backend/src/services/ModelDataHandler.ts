@@ -4,7 +4,7 @@ import { SQLSearcher } from 'fc-sql'
 import * as fs from 'fs'
 import { CsvMaker, makeUUID, PageResult, SelectOption } from '@fangcha/tools'
 import { logger } from '@fangcha/logger'
-import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
+import { OssFileInfo } from '@fangcha/oss-models'
 import assert from '@fangcha/assert'
 import { _DataModel } from '../models/extensions/_DataModel'
 import {

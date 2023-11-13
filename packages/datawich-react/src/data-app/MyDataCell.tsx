@@ -5,7 +5,7 @@ import { Tag } from 'antd'
 import { MyRichTextPanel, MyTagsPanel } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
-import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
+import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
 
 interface Props {

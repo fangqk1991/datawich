@@ -8,7 +8,7 @@ import {
 import { MultiEnumContainer, TagsContainer } from '../data-app'
 import { MyAxios } from '@fangcha/vue/basic'
 import { SdkDatawichApis2 } from '@fangcha/datawich-service'
-import { OssFileInfo } from '@fangcha/oss-service/lib/common/models'
+import { OssFileInfo } from '@fangcha/oss-models'
 import { I18nCode } from '@fangcha/tools'
 import { GeneralDataFormatter } from '@fangcha/datawich-service'
 
