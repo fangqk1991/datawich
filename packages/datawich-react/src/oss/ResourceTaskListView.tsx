@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import { Button, Divider, Space } from 'antd'
 import { ColumnFilterType, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
-import { DownloadApis, ResourceTaskModel, ResourceTaskStatus } from '@fangcha/oss-models'
+import { DownloadApis, ResourceTaskModel, ResourceTaskStatus, ResourceTaskStatusDescriptor } from '@fangcha/oss-models'
 import { FT, PageResult } from '@fangcha/tools'
 import { MyRequest } from '@fangcha/auth-react'
 
@@ -53,24 +53,7 @@ export const ResourceTaskListView: React.FC = () => {
           {
             title: '状态',
             filterType: ColumnFilterType.Selector,
-            options: [
-              {
-                value: ResourceTaskStatus.Pending,
-                label: ResourceTaskStatus.Pending,
-              },
-              {
-                value: ResourceTaskStatus.Processing,
-                label: ResourceTaskStatus.Processing,
-              },
-              {
-                value: ResourceTaskStatus.Success,
-                label: ResourceTaskStatus.Success,
-              },
-              {
-                value: ResourceTaskStatus.Fail,
-                label: ResourceTaskStatus.Fail,
-              },
-            ],
+            options: ResourceTaskStatusDescriptor.options(),
             value: queryParams.taskStatus || '',
             onValueChanged: (newValue) => {
               updateQueryParams({
@@ -81,7 +64,27 @@ export const ResourceTaskListView: React.FC = () => {
           },
           {
             title: '操作',
-            render: (item) => '',
+            render: (item) => (
+              <>
+                {(() => {
+                  switch (item.taskStatus as ResourceTaskStatus) {
+                    case ResourceTaskStatus.Pending:
+                      break
+                    case ResourceTaskStatus.Processing:
+                      return '文件生成中'
+                    case ResourceTaskStatus.Success:
+                      return (
+                        <a href={item.downloadUrl} target='_blank'>
+                          下载
+                        </a>
+                      )
+                    case ResourceTaskStatus.Fail:
+                      return '生成失败'
+                  }
+                  return ''
+                })()}
+              </>
+            ),
           },
         ])}
         defaultSettings={{

@@ -53,8 +53,8 @@ importers:
         specifier: workspace:^
         version: link:libraries/logic
       '@fangcha/oss-models':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@fangcha/oss-service':
         specifier: ^0.10.0
         version: 0.10.0
@@ -2255,8 +2255,8 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@fangcha/oss-models@0.1.0:
-    resolution: {integrity: sha512-tkkLWyoTU8r6jHdBZIuwNLp6yyzZXMC11lrEFhqsWYGzbCDrJeezGlsqd0IXDUqJe1JpuwgLl2r06N74T20U2g==}
+  /@fangcha/oss-models@0.2.0:
+    resolution: {integrity: sha512-WA1DAH4N8ARc3Rfv9S2wfjY5q4jRyAE8tUl6YI037f4fvUOrAqqXU2t1SzTbidmJfMx3LeNgEDbgub10Wzk6uQ==}
     dev: false
 
   /@fangcha/oss-service@0.10.0:
