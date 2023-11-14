@@ -4,6 +4,7 @@ import { LS } from '../core/ReactI18n'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { useVisitorCtx } from '@fangcha/auth-react'
+import React from 'react'
 
 export const useMenu = () => {
   const favorAppsCtx = useFavorAppsCtx()
@@ -52,12 +53,11 @@ export const useMenu = () => {
       },
       {
         key: 'M_UserCenter',
-        path: '/v1/page-2',
         name: '个人中心',
         icon: <UserOutlined />,
         children: [
           {
-            path: '/v1/download',
+            path: DatawichPages.ResourceTaskListRoute,
             name: '我的下载',
           },
         ],

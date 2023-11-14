@@ -9,6 +9,7 @@ import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { JobListView } from '@fangcha/job-react'
+import { ResourceTaskListView } from '../oss/ResourceTaskListView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: DatawichPages.JobListRoute,
         element: <JobListView />,
+      },
+      {
+        path: DatawichPages.ResourceTaskListRoute,
+        element: <ResourceTaskListView />,
       },
       {
         path: '*',
