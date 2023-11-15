@@ -54,10 +54,6 @@ import { ModelMilestonePanel } from './ModelMilestonePanel'
               <pre class="my-pre">{{ dataModel.description }}</pre>
             </div>
           </el-form-item>
-          <el-form-item class="card-form-item" label="是否可导出">
-            <span v-if="dataModel.isDataExportable" style="color: #67C23A">Yes <i class="el-icon-success"/></span>
-            <span v-if="!dataModel.isDataExportable" style="color: #F56C6C">No <i class="el-icon-error"/></span>
-          </el-form-item>
           <el-form-item class="card-form-item" label="是否发布">
             <span v-if="dataModel.isOnline" style="color: #67C23A">已发布 <i class="el-icon-success"/></span>
             <span v-if="!dataModel.isOnline" style="color: #F56C6C">未发布 <i class="el-icon-error"/></span>

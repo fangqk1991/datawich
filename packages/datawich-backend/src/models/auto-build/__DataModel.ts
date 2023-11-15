@@ -15,7 +15,6 @@ const _cols: string[] = [
   'is_data_insertable',
   'is_data_modifiable',
   'is_data_deletable',
-  'is_data_exportable',
   'is_online',
   'is_custom',
   'is_library',
@@ -47,7 +46,6 @@ const _insertableCols: string[] = [
   'is_data_insertable',
   'is_data_modifiable',
   'is_data_deletable',
-  'is_data_exportable',
   'is_online',
   'is_custom',
   'is_library',
@@ -75,7 +73,6 @@ const _modifiableCols: string[] = [
   'is_data_insertable',
   'is_data_modifiable',
   'is_data_deletable',
-  'is_data_exportable',
   'is_online',
   'is_custom',
   'is_library',
@@ -148,10 +145,6 @@ export default class __DataModel extends FeedBase {
    * @description [tinyint] 数据是否可删除
    */
   public isDataDeletable!: number
-  /**
-   * @description [tinyint] 数据是否可导出
-   */
-  public isDataExportable!: number
   /**
    * @description [tinyint] 是否已上线
    */
@@ -261,7 +254,6 @@ export default class __DataModel extends FeedBase {
     this.isDataInsertable = 1
     this.isDataModifiable = 1
     this.isDataDeletable = 1
-    this.isDataExportable = 0
     this.isOnline = 0
     this.isCustom = 0
     this.isLibrary = 0
@@ -292,7 +284,6 @@ export default class __DataModel extends FeedBase {
       isDataInsertable: 'is_data_insertable',
       isDataModifiable: 'is_data_modifiable',
       isDataDeletable: 'is_data_deletable',
-      isDataExportable: 'is_data_exportable',
       isOnline: 'is_online',
       isCustom: 'is_custom',
       isLibrary: 'is_library',

@@ -22,7 +22,6 @@ export interface DataModelModel {
   isDataInsertable: number
   isDataModifiable: number
   isDataDeletable: number
-  isDataExportable: number
   isOnline: number
   isCustom: number
   isLibrary: number

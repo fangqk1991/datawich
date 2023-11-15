@@ -160,7 +160,6 @@ CREATE TABLE IF NOT EXISTS data_model
     is_data_insertable   tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可插入',
     is_data_modifiable   tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可修改',
     is_data_deletable    tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可删除',
-    is_data_exportable   tinyint                       NOT NULL DEFAULT '0' COMMENT '数据是否可导出',
     is_online            tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已上线',
     is_custom            tinyint                       NOT NULL DEFAULT '0' COMMENT '是否自定义',
     is_library           tinyint                       NOT NULL DEFAULT '0' COMMENT '是否可以作为子模型被其他模型引用',

@@ -349,7 +349,6 @@ export class _DataModel extends __DataModel {
     this.isOnline = params.isOnline
     this.accessLevel = params.accessLevel || AccessLevel.Protected
     this.isLibrary = params.isLibrary || 0
-    this.isDataExportable = params.isDataExportable || 0
     this.star = params.star || 0
     this.author = params.author
     const extras: Partial<DataModelExtrasData> = {

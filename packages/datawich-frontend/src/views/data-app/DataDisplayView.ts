@@ -110,9 +110,9 @@ const trimParams = (params: {}) => {
             <el-form-item>
               <el-button @click="resetFilter()">重置过滤器</el-button>
             </el-form-item>
-            <el-form-item v-show="dataModel && dataModel.isDataExportable">
-              <el-button v-loading="isLoading" @click="exportExcel"><i class="el-icon-download" /> 导出</el-button>
-            </el-form-item>
+<!--            <el-form-item>-->
+<!--              <el-button v-loading="isLoading" @click="exportExcel"><i class="el-icon-download" /> 导出</el-button>-->
+<!--            </el-form-item>-->
             <el-form-item>
               <el-button type="success" @click="setDisplaySettings">管理展示字段</el-button>
             </el-form-item>

@@ -58,25 +58,6 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
         <Descriptions.Item label='模型描述'>
           <pre>{dataModel.description}</pre>
         </Descriptions.Item>
-        <Descriptions.Item label='是否可导出'>
-          {dataModel.isDataExportable ? (
-            <span
-              style={{
-                color: '#67C23A',
-              }}
-            >
-              Yes <CheckCircleOutlined />
-            </span>
-          ) : (
-            <span
-              style={{
-                color: '#F56C6C',
-              }}
-            >
-              No <WarningOutlined />
-            </span>
-          )}
-        </Descriptions.Item>
 
         <Descriptions.Item label='是否发布'>
           {dataModel.isOnline ? (

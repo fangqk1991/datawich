@@ -29,12 +29,6 @@ import { AccessLevel, AccessLevelDescriptor, ModelType } from '@web/datawich-com
       <el-form-item label="备注" :required="false">
         <el-input v-model="data.remarks" type="text" style="width: 160px;"></el-input>
       </el-form-item>
-      <el-form-item label="是否可导出" :required="true">
-        <el-radio-group v-model="data.isDataExportable">
-          <el-radio-button :key="1" :label="1">Yes</el-radio-button>
-          <el-radio-button :key="0" :label="0">No</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
       <el-form-item label="是否发布" :required="true">
         <el-radio-group v-model="data.isOnline">
           <el-radio-button :key="1" :label="1">已发布</el-radio-button>
@@ -86,7 +80,6 @@ export class DataModelDialog extends TypicalDialog {
     remarks: '',
     isOnline: 1,
     isLibrary: 0,
-    isDataExportable: 0,
     star: 0,
   }
   forEditing = false
