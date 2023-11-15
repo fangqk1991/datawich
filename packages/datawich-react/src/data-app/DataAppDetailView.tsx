@@ -13,7 +13,7 @@ import {
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { ConfirmDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
@@ -287,10 +287,12 @@ export const DataAppDetailView: React.FC = () => {
         {!!dataModel.isDataExportable && (
           <Button
             onClick={async () => {
-              const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
-              request.setBodyData(latestParams.entity)
-              const response = await request.quickSend()
-              DownloadTaskHelper.handleDownloadResponse(response)
+              LoadingDialog.execute(async () => {
+                const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
+                request.setBodyData(latestParams.entity)
+                const response = await request.quickSend()
+                DownloadTaskHelper.handleDownloadResponse(response)
+              })
             }}
           >
             导出 <DownloadOutlined />

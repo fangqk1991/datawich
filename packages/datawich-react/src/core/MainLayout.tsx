@@ -6,7 +6,7 @@ import { useVisitorCtx } from '@fangcha/auth-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { WebAuthApis } from '@fangcha/sso-models'
 import { useMenu } from '../app/useMenu'
-import { RouterLink } from '@fangcha/react'
+import { ReactTheme, RouterLink } from '@fangcha/react'
 
 interface Props {
   appName: string
@@ -25,7 +25,7 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: 'rgb(221 115 164)',
+          colorPrimary: ReactTheme.colorPrimary,
         },
       }}
     >
