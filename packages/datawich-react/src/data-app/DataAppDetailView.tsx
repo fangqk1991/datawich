@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, Input, message, Space, Spin } from 'antd'
+import { DownloadOutlined } from '@ant-design/icons'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
@@ -22,6 +23,7 @@ import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { GeneralDataDialog } from './GeneralDataDialog'
 import * as dayjs from 'dayjs'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
 
 interface DataRecord {
   rid: number
@@ -52,6 +54,7 @@ export const DataAppDetailView: React.FC = () => {
 
   const { modelKey = '' } = useParams()
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
+  const [latestParams] = useState<{ entity: any }>({ entity: {} })
 
   const filterOptions = useMemo(() => {
     return {
@@ -281,6 +284,18 @@ export const DataAppDetailView: React.FC = () => {
         >
           管理展示字段
         </Button>
+        {!!dataModel.isDataExportable && (
+          <Button
+            onClick={async () => {
+              const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
+              request.setBodyData(latestParams.entity)
+              const response = await request.quickSend()
+              DownloadTaskHelper.handleDownloadResponse(response)
+            }}
+          >
+            导出 <DownloadOutlined />
+          </Button>
+        )}
       </Space>
 
       <div style={{ marginTop: '8px' }}>
@@ -409,9 +424,13 @@ export const DataAppDetailView: React.FC = () => {
         //   sortDirection: queryParams.sortDirection,
         // }}
         loadData={async (retainParams) => {
-          const params = Object.assign({}, retainParams, filterOptions)
+          const params = trimParams({
+            ...retainParams,
+            ...filterOptions,
+          })
+          latestParams.entity = params
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
-          request.setQueryParams(trimParams(params))
+          request.setQueryParams(params)
           return request.quickSend<PageResult<DataRecord>>()
         }}
       />
