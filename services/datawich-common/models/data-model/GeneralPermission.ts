@@ -6,6 +6,7 @@ export enum GeneralPermission {
   P_HandleOthersData = 'P_HandleOthersData',
   AccessOthersData = 'P_AccessOthersData',
   AccessData = 'P_AccessData',
+  ExportData = 'P_ExportData',
 }
 
 const values = [
@@ -14,6 +15,7 @@ const values = [
   GeneralPermission.P_HandleOthersData,
   GeneralPermission.AccessOthersData,
   GeneralPermission.AccessData,
+  GeneralPermission.ExportData,
 ]
 
 const describe = (code: GeneralPermission) => {
@@ -28,6 +30,8 @@ const describe = (code: GeneralPermission) => {
       return '访问他人数据'
     case GeneralPermission.AccessData:
       return '读写自己数据'
+    case GeneralPermission.ExportData:
+      return '导出数据'
   }
   return 'Unknown'
 }

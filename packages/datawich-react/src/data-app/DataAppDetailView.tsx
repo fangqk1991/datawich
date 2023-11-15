@@ -284,7 +284,7 @@ export const DataAppDetailView: React.FC = () => {
         >
           管理展示字段
         </Button>
-        {!!dataModel.isDataExportable && (
+        {
           <Button
             onClick={async () => {
               LoadingDialog.execute(async () => {
@@ -297,7 +297,7 @@ export const DataAppDetailView: React.FC = () => {
           >
             导出 <DownloadOutlined />
           </Button>
-        )}
+        }
       </Space>
 
       <div style={{ marginTop: '8px' }}>
