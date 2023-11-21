@@ -38,6 +38,14 @@ export interface ModelFieldExtrasData {
   requiredLogic?: LogicExpression
 }
 
+export interface ModelFieldParams {
+  fieldKey: string
+  name: string
+  required: number
+  fieldType: FieldType
+  options?: SelectOption[]
+}
+
 export interface ModelFieldModel extends Raw_ModelField {
   fieldType: FieldType
   ////

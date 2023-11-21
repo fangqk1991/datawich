@@ -4,7 +4,8 @@ import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
 import { FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
-import { message, Switch, Tag } from 'antd'
+import { Button, Divider, message, Switch, Tag } from 'antd'
+import { ModelFieldDialog } from './ModelFieldDialog'
 
 interface Props {
   modelKey: string
@@ -33,6 +34,24 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
   return (
     <div>
       <h3>字段管理</h3>
+      <Button
+        type='primary'
+        onClick={() => {
+          const dialog = new ModelFieldDialog({
+            title: '创建字段',
+          })
+          dialog.show(async (params) => {
+            const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
+            request.setBodyData(params)
+            await request.quickSend()
+            message.success('更新成功')
+            setVersion(version + 1)
+          })
+        }}
+      >
+        创建字段
+      </Button>
+      <Divider />
       <TableView
         version={version}
         rowKey={(item: ModelFieldModel) => {

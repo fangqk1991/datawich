@@ -239,18 +239,6 @@ export default class ModelFieldDialog extends CustomDialog {
     return this.data.fieldType === FieldType.Tags || this.data.fieldType === FieldType.MultiEnum
   }
 
-  static bindFieldDialog(availableFieldTypes: FieldType[]) {
-    const dialog = new ModelFieldDialog()
-    dialog.title = '绑定字段'
-    dialog.forBind = true
-    dialog.data.required = 0
-    dialog.availableFieldTypeMap = availableFieldTypes.reduce((result, cur) => {
-      result[cur] = true
-      return result
-    }, {})
-    return dialog
-  }
-
   static createFieldDialog(data?: ModelFieldModel) {
     const dialog = new ModelFieldDialog()
     dialog.title = '创建字段'
