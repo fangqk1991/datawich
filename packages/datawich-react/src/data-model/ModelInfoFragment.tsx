@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Descriptions, Space } from 'antd'
+import { Button, Descriptions, Divider, message, Space } from 'antd'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { AccessLevel, describeAccessLevelDetail } from '@web/datawich-common/models'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
@@ -10,8 +10,9 @@ import { DataModelModel } from '@fangcha/datawich-service'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { RouterLink } from '@fangcha/react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DataModelDialog } from './DataModelDialog'
 
-export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
+export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInfoChanged }) => {
   const [summaryInfo, setSummaryInfo] = useState<{ count: number }>({
     count: 0,
   })
@@ -31,26 +32,26 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel }) => {
 
   return (
     <>
-      {/*<Button*/}
-      {/*  type='primary'*/}
-      {/*  onClick={() => {*/}
-      {/*    const dialog = new AppFormDialog({*/}
-      {/*      title: '编辑应用',*/}
-      {/*      params: appInfo,*/}
-      {/*      forEditing: true,*/}
-      {/*    })*/}
-      {/*    dialog.show(async (params) => {*/}
-      {/*      const request = MyRequest(new CommonAPI(CommonAppApis.AppUpdate, appInfo.appid))*/}
-      {/*      request.setBodyData(params)*/}
-      {/*      await request.quickSend()*/}
-      {/*      message.success('编辑成功')*/}
-      {/*      onAppInfoChanged()*/}
-      {/*    })*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  编辑*/}
-      {/*</Button>*/}
-      {/*<Divider />*/}
+      <Button
+        type='primary'
+        onClick={() => {
+          const dialog = new DataModelDialog({
+            title: '编辑模型',
+            data: dataModel,
+            forEditing: true,
+          })
+          dialog.show(async (params) => {
+            const request = MyRequest(new CommonAPI(DataModelApis.DataModelUpdate, dataModel.modelKey))
+            request.setBodyData(params)
+            await request.quickSend()
+            message.success('更新成功')
+            onModelInfoChanged()
+          })
+        }}
+      >
+        编辑
+      </Button>
+      <Divider />
       <Descriptions title='基本信息'>
         <Descriptions.Item label='模型 Key'>{dataModel.modelKey}</Descriptions.Item>
         <Descriptions.Item label='标识符'>{dataModel.shortKey}</Descriptions.Item>

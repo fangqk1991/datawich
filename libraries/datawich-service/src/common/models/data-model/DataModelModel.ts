@@ -9,7 +9,19 @@ export interface SessionModelPowerData {
   [p: string]: boolean
 }
 
-export interface DataModelModel {
+export interface DataModelParams {
+  modelKey: string
+  shortKey: string | null
+  modelType: string
+  accessLevel: string
+  name: string
+  description: string
+  remarks: string
+  isOnline: number
+  isLibrary: number
+}
+
+export interface DataModelModel extends DataModelParams {
   modelKey: string
   modelType: string
   shortKey: string | null
