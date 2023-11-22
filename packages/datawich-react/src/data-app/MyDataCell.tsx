@@ -28,6 +28,9 @@ export const MyDataCell: React.FC<Props> = (props) => {
         switch (field.fieldType) {
           case FieldType.Integer:
           case FieldType.Float:
+            if (value === null) {
+              return ''
+            }
             const realValue = value || 0
             if (field.extrasData.numberFormat === NumberFormat.Percent) {
               const valueText = `${(realValue * 100).toFixed(2)}%`
@@ -38,6 +41,8 @@ export const MyDataCell: React.FC<Props> = (props) => {
               } else {
                 return <b>{valueText}</b>
               }
+            } else if (typeof field.extrasData.floatBits === 'number') {
+              return realValue.toFixed(field.extrasData.floatBits)
             }
             break
           case FieldType.SingleLineText:

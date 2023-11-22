@@ -34,6 +34,7 @@ export interface ModelFieldExtrasData {
   readonly: boolean
   matchRegex: string
   numberFormat?: NumberFormat
+  floatBits?: number
   visibleLogic?: LogicExpression
   requiredLogic?: LogicExpression
 }
