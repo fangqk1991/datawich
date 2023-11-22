@@ -45,6 +45,7 @@ export interface ModelFieldParams {
   required: number
   fieldType: FieldType
   options?: SelectOption[]
+  extrasData?: Partial<ModelFieldExtrasData>
 }
 
 export interface ModelFieldModel extends Raw_ModelField {

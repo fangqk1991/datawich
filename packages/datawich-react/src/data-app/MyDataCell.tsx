@@ -41,7 +41,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
               } else {
                 return <b>{valueText}</b>
               }
-            } else if (typeof field.extrasData.floatBits === 'number') {
+            } else if (typeof field.extrasData.floatBits === 'number' && field.extrasData.floatBits >= 0) {
               return realValue.toFixed(field.extrasData.floatBits)
             }
             break

@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { TableView } from '@fangcha/react'
+import { TableView, TableViewColumn } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
 import { FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
-import { Button, Divider, message, Switch, Tag } from 'antd'
+import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
 
 interface Props {
@@ -44,7 +44,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
             const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
             request.setBodyData(params)
             await request.quickSend()
-            message.success('更新成功')
+            message.success('创建成功')
             setVersion(version + 1)
           })
         }}
@@ -62,10 +62,10 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           size: 'small',
           bordered: true,
         }}
-        columns={[
+        columns={TableViewColumn.makeColumns<ModelFieldModel>([
           {
             title: '字段 Key',
-            render: (item: ModelFieldModel) => (
+            render: (item) => (
               <>
                 <span>{item.fieldKey}</span>
                 {item.keyAlias && (
@@ -79,15 +79,15 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           },
           {
             title: '字段名称',
-            render: (item: ModelFieldModel) => <>{item.name}</>,
+            render: (item) => <>{item.name}</>,
           },
           {
             title: '字段类型',
-            render: (item: ModelFieldModel) => <>{FieldTypeDescriptor.describe(item.fieldType)}</>,
+            render: (item) => <>{FieldTypeDescriptor.describe(item.fieldType)}</>,
           },
           {
             title: '是否隐藏',
-            render: (field: ModelFieldModel) => (
+            render: (field) => (
               <Switch
                 checked={!!field.isHidden}
                 onChange={(checked) => {
@@ -103,10 +103,9 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
               />
             ),
           },
-
           {
             title: '是否必填',
-            render: (field: ModelFieldModel) =>
+            render: (field) =>
               field.isSystem ? (
                 <Tag>自动填</Tag>
               ) : (
@@ -125,7 +124,37 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                 />
               ),
           },
-        ]}
+          {
+            title: '操作',
+            render: (field) => {
+              return (
+                <Space>
+                  <a
+                    type='primary'
+                    onClick={() => {
+                      const dialog = new ModelFieldDialog({
+                        title: '编辑字段',
+                        data: field,
+                        forEditing: true,
+                      })
+                      dialog.show(async (params) => {
+                        const request = MyRequest(
+                          new CommonAPI(ModelFieldApis.DataModelFieldUpdate, modelKey, field.fieldKey)
+                        )
+                        request.setBodyData(params)
+                        await request.quickSend()
+                        message.success('更新成功')
+                        setVersion(version + 1)
+                      })
+                    }}
+                  >
+                    编辑
+                  </a>
+                </Space>
+              )
+            },
+          },
+        ])}
         hidePagination={true}
         loadOnePageItems={async () => {
           return fields

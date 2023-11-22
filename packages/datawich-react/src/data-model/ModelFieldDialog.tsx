@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
 import { Form } from 'antd'
-import { ProForm, ProFormRadio, ProFormText } from '@ant-design/pro-components'
-import { FieldType, FieldTypeDescriptor, ModelFieldParams } from '@fangcha/datawich-service'
+import { ProForm, ProFormDependency, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-components'
+import {
+  FieldType,
+  FieldTypeDescriptor,
+  ModelFieldParams,
+  NumberFormat,
+  NumberFormatDescriptor,
+} from '@fangcha/datawich-service'
+import { NumBoolDescriptor } from '@fangcha/tools'
 
 interface Props extends DialogProps {
   data?: ModelFieldParams
@@ -25,6 +32,10 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
                 required: 0,
                 fieldType: FieldType.SingleLineText,
                 options: [],
+                extrasData: {
+                  numberFormat: NumberFormat.Normal,
+                  floatBits: -1,
+                },
               } as ModelFieldParams)
           )
         )
@@ -48,18 +59,26 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
           <ProFormRadio.Group
             name={'required'}
             label={'是否必填'}
-            options={[
-              {
-                label: '是',
-                value: 1,
-              },
-              {
-                label: '否',
-                value: 0,
-              },
-            ]}
+            options={NumBoolDescriptor.options()}
             radioType='button'
           />
+          <ProFormDependency key='fieldType' name={['fieldType']}>
+            {({ fieldType }) => {
+              if (fieldType === FieldType.Integer || fieldType === FieldType.Float) {
+                return (
+                  <>
+                    <ProFormRadio.Group
+                      name={['extrasData', 'numberFormat']}
+                      label={'数字格式'}
+                      options={NumberFormatDescriptor.options()}
+                      radioType='button'
+                    />
+                    <ProFormDigit name={['extrasData', 'floatBits']} label={'小数精度'} />
+                  </>
+                )
+              }
+            }}
+          </ProFormDependency>
         </ProForm>
       )
     }
