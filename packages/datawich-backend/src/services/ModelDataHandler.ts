@@ -100,6 +100,10 @@ export class ModelDataHandler {
           }
           break
         }
+        case FieldType.MultiEnum: {
+          data[GeneralDataHelper.entityKey(dataKey)] = GeneralDataHelper.extractMultiEnumItems(data[dataKey])
+          break
+        }
         case FieldType.Attachment: {
           let entity = null
           try {
@@ -124,8 +128,11 @@ export class ModelDataHandler {
         await plugin.onDataFound(data, dataModel)
       }
     }
+
     modelFields
-      .filter((field) => field.fieldType === FieldType.StringList || field.fieldType === FieldType.Attachment)
+      .filter((field) =>
+        [FieldType.StringList, FieldType.Attachment, FieldType.MultiEnum].includes(field.fieldType as FieldType)
+      )
       .forEach((field) => {
         convertData(field.fieldType, field.fieldKey)
       })
@@ -133,7 +140,9 @@ export class ModelDataHandler {
     for (const link of fieldLinks) {
       const refFields = await link.getRefFields()
       refFields
-        .filter((field) => field.fieldType === FieldType.StringList || field.fieldType === FieldType.Attachment)
+        .filter((field) =>
+          [FieldType.StringList, FieldType.Attachment, FieldType.MultiEnum].includes(field.fieldType as FieldType)
+        )
         .forEach((refField) => {
           convertData(refField.fieldType, GeneralDataHelper.calculateDataKey(refField, link))
         })

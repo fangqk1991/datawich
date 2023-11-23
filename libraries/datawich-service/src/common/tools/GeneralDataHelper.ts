@@ -59,6 +59,10 @@ export class GeneralDataHelper {
     return field.options.filter((item) => checkedMap[item.value]).map((item) => item.value)
   }
 
+  public static entityKey(dataKey: string) {
+    return `${dataKey}.entity`
+  }
+
   public static attachmentEntityKey(dataKey: string) {
     return `${dataKey}.entity`
   }
