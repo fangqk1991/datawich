@@ -10,6 +10,7 @@ import {
   NumberFormatDescriptor,
 } from '@fangcha/datawich-service'
 import { NumBoolDescriptor } from '@fangcha/tools'
+import { TagsFieldExtension } from './TagsFieldExtension'
 
 interface Props extends DialogProps {
   data?: ModelFieldParams
@@ -43,7 +44,10 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
 
       const [form] = Form.useForm()
       props.context.handleResult = () => {
-        return form.getFieldsValue()
+        return {
+          ...params,
+          ...form.getFieldsValue(),
+        }
       }
 
       return (
@@ -74,6 +78,20 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
                       radioType='button'
                     />
                     <ProFormDigit name={['extrasData', 'floatBits']} label={'小数精度'} />
+                  </>
+                )
+              } else if (fieldType === FieldType.MultiEnum) {
+                return (
+                  <>
+                    <TagsFieldExtension
+                      options={params.options}
+                      onOptionsChanged={(options) =>
+                        setParams({
+                          ...params,
+                          options: options,
+                        })
+                      }
+                    />
                   </>
                 )
               }
