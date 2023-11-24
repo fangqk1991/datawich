@@ -25,7 +25,7 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
 export class AttachmentFormItem extends FieldFormItemBase {
   // TODO: Fill url
   get attachmentEntity() {
-    return this.myData[GeneralDataHelper.attachmentEntityKey(this.field.dataKey)] as OssFileInfo
+    return this.myData[GeneralDataHelper.entityKey(this.field.dataKey)] as OssFileInfo
   }
 
   uploadAttachment() {
@@ -40,7 +40,7 @@ export class AttachmentFormItem extends FieldFormItemBase {
         size: resource.size,
       }
       this.myData[field.fieldKey] = JSON.stringify(fileInfo)
-      this.myData[GeneralDataHelper.attachmentEntityKey(field.dataKey)] = {
+      this.myData[GeneralDataHelper.entityKey(field.dataKey)] = {
         ...fileInfo,
         url: resource.url,
       }
@@ -50,6 +50,6 @@ export class AttachmentFormItem extends FieldFormItemBase {
   removeAttachment() {
     const field = this.field
     this.myData[field.fieldKey] = ''
-    this.myData[GeneralDataHelper.attachmentEntityKey(field.dataKey)] = null
+    this.myData[GeneralDataHelper.entityKey(field.dataKey)] = null
   }
 }

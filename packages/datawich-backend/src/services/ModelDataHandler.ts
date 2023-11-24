@@ -114,7 +114,7 @@ export class ModelDataHandler {
           } catch (e) {
             console.error(e)
           }
-          data[GeneralDataHelper.attachmentEntityKey(dataKey)] = entity
+          data[GeneralDataHelper.entityKey(dataKey)] = entity
           break
         }
       }

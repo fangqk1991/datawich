@@ -60,11 +60,7 @@ export class GeneralDataHelper {
   }
 
   public static entityKey(dataKey: string) {
-    return `${dataKey}.entity`
-  }
-
-  public static attachmentEntityKey(dataKey: string) {
-    return `${dataKey}.entity`
+    return `${dataKey}.$entity`
   }
 
   public static calculateFilterKey(field: { modelKey: string; fieldKey: string }, superField?: { fieldKey: string }) {

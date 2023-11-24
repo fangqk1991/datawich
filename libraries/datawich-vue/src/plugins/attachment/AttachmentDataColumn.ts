@@ -10,13 +10,7 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
   template: `
     <el-table-column :label="field.name">
       <template slot-scope="scope">
-        <a
-          v-if="attachmentEntity(scope.row)"
-          :href="attachmentEntity(scope.row).url"
-          target="_blank"
-        >
-          点击查看
-        </a>
+        <a v-if="attachmentEntity(scope.row)" :href="attachmentEntity(scope.row).url" target="_blank"> 点击查看 </a>
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>
@@ -24,6 +18,6 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
 })
 export class AttachmentDataColumn extends DataColumnBase {
   attachmentEntity(data: any) {
-    return data[GeneralDataHelper.attachmentEntityKey(this.field.dataKey)] as OssFileInfo
+    return data[GeneralDataHelper.entityKey(this.field.dataKey)] as OssFileInfo
   }
 }

@@ -86,7 +86,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.ReadonlyText:
             break
           case FieldType.Attachment:
-            const info = props.data[GeneralDataHelper.attachmentEntityKey(field.dataKey)] as OssFileInfo
+            const info = props.data[GeneralDataHelper.entityKey(field.dataKey)] as OssFileInfo
             return (
               !!info && (
                 <a href={info.url} target='_blank'>
