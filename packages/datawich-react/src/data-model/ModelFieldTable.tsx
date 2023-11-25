@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { TableView, TableViewColumn, JsonEditorDialog } from '@fangcha/react'
+import { JsonEditorDialog, TableView, TableViewColumn } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
 import { FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
@@ -58,7 +58,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
               title: '导入字段 JSON',
             })
             dialog.show(async (params) => {
-              const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
+              const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldsBatchImport, modelKey))
               request.setBodyData(params)
               await request.quickSend()
               message.success('创建成功')

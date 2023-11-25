@@ -46,6 +46,11 @@ export const ModelFieldApis = {
     route: '/api/v1/general-data/:modelKey/field',
     description: '创建模型字段',
   },
+  DataModelFieldsBatchImport: {
+    method: 'POST',
+    route: '/api/v1/general-data/:modelKey/field-batch',
+    description: '批量导入模型字段',
+  },
   DataModelFieldTop: {
     method: 'PUT',
     route: '/api/v1/general-data/:modelKey/field/:fieldKey/top-field',
