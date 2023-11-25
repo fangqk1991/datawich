@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { TableView, TableViewColumn } from '@fangcha/react'
+import { TableView, TableViewColumn, JsonEditorDialog } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
 import { FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
@@ -34,23 +34,41 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
   return (
     <div>
       <h3>字段管理</h3>
-      <Button
-        type='primary'
-        onClick={() => {
-          const dialog = new ModelFieldDialog({
-            title: '创建字段',
-          })
-          dialog.show(async (params) => {
-            const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
-            request.setBodyData(params)
-            await request.quickSend()
-            message.success('创建成功')
-            setVersion(version + 1)
-          })
-        }}
-      >
-        创建字段
-      </Button>
+      <Space>
+        <Button
+          type='primary'
+          onClick={() => {
+            const dialog = new ModelFieldDialog({
+              title: '创建字段',
+            })
+            dialog.show(async (params) => {
+              const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
+              request.setBodyData(params)
+              await request.quickSend()
+              message.success('创建成功')
+              setVersion(version + 1)
+            })
+          }}
+        >
+          创建字段
+        </Button>
+        <Button
+          onClick={() => {
+            const dialog = new JsonEditorDialog({
+              title: '导入字段 JSON',
+            })
+            dialog.show(async (params) => {
+              const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
+              request.setBodyData(params)
+              await request.quickSend()
+              message.success('创建成功')
+              setVersion(version + 1)
+            })
+          }}
+        >
+          导入 JSON
+        </Button>
+      </Space>
       <Divider />
       <TableView
         version={version}
