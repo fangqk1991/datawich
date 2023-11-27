@@ -1,4 +1,4 @@
-import { FilterOptions } from 'fc-feed'
+import { FilterOptions, SearcherTools } from 'fc-feed'
 import { SearchBuilder } from '@fangcha/tools/lib/database'
 import { SQLSearcher } from 'fc-sql'
 import assert from '@fangcha/assert'
@@ -72,7 +72,8 @@ export class WideSearcherBuilder {
     for (const field of this.mainFields) {
       const leftColumnName = `${mainTableName}.${field.fieldKey}`
       columns.push(`${leftColumnName} AS \`${field.fieldKey}\``)
-      filterMapper[GeneralDataHelper.calculateFilterKey(field)] = {
+      const filterKey = GeneralDataHelper.calculateFilterKey(field)
+      filterMapper[filterKey] = {
         columnName: leftColumnName,
         field: field,
       }
@@ -114,13 +115,21 @@ export class WideSearcherBuilder {
     const searcher = dataModel.dbSpec().database.searcher()
     searcher.setTable(bigTable)
     searcher.setColumns(columns)
+    SearcherTools.injectConditions(searcher, {
+      colsMapper: Object.keys(filterMapper)
+        .filter((key) => ![FieldType.Tags, FieldType.Date, FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType))
+        .reduce((result, key) => {
+          result[key] = filterMapper[key].columnName
+          return result
+        }, {}),
+      exactSearchCols: [],
+      fuzzySearchCols: [],
+      gbkCols: [],
+      params: this.filterOptions,
+      timestampTypeCols: [],
+    })
     const options = this.filterOptions
-    if (options._sortKey && filterMapper[options._sortKey]) {
-      searcher.addOrderRule(
-        filterMapper[options._sortKey].columnName,
-        options._sortDirection === 'descending' ? 'DESC' : 'ASC'
-      )
-    }
+
     const conditions = options.conditions as FilterCondition[]
     if (Array.isArray(conditions)) {
       for (const condition of conditions.filter((condition) => condition.leftKey in filterMapper)) {
@@ -153,15 +162,6 @@ export class WideSearcherBuilder {
       const columnName = entity.columnName
       const field = entity.field
       switch (field.fieldType as FieldType) {
-        case FieldType.SingleLineText:
-        case FieldType.Enum:
-        case FieldType.TextEnum:
-        case FieldType.User:
-        case FieldType.Integer:
-        case FieldType.Float:
-        case FieldType.ReadonlyText:
-          searcher.addConditionKV(columnName, filterValue)
-          break
         case FieldType.MultiEnum: {
           if (isOpposite) {
             for (const val of GeneralDataHelper.extractMultiEnumItems(filterValue)) {

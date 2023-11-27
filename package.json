@@ -35,7 +35,7 @@
     "crypto-js": "^4.0.0",
     "exceljs": "^4.3.0",
     "fc-config": "^0.13.0",
-    "fc-feed": "^0.30.0",
+    "fc-feed": "^0.32.2",
     "fc-model": "^0.6.0",
     "fc-queue": "^0.4.0",
     "fc-sql": "^0.33.0",
