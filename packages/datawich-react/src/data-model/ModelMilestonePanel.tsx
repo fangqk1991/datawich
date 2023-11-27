@@ -7,6 +7,7 @@ import { ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { MilestoneInfoDialog } from './MilestoneInfoDialog'
+import * as moment from 'moment/moment'
 
 export const ModelMilestonePanel: ModelFragmentProtocol = ({ dataModel }) => {
   const [milestoneList, setMilestoneList] = useState<ModelMilestoneModel[]>([])
@@ -19,9 +20,25 @@ export const ModelMilestonePanel: ModelFragmentProtocol = ({ dataModel }) => {
 
   return (
     <div>
-      <h4>{LS('[i18n] Model Versions')}</h4>
+      <h3>{LS('[i18n] Model Versions')}</h3>
       <Space>
-        <Tag color={'error'}>master</Tag>
+        <Tag
+          color={'error'}
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            const dialog = MilestoneInfoDialog.dialog({
+              uid: 'master',
+              modelKey: dataModel.modelKey,
+              tagName: 'master',
+              description: '当前模型',
+              metadataStr: '',
+              createTime: moment().format(),
+            } as ModelMilestoneModel)
+            dialog.show()
+          }}
+        >
+          master
+        </Tag>
         {milestoneList.map((item) => (
           <Tag
             key={item.uid}

@@ -101,7 +101,8 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
       </Descriptions>
       {outerModels.length > 0 && (
         <div>
-          <h4>以下模型在引用本模型</h4>
+          <Divider />
+          <h3>以下模型在引用本模型</h3>
           <Space>
             {outerModels.map((model) => (
               <Button
@@ -117,6 +118,7 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
           </Space>
         </div>
       )}
+      <Divider />
       <ModelMilestonePanel dataModel={dataModel} onModelInfoChanged={() => {}} />
     </>
   )
