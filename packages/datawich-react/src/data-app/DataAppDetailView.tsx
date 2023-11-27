@@ -104,12 +104,16 @@ export const DataAppDetailView: React.FC = () => {
       .filter((field) => field.fieldType === FieldType.MultiEnum)
       .reduce((result, field) => {
         result[field.filterKey] = {
-          including: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.$inStr`] || '',
+          includingAnyOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
+            filterOptions[`${field.filterKey}.$include_any`] || '',
             field.options
           ),
-          excluding: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.$notInStr`] || '',
+          includingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
+            filterOptions[`${field.filterKey}.$include_all`] || '',
+            field.options
+          ),
+          excludingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
+            filterOptions[`${field.filterKey}.$exclude_all`] || '',
             field.options
           ),
         }

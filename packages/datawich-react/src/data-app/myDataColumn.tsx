@@ -71,33 +71,44 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       break
     case FieldType.MultiEnum:
       const tagsCheckedMap: TagsCheckedMap = props.tagsCheckedMap || {
-        including: {},
-        excluding: {},
+        includingAnyOf: {},
+        includingAllOf: {},
+        excludingAllOf: {},
       }
-      const includingList = GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.including)
-      const excludingList = GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.excluding)
       filterView = (
         <>
           <h4 style={{ margin: '0 0 8px' }}>Including anyOf</h4>
           <Checkbox.Group
             options={field.options}
-            value={includingList}
+            value={GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.includingAnyOf)}
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
-                  [`${filterKey}.$inStr`]: checkedValue.join(','),
+                  [`${filterKey}.$include_any`]: checkedValue.join(','),
                 })
               }
             }}
           />
-          <h4 style={{ margin: '8px 0' }}>Excluding anyOf</h4>
+          <h4 style={{ margin: '8px 0' }}>Including allOf</h4>
           <Checkbox.Group
             options={field.options}
-            value={excludingList}
+            value={GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.includingAllOf)}
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
-                  [`${filterKey}.$notInStr`]: checkedValue.join(','),
+                  [`${filterKey}.$include_all`]: checkedValue.join(','),
+                })
+              }
+            }}
+          />
+          <h4 style={{ margin: '8px 0' }}>Excluding allOf</h4>
+          <Checkbox.Group
+            options={field.options}
+            value={GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.excludingAllOf)}
+            onChange={(checkedValue) => {
+              if (props.onFilterChange) {
+                props.onFilterChange({
+                  [`${filterKey}.$exclude_all`]: checkedValue.join(','),
                 })
               }
             }}

@@ -1,8 +1,11 @@
 export interface TagsCheckedMap {
-  including: {
+  includingAnyOf: {
     [key: string]: boolean
   }
-  excluding: {
+  includingAllOf: {
+    [key: string]: boolean
+  }
+  excludingAllOf: {
     [key: string]: boolean
   }
 }
