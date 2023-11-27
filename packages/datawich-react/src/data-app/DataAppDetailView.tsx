@@ -105,11 +105,11 @@ export const DataAppDetailView: React.FC = () => {
       .reduce((result, field) => {
         result[field.filterKey] = {
           including: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[field.filterKey] || '',
+            filterOptions[`${field.filterKey}.$inStr`] || '',
             field.options
           ),
           excluding: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.not`] || '',
+            filterOptions[`${field.filterKey}.$notInStr`] || '',
             field.options
           ),
         }

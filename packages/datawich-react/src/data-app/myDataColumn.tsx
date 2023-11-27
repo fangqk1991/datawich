@@ -19,7 +19,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   const superField = props.superField
   const filterOptions = props.filterOptions || {}
   const filterKey = field.filterKey
-  const filterKeyForNot = `${filterKey}.not`
+  const filterKeyPrefix = filterKey.match(/^(.*?)(\.\$.*)?$/)![1]
 
   const getOptionsForEnumField = (data?: any) => {
     let options = field.options || []
@@ -85,7 +85,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
-                  [filterKey]: checkedValue.join(','),
+                  [`${filterKey}.$inStr`]: checkedValue.join(','),
                 })
               }
             }}
@@ -97,7 +97,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
-                  [filterKeyForNot]: checkedValue.join(','),
+                  [`${filterKey}.$notInStr`]: checkedValue.join(','),
                 })
               }
             }}
@@ -112,7 +112,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
     className:
       filterOptions &&
       (filterOptions[filterKey] ||
-        filterOptions[filterKeyForNot] ||
+        filterOptions[filterKeyPrefix] ||
         (filterOptions['sortKey'] === filterKey && !!filterOptions['sortDirection']))
         ? 'bg-highlight'
         : '',
@@ -134,7 +134,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       }
       return undefined
     })(),
-    filtered: !!filterOptions[filterKey] || filterOptions[filterKeyForNot],
+    filtered: !!filterOptions[filterKeyPrefix],
     filterDropdown: filterView ? <div style={{ padding: '8px' }}>{filterView}</div> : undefined,
   }
 }

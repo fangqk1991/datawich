@@ -152,8 +152,7 @@ export class WideSearcherBuilder {
       }
     }
     for (const rawKey of Object.keys(options)) {
-      const isOpposite = rawKey.endsWith('.not')
-      const filterKey = isOpposite ? rawKey.replace(/\.not$/, '') : rawKey
+      const filterKey = rawKey
       if (!filterMapper[filterKey] || !options[rawKey]) {
         continue
       }
@@ -162,21 +161,6 @@ export class WideSearcherBuilder {
       const columnName = entity.columnName
       const field = entity.field
       switch (field.fieldType as FieldType) {
-        case FieldType.MultiEnum: {
-          if (isOpposite) {
-            for (const val of GeneralDataHelper.extractMultiEnumItems(filterValue)) {
-              searcher.addSpecialCondition(`NOT FIND_IN_SET(?, ${columnName})`, val)
-            }
-          } else {
-            const builder = new SearchBuilder()
-            builder.addCondition(`1 = 0`)
-            for (const val of GeneralDataHelper.extractMultiEnumItems(filterValue)) {
-              builder.addCondition(`FIND_IN_SET(?, ${columnName})`, val)
-            }
-            builder.injectToSearcher(searcher)
-          }
-          break
-        }
         case FieldType.Tags:
           if (Number(filterValue) > 0) {
             searcher.addSpecialCondition(`(${columnName} & ?) > 0`, filterValue)
