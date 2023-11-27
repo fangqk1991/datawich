@@ -19,7 +19,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   const superField = props.superField
   const filterOptions = props.filterOptions || {}
   const filterKey = field.filterKey
-  const filterKeyPrefix = filterKey.match(/^(.*?)(\.\$.*)?$/)![1]
+  const filtered = !!Object.keys(filterOptions).find((item) => item.startsWith(filterKey))
 
   const getOptionsForEnumField = (data?: any) => {
     let options = field.options || []
@@ -110,10 +110,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
 
   return {
     className:
-      filterOptions &&
-      (filterOptions[filterKey] ||
-        filterOptions[filterKeyPrefix] ||
-        (filterOptions['sortKey'] === filterKey && !!filterOptions['sortDirection']))
+      filterOptions && (filtered || (filterOptions['sortKey'] === filterKey && !!filterOptions['sortDirection']))
         ? 'bg-highlight'
         : '',
     title: <div>{header}</div>,
@@ -134,7 +131,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       }
       return undefined
     })(),
-    filtered: !!filterOptions[filterKeyPrefix],
+    filtered: filtered,
     filterDropdown: filterView ? <div style={{ padding: '8px' }}>{filterView}</div> : undefined,
   }
 }
