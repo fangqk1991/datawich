@@ -349,6 +349,7 @@ export class ModelDataHandler {
 
   public async exportDataExcel(options = {}) {
     const searcher = await this.dataSearcherWithFilter(options)
+    searcher.setLimitInfo(-1, -1)
     const items = (await searcher.queryList()) as any[]
     await this.transferItemsValueNaturalLanguage(items)
 
