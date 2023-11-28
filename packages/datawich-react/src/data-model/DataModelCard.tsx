@@ -49,6 +49,7 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
       <ul
         style={{
           paddingInlineStart: '12px',
+          marginBlockEnd: 0,
         }}
       >
         <li>
