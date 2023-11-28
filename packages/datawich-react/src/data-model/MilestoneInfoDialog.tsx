@@ -1,10 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { DialogProps, ReactDialog } from '@fangcha/react'
-import { ModelFullMetadata, ModelMilestoneModel } from '@fangcha/datawich-service'
+import { ConfirmDialog, DialogProps, LoadingDialog, ReactDialog } from '@fangcha/react'
+import {
+  GeneralDataFormatter,
+  ModelFieldModel,
+  ModelFullMetadata,
+  ModelMilestoneModel,
+} from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelMilestoneApis } from '@web/datawich-common/web-api'
+import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { ModelStructurePanel } from './ModelStructurePanel'
 import { MyRequest } from '@fangcha/auth-react'
+import { message } from 'antd'
+import { sleep } from '@fangcha/tools'
 
 interface Props extends DialogProps {
   milestone: ModelMilestoneModel
@@ -25,7 +32,7 @@ export class MilestoneInfoDialog extends ReactDialog<Props> {
   public rawComponent(): React.FC<Props> {
     return (props) => {
       const milestone = props.milestone
-      const [metadata, setMetadata] = useState<ModelFullMetadata | null>(null)
+      const [metadata, setMetadata] = useState<ModelFullMetadata>(null as any)
 
       const downloadUri = useMemo(() => {
         const commonApi = new CommonAPI(
@@ -63,44 +70,52 @@ export class MilestoneInfoDialog extends ReactDialog<Props> {
                 <a
                   style={{ color: '#dc3545' }}
                   onClick={() => {
-                    // const modelKey = this.milestone.modelKey
-                    // const dialog = ConfirmDialog.strongDialog()
-                    // dialog.title = '还原版本'
-                    // dialog.content = `确定要将 "${this.milestone.tagName}" 字段结构还原到模型吗？<b class="text-danger">（模型数据将会丢失）</b>`
-                    // dialog.show(async () => {
-                    //   const metadata = this.metadata!
-                    //
-                    //   {
-                    //     const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldListGet, modelKey))
-                    //     const items = (await request.quickSend()) as ModelFieldModel[]
-                    //     const fields = items.filter((item) => !item.isSystem)
-                    //     this.$message.success('成功获取现有模型字段列表')
-                    //     for (let i = 0; i < fields.length; ++i) {
-                    //       const field = fields[i]
-                    //       const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldDelete, modelKey, field.fieldKey))
-                    //       await request.execute()
-                    //       this.$message.success(`已删除 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`)
-                    //     }
-                    //   }
-                    //   {
-                    //     this.$message.success(`正在还原 ${metadata.tagName} 字段`)
-                    //     const fields = metadata.modelFields.filter((item) => !item.isSystem)
-                    //     for (let i = 0; i < fields.length; ++i) {
-                    //       const field = GeneralDataFormatter.formatModelField(fields[i])
-                    //       const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
-                    //       request.setBodyData(field)
-                    //       await request.execute()
-                    //       this.$message.success(`已创建 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`)
-                    //     }
-                    //   }
-                    //
-                    //   AlertTools.showConfirm(`版本还原成功，是否刷新页面`).then(() => {
-                    //     window.location.reload()
-                    //   })
-                    // })
+                    const modelKey = milestone.modelKey
+                    const dialog = new ConfirmDialog({
+                      title: '还原版本',
+                      content: (
+                        <div>
+                          确定要将 "{milestone.tagName}" 字段结构还原到模型吗？
+                          <b className='text-danger'>（模型数据将会丢失）</b>
+                        </div>
+                      ),
+                      forceVerify: true,
+                    })
+                    dialog.show(async () => {
+                      {
+                        const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldListGet, modelKey))
+                        const items = (await request.quickSend()) as ModelFieldModel[]
+                        const fields = items.filter((item) => !item.isSystem)
+                        message.success('成功获取现有模型字段列表')
+                        for (let i = 0; i < fields.length; ++i) {
+                          const field = fields[i]
+                          const request = MyRequest(
+                            new CommonAPI(ModelFieldApis.DataModelFieldDelete, modelKey, field.fieldKey)
+                          )
+                          await request.execute()
+                          message.success(`已删除 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`)
+                        }
+                      }
+                      {
+                        message.success(`正在还原 ${metadata.tagName} 字段`)
+                        const fields = metadata.modelFields.filter((item) => !item.isSystem)
+                        for (let i = 0; i < fields.length; ++i) {
+                          const field = GeneralDataFormatter.formatModelField(fields[i])
+                          const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
+                          request.setBodyData(field)
+                          await request.execute()
+                          message.success(`已创建 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`)
+                        }
+                      }
+
+                      await LoadingDialog.execute(async () => {
+                        await sleep(1000)
+                        window.location.reload()
+                      }, '版本还原成功，正在刷新页面')
+                    })
                   }}
                 >
-                  还原到模型 (TODO)
+                  还原到模型
                 </a>
               </li>
             )}
