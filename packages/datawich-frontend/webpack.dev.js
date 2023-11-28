@@ -7,6 +7,9 @@ module.exports = new WebpackBuilder()
   .setPort(config.Datawich.adminPort_frontend)
   .setExtras({
     devServer: {
+      client: {
+        overlay: false,
+      },
       proxy: {
         '/api': `http://localhost:${config.Datawich.adminPort}`,
       },
