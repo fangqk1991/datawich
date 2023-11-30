@@ -1,10 +1,5 @@
-import { addSlashes } from '@fangcha/tools'
-import {
-  DescribableField,
-  FieldType,
-  ModelFieldModel,
-  Raw_ModelField,
-} from '@fangcha/datawich-service'
+import { addSlashes, SelectOption } from '@fangcha/tools'
+import { DescribableField, FieldType, ModelFieldModel, Raw_ModelField } from '@fangcha/datawich-service'
 
 export class FieldHelper {
   public static getFieldTypeDatabaseSpec(field: ModelFieldModel, beIndex = false) {
@@ -204,5 +199,34 @@ export class FieldHelper {
     delete realData['create_time']
     delete realData['update_time']
     return realData
+  }
+
+  public static getFieldHint(field: { fieldType: FieldType; options: SelectOption[] }) {
+    switch (field.fieldType as FieldType) {
+      case FieldType.Enum:
+      case FieldType.TextEnum: {
+        const texts: string[] = []
+        texts.push(`枚举项(单选)`)
+        texts.push(...field.options.map((item: any) => item.label))
+        return texts.join('\n')
+      }
+      case FieldType.Tags: {
+        const texts: string[] = []
+        texts.push(`标签项(多选)`)
+        texts.push(...field.options.map((item: any) => item.label))
+        return texts.join('\n')
+      }
+      case FieldType.MultiEnum: {
+        const texts: string[] = []
+        texts.push(`枚举项(多选)`)
+        texts.push(...field.options.map((item: any) => item.label))
+        return texts.join('\n')
+      }
+      case FieldType.Date:
+        return 'yyyy-MM-dd'
+      case FieldType.Datetime:
+        return 'ISO 8601 时间'
+    }
+    return ''
   }
 }
