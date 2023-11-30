@@ -135,6 +135,37 @@ factory.prepare(DataAppApis.DataAppRecordPut, async (ctx) => {
   })
 })
 
+// factory.prepare(DataAppApis.DataAppBatchRecordsPut, async (ctx) => {
+//   await new DataAppSpecHandler(ctx).handle(async (dataModel) => {
+//     const session = ctx.session as FangchaSession
+//     assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
+//     assert.ok(!!dataModel.isDataModifiable, '此模型数据不支持修改')
+//     const customData = ctx.request.body
+//     const { rid } = customData
+//     if (rid) {
+//       const dataInfo = (await ModelDataInfo.findWithRid(dataModel, rid))!
+//       assert.ok(!!dataInfo, '数据不存在')
+//       const sessionChecker = new SessionChecker(ctx)
+//       if (!(await sessionChecker.checkModelPermission(dataModel, GeneralPermission.P_HandleOthersData))) {
+//         assert.ok(
+//           await new ModelDataHandler(dataModel).checkDataAccessible(sessionChecker.email, dataInfo.dataId),
+//           `您没有查看/编辑本条数据的权限 [${dataInfo.dataId}]`,
+//           403
+//         )
+//       }
+//       const dataHandler = new ModelDataHandler(dataModel)
+//       dataHandler.setOperator(session.curUserStr())
+//       await dataHandler.modifyModelData(dataInfo, customData)
+//       ctx.status = 200
+//     } else {
+//       const dataHandler = new ModelDataHandler(dataModel)
+//       dataHandler.setOperator(session.curUserStr())
+//       const dataInfo = await dataHandler.createData(customData)
+//       ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
+//     }
+//   })
+// })
+
 factory.prepare(DataAppApis.DataAppRecordUpdate, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
     const session = ctx.session as FangchaSession

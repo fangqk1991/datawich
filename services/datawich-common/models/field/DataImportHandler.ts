@@ -78,7 +78,7 @@ export class DataImportHandler {
     return excel.writeBuffer()
   }
 
-  public async extractRecordsFromResource(excel: TypicalExcel) {
+  public async extractRecordsFromExcel(excel: TypicalExcel) {
     const rows = excel.records() as ImportedRow[]
     const records: any[] = []
     for (const item of rows) {

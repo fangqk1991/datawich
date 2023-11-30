@@ -15,13 +15,14 @@ import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
-import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
+import { DataImportHandler, FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { GeneralDataDialog } from './GeneralDataDialog'
 import * as dayjs from 'dayjs'
+import { ExcelPickButton } from '@fangcha/excel-react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
 
@@ -229,66 +230,66 @@ export const DataAppDetailView: React.FC = () => {
           })}
       </ProForm>
 
-      <Space wrap={true}>
-        <Input.Search
-          value={keywords}
-          onChange={({ target: { value } }) => setKeywords(value)}
-          placeholder='Keywords'
-          onSearch={(keywords: string) => {
-            updateQueryParams({
-              keywords: keywords,
-            })
-          }}
-          allowClear
-          enterButton
-        />
-        <Button
-          onClick={() => {
-            setQueryParams({})
-            setKeywords('')
-          }}
-        >
-          重置过滤器
-        </Button>
-        <Button
-          type={'primary'}
-          onClick={() => {
-            const dialog = new FieldsDisplaySettingDialog({
-              mainFields: mainFields,
-              allFields: allFields,
-              checkedList:
-                displaySettings.checkedList.length > 0
-                  ? displaySettings.checkedList
-                  : mainDisplayFields.map((item) => item.filterKey),
-              fixedList: displaySettings.fixedList,
-            })
-            dialog.show(async (params) => {
-              const checkedMap = params.checkedList.reduce((result, cur) => {
-                result[`${cur}`] = true
-                return result
-              }, {})
-              const request = MyRequest(
-                new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
-              )
-              request.setBodyData({
-                fixedList: params.fixedList,
-                checkedList: params.checkedList,
-                hiddenFieldsMap: allFields
-                  .filter((field) => !checkedMap[field.filterKey])
-                  .reduce((result, cur) => {
-                    result[cur.filterKey] = true
-                    return result
-                  }, {}),
+      <Space direction={'vertical'}>
+        <Space wrap={true}>
+          <Input.Search
+            value={keywords}
+            onChange={({ target: { value } }) => setKeywords(value)}
+            placeholder='Keywords'
+            onSearch={(keywords: string) => {
+              updateQueryParams({
+                keywords: keywords,
               })
-              await request.execute()
-              message.success('调整成功')
-              await reloadDisplaySettings()
-            })
-          }}
-        >
-          管理展示字段
-        </Button>
-        {
+            }}
+            allowClear
+            enterButton
+          />
+          <Button
+            onClick={() => {
+              setQueryParams({})
+              setKeywords('')
+            }}
+          >
+            重置过滤器
+          </Button>
+          <Button
+            type={'primary'}
+            onClick={() => {
+              const dialog = new FieldsDisplaySettingDialog({
+                mainFields: mainFields,
+                allFields: allFields,
+                checkedList:
+                  displaySettings.checkedList.length > 0
+                    ? displaySettings.checkedList
+                    : mainDisplayFields.map((item) => item.filterKey),
+                fixedList: displaySettings.fixedList,
+              })
+              dialog.show(async (params) => {
+                const checkedMap = params.checkedList.reduce((result, cur) => {
+                  result[`${cur}`] = true
+                  return result
+                }, {})
+                const request = MyRequest(
+                  new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
+                )
+                request.setBodyData({
+                  fixedList: params.fixedList,
+                  checkedList: params.checkedList,
+                  hiddenFieldsMap: allFields
+                    .filter((field) => !checkedMap[field.filterKey])
+                    .reduce((result, cur) => {
+                      result[cur.filterKey] = true
+                      return result
+                    }, {}),
+                })
+                await request.execute()
+                message.success('调整成功')
+                await reloadDisplaySettings()
+              })
+            }}
+          >
+            管理展示字段
+          </Button>
           <Button
             onClick={async () => {
               LoadingDialog.execute(async () => {
@@ -301,30 +302,76 @@ export const DataAppDetailView: React.FC = () => {
           >
             导出 <DownloadOutlined />
           </Button>
-        }
-      </Space>
+        </Space>
 
-      <div style={{ marginTop: '8px' }}>
-        <Button
-          type={'primary'}
-          onClick={() => {
-            const dialog = new GeneralDataDialog({
-              mainFields: mainFields,
-              modelKey: modelKey,
-            })
-            dialog.title = '新建数据记录'
-            dialog.show(async (params) => {
-              const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordCreate, modelKey))
-              request.setBodyData(params)
-              await request.execute()
-              message.success('创建成功')
-              forceUpdate()
-            })
-          }}
-        >
-          添加数据
-        </Button>
-      </div>
+        <Space>
+          <Button
+            type={'primary'}
+            onClick={() => {
+              const dialog = new GeneralDataDialog({
+                mainFields: mainFields,
+                modelKey: modelKey,
+              })
+              dialog.title = '新建数据记录'
+              dialog.show(async (params) => {
+                const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordCreate, modelKey))
+                request.setBodyData(params)
+                await request.execute()
+                message.success('创建成功')
+                forceUpdate()
+              })
+            }}
+          >
+            添加数据
+          </Button>
+
+          <ExcelPickButton
+            skipPreview={true}
+            filePickBtnText={'导入数据'}
+            columns={[
+              {
+                columnKey: 'data_id',
+                columnName: 'data_id',
+              },
+              // ...tableInfo.fieldItems.map((item) => ({
+              //   columnKey: item.key,
+              //   columnName: item.name,
+              // })),
+            ]}
+            // description={
+            //   <ul>
+            //     <li>data_id 值存在时，将执行更新操作，否则执行创建操作</li>
+            //   </ul>
+            // }
+            onPickExcel={async (excel) => {
+              {
+              }
+              const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
+              for (let i = 0; i < records.length; ++i) {
+                const todoItem = records[i]
+                const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordPut, modelKey))
+                request.setQueryParams({ forBatch: 1 })
+                request.setBodyData(todoItem)
+                await request
+                  .execute()
+                  .then(() => {
+                    message.success(`${i + 1} / ${records.length} 导入成功`)
+                  })
+                  .catch(() => {
+                    message.error(`${i + 1} / ${records.length} 导入失败`)
+                  })
+              }
+              // const request = MyRequest(new CommonAPI(DataAppApis.DataAppBatchRecordsPut, modelKey))
+              // request.setBodyData(records)
+              // await request.quickSend()
+              message.success(`导入成功`)
+              setVersion(version + 1)
+            }}
+          >
+            导入 Excel
+          </ExcelPickButton>
+        </Space>
+      </Space>
 
       <Divider style={{ margin: '12px 0' }} />
       <TableView

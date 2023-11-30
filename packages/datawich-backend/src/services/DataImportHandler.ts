@@ -3,8 +3,7 @@ import * as moment from 'moment'
 import { _OSSResource, OSSService } from '@fangcha/oss-service'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
-import { FieldType } from '@fangcha/datawich-service'
-import { GeneralDataHelper } from '@fangcha/datawich-service'
+import { FieldType, GeneralDataHelper } from '@fangcha/datawich-service'
 import { FieldHelper } from '@web/datawich-common/models'
 import { TypicalExcel } from '@fangcha/excel'
 
@@ -50,7 +49,10 @@ export class DataImportHandler {
     for (const field of modelFields) {
       columnKeys.push(field.fieldKey)
       nameRowData[field.fieldKey] = field.required ? `${field.name} *` : field.name
-      hintRowData[field.fieldKey] = field.getHint()
+      hintRowData[field.fieldKey] = FieldHelper.getFieldHint({
+        fieldType: field.fieldType as FieldType,
+        options: field.options(),
+      })
       exampleRowData[field.fieldKey] = FieldHelper.getFieldNaturalLanguageValueExample(field.modelForClient())
     }
     {
