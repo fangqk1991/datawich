@@ -344,8 +344,6 @@ export const DataAppDetailView: React.FC = () => {
             //   </ul>
             // }
             onPickExcel={async (excel) => {
-              {
-              }
               const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
               for (let i = 0; i < records.length; ++i) {
                 const todoItem = records[i]

@@ -97,27 +97,30 @@ export class DataImportHandler {
     return records
   }
 
-  public async decodeImportedData(options: any) {
-    const realData: any = { ...options }
+  public async decodeImportedData(importedData: any) {
+    const realData: any = { ...importedData }
     this.fields.forEach((field) => {
+      const label2ValueMap = (field.options || []).reduce((result: any, cur: any) => {
+        result[cur.label] = cur.value
+        return result
+      }, {})
+
       if (field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum) {
-        const dataMap = field.value2LabelMap
         if (field.fieldKey in realData) {
           const label = realData[field.fieldKey]
-          if (label in dataMap) {
-            realData[field.fieldKey] = dataMap[label]
+          if (label in label2ValueMap) {
+            realData[field.fieldKey] = label2ValueMap[label]
           }
         }
       } else if (field.fieldType === FieldType.Tags) {
-        const dataMap = field.value2LabelMap
         if (realData[field.fieldKey]) {
           // 处理不为空的描述值
           const labels: string[] = realData[field.fieldKey].split(',').map((item: string) => item.trim())
           const checkedMap: { [p: string]: boolean } = {}
           let valid = true
           labels.forEach((label) => {
-            if (label in dataMap) {
-              checkedMap[dataMap[label]] = true
+            if (label in label2ValueMap) {
+              checkedMap[label2ValueMap[label]] = true
             } else {
               valid = false
             }
@@ -129,15 +132,14 @@ export class DataImportHandler {
           realData[field.fieldKey] = 0
         }
       } else if (field.fieldType === FieldType.MultiEnum) {
-        const dataMap = field.value2LabelMap
         if (realData[field.fieldKey]) {
           // 处理不为空的描述值
           const labels: string[] = realData[field.fieldKey].split(',').map((item: string) => item.trim())
           const checkedMap: { [p: string]: boolean } = {}
           let valid = true
           labels.forEach((label) => {
-            if (label in dataMap) {
-              checkedMap[dataMap[label]] = true
+            if (label in label2ValueMap) {
+              checkedMap[label2ValueMap[label]] = true
             } else {
               valid = false
             }
