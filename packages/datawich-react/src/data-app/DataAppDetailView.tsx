@@ -13,7 +13,15 @@ import {
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import {
+  ConfirmDialog,
+  LoadingDialog,
+  RouterLink,
+  TableView,
+  TableViewColumn,
+  TextPreviewDialog,
+  useQueryParams,
+} from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { DataImportHandler, FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
@@ -372,7 +380,9 @@ export const DataAppDetailView: React.FC = () => {
                       .catch(async (error) => {
                         errorItems.push(
                           <li>
-                            {i + 1} / {records.length} 导入失败，<b style={{ color: 'red' }}>{error.message}</b>
+                            {i + 1} / {records.length} 导入失败，
+                            <b style={{ color: 'red' }}>{error.message}</b>{' | '}
+                            <a onClick={() => TextPreviewDialog.previewData(todoItem)}>查看</a>
                           </li>
                         )
                       })
