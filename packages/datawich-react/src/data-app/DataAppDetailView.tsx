@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
-import { PageResult } from '@fangcha/tools'
+import { PageResult, sleep } from '@fangcha/tools'
 import { DataImportHandler, FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
@@ -344,26 +344,34 @@ export const DataAppDetailView: React.FC = () => {
             //   </ul>
             // }
             onPickExcel={async (excel) => {
-              const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
-              for (let i = 0; i < records.length; ++i) {
-                const todoItem = records[i]
-                const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordPut, modelKey))
-                request.setQueryParams({ forBatch: 1 })
-                request.setBodyData(todoItem)
-                await request
-                  .execute()
-                  .then(() => {
-                    message.success(`${i + 1} / ${records.length} 导入成功`)
-                  })
-                  .catch(() => {
-                    message.error(`${i + 1} / ${records.length} 导入失败`)
-                  })
-              }
-              // const request = MyRequest(new CommonAPI(DataAppApis.DataAppBatchRecordsPut, modelKey))
-              // request.setBodyData(records)
-              // await request.quickSend()
-              message.success(`导入成功`)
-              setVersion(version + 1)
+              await LoadingDialog.execute(async (context) => {
+                const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
+                for (let i = 0; i < records.length; ++i) {
+                  const todoItem = records[i]
+                  const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordPut, modelKey))
+                  request.setMute(true)
+                  request.setQueryParams({ forBatch: 1 })
+                  request.setBodyData(todoItem)
+                  await request
+                    .execute()
+                    .then(() => {
+                      context.setText(`${i + 1} / ${records.length} 导入成功`)
+                    })
+                    .catch(async (error) => {
+                      context.setText(
+                        <div>
+                          {i + 1} / {records.length} 导入失败，<b style={{ color: 'red' }}>{error.message}</b>
+                        </div>
+                      )
+                      await sleep(500)
+                    })
+                }
+                // const request = MyRequest(new CommonAPI(DataAppApis.DataAppBatchRecordsPut, modelKey))
+                // request.setBodyData(records)
+                // await request.quickSend()
+                message.success(`导入成功`)
+                setVersion(version + 1)
+              })
             }}
           >
             导入 Excel
