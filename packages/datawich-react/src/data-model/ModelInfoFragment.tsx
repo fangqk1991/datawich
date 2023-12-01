@@ -8,7 +8,7 @@ import { DataModelApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
-import { RouterLink } from '@fangcha/react'
+import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DataModelDialog } from './DataModelDialog'
 
@@ -32,25 +32,47 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
 
   return (
     <>
-      <Button
-        type='primary'
-        onClick={() => {
-          const dialog = new DataModelDialog({
-            title: '编辑模型',
-            data: dataModel,
-            forEditing: true,
-          })
-          dialog.show(async (params) => {
-            const request = MyRequest(new CommonAPI(DataModelApis.DataModelUpdate, dataModel.modelKey))
-            request.setBodyData(params)
-            await request.quickSend()
-            message.success('更新成功')
-            onModelInfoChanged()
-          })
-        }}
-      >
-        编辑
-      </Button>
+      <Space>
+        <Button
+          type='primary'
+          onClick={() => {
+            const dialog = new DataModelDialog({
+              title: '编辑模型',
+              data: dataModel,
+              forEditing: true,
+            })
+            dialog.show(async (params) => {
+              const request = MyRequest(new CommonAPI(DataModelApis.DataModelUpdate, dataModel.modelKey))
+              request.setBodyData(params)
+              await request.quickSend()
+              message.success('更新成功')
+              onModelInfoChanged()
+            })
+          }}
+        >
+          编辑
+        </Button>
+        <Button
+          danger={true}
+          onClick={() => {
+            const dialog = new ConfirmDialog({
+              content: `确定要清空 "${dataModel.name}" 的所有数据吗？`,
+              forceVerify: true,
+            })
+            dialog.show(async (params) => {
+              await LoadingDialog.execute(async () => {
+                const request = MyRequest(new CommonAPI(DataModelApis.DataModelRecordsEmpty, dataModel.modelKey))
+                request.setBodyData(params)
+                await request.quickSend()
+                message.success('数据已清空')
+                onModelInfoChanged()
+              })
+            })
+          }}
+        >
+          清空数据
+        </Button>
+      </Space>
       <Divider />
       <Descriptions title='基本信息'>
         <Descriptions.Item label='模型 Key'>{dataModel.modelKey}</Descriptions.Item>

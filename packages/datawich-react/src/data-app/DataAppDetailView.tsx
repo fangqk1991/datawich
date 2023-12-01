@@ -25,6 +25,7 @@ import * as dayjs from 'dayjs'
 import { ExcelPickButton } from '@fangcha/excel-react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
+import { TinyList } from './TinyList'
 
 interface DataRecord {
   rid: number
@@ -345,8 +346,10 @@ export const DataAppDetailView: React.FC = () => {
             // }
             onPickExcel={async (excel) => {
               await LoadingDialog.execute(async (context) => {
+                const errorItems: React.ReactNode[] = []
                 const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
                 for (let i = 0; i < records.length; ++i) {
+                  let succLi: React.ReactNode | null = null
                   const todoItem = records[i]
                   const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordPut, modelKey))
                   request.setMute(true)
@@ -355,21 +358,31 @@ export const DataAppDetailView: React.FC = () => {
                   await request
                     .execute()
                     .then(() => {
-                      context.setText(`${i + 1} / ${records.length} 导入成功`)
+                      succLi = (
+                        <li>
+                          {i + 1} / {records.length} 导入成功
+                        </li>
+                      )
                     })
                     .catch(async (error) => {
-                      context.setText(
-                        <div>
+                      errorItems.push(
+                        <li>
                           {i + 1} / {records.length} 导入失败，<b style={{ color: 'red' }}>{error.message}</b>
-                        </div>
+                        </li>
                       )
-                      await sleep(500)
                     })
+
+                  context.setText(
+                    <TinyList>
+                      {errorItems.map((item) => item)} {succLi}
+                    </TinyList>
+                  )
+                  await sleep(1000)
                 }
                 // const request = MyRequest(new CommonAPI(DataAppApis.DataAppBatchRecordsPut, modelKey))
                 // request.setBodyData(records)
                 // await request.quickSend()
-                message.success(`导入成功`)
+                message.success(`导入完毕`)
                 setVersion(version + 1)
               })
             }}
