@@ -88,7 +88,7 @@ export class GeneralDataChecker {
           case FieldType.Enum:
           case FieldType.TextEnum: {
             const value2LabelMap = field.value2LabelMap
-            if (!(value in value2LabelMap)) {
+            if (value !== '' && !(value in value2LabelMap)) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
                 .join(' | ')} }`
