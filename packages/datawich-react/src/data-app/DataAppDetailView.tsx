@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
-import { PageResult, sleep } from '@fangcha/tools'
+import { PageResult } from '@fangcha/tools'
 import { DataImportHandler, FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
@@ -293,11 +293,13 @@ export const DataAppDetailView: React.FC = () => {
           </Button>
           <Button
             onClick={async () => {
-              LoadingDialog.execute(async () => {
-                const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
-                request.setBodyData(latestParams.entity)
-                const response = await request.quickSend()
-                DownloadTaskHelper.handleDownloadResponse(response)
+              LoadingDialog.execute({
+                handler: async () => {
+                  const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
+                  request.setBodyData(latestParams.entity)
+                  const response = await request.quickSend()
+                  DownloadTaskHelper.handleDownloadResponse(response)
+                },
               })
             }}
           >
@@ -345,45 +347,60 @@ export const DataAppDetailView: React.FC = () => {
             //   </ul>
             // }
             onPickExcel={async (excel) => {
-              await LoadingDialog.execute(async (context) => {
-                const errorItems: React.ReactNode[] = []
-                const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
-                for (let i = 0; i < records.length; ++i) {
-                  let succLi: React.ReactNode | null = null
-                  const todoItem = records[i]
-                  const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordPut, modelKey))
-                  request.setMute(true)
-                  request.setQueryParams({ forBatch: 1 })
-                  request.setBodyData(todoItem)
-                  await request
-                    .execute()
-                    .then(() => {
-                      succLi = (
-                        <li>
-                          {i + 1} / {records.length} 导入成功
-                        </li>
-                      )
-                    })
-                    .catch(async (error) => {
-                      errorItems.push(
-                        <li>
-                          {i + 1} / {records.length} 导入失败，<b style={{ color: 'red' }}>{error.message}</b>
-                        </li>
-                      )
-                    })
+              await LoadingDialog.execute({
+                handler: async (context) => {
+                  const errorItems: React.ReactNode[] = []
+                  const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
+                  let succCount = 0
+                  for (let i = 0; i < records.length; ++i) {
+                    let succLi: React.ReactNode | null = null
+                    const todoItem = records[i]
+                    const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordPut, modelKey))
+                    request.setMute(true)
+                    request.setQueryParams({ forBatch: 1 })
+                    request.setBodyData(todoItem)
+                    await request
+                      .execute()
+                      .then(() => {
+                        succLi = (
+                          <li>
+                            {i + 1} / {records.length} 导入成功
+                          </li>
+                        )
+                        ++succCount
+                      })
+                      .catch(async (error) => {
+                        errorItems.push(
+                          <li>
+                            {i + 1} / {records.length} 导入失败，<b style={{ color: 'red' }}>{error.message}</b>
+                          </li>
+                        )
+                      })
+
+                    context.setText(
+                      <TinyList>
+                        {errorItems.map((item) => item)} {succLi}
+                      </TinyList>
+                    )
+                  }
 
                   context.setText(
-                    <TinyList>
-                      {errorItems.map((item) => item)} {succLi}
-                    </TinyList>
+                    <Space direction={'vertical'}>
+                      <h3>导入完成</h3>
+                      <div>
+                        <b>{succCount}</b> 条数据导入成功，<b>{errorItems.length}</b> 条数据导入失败
+                      </div>
+                      <TinyList>{errorItems.map((item) => item)}</TinyList>
+                      <Button onClick={() => context.dismiss()}>关闭</Button>
+                    </Space>,
+                    true
                   )
-                  await sleep(1000)
-                }
-                // const request = MyRequest(new CommonAPI(DataAppApis.DataAppBatchRecordsPut, modelKey))
-                // request.setBodyData(records)
-                // await request.quickSend()
-                message.success(`导入完毕`)
-                setVersion(version + 1)
+                  // const request = MyRequest(new CommonAPI(DataAppApis.DataAppBatchRecordsPut, modelKey))
+                  // request.setBodyData(records)
+                  // await request.quickSend()
+                  setVersion(version + 1)
+                },
+                manualDismiss: true,
               })
             }}
           >

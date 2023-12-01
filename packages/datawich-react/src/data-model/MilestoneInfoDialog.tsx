@@ -108,10 +108,13 @@ export class MilestoneInfoDialog extends ReactDialog<Props> {
                         }
                       }
 
-                      await LoadingDialog.execute(async () => {
-                        await sleep(1000)
-                        window.location.reload()
-                      }, '版本还原成功，正在刷新页面')
+                      await LoadingDialog.execute({
+                        handler: async () => {
+                          await sleep(1000)
+                          window.location.reload()
+                        },
+                        message: '版本还原成功，正在刷新页面',
+                      })
                     })
                   }}
                 >

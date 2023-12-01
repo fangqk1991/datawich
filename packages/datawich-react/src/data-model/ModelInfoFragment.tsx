@@ -60,12 +60,14 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
               forceVerify: true,
             })
             dialog.show(async (params) => {
-              await LoadingDialog.execute(async () => {
-                const request = MyRequest(new CommonAPI(DataModelApis.DataModelRecordsEmpty, dataModel.modelKey))
-                request.setBodyData(params)
-                await request.quickSend()
-                message.success('数据已清空')
-                onModelInfoChanged()
+              await LoadingDialog.execute({
+                handler: async () => {
+                  const request = MyRequest(new CommonAPI(DataModelApis.DataModelRecordsEmpty, dataModel.modelKey))
+                  request.setBodyData(params)
+                  await request.quickSend()
+                  message.success('数据已清空')
+                  onModelInfoChanged()
+                },
               })
             })
           }}
