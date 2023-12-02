@@ -129,12 +129,12 @@ export class GeneralDataChecker {
             break
           }
           case FieldType.Date:
-            if (!moment(value).isValid()) {
+            if (value !== '' && !moment(value).isValid()) {
               errorMap[field.fieldKey] = `${field.name} 日期格式有误`
             }
             break
           case FieldType.Datetime:
-            if (!moment(value).isValid()) {
+            if (value !== '' && !moment(value).isValid()) {
               errorMap[field.fieldKey] = `${field.name} 时间格式有误`
             }
             break
