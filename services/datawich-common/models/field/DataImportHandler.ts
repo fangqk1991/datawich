@@ -87,6 +87,9 @@ export class DataImportHandler {
       }
       let data = await this.decodeImportedData(item)
       data = FieldHelper.cleanDataByModelFields(data, this.fields)
+      if (item['_data_id']) {
+        data['_data_id'] = item['_data_id']
+      }
 
       const invalidMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(data, this.fields)
       // const invalidMap = await new ModelDataHandler(dataModel).getInvalidMap(data)

@@ -344,16 +344,16 @@ export const DataAppDetailView: React.FC = () => {
                 columnKey: 'data_id',
                 columnName: 'data_id',
               },
-              // ...tableInfo.fieldItems.map((item) => ({
-              //   columnKey: item.key,
-              //   columnName: item.name,
-              // })),
+              ...mainFields.map((item) => ({
+                columnKey: item.fieldKey,
+                columnName: item.name,
+              })),
             ]}
-            // description={
-            //   <ul>
-            //     <li>data_id 值存在时，将执行更新操作，否则执行创建操作</li>
-            //   </ul>
-            // }
+            description={
+              <ul>
+                <li>_data_id 值存在时，将执行更新操作，否则执行创建操作</li>
+              </ul>
+            }
             onPickExcel={async (excel) => {
               await LoadingDialog.execute({
                 handler: async (context) => {
@@ -381,7 +381,8 @@ export const DataAppDetailView: React.FC = () => {
                         errorItems.push(
                           <li>
                             {i + 1} / {records.length} 导入失败，
-                            <b style={{ color: 'red' }}>{error.message}</b>{' | '}
+                            <b style={{ color: 'red' }}>{error.message}</b>
+                            {' | '}
                             <a onClick={() => TextPreviewDialog.previewData(todoItem)}>查看</a>
                           </li>
                         )

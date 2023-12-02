@@ -29,8 +29,8 @@ importers:
         specifier: workspace:^
         version: link:libraries/datawich-service
       '@fangcha/excel':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@fangcha/general-group':
         specifier: ^0.3.0
         version: 0.3.0
@@ -297,8 +297,8 @@ importers:
   packages/datawich-react:
     devDependencies:
       '@fangcha/excel-react':
-        specifier: ^0.8.0
-        version: 0.8.0(@fangcha/excel@0.5.0)
+        specifier: ^0.9.0
+        version: 0.9.0(@fangcha/excel@0.6.0)
       '@web/datawich-common':
         specifier: workspace:*
         version: link:../../services/datawich-common
@@ -2209,17 +2209,17 @@ packages:
       - typescript
     dev: true
 
-  /@fangcha/excel-react@0.8.0(@fangcha/excel@0.5.0):
-    resolution: {integrity: sha512-RTpwEQpz6EQLSuV+gH5hatYxqwCEdAtrx3pqCorEzXxK/nh40X3zhLSe0khrVQ9yWzaW6xuK6HY2XCBUztG+yA==}
+  /@fangcha/excel-react@0.9.0(@fangcha/excel@0.6.0):
+    resolution: {integrity: sha512-P2xeaPzrxie6sO5vIKHSAF5VZ851k83Kf0sF3t5HxQqXMO3C7Gw3PZgDKSrxKNDqQbLQaCacR+zLEddqgVBPXQ==}
     peerDependencies:
       '@fangcha/excel': '*'
     dependencies:
-      '@fangcha/excel': 0.5.0
+      '@fangcha/excel': 0.6.0
       file-saver: 2.0.5
     dev: true
 
-  /@fangcha/excel@0.5.0:
-    resolution: {integrity: sha512-2YWOusV3B1IFUfn2j+woedKMvvK7JaypQQdp6g4+dDWMD5d8NumTPpqw5SPvRqWKtB3do4Ej6Z/aZdVC7jG1lQ==}
+  /@fangcha/excel@0.6.0:
+    resolution: {integrity: sha512-N+8dTBOT66IB6mX9RllYaDB61vF5ts4uMMwoDmiwBrU7jQxBGCc13Kqelq5tTvnCi4qVzh08teR5miFVng/oNg==}
     dependencies:
       exceljs: 4.3.0
 

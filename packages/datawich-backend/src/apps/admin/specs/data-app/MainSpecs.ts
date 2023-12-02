@@ -110,9 +110,11 @@ factory.prepare(DataAppApis.DataAppRecordPut, async (ctx) => {
     assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
     assert.ok(!!dataModel.isDataModifiable, '此模型数据不支持修改')
     const customData = ctx.request.body
-    const { rid } = customData
-    if (rid) {
-      const dataInfo = (await ModelDataInfo.findWithRid(dataModel, rid))!
+    const { rid, _data_id } = customData
+    if (rid || _data_id) {
+      const dataInfo = rid
+        ? (await ModelDataInfo.findWithRid(dataModel, rid))!
+        : (await ModelDataInfo.findDataInfo(dataModel, _data_id))!
       assert.ok(!!dataInfo, '数据不存在')
       const sessionChecker = new SessionChecker(ctx)
       if (!(await sessionChecker.checkModelPermission(dataModel, GeneralPermission.P_HandleOthersData))) {
@@ -126,12 +128,13 @@ factory.prepare(DataAppApis.DataAppRecordPut, async (ctx) => {
       dataHandler.setOperator(session.curUserStr())
       await dataHandler.modifyModelData(dataInfo, customData)
       ctx.status = 200
-    } else {
-      const dataHandler = new ModelDataHandler(dataModel)
-      dataHandler.setOperator(session.curUserStr())
-      const dataInfo = await dataHandler.createData(customData)
-      ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
+      return
     }
+
+    const dataHandler = new ModelDataHandler(dataModel)
+    dataHandler.setOperator(session.curUserStr())
+    const dataInfo = await dataHandler.createData(customData)
+    ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
 })
 
