@@ -115,20 +115,21 @@ factory.prepare(DataAppApis.DataAppRecordPut, async (ctx) => {
       const dataInfo = rid
         ? (await ModelDataInfo.findWithRid(dataModel, rid))!
         : (await ModelDataInfo.findDataInfo(dataModel, _data_id))!
-      assert.ok(!!dataInfo, '数据不存在')
-      const sessionChecker = new SessionChecker(ctx)
-      if (!(await sessionChecker.checkModelPermission(dataModel, GeneralPermission.P_HandleOthersData))) {
-        assert.ok(
-          await new ModelDataHandler(dataModel).checkDataAccessible(sessionChecker.email, dataInfo.dataId),
-          `您没有查看/编辑本条数据的权限 [${dataInfo.dataId}]`,
-          403
-        )
+      if (dataInfo) {
+        const sessionChecker = new SessionChecker(ctx)
+        if (!(await sessionChecker.checkModelPermission(dataModel, GeneralPermission.P_HandleOthersData))) {
+          assert.ok(
+            await new ModelDataHandler(dataModel).checkDataAccessible(sessionChecker.email, dataInfo.dataId),
+            `您没有查看/编辑本条数据的权限 [${dataInfo.dataId}]`,
+            403
+          )
+        }
+        const dataHandler = new ModelDataHandler(dataModel)
+        dataHandler.setOperator(session.curUserStr())
+        await dataHandler.modifyModelData(dataInfo, customData)
+        ctx.status = 200
+        return
       }
-      const dataHandler = new ModelDataHandler(dataModel)
-      dataHandler.setOperator(session.curUserStr())
-      await dataHandler.modifyModelData(dataInfo, customData)
-      ctx.status = 200
-      return
     }
 
     const dataHandler = new ModelDataHandler(dataModel)

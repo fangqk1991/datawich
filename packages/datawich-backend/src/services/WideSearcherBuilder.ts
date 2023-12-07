@@ -112,16 +112,18 @@ export class WideSearcherBuilder {
     this.userColumnNames = userColumnNames
     this.searchableFields = searchableFields
 
+    const filterKeys = Object.keys(filterMapper)
     const searcher = dataModel.dbSpec().database.searcher()
     searcher.setTable(bigTable)
     searcher.setColumns(columns)
     SearcherTools.injectConditions(searcher, {
-      colsMapper: Object.keys(filterMapper)
-        .filter((key) => ![FieldType.Tags, FieldType.Date, FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType))
-        .reduce((result, key) => {
-          result[key] = filterMapper[key].columnName
-          return result
-        }, {}),
+      colsMapper: filterKeys.reduce((result, key) => {
+        result[key] = filterMapper[key].columnName
+        return result
+      }, {}),
+      withoutFilterCols: filterKeys.filter((key) =>
+        [FieldType.Tags, FieldType.Date, FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
+      ),
       exactSearchCols: [],
       fuzzySearchCols: [],
       gbkCols: [],
