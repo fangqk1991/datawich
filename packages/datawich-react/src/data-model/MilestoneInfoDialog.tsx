@@ -11,6 +11,7 @@ import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/web-api
 import { ModelStructurePanel } from './ModelStructurePanel'
 import { MyRequest } from '@fangcha/auth-react'
 import { sleep } from '@fangcha/tools'
+import { Button, Space } from 'antd'
 
 interface Props extends DialogProps {
   milestone: ModelMilestoneModel
@@ -95,30 +96,36 @@ export class MilestoneInfoDialog extends ReactDialog<Props> {
                               )
                               await request.execute()
 
-                              context.setText(
+                              context.addText(
                                 `已删除 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`
                               )
                             }
                           }
                           {
-                            context.setText(`正在还原 ${metadata.tagName} 字段`)
-                            await sleep(1000)
+                            await sleep(100)
+                            context.addText(`正在还原 ${metadata.tagName} 字段`)
                             const fields = metadata.modelFields.filter((item) => !item.isSystem)
                             for (let i = 0; i < fields.length; ++i) {
                               const field = GeneralDataFormatter.formatModelField(fields[i])
                               const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
                               request.setBodyData(field)
                               await request.execute()
-                              context.setText(
+                              context.addText(
                                 `已创建 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`
                               )
                             }
                           }
 
-                          context.setText('版本还原成功，正在刷新页面')
+                          await sleep(100)
+                          context.addText('版本还原成功，正在刷新页面')
 
-                          await sleep(1000)
-                          window.location.reload()
+                          context.setText(
+                            <Space direction={'vertical'}>
+                              <h3>版本还原成功</h3>
+                              <Button onClick={() => window.location.reload()}>刷新页面</Button>
+                            </Space>,
+                            true
+                          )
                         },
                         manualDismiss: true,
                       })
