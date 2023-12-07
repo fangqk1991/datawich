@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@web/datawich-common": "workspace:*",
-    "@fangcha/excel-react": "^0.9.0",
+    "@fangcha/excel-react": "^0.10.0",
     "i18next": "^22.4.14"
   }
 }

@@ -10,7 +10,6 @@ import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/web-api'
 import { ModelStructurePanel } from './ModelStructurePanel'
 import { MyRequest } from '@fangcha/auth-react'
-import { message } from 'antd'
 import { sleep } from '@fangcha/tools'
 
 interface Props extends DialogProps {
@@ -82,38 +81,46 @@ export class MilestoneInfoDialog extends ReactDialog<Props> {
                       forceVerify: true,
                     })
                     dialog.show(async () => {
-                      {
-                        const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldListGet, modelKey))
-                        const items = (await request.quickSend()) as ModelFieldModel[]
-                        const fields = items.filter((item) => !item.isSystem)
-                        message.success('成功获取现有模型字段列表')
-                        for (let i = 0; i < fields.length; ++i) {
-                          const field = fields[i]
-                          const request = MyRequest(
-                            new CommonAPI(ModelFieldApis.DataModelFieldDelete, modelKey, field.fieldKey)
-                          )
-                          await request.execute()
-                          message.success(`已删除 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`)
-                        }
-                      }
-                      {
-                        message.success(`正在还原 ${metadata.tagName} 字段`)
-                        const fields = metadata.modelFields.filter((item) => !item.isSystem)
-                        for (let i = 0; i < fields.length; ++i) {
-                          const field = GeneralDataFormatter.formatModelField(fields[i])
-                          const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
-                          request.setBodyData(field)
-                          await request.execute()
-                          message.success(`已创建 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`)
-                        }
-                      }
-
                       await LoadingDialog.execute({
-                        handler: async () => {
+                        handler: async (context) => {
+                          {
+                            const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldListGet, modelKey))
+                            const items = (await request.quickSend()) as ModelFieldModel[]
+                            const fields = items.filter((item) => !item.isSystem)
+                            context.setText('成功获取现有模型字段列表')
+                            for (let i = 0; i < fields.length; ++i) {
+                              const field = fields[i]
+                              const request = MyRequest(
+                                new CommonAPI(ModelFieldApis.DataModelFieldDelete, modelKey, field.fieldKey)
+                              )
+                              await request.execute()
+
+                              context.setText(
+                                `已删除 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`
+                              )
+                            }
+                          }
+                          {
+                            context.setText(`正在还原 ${metadata.tagName} 字段`)
+                            await sleep(1000)
+                            const fields = metadata.modelFields.filter((item) => !item.isSystem)
+                            for (let i = 0; i < fields.length; ++i) {
+                              const field = GeneralDataFormatter.formatModelField(fields[i])
+                              const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
+                              request.setBodyData(field)
+                              await request.execute()
+                              context.setText(
+                                `已创建 ${field.name}(${field.fieldKey})，进度 ${i + 1} / ${fields.length}`
+                              )
+                            }
+                          }
+
+                          context.setText('版本还原成功，正在刷新页面')
+
                           await sleep(1000)
                           window.location.reload()
                         },
-                        message: '版本还原成功，正在刷新页面',
+                        manualDismiss: true,
                       })
                     })
                   }}

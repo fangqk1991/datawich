@@ -297,8 +297,8 @@ importers:
   packages/datawich-react:
     devDependencies:
       '@fangcha/excel-react':
-        specifier: ^0.9.0
-        version: 0.9.0(@fangcha/excel@0.6.0)
+        specifier: ^0.10.0
+        version: 0.10.0(@fangcha/excel@0.6.0)
       '@web/datawich-common':
         specifier: workspace:*
         version: link:../../services/datawich-common
@@ -2209,8 +2209,8 @@ packages:
       - typescript
     dev: true
 
-  /@fangcha/excel-react@0.9.0(@fangcha/excel@0.6.0):
-    resolution: {integrity: sha512-P2xeaPzrxie6sO5vIKHSAF5VZ851k83Kf0sF3t5HxQqXMO3C7Gw3PZgDKSrxKNDqQbLQaCacR+zLEddqgVBPXQ==}
+  /@fangcha/excel-react@0.10.0(@fangcha/excel@0.6.0):
+    resolution: {integrity: sha512-12t2aRhToZ4HHWYzl8c7ayFkqHBdmQLinoX4EgyKYzvrmbcIal7+h+BfV16Z0/HP76N84/8wwIR2e04rSqETng==}
     peerDependencies:
       '@fangcha/excel': '*'
     dependencies:
