@@ -490,8 +490,8 @@ export const DataAppDetailView: React.FC = () => {
           })()
           return (
             <li key={item.filterKey}>
-              <b>{item.field.name}</b> <b style={{ color: '#28a745' }}>{symbolText}</b>{' '}
-              <b>{JSON.stringify(item.value)}</b>
+              <span>{item.field.name}</span> <b style={{ color: '#dc3545' }}>{symbolText}</b>{' '}
+              <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>
             </li>
           )
         })}
