@@ -46,6 +46,13 @@ interface DisplaySettings {
   fixedList: string[]
 }
 
+interface FilterItem {
+  filterKey: string
+  symbol: string
+  field: ModelFieldModel
+  value: string | string[]
+}
+
 const trimParams = (params: {}) => {
   params = params || {}
   const newParams = {}
@@ -147,6 +154,41 @@ export const DataAppDetailView: React.FC = () => {
     ]
     return FieldHelper.makeDisplayFields(displayItems)
   }, [mainFields, displaySettings])
+
+  const mainFieldMapper = useMemo(() => {
+    return mainFields.reduce((result, cur) => {
+      result[cur.filterKey] = cur
+      return result
+    }, {} as { [p: string]: ModelFieldModel })
+  }, [mainFields])
+
+  const filterItems = useMemo(() => {
+    const items: FilterItem[] = []
+    for (const key of Object.keys(filterOptions)) {
+      if (mainFieldMapper[key]) {
+        items.push({
+          filterKey: key,
+          symbol: '=',
+          field: mainFieldMapper[key],
+          value: filterOptions[key],
+        })
+        continue
+      }
+      const matches = key.match(/^([a-zA-Z_][\w.]+)\.(\$\w+)(\.\w+)?$/)
+      if (!matches || !mainFieldMapper[matches[1]]) {
+        continue
+      }
+      const filterKey = matches[1]
+      const symbol = matches[2]
+      items.push({
+        filterKey: filterKey,
+        symbol: symbol,
+        field: mainFieldMapper[filterKey],
+        value: filterOptions[key],
+      })
+    }
+    return items
+  }, [filterOptions, mainFieldMapper])
 
   const reloadDisplaySettings = async () => {
     const request = MyRequest(
@@ -421,6 +463,39 @@ export const DataAppDetailView: React.FC = () => {
       </Space>
 
       <Divider style={{ margin: '12px 0' }} />
+      <TinyList>
+        {filterItems.map((item) => {
+          const symbolText = (() => {
+            if (
+              (item.field.fieldType === FieldType.Date || item.field.fieldType === FieldType.Datetime) &&
+              Array.isArray(item.value)
+            ) {
+              return 'Between'
+            }
+            switch (item.symbol) {
+              case '$lt':
+                return '<'
+              case '$le':
+                return '<='
+              case '$gt':
+                return '>'
+              case '$ge':
+                return '>='
+              case '$eq':
+                return '='
+              case '$ne':
+                return '!='
+            }
+            return item.symbol
+          })()
+          return (
+            <li key={item.filterKey}>
+              <b>{item.field.name}</b> <b style={{ color: '#28a745' }}>{symbolText}</b>{' '}
+              <b>{JSON.stringify(item.value)}</b>
+            </li>
+          )
+        })}
+      </TinyList>
       <TableView
         version={version}
         rowKey={(item: DataRecord) => {
