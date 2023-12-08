@@ -41,6 +41,22 @@ export const MyDataCell: React.FC<Props> = (props) => {
               } else {
                 return <b>{valueText}</b>
               }
+            } else if (field.extrasData.numberFormat === NumberFormat.Format) {
+              let val = realValue
+              let unit
+              const units = ['', 'K', 'M', 'B', 'T']
+              while ((unit = units.shift()) !== undefined && val > 1000) {
+                val = val / 1000
+              }
+              return (
+                <span style={{ color: '#28a745' }}>
+                  {unit === '' ? val : val.toFixed(2)}
+                  <b>{unit}</b>
+                </span>
+              )
+
+              // num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              // return realValue.toLocaleString('en-US')
             } else if (typeof field.extrasData.floatBits === 'number' && field.extrasData.floatBits >= 0) {
               return realValue.toFixed(field.extrasData.floatBits)
             }
