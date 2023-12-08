@@ -148,7 +148,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                 switch (field.fieldType) {
                   case FieldType.Integer:
                   case FieldType.Float:
-                    return <ProFormDigit disabled={!editable} />
+                    return <ProFormDigit disabled={!editable} min={Number.MIN_SAFE_INTEGER} />
                   case FieldType.MultipleLinesText:
                   case FieldType.Link:
                   case FieldType.JSON:

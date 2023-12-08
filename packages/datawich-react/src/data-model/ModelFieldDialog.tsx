@@ -77,7 +77,7 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
                       options={NumberFormatDescriptor.options()}
                       radioType='button'
                     />
-                    <ProFormDigit name={['extrasData', 'floatBits']} label={'小数精度'} />
+                    <ProFormDigit name={['extrasData', 'floatBits']} label={'小数精度'} min={Number.MIN_SAFE_INTEGER} />
                   </>
                 )
               } else if (fieldType === FieldType.MultiEnum) {
