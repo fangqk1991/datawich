@@ -84,7 +84,6 @@ factory.prepare(ModelFieldApis.DataModelFieldCreate, async (ctx) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
     const { fieldType } = ctx.request.body
     assert.ok(fieldType !== FieldType.Enum, `「数值枚举」类型字段已被废弃，请使用「文本枚举」替代`)
-    assert.ok(fieldType !== FieldType.Tags, `「标签」类型字段已被废弃，请使用「多选枚举」替代`)
     const field = await dataModel.createField(ctx.request.body)
     ctx.body = field.modelForClient()
   })
@@ -97,7 +96,6 @@ factory.prepare(ModelFieldApis.DataModelFieldsBatchImport, async (ctx) => {
     for (const params of paramsList) {
       const { fieldType } = params
       assert.ok(fieldType !== FieldType.Enum, `「数值枚举」类型字段已被废弃，请使用「文本枚举」替代`)
-      assert.ok(fieldType !== FieldType.Tags, `「标签」类型字段已被废弃，请使用「多选枚举」替代`)
       const field = await dataModel.createField(params)
       ctx.body = field.modelForClient()
     }

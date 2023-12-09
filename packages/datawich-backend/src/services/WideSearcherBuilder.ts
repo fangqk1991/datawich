@@ -122,7 +122,7 @@ export class WideSearcherBuilder {
         return result
       }, {}),
       withoutFilterCols: filterKeys.filter((key) =>
-        [FieldType.Tags, FieldType.Date, FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
+        [FieldType.Date, FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
       ),
       exactSearchCols: [],
       fuzzySearchCols: [],
@@ -163,11 +163,6 @@ export class WideSearcherBuilder {
       const columnName = entity.columnName
       const field = entity.field
       switch (field.fieldType as FieldType) {
-        case FieldType.Tags:
-          if (Number(filterValue) > 0) {
-            searcher.addSpecialCondition(`(${columnName} & ?) > 0`, filterValue)
-          }
-          break
         case FieldType.Date:
           if (Array.isArray(filterValue) && filterValue.length === 2) {
             searcher.addSpecialCondition(`${columnName} BETWEEN ? AND ?`, filterValue[0], filterValue[1])

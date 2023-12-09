@@ -236,7 +236,7 @@ export default class ModelFieldDialog extends CustomDialog {
   }
 
   get isTagsType() {
-    return this.data.fieldType === FieldType.Tags || this.data.fieldType === FieldType.MultiEnum
+    return this.data.fieldType === FieldType.MultiEnum
   }
 
   static createFieldDialog(data?: ModelFieldModel) {

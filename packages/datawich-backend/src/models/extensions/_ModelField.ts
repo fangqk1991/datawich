@@ -84,16 +84,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
         assert.ok(!!option.value && /^\w{1,15}$/.test(`${option.value}`), '字段 Key 需满足规则 /^\\w{1,15}$/')
         assert.ok(!!option.label, '枚举名称不能为空')
       })
-    } else if (params.fieldType === FieldType.Tags) {
-      assert.ok(Array.isArray(params.options), '标签项有误')
-      assert.ok(params.options.length > 0, '至少要有 1 个标签项')
-      params.options.forEach((option) => {
-        assert.ok(
-          typeof option.value === 'number' && option.value >= 0 && option.value <= 30,
-          '标签值必须为 0 到 30 间的整数'
-        )
-        assert.ok(!!option.label, '标签名称不能为空')
-      })
     } else if (params.fieldType === FieldType.Date || params.fieldType === FieldType.Datetime) {
       assert.ok(!!params.dateRange, '时间范围有误')
       ;['floor', 'ceil'].forEach((key) => {
@@ -190,12 +180,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
         texts.push(...this.options().map((item: any) => item.label))
         return texts.join('\n')
       }
-      case FieldType.Tags: {
-        const texts: string[] = []
-        texts.push(`标签项(多选)`)
-        texts.push(...this.options().map((item: any) => item.label))
-        return texts.join('\n')
-      }
       case FieldType.MultiEnum: {
         const texts: string[] = []
         texts.push(`枚举项(多选)`)
@@ -219,14 +203,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
           return options[0].label
         }
         break
-      }
-      case FieldType.Tags: {
-        const options = this.options() as any[]
-        const texts: string[] = []
-        for (let i = 0; i < 2 && i < options.length; ++i) {
-          texts.push(options[i].label)
-        }
-        return texts.join(', ')
       }
       case FieldType.Integer:
       case FieldType.Float:

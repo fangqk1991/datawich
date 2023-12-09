@@ -16,10 +16,6 @@ export enum FieldType {
   Enum = 'Enum',
   TextEnum = 'TextEnum',
   MultiEnum = 'MultiEnum',
-  /**
-   * @deprecated
-   */
-  Tags = 'Tags',
   Date = 'Date',
   Datetime = 'Datetime',
   ReadonlyText = 'ReadonlyText',
@@ -71,8 +67,6 @@ const describe = (code: FieldType) => {
       return 'Text Enumeration'
     case FieldType.MultiEnum:
       return 'Multi Enumeration'
-    case FieldType.Tags:
-      return 'Tags'
     case FieldType.Date:
       return 'Date Type'
     case FieldType.Datetime:
@@ -88,7 +82,7 @@ const describe = (code: FieldType) => {
 }
 
 export const checkFieldHasOptions = (code: any) => {
-  return [FieldType.Enum, FieldType.Tags, FieldType.TextEnum, FieldType.MultiEnum].includes(code)
+  return [FieldType.Enum, FieldType.TextEnum, FieldType.MultiEnum].includes(code)
 }
 
 const FieldTypeI18N = {

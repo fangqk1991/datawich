@@ -211,7 +211,7 @@ export class _DataModel extends __DataModel {
     if (params.extrasData && typeof params.extrasData === 'object') {
       Object.assign(extras, params.extrasData)
     }
-    if ([FieldType.Tags, FieldType.MultiEnum].includes(field.fieldType as any)) {
+    if ([FieldType.MultiEnum].includes(field.fieldType as any)) {
       extras.options = params.options
     } else if ([FieldType.Enum, FieldType.TextEnum].includes(field.fieldType as any)) {
       if (params.constraintKey) {
@@ -635,33 +635,6 @@ export class _DataModel extends __DataModel {
         //   if (val) {
         //     assert.ok(val in inputValuesMap, `枚举值 ${val} 已被使用，不可删除`)
         //   }
-        // })
-      } else if (field.fieldType === FieldType.Tags) {
-        // TODO: 暂时取消 options 的判断
-        // const database = this.dbSpec().database
-        // const model = new _DataModel()
-        // model.modelKey = field.modelKey
-        // const tableName = model.sqlTableName()
-        // const searcher = database.searcher()
-        // searcher.setTable(tableName)
-        // searcher.markDistinct()
-        // for (let i = 0; i < 32; ++i) {
-        //   searcher.addColumn(`COUNT(IF((${field.fieldKey} & (1 << ${i})) > 0, 1, NULL)) AS count_${i}`)
-        // }
-        // const countMap = (await searcher.querySingle()) as { [p: string]: number }
-        // const usedValues = Object.keys(countMap)
-        //   .filter((key) => {
-        //     return countMap[key] > 0
-        //   })
-        //   .map((key) => {
-        //     return Number(key.replace('count_', ''))
-        //   })
-        // const inputValuesMap = options.reduce((result: any, cur: any) => {
-        //   result[cur.value] = true
-        //   return result
-        // }, {})
-        // usedValues.forEach((val) => {
-        //   assert.ok(val in inputValuesMap, `标签值 ${val} 已被使用，不可删除或变更`)
         // })
       }
       extras.options = options

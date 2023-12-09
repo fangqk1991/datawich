@@ -93,8 +93,6 @@ export const MyDataCell: React.FC<Props> = (props) => {
             return field.value2LabelMap[value]
           case FieldType.MultiEnum:
             return <MultiEnumContainer field={field} value={value} />
-          case FieldType.Tags:
-            break
           case FieldType.Date:
             break
           case FieldType.Datetime:

@@ -40,9 +40,6 @@ export class GeneralDataFormatter {
       if (Object.keys(value2LabelMap).length > 0) {
         return value2LabelMap[value]
       }
-    } else if (field.fieldType === FieldType.Tags) {
-      const checkedMap = GeneralDataHelper.extractCheckedMapForValue(value, field)
-      return GeneralDataHelper.getCheckedTagsForField(field, checkedMap).join(', ')
     } else if (field.fieldType === FieldType.MultiEnum) {
       const checkedMap = GeneralDataHelper.extractMultiEnumCheckedMapForValue(value, field.options)
       return GeneralDataHelper.getCheckedTagsForField(field, checkedMap).join(', ')

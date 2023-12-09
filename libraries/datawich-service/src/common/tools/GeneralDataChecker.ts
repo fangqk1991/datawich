@@ -104,30 +104,6 @@ export class GeneralDataChecker {
             }
             break
           }
-          case FieldType.Tags: {
-            const value2LabelMap = field.value2LabelMap
-            if (typeof value !== 'number') {
-              errorMap[field.fieldKey] = `${field.name} 有误，合法的标签项为 { ${Object.keys(value2LabelMap)
-                .map((value) => `${value}[${value2LabelMap[value]}]`)
-                .join(' | ')} }`
-              break
-            }
-            let bit = 0
-            let cur: number = value
-            while (cur > 0) {
-              if ((cur & 1) > 0) {
-                if (!(bit in value2LabelMap)) {
-                  errorMap[field.fieldKey] = `${field.name} 有误，合法的标签项为 { ${Object.keys(value2LabelMap)
-                    .map((value) => `${value}[${value2LabelMap[value]}]`)
-                    .join(' | ')} }`
-                  break
-                }
-              }
-              cur >>= 1
-              ++bit
-            }
-            break
-          }
           case FieldType.Date:
             if (value !== '' && !moment(value).isValid()) {
               errorMap[field.fieldKey] = `${field.name} 日期格式有误`

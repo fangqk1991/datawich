@@ -76,18 +76,6 @@ const _getCalcDate = (dateDesc: string) => {
             </el-radio-button>
           </el-radio-group>
         </template>
-        <div v-if="field.fieldType === FieldType.Tags && tagsCheckedMap[field.fieldKey]">
-          <el-checkbox
-            v-for="item in field.options"
-            :key="item.value"
-            v-model="tagsCheckedMap[field.fieldKey][item.value]"
-            :label="item.value"
-            class="mr-3"
-            :disabled="!checkFieldEditable(field)"
-          >
-            {{ item.label }}
-          </el-checkbox>
-        </div>
         <div v-if="field.fieldType === FieldType.MultiEnum && multiEnumCheckedMap[field.fieldKey]">
           <el-checkbox
             v-for="item in field.options"
@@ -205,7 +193,6 @@ export class DataNormalForm extends ViewController {
   FieldType = FieldType
   pickerOptionsMap: any = {}
 
-  tagsCheckedMap: any = {}
   multiEnumCheckedMap: any = {}
   searchFuncMap: { [p: string]: Function } = {}
   searchItemMap: {
@@ -296,12 +283,6 @@ export class DataNormalForm extends ViewController {
     }
     {
       fields
-        .filter((field) => field.fieldType === FieldType.Tags)
-        .forEach((field) => {
-          const checkedMap = GeneralDataHelper.extractCheckedMapForValue(this.myData[field.fieldKey], field)
-          this.$set(this.tagsCheckedMap, field.fieldKey, checkedMap)
-        })
-      fields
         .filter((field) => field.fieldType === FieldType.MultiEnum)
         .forEach((field) => {
           const checkedMap = GeneralDataHelper.extractMultiEnumCheckedMapForValue(
@@ -353,12 +334,6 @@ export class DataNormalForm extends ViewController {
 
   exportResult() {
     const result = { ...this.myData }
-    this.allFields
-      .filter((field) => field.fieldType === FieldType.Tags)
-      .forEach((field) => {
-        const checkedMap = this.tagsCheckedMap[field.fieldKey]
-        result[field.fieldKey] = GeneralDataHelper.calculateValueWithCheckedMap(checkedMap)
-      })
     this.allFields
       .filter((field) => field.fieldType === FieldType.MultiEnum)
       .forEach((field) => {

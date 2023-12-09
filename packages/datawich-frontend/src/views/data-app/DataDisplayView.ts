@@ -403,12 +403,7 @@ export class DataDisplayView extends ViewController {
     const query = this.$route.query
     allFields.forEach((field) => {
       const filterKey = field.filterKey
-      if (field.fieldType === FieldType.Tags) {
-        const value = Number(query[filterKey] || 0)
-        const checkedMap = GeneralDataHelper.extractCheckedMapForValue(value, field)
-        this.$set(this.customParams, filterKey, value)
-        this.$set(this.tagsCheckedMap, filterKey, checkedMap)
-      } else if (field.fieldType === FieldType.MultiEnum) {
+      if (field.fieldType === FieldType.MultiEnum) {
         const value = String(query[filterKey] || '')
         const checkedMap = GeneralDataHelper.extractMultiEnumCheckedMapForValue(value, field.options)
         this.$set(this.customParams, filterKey, value)
@@ -494,10 +489,7 @@ export class DataDisplayView extends ViewController {
 
     this.allFields.forEach((field) => {
       const filterKey = field.filterKey
-      if (field.fieldType === FieldType.Tags) {
-        params[filterKey] = 0
-        this.tagsCheckedMap[field.filterKey] = GeneralDataHelper.extractCheckedMapForValue(0, field)
-      } else if (field.fieldType === FieldType.Date) {
+      if (field.fieldType === FieldType.Date) {
         params[filterKey] = null
       } else {
         params[field.filterKey] = ''

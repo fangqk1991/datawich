@@ -295,11 +295,6 @@ export class ModelDataHandler {
           }
         })
       }
-    } else if (field.fieldType === FieldType.Tags) {
-      items.forEach((item) => {
-        const checkedMap = GeneralDataHelper.extractCheckedMapForValue(item[dataKey], field)
-        item[dataKey] = GeneralDataHelper.getCheckedTagsForField(field, checkedMap).join(', ')
-      })
     } else if (field.fieldType === FieldType.MultiEnum) {
       items.forEach((item) => {
         const checkedMap = GeneralDataHelper.extractMultiEnumCheckedMapForValue(item[dataKey], field.options)

@@ -43,25 +43,6 @@ import { DataAppApis } from '@web/datawich-common/web-api'
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column v-else-if="field.fieldType === FieldType.Tags" :prop="field.fieldKey">
-            <template v-slot:header>
-              {{ field.name }}
-            </template>
-            <template slot-scope="scope">
-              <template v-if="typeof scope.row[field.fieldKey] === 'number'">
-                <tags-container :options="field.options" :value="scope.row[field.fieldKey]" />
-              </template>
-              <template v-else>
-                {{ scope.row[field.fieldKey] }}
-              </template>
-              <el-tooltip v-if="!checkCellValid(scope.row, field.fieldKey)" class="item" effect="dark" placement="top">
-                <span class="question_icon el-icon-question" />
-                <div slot="content">
-                  {{ scope.row.invalidMap[field.fieldKey] }}
-                </div>
-              </el-tooltip>
-            </template>
-          </el-table-column>
           <el-table-column v-else-if="field.fieldType === FieldType.MultiEnum" :prop="field.fieldKey">
             <template v-slot:header>
               {{ field.name }}

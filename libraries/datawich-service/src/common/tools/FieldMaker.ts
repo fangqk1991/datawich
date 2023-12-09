@@ -8,7 +8,7 @@ import {
   LinkMapperInfo,
   ModelFieldExtrasData,
   ModelFieldModel,
-  Raw_ModelField
+  Raw_ModelField,
 } from '../models'
 import { I18nCode } from '@fangcha/tools'
 import { _TinyDatawich } from './_TinyDatawich'
@@ -37,7 +37,7 @@ export class FieldMaker {
         fieldType: fieldModel.fieldType,
         name: fieldModel.name,
       }
-      if ([FieldType.Enum, FieldType.TextEnum, FieldType.MultiEnum, FieldType.Tags].includes(fieldModel.fieldType)) {
+      if ([FieldType.Enum, FieldType.TextEnum, FieldType.MultiEnum].includes(fieldModel.fieldType)) {
         fieldInfo.options = fieldModel.options
         fieldInfo.value2LabelMap = fieldModel.value2LabelMap
       }

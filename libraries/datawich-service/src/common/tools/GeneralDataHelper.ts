@@ -1,20 +1,7 @@
-import { FieldType, ModelFieldModel } from '../models'
+import { ModelFieldModel } from '../models'
 import { SelectOption } from '@fangcha/tools'
 
 export class GeneralDataHelper {
-  public static extractCheckedMapForValue(value: number, field: ModelFieldModel) {
-    if (field.fieldType !== FieldType.Tags) {
-      return {}
-    }
-    const options = field.options
-    const checkedMap: { [p: string]: boolean } = {}
-    for (const option of options) {
-      const bit = option.value as number
-      checkedMap[bit] = (value & (1 << bit)) > 0
-    }
-    return checkedMap
-  }
-
   public static extractMultiEnumItems(value: string) {
     return (value || '')
       .split(/[,]/)

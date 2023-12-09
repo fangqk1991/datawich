@@ -2,30 +2,24 @@ import { Component } from 'vue-property-decorator'
 import { i18n, Prop, ViewController } from '@fangcha/vue'
 import {
   FieldType,
+  GeneralDataFormatter,
   ModelFieldModel,
   ModelFullMetadata,
+  SdkDatawichApis2,
 } from '@fangcha/datawich-service'
-import { MultiEnumContainer, TagsContainer } from '../data-app'
+import { MultiEnumContainer } from '../data-app'
 import { MyAxios } from '@fangcha/vue/basic'
-import { SdkDatawichApis2 } from '@fangcha/datawich-service'
 import { OssFileInfo } from '@fangcha/oss-models'
 import { I18nCode } from '@fangcha/tools'
-import { GeneralDataFormatter } from '@fangcha/datawich-service'
 
 @Component({
   components: {
-    'tags-container': TagsContainer,
     'multi-enum-container': MultiEnumContainer,
   },
   template: `
     <ul class="my-0 pl-3">
       <li v-for="field of modelFields" :key="field.dataKey">
         <b>{{ getFieldName(field) }}</b>:
-        <tags-container
-          v-if="field.fieldType === FieldType.Tags"
-          :options="field.options"
-          :value="configData[field.dataKey]"
-        />
         <multi-enum-container
           v-else-if="field.fieldType === FieldType.MultiEnum" 
           :options="field.options"

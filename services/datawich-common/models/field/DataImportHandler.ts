@@ -115,25 +115,6 @@ export class DataImportHandler {
             realData[field.fieldKey] = label2ValueMap[label]
           }
         }
-      } else if (field.fieldType === FieldType.Tags) {
-        if (realData[field.fieldKey]) {
-          // 处理不为空的描述值
-          const labels: string[] = realData[field.fieldKey].split(',').map((item: string) => item.trim())
-          const checkedMap: { [p: string]: boolean } = {}
-          let valid = true
-          labels.forEach((label) => {
-            if (label in label2ValueMap) {
-              checkedMap[label2ValueMap[label]] = true
-            } else {
-              valid = false
-            }
-          })
-          if (valid) {
-            realData[field.fieldKey] = GeneralDataHelper.calculateValueWithCheckedMap(checkedMap)
-          }
-        } else {
-          realData[field.fieldKey] = 0
-        }
       } else if (field.fieldType === FieldType.MultiEnum) {
         if (realData[field.fieldKey]) {
           // 处理不为空的描述值

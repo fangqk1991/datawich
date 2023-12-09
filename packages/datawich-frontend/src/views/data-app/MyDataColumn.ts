@@ -68,34 +68,6 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
         <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
       </template>
     </el-table-column>
-    <el-table-column v-else-if="field.fieldType === FieldType.Tags" :prop="filterKey">
-      <template v-slot:header>
-        <el-popover placement="bottom" width="200" trigger="click">
-          <el-checkbox
-            v-for="item in field.options"
-            :key="item.value"
-            v-model="tagCheckedMap[item.value]"
-            :label="item.value"
-            class="mr-3"
-            @change="onTagsPickerChanged()"
-          >
-            {{ item.label }}
-          </el-checkbox>
-          <a slot="reference" href="javascript:">
-            <template v-if="filterOptions[filterKey]">
-              {{ getTagsHeader() }}
-            </template>
-            <template v-else>
-              {{ field.name }}
-            </template>
-          </a>
-        </el-popover>
-      </template>
-      <template slot-scope="scope">
-        <tags-container :options="field.options" :value="scope.row[dataKey]" />
-        <data-column-extension :super-field="superField" :field="field" :data="scope.row" />
-      </template>
-    </el-table-column>
     <el-table-column v-else-if="field.fieldType === FieldType.MultiEnum" :prop="filterKey">
       <template v-slot:header>
         <el-popover placement="bottom" width="200" trigger="click">

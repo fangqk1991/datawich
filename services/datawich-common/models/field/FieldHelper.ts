@@ -30,8 +30,6 @@ export class FieldHelper {
         return `VARCHAR(127) NULL COMMENT '${commentText}'`
       case FieldType.MultiEnum:
         return `TEXT NULL COMMENT '${commentText}'`
-      case FieldType.Tags:
-        return `BIGINT NOT NULL DEFAULT 0 COMMENT '${commentText}'`
       case FieldType.Date:
         return `DATE NULL COMMENT '${commentText}'`
       case FieldType.Datetime:
@@ -55,14 +53,6 @@ export class FieldHelper {
           return options[0].value
         }
         break
-      }
-      case FieldType.Tags: {
-        const options = field.options as any[]
-        let value = 0
-        for (let i = 0; i < 2 && i < options.length; ++i) {
-          value += 1 << options[i].value
-        }
-        return value
       }
       case FieldType.Integer:
       case FieldType.Float:
@@ -90,8 +80,7 @@ export class FieldHelper {
         }
         break
       }
-      case FieldType.MultiEnum:
-      case FieldType.Tags: {
+      case FieldType.MultiEnum: {
         const options = field.options as any[]
         const texts: string[] = []
         for (let i = 0; i < 2 && i < options.length; ++i) {
@@ -170,7 +159,7 @@ export class FieldHelper {
       if (key in data) {
         realData[key] = data[key]
         if (!realData[key]) {
-          if (field.fieldType === FieldType.Enum || field.fieldType === FieldType.Tags) {
+          if (field.fieldType === FieldType.Enum) {
             realData[key] = 0
           } else if (field.fieldType === FieldType.JSON) {
             realData[key] = '{}'
@@ -207,12 +196,6 @@ export class FieldHelper {
       case FieldType.TextEnum: {
         const texts: string[] = []
         texts.push(`枚举项(单选)`)
-        texts.push(...field.options.map((item: any) => item.label))
-        return texts.join('\n')
-      }
-      case FieldType.Tags: {
-        const texts: string[] = []
-        texts.push(`标签项(多选)`)
         texts.push(...field.options.map((item: any) => item.label))
         return texts.join('\n')
       }
