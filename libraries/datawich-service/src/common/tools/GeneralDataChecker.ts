@@ -85,7 +85,6 @@ export class GeneralDataChecker {
             }
             break
           }
-          case FieldType.Enum:
           case FieldType.TextEnum: {
             const value2LabelMap = field.value2LabelMap
             if (value !== '' && !(value in value2LabelMap)) {

@@ -13,9 +13,6 @@ interface RestraintInfo {
 @Component({
   template: `
     <div class="my-theme">
-      <p v-if="data.fieldType === FieldType.Enum">
-        <b class="text-danger">用数字表示的「枚举」类型已经不被推荐，推荐使用表达范围更广、可读性更强的「文本枚举」</b>
-      </p>
       <el-form-item label="约束字段" :required="false">
         <el-select v-model="data.constraintKey" :disabled="readonly" clearable @change="onRestraintFieldChanged">
           <el-option
@@ -33,21 +30,29 @@ interface RestraintInfo {
         </el-radio-group>
         <el-tooltip class="item" effect="dark" placement="top">
           <span class="el-icon-question" />
-          <div slot="content">
-            「快速编辑」指的是在列表页直接用下拉框取代文本展示，以便用户快速操作
-          </div>
+          <div slot="content">「快速编辑」指的是在列表页直接用下拉框取代文本展示，以便用户快速操作</div>
         </el-tooltip>
       </el-form-item>
       <div class="mx-4">
         <el-table :data="data.options" size="mini" border :header-cell-style="{ 'background-color': '#fafafa' }">
           <template slot="empty">
-            <el-button style="color: #4E5BBD; border-color: #4E5BBD;" :disabled="readonly" size="mini" @click="addEnumOption">
+            <el-button
+              style="color: #4E5BBD; border-color: #4E5BBD;"
+              :disabled="readonly"
+              size="mini"
+              @click="addEnumOption"
+            >
               {{ LS('Add') }}
             </el-button>
           </template>
           <el-table-column label="枚举值">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.value" :type="isTextEnum ? 'text' : 'number'" size="small" :disabled="readonly || scope.row.already" />
+              <el-input
+                v-model="scope.row.value"
+                :type="isTextEnum ? 'text' : 'number'"
+                size="small"
+                :disabled="readonly || scope.row.already"
+              />
             </template>
           </el-table-column>
           <el-table-column label="枚举名称">
@@ -105,7 +110,7 @@ export default class EnumFieldExtension extends EnumFieldExtensionBase {
     const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, this.modelKey))
     const fields = (await request.quickSend()) as ModelFieldModel[]
     this.restraintInfo.potentialParentFields = fields.filter((field) => {
-      return field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum
+      return field.fieldType === FieldType.TextEnum
     })
   }
 

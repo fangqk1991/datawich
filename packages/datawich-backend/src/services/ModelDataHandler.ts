@@ -286,7 +286,7 @@ export class ModelDataHandler {
   }
 
   private _transferItemsValueNaturalLanguage(items: any[], field: ModelFieldModel, dataKey: string) {
-    if (field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum) {
+    if (field.fieldType === FieldType.TextEnum) {
       const value2LabelMap = field.value2LabelMap
       if (Object.keys(value2LabelMap).length > 0) {
         items.forEach((item) => {

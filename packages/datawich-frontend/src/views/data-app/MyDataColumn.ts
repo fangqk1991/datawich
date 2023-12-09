@@ -39,7 +39,7 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
       @on-filter-change="onFilterUpdate"
     />
     <el-table-column
-      v-else-if="field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum"
+      v-else-if="field.fieldType === FieldType.TextEnum"
       :prop="filterKey"
     >
       <template v-slot:header>

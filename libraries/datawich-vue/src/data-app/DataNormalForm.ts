@@ -55,7 +55,7 @@ const _getCalcDate = (dateDesc: string) => {
             <span class="el-icon-question" />
           </el-tooltip>
         </span>
-        <template v-if="field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum">
+        <template v-if="field.fieldType === FieldType.TextEnum">
           <el-select
             v-if="field.options.length > 5"
             v-model="myData[field.fieldKey]"

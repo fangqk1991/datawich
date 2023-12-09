@@ -114,7 +114,7 @@ export class DataImportHandler {
     const realData: any = { ...options }
     const fields = await dataModel.getFields()
     fields.forEach((field) => {
-      if (field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum) {
+      if (field.fieldType === FieldType.TextEnum) {
         const dataMap = field.label2ValueMap()
         if (field.fieldKey in realData) {
           const label = realData[field.fieldKey]

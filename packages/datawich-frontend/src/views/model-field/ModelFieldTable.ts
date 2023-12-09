@@ -19,7 +19,6 @@ import ModelFieldDialog from './ModelFieldDialog'
 import SystemFieldDialog from './SystemFieldDialog'
 import { NotificationCenter } from 'notification-center-js'
 import FieldActionDialog from './FieldActionDialog'
-import EnumFieldTransferDialog from './EnumFieldTransferDialog'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
@@ -67,9 +66,6 @@ import { LogicExpressionHelper } from '@fangcha/logic'
         <template slot-scope="scope">
           {{ scope.row.fieldType | describe_model_field_type }}
           <template v-if="scope.row.constraintKey"> [父级字段: {{ scope.row.constraintKey }}] </template>
-          <template v-if="scope.row.fieldType === FieldType.Enum">
-            [<a href="javascript:" @click="transferEnumToTextEnum(scope.row)">转换为文本枚举</a>]
-          </template>
         </template>
       </el-table-column>
       <el-table-column prop="required" label="是否隐藏" width="90px">
@@ -558,16 +554,5 @@ export class ModelFieldTable extends ViewController {
 
   canHasIndex(field: ModelFieldModel) {
     return FieldHelper.checkIndexAbleField(field.fieldType)
-  }
-
-  transferEnumToTextEnum(field: ModelFieldModel) {
-    const dialog = EnumFieldTransferDialog.transferDialog(field.options)
-    dialog.show(async (options: any) => {
-      const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelEnumFieldTransfer, field.modelKey, field.fieldKey))
-      request.setBodyData(options)
-      await request.execute()
-      this.$message.success('修改成功')
-      this.reloadData()
-    })
   }
 }

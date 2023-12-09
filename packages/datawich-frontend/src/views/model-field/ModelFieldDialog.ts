@@ -232,7 +232,7 @@ export default class ModelFieldDialog extends CustomDialog {
   }
 
   get isEnumType() {
-    return this.data.fieldType === FieldType.Enum || this.data.fieldType === FieldType.TextEnum
+    return this.data.fieldType === FieldType.TextEnum
   }
 
   get isTagsType() {

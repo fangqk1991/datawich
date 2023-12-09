@@ -47,7 +47,6 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   let header = <>{field.name}</>
   let filterView: any = undefined
   switch (field.fieldType) {
-    case FieldType.Enum:
     case FieldType.TextEnum:
       header = (
         <Select

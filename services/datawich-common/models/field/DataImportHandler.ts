@@ -108,7 +108,7 @@ export class DataImportHandler {
         return result
       }, {})
 
-      if (field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum) {
+      if (field.fieldType === FieldType.TextEnum) {
         if (field.fieldKey in realData) {
           const label = realData[field.fieldKey]
           if (label in label2ValueMap) {

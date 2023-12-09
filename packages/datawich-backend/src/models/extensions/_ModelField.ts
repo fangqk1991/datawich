@@ -11,12 +11,12 @@ import {
   FieldActionModel,
   FieldType,
   FieldTypeDescriptor,
+  GeneralDataFormatter,
   LinkMapperInfo,
   ModelFieldModel,
   Raw_ModelField,
 } from '@fangcha/datawich-service'
 import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
-import { GeneralDataFormatter } from '@fangcha/datawich-service'
 
 export class _ModelField extends __ModelField implements Raw_ModelField {
   public constructor() {
@@ -55,20 +55,13 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     if (params.star !== undefined) {
       assert.ok([0, 1].includes(params.star), 'star 参数有误')
     }
-    if (params.fieldType === FieldType.Enum || params.fieldType === FieldType.TextEnum) {
+    if (params.fieldType === FieldType.TextEnum) {
       assert.ok(Array.isArray(params.options), '枚举项有误')
       assert.ok(params.options.length > 0, '至少要有 1 个枚举项')
-      if (params.fieldType === FieldType.Enum) {
-        params.options.forEach((option) => {
-          assert.ok(typeof option.value === 'number' && /^[1-9]\d*$/.test(`${option.value}`), '枚举值必须为正整数')
-          assert.ok(!!option.label, '枚举名称不能为空')
-        })
-      } else {
-        params.options.forEach((option) => {
-          assert.ok(!!option.value && typeof option.value === 'string', '枚举值必须为字符串')
-          assert.ok(!!option.label, '枚举名称不能为空')
-        })
-      }
+      params.options.forEach((option) => {
+        assert.ok(!!option.value && typeof option.value === 'string', '枚举值必须为字符串')
+        assert.ok(!!option.label, '枚举名称不能为空')
+      })
       if (params.constraintKey) {
         params.options.forEach((option) => {
           assert.ok(!!option['restraintValueMap'], 'option.restraintValueMap 有误')
@@ -173,7 +166,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
   }
   public getHint() {
     switch (this.fieldType as FieldType) {
-      case FieldType.Enum:
       case FieldType.TextEnum: {
         const texts: string[] = []
         texts.push(`枚举项(单选)`)
@@ -196,8 +188,7 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
 
   public getExample() {
     switch (this.fieldType as FieldType) {
-      case FieldType.TextEnum:
-      case FieldType.Enum: {
+      case FieldType.TextEnum: {
         const options = this.options() as any[]
         if (options.length > 0) {
           return options[0].label
@@ -265,11 +256,7 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
   }
 
   public async rebuildEnumOptions(transaction?: Transaction) {
-    if (
-      this.fieldType === FieldType.Enum ||
-      this.fieldType === FieldType.TextEnum ||
-      this.fieldType === FieldType.MultiEnum
-    ) {
+    if (this.fieldType === FieldType.TextEnum || this.fieldType === FieldType.MultiEnum) {
       const database = this.dbSpec().database
       await database.update(
         `DELETE FROM field_enum_metadata WHERE model_key = ? AND field_key = ?`,
@@ -281,7 +268,7 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
         const metadata = new _FieldEnumMetadata()
         metadata.modelKey = this.modelKey
         metadata.fieldKey = this.fieldKey
-        metadata.valueType = this.fieldType === FieldType.Enum ? 'INT' : 'STRING'
+        metadata.valueType = 'STRING'
         metadata.value = option.value
         metadata.label = option.label
         await metadata.strongAddToDB(transaction)

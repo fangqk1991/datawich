@@ -7,7 +7,6 @@ import { SQLSearcher, Transaction } from 'fc-sql'
 import { logger } from '@fangcha/logger'
 import { _ModelGroup } from '../permission/_ModelGroup'
 import { CommonGroup } from '../permission/CommonGroup'
-import { SelectOption } from '@fangcha/tools'
 import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
 import { _ModelMilestone } from './_ModelMilestone'
 import {
@@ -24,7 +23,6 @@ import {
   GeneralPermissionDescriptor,
   ModelType,
   ModelTypeDescriptor,
-  TransferSelectOption,
 } from '@web/datawich-common/models'
 
 export class _DataModel extends __DataModel {
@@ -213,14 +211,11 @@ export class _DataModel extends __DataModel {
     }
     if ([FieldType.MultiEnum].includes(field.fieldType as any)) {
       extras.options = params.options
-    } else if ([FieldType.Enum, FieldType.TextEnum].includes(field.fieldType as any)) {
+    } else if ([FieldType.TextEnum].includes(field.fieldType as any)) {
       if (params.constraintKey) {
         const constraintField = await _ModelField.findModelField(this.modelKey, params.constraintKey)
         assert.ok(!!constraintField, '约束字段不存在')
-        assert.ok(
-          [FieldType.Enum, FieldType.TextEnum].includes(constraintField.fieldType as any),
-          '约束字段应为枚举类型'
-        )
+        assert.ok([FieldType.TextEnum].includes(constraintField.fieldType as any), '约束字段应为枚举类型')
         params.options.forEach((option) => {
           assert.ok(!!option['restraintValueMap'], 'option.restraintValueMap 有误')
         })
@@ -561,40 +556,6 @@ export class _DataModel extends __DataModel {
     await database.update(sql, [])
   }
 
-  public async transferIntEnumToTextEnum(field: _ModelField, options: TransferSelectOption[]) {
-    assert.ok(field.fieldType === FieldType.Enum, '只能处理 Enum 类型的字段')
-    options.forEach((option) => {
-      assert.ok(!!option.value, '枚举值不能为空')
-      assert.ok(!!option.label, '枚举名称不能为空')
-      assert.ok(!!option.toValue, '目标值不能为空')
-    })
-
-    const toOptions = options.map((option) => {
-      return {
-        value: option.toValue,
-        label: option.label,
-      } as SelectOption
-    })
-
-    const database = this.dbSpec().database
-    {
-      field.fc_edit()
-      field.fieldType = FieldType.TextEnum
-      field.extrasInfo = JSON.stringify(Object.assign(field.extrasData(), { options: toOptions }))
-      await field.updateToDB()
-      await field.changeColumnToDB()
-    }
-    const runner = database.createTransactionRunner()
-    await runner.commit(async (transaction) => {
-      await field.rebuildEnumOptions(transaction)
-      for (const option of options) {
-        const sql = `UPDATE ${field.sqlTableName()} SET \`${field.fieldKey}\` = ? WHERE \`${field.fieldKey}\` = ?`
-        await database.update(sql, [option.toValue, `${option.value}`], transaction)
-      }
-      await this.increaseVersion(transaction)
-    })
-  }
-
   public async modifyField(field: _ModelField, params: ModelFieldModel) {
     _ModelField.checkValidParams(params, true)
 
@@ -613,7 +574,7 @@ export class _DataModel extends __DataModel {
         }
         return data
       })
-      if (field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum) {
+      if (field.fieldType === FieldType.TextEnum) {
         extras['constraintKey'] = params.constraintKey || ''
         // TODO: 暂时取消 options 的判断
         // const database = this.dbSpec().database

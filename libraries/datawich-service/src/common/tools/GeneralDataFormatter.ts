@@ -35,7 +35,7 @@ export class GeneralDataFormatter {
   }
 
   public static transferValueNaturalLanguage(value: any, field: ModelFieldModel) {
-    if (field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum) {
+    if (field.fieldType === FieldType.TextEnum) {
       const value2LabelMap = field.value2LabelMap
       if (Object.keys(value2LabelMap).length > 0) {
         return value2LabelMap[value]

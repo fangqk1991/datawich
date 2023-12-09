@@ -29,7 +29,7 @@ import { DataAppApis } from '@web/datawich-common/web-api'
           </div>
         </el-tooltip>
         <template v-for="field in fields">
-          <el-table-column v-if="field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum" :prop="field.fieldKey">
+          <el-table-column v-if="field.fieldType === FieldType.TextEnum" :prop="field.fieldKey">
             <template v-slot:header>
               {{ field.name }}
             </template>

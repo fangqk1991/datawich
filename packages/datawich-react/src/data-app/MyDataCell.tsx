@@ -88,7 +88,6 @@ export const MyDataCell: React.FC<Props> = (props) => {
             )
           case FieldType.RichText:
             return <MyRichTextPanel style={{ width: '200px' }} htmlContent={value} />
-          case FieldType.Enum:
           case FieldType.TextEnum:
             return field.value2LabelMap[value]
           case FieldType.MultiEnum:

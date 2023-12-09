@@ -28,7 +28,7 @@ import { I18nCode } from '@fangcha/tools'
         <template v-else-if="field.fieldType === FieldType.Attachment">
           <a v-if="fieldOssFileInfoMap[field.dataKey] && fieldOssFileInfoMap[field.dataKey].url" :href="fieldOssFileInfoMap[field.dataKey].url" target="_blank">点击查看</a>
         </template>
-        <b v-else-if="field.fieldType === FieldType.Enum || field.fieldType === FieldType.TextEnum" class="text-danger">
+        <b v-else-if="field.fieldType === FieldType.TextEnum" class="text-danger">
           {{ field.value2LabelMap[configData[field.dataKey]] }}
         </b>
         <b v-else class="text-danger">{{ configData[field.dataKey] }}</b>

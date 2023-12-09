@@ -24,8 +24,6 @@ export class FieldHelper {
         return `TEXT COMMENT '${commentText}'`
       case FieldType.RichText:
         return `MEDIUMTEXT COMMENT '${commentText}'`
-      case FieldType.Enum:
-        return `INT NOT NULL DEFAULT 0 COMMENT '${commentText}'`
       case FieldType.TextEnum:
         return `VARCHAR(127) NULL COMMENT '${commentText}'`
       case FieldType.MultiEnum:
@@ -46,8 +44,7 @@ export class FieldHelper {
 
   public static getFieldValueExample(field: DescribableField) {
     switch (field.fieldType as FieldType) {
-      case FieldType.TextEnum:
-      case FieldType.Enum: {
+      case FieldType.TextEnum: {
         const options = field.options as any[]
         if (options.length > 0) {
           return options[0].value
@@ -72,8 +69,7 @@ export class FieldHelper {
 
   public static getFieldNaturalLanguageValueExample(field: DescribableField) {
     switch (field.fieldType as FieldType) {
-      case FieldType.TextEnum:
-      case FieldType.Enum: {
+      case FieldType.TextEnum: {
         const options = field.options as any[]
         if (options.length > 0) {
           return options[0].label
@@ -159,9 +155,7 @@ export class FieldHelper {
       if (key in data) {
         realData[key] = data[key]
         if (!realData[key]) {
-          if (field.fieldType === FieldType.Enum) {
-            realData[key] = 0
-          } else if (field.fieldType === FieldType.JSON) {
+          if (field.fieldType === FieldType.JSON) {
             realData[key] = '{}'
           } else if (field.fieldType === FieldType.StringList) {
             realData[key] = []
@@ -192,7 +186,6 @@ export class FieldHelper {
 
   public static getFieldHint(field: { fieldType: FieldType; options: SelectOption[] }) {
     switch (field.fieldType as FieldType) {
-      case FieldType.Enum:
       case FieldType.TextEnum: {
         const texts: string[] = []
         texts.push(`枚举项(单选)`)

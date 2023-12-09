@@ -10,10 +10,6 @@ export enum FieldType {
   StringList = 'StringList',
   Link = 'Link',
   RichText = 'RichText',
-  /**
-   * @deprecated
-   */
-  Enum = 'Enum',
   TextEnum = 'TextEnum',
   MultiEnum = 'MultiEnum',
   Date = 'Date',
@@ -61,8 +57,6 @@ const describe = (code: FieldType) => {
       return 'String List'
     case FieldType.RichText:
       return 'Rich Text'
-    case FieldType.Enum:
-      return 'Enumeration'
     case FieldType.TextEnum:
       return 'Text Enumeration'
     case FieldType.MultiEnum:
@@ -82,7 +76,7 @@ const describe = (code: FieldType) => {
 }
 
 export const checkFieldHasOptions = (code: any) => {
-  return [FieldType.Enum, FieldType.TextEnum, FieldType.MultiEnum].includes(code)
+  return [FieldType.TextEnum, FieldType.MultiEnum].includes(code)
 }
 
 const FieldTypeI18N = {

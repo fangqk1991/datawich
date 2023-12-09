@@ -1,7 +1,7 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
-import { FieldLinkModel, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldAction'
@@ -82,8 +82,6 @@ factory.prepare(ModelFieldApis.DataModelFieldTop, async (ctx) => {
 factory.prepare(ModelFieldApis.DataModelFieldCreate, async (ctx) => {
   await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    const { fieldType } = ctx.request.body
-    assert.ok(fieldType !== FieldType.Enum, `「数值枚举」类型字段已被废弃，请使用「文本枚举」替代`)
     const field = await dataModel.createField(ctx.request.body)
     ctx.body = field.modelForClient()
   })
@@ -94,8 +92,6 @@ factory.prepare(ModelFieldApis.DataModelFieldsBatchImport, async (ctx) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
     const paramsList = Array.isArray(ctx.request.body) ? ctx.request.body : [ctx.request.body]
     for (const params of paramsList) {
-      const { fieldType } = params
-      assert.ok(fieldType !== FieldType.Enum, `「数值枚举」类型字段已被废弃，请使用「文本枚举」替代`)
       const field = await dataModel.createField(params)
       ctx.body = field.modelForClient()
     }
@@ -146,16 +142,6 @@ factory.prepare(ModelFieldApis.DataModelFieldHiddenUpdate, async (ctx) => {
       isHidden: isHidden,
     } as any)
     ctx.body = modelField.modelForClient()
-  })
-})
-
-factory.prepare(ModelFieldApis.DataModelEnumFieldTransfer, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    assert.ok(!modelField.isSystem, '本接口不能修改系统字段')
-    await dataModel.transferIntEnumToTextEnum(modelField, ctx.request.body)
-    ctx.body = modelField.modelForClient()
-    ctx.status = 200
   })
 })
 

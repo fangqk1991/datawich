@@ -153,7 +153,6 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                   case FieldType.Link:
                   case FieldType.JSON:
                     return <ProFormTextArea disabled={!editable} />
-                  case FieldType.Enum:
                   case FieldType.TextEnum: {
                     const optionsForEnumField = (() => {
                       if (!field.constraintKey) {

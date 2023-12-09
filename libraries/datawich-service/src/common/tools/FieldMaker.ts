@@ -37,7 +37,7 @@ export class FieldMaker {
         fieldType: fieldModel.fieldType,
         name: fieldModel.name,
       }
-      if ([FieldType.Enum, FieldType.TextEnum, FieldType.MultiEnum].includes(fieldModel.fieldType)) {
+      if ([FieldType.TextEnum, FieldType.MultiEnum].includes(fieldModel.fieldType)) {
         fieldInfo.options = fieldModel.options
         fieldInfo.value2LabelMap = fieldModel.value2LabelMap
       }
