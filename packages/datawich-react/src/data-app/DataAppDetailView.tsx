@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, Input, message, Space, Spin } from 'antd'
-import { DownloadOutlined } from '@ant-design/icons'
+import { DeleteOutlined, DownloadOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
@@ -47,6 +47,7 @@ interface DisplaySettings {
 }
 
 interface FilterItem {
+  key: string
   filterKey: string
   symbol: string
   field: ModelFieldModel
@@ -167,6 +168,7 @@ export const DataAppDetailView: React.FC = () => {
     for (const key of Object.keys(filterOptions)) {
       if (mainFieldMapper[key]) {
         items.push({
+          key: key,
           filterKey: key,
           symbol: '=',
           field: mainFieldMapper[key],
@@ -181,6 +183,7 @@ export const DataAppDetailView: React.FC = () => {
       const filterKey = matches[1]
       const symbol = matches[2]
       items.push({
+        key: key,
         filterKey: filterKey,
         symbol: symbol,
         field: mainFieldMapper[filterKey],
@@ -464,6 +467,12 @@ export const DataAppDetailView: React.FC = () => {
 
       <Divider style={{ margin: '12px 0' }} />
       <TinyList>
+        <h4 style={{ margin: '6px 0', fontSize: '110%' }}>
+          筛选条件{' '}
+          <a onClick={() => message.info('Developing.')}>
+            <PlusSquareOutlined />
+          </a>
+        </h4>
         {filterItems.map((item) => {
           const symbolText = (() => {
             if (
@@ -489,9 +498,19 @@ export const DataAppDetailView: React.FC = () => {
             return item.symbol
           })()
           return (
-            <li key={item.filterKey}>
+            <li key={item.key}>
               <span>{item.field.name}</span> <b style={{ color: '#dc3545' }}>{symbolText}</b>{' '}
-              <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>
+              <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>{' '}
+              <a
+                style={{ color: 'red' }}
+                onClick={() => {
+                  updateQueryParams({
+                    [item.key]: undefined,
+                  })
+                }}
+              >
+                <DeleteOutlined />
+              </a>
             </li>
           )
         })}
