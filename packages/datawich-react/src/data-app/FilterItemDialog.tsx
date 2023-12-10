@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
-import { Checkbox, Form } from 'antd'
+import { Form } from 'antd'
 import {
   ProForm,
   ProFormDateRangePicker,
@@ -56,7 +56,8 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
             values = [TextSymbol.$eq, TextSymbol.$like]
             break
           case FieldType.TextEnum:
-            values = [TextSymbol.$eq, TextSymbol.$in, TextSymbol.$notIn]
+            values = [TextSymbol.$eq]
+            // values = [TextSymbol.$eq, TextSymbol.$in, TextSymbol.$notIn]
             // values = [TextSymbol.$eq, TextSymbol.$in, TextSymbol.$inStr, TextSymbol.$notIn, TextSymbol.$notInStr]
             break
           case FieldType.MultiEnum:
@@ -157,19 +158,19 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
                       case FieldType.ReadonlyText:
                         break
                       case FieldType.TextEnum:
-                        return (
-                          <Checkbox.Group
-                            style={{
-                              display: 'inline-block',
-                            }}
-                            options={curField.options}
-                            // value={checkedValues || []}
-                            // onChange={(newValues) => {
-                            //   onCheckedValuesChanged && onCheckedValuesChanged(newValues)
-                            // }}
-                          />
-                        )
-                      // return <ProFormRadio.Group options={curField.options} radioType='button' />
+                        // return (
+                        //   <Checkbox.Group
+                        //     style={{
+                        //       display: 'inline-block',
+                        //     }}
+                        //     options={curField.options}
+                        //     // value={checkedValues || []}
+                        //     // onChange={(newValues) => {
+                        //     //   onCheckedValuesChanged && onCheckedValuesChanged(newValues)
+                        //     // }}
+                        //   />
+                        // )
+                        return <ProFormRadio.Group options={curField.options} radioType='button' />
                       case FieldType.MultiEnum:
                         break
                       case FieldType.Date:

@@ -6,7 +6,6 @@ import { _ModelField } from '../models/extensions/_ModelField'
 import { FieldType, GeneralDataHelper } from '@fangcha/datawich-service'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { _FieldLink } from '../models/extensions/_FieldLink'
-import * as moment from 'moment'
 import { FieldHelper } from '@web/datawich-common/models'
 import { FilterCondition, FilterSymbol, FilterSymbolDescriptor } from '@fangcha/logic'
 
@@ -121,9 +120,9 @@ export class WideSearcherBuilder {
         result[key] = filterMapper[key].columnName
         return result
       }, {}),
-      withoutFilterCols: filterKeys.filter((key) =>
-        [FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
-      ),
+      // withoutFilterCols: filterKeys.filter((key) =>
+      //   [FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
+      // ),
       exactSearchCols: [],
       fuzzySearchCols: [],
       gbkCols: [],
@@ -153,41 +152,36 @@ export class WideSearcherBuilder {
         }
       }
     }
-    for (const rawKey of Object.keys(options)) {
-      const filterKey = rawKey
-      if (!filterMapper[filterKey] || !options[rawKey]) {
-        continue
-      }
-      const filterValue = options[rawKey]
-      const entity = filterMapper[filterKey]
-      const columnName = entity.columnName
-      const field = entity.field
-      switch (field.fieldType as FieldType) {
-        case FieldType.Date:
-          if (Array.isArray(filterValue) && filterValue.length === 2) {
-            searcher.addSpecialCondition(`${columnName} BETWEEN ? AND ?`, filterValue[0], filterValue[1])
-          }
-          break
-        case FieldType.Datetime:
-          if (Array.isArray(filterValue) && filterValue.length === 2) {
-            const [startStr, endStr] = filterValue
-            const startMoment = moment.utc(startStr)
-            const endMoment = moment.utc(endStr)
-            if (/^\d{4}-\d{2}-\d{2}$/.test(startStr)) {
-              startMoment.startOf('day')
-            }
-            if (/^\d{4}-\d{2}-\d{2}$/.test(endStr)) {
-              endMoment.endOf('day')
-            }
-            searcher.addSpecialCondition(
-              `${columnName} BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)`,
-              startMoment.unix(),
-              endMoment.unix()
-            )
-          }
-          break
-      }
-    }
+    // for (const rawKey of Object.keys(options)) {
+    //   const filterKey = rawKey
+    //   if (!filterMapper[filterKey] || !options[rawKey]) {
+    //     continue
+    //   }
+    //   const filterValue = options[rawKey]
+    //   const entity = filterMapper[filterKey]
+    //   const columnName = entity.columnName
+    //   const field = entity.field
+    //   switch (field.fieldType as FieldType) {
+    //     case FieldType.Datetime:
+    //       if (Array.isArray(filterValue) && filterValue.length === 2) {
+    //         const [startStr, endStr] = filterValue
+    //         const startMoment = moment.utc(startStr)
+    //         const endMoment = moment.utc(endStr)
+    //         if (/^\d{4}-\d{2}-\d{2}$/.test(startStr)) {
+    //           startMoment.startOf('day')
+    //         }
+    //         if (/^\d{4}-\d{2}-\d{2}$/.test(endStr)) {
+    //           endMoment.endOf('day')
+    //         }
+    //         searcher.addSpecialCondition(
+    //           `${columnName} BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)`,
+    //           startMoment.unix(),
+    //           endMoment.unix()
+    //         )
+    //       }
+    //       break
+    //   }
+    // }
     return searcher
   }
 
