@@ -473,6 +473,21 @@ export const DataAppDetailView: React.FC = () => {
             <PlusSquareOutlined />
           </a>
         </h4>
+        {keywords && (
+          <li>
+            keywords = {filterOptions.keywords}{' '}
+            <a
+              style={{ color: 'red' }}
+              onClick={() => {
+                updateQueryParams({
+                  keywords: undefined,
+                })
+              }}
+            >
+              <DeleteOutlined />
+            </a>
+          </li>
+        )}
         {filterItems.map((item) => {
           const symbolText = (() => {
             if (
