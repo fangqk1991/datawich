@@ -161,6 +161,9 @@ export const DataAppDetailView: React.FC = () => {
   const filterItems = useMemo(() => {
     const items: FieldFilterItem[] = []
     for (const key of Object.keys(filterOptions)) {
+      if (!filterOptions[key]) {
+        continue
+      }
       if (mainFieldMapper[key]) {
         items.push({
           key: key,
@@ -255,22 +258,23 @@ export const DataAppDetailView: React.FC = () => {
         {allFields
           .filter((field) => [FieldType.Date, FieldType.Datetime].includes(field.fieldType as FieldType))
           .map((field) => {
+            const key = `${field.filterKey}.${TextSymbol.$between}`
             return (
               <ProFormDateRangePicker
-                key={field.filterKey}
-                name={field.filterKey}
+                key={key}
+                name={key}
                 label={field.name}
                 placeholder={['开始时间', '结束时间']}
                 fieldProps={{
                   value:
-                    Array.isArray(filterOptions[field.filterKey]) && filterOptions[field.filterKey].length === 2
-                      ? filterOptions[field.filterKey].map((date: string) => dayjs(date))
+                    Array.isArray(filterOptions[key]) && filterOptions[key].length === 2
+                      ? filterOptions[key].map((date: string) => dayjs(date))
                       : [null, null],
                   format: (value) => value.format('YYYY-MM-DD'),
                   onChange: (values) => {
                     const dateRange = values ? values.map((item: any) => item.format('YYYY-MM-DD')) : []
                     updateQueryParams({
-                      [field.filterKey]: dateRange,
+                      [key]: dateRange,
                     })
                   },
                 }}
@@ -496,12 +500,12 @@ export const DataAppDetailView: React.FC = () => {
         )}
         {filterItems.map((item) => {
           const symbolText = (() => {
-            if (
-              (item.field.fieldType === FieldType.Date || item.field.fieldType === FieldType.Datetime) &&
-              Array.isArray(item.value)
-            ) {
-              return 'Between'
-            }
+            // if (
+            //   (item.field.fieldType === FieldType.Date || item.field.fieldType === FieldType.Datetime) &&
+            //   Array.isArray(item.value)
+            // ) {
+            //   return TextSymbol.$between
+            // }
             return TextSymbolDescriptor.describe(item.symbol)
           })()
           return (

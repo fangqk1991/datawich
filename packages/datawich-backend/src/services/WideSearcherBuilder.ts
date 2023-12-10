@@ -122,7 +122,7 @@ export class WideSearcherBuilder {
         return result
       }, {}),
       withoutFilterCols: filterKeys.filter((key) =>
-        [FieldType.Date, FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
+        [FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
       ),
       exactSearchCols: [],
       fuzzySearchCols: [],
