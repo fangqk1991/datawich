@@ -4,6 +4,7 @@ import { MyDataCell } from './MyDataCell'
 import { ColumnType } from 'antd/es/table/interface'
 import { Checkbox, Select } from 'antd'
 import * as moment from 'moment'
+import { TextSymbol } from '@fangcha/logic'
 
 interface Props {
   field: ModelFieldModel
@@ -83,7 +84,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
-                  [`${filterKey}.$include_any`]: checkedValue.join(','),
+                  [`${filterKey}.${TextSymbol.$includeAny}`]: checkedValue.join(','),
                 })
               }
             }}
@@ -95,7 +96,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
-                  [`${filterKey}.$include_all`]: checkedValue.join(','),
+                  [`${filterKey}.${TextSymbol.$includeAll}`]: checkedValue.join(','),
                 })
               }
             }}
@@ -107,7 +108,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
             onChange={(checkedValue) => {
               if (props.onFilterChange) {
                 props.onFilterChange({
-                  [`${filterKey}.$exclude_all`]: checkedValue.join(','),
+                  [`${filterKey}.${TextSymbol.$excludeAll}`]: checkedValue.join(','),
                 })
               }
             }}

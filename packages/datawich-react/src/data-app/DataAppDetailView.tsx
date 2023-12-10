@@ -34,6 +34,8 @@ import { ExcelPickButton } from '@fangcha/excel-react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
 import { TinyList } from './TinyList'
+import { FieldFilterItem } from './FieldFilterItem'
+import { TextSymbol } from '@fangcha/logic'
 
 interface DataRecord {
   rid: number
@@ -44,14 +46,6 @@ interface DisplaySettings {
   hiddenFieldsMap: { [p: string]: boolean }
   checkedList: string[]
   fixedList: string[]
-}
-
-interface FilterItem {
-  key: string
-  filterKey: string
-  symbol: string
-  field: ModelFieldModel
-  value: string | string[]
 }
 
 const trimParams = (params: {}) => {
@@ -123,15 +117,15 @@ export const DataAppDetailView: React.FC = () => {
       .reduce((result, field) => {
         result[field.filterKey] = {
           includingAnyOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.$include_any`] || '',
+            filterOptions[`${field.filterKey}.${TextSymbol.$includeAny}`] || '',
             field.options
           ),
           includingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.$include_all`] || '',
+            filterOptions[`${field.filterKey}.${TextSymbol.$includeAll}`] || '',
             field.options
           ),
           excludingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.$exclude_all`] || '',
+            filterOptions[`${field.filterKey}.${TextSymbol.$excludeAll}`] || '',
             field.options
           ),
         }
@@ -164,7 +158,7 @@ export const DataAppDetailView: React.FC = () => {
   }, [mainFields])
 
   const filterItems = useMemo(() => {
-    const items: FilterItem[] = []
+    const items: FieldFilterItem[] = []
     for (const key of Object.keys(filterOptions)) {
       if (mainFieldMapper[key]) {
         items.push({

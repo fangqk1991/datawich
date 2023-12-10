@@ -50,8 +50,8 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0
       '@fangcha/logic':
-        specifier: workspace:^
-        version: link:libraries/logic
+        specifier: ^0.2.0
+        version: 0.2.0
       '@fangcha/oss-models':
         specifier: ^0.2.0
         version: 0.2.0
@@ -92,8 +92,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.35.0
-        version: 0.35.0
+        specifier: ^0.36.0
+        version: 0.36.0
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -276,8 +276,6 @@ importers:
   libraries/datawich-service: {}
 
   libraries/datawich-vue: {}
-
-  libraries/logic: {}
 
   packages/datawich-backend:
     dependencies:
@@ -2271,6 +2269,10 @@ packages:
     resolution: {integrity: sha512-mtX82gxL+heXN5PK/0exEQZDKq4SFRkHPhO6XyQnn1LOd5y9NwGMLrCTjPXPwUGhP+r75HsG1z8OHb/61b3aKA==}
     dependencies:
       lodash: 4.17.21
+    dev: false
+
+  /@fangcha/logic@0.2.0:
+    resolution: {integrity: sha512-6S01bQopzngWOQL2+oMInwaNb/tc1jK45c769p220WhkTYIL9xA28dcDiA2/24ON3WdThq90ik4SjXK0BihKTg==}
     dev: false
 
   /@fangcha/oss-models@0.2.0:
@@ -6289,9 +6291,10 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.35.0:
-    resolution: {integrity: sha512-T+iDM/+HVj50gv6hr62/+u1PPef0ytTYcBqv12kvyLcR/a2W25QsGAOGUcqVn6fmhgITem4dbnEEjUbsVHEpoA==}
+  /fc-feed@0.36.0:
+    resolution: {integrity: sha512-xmXWnrXe+mtoedL6idx/bu8q0arLEP8TN2MdsRaspzNkjQCDpHMTdXfzqlIEbgxHWiIljaxA1GOstb1yc+Ezcw==}
     dependencies:
+      '@fangcha/logic': 0.2.0
       fc-model: 0.6.0
       fc-sql: 0.35.0
     transitivePeerDependencies:
