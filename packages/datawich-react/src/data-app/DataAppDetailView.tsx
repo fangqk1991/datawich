@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, Input, message, Space, Spin } from 'antd'
-import { DeleteOutlined, DownloadOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { DeleteOutlined, DownloadOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
@@ -35,7 +35,8 @@ import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
 import { TinyList } from './TinyList'
 import { FieldFilterItem } from './FieldFilterItem'
-import { TextSymbol } from '@fangcha/logic'
+import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
+import { FilterItemDialog } from './FilterItemDialog'
 
 interface DataRecord {
   rid: number
@@ -164,7 +165,7 @@ export const DataAppDetailView: React.FC = () => {
         items.push({
           key: key,
           filterKey: key,
-          symbol: '=',
+          symbol: TextSymbol.$eq,
           field: mainFieldMapper[key],
           value: filterOptions[key],
         })
@@ -175,7 +176,7 @@ export const DataAppDetailView: React.FC = () => {
         continue
       }
       const filterKey = matches[1]
-      const symbol = matches[2]
+      const symbol = matches[2] as TextSymbol
       items.push({
         key: key,
         filterKey: filterKey,
@@ -463,7 +464,18 @@ export const DataAppDetailView: React.FC = () => {
       <TinyList>
         <h4 style={{ margin: '6px 0', fontSize: '110%' }}>
           筛选条件{' '}
-          <a onClick={() => message.info('Developing.')}>
+          <a
+            onClick={() => {
+              const dialog = new FilterItemDialog({
+                fieldItems: mainFields,
+              })
+              dialog.show((params) => {
+                updateQueryParams({
+                  [params.key]: params.value,
+                })
+              })
+            }}
+          >
             <PlusSquareOutlined />
           </a>
         </h4>
@@ -490,26 +502,31 @@ export const DataAppDetailView: React.FC = () => {
             ) {
               return 'Between'
             }
-            switch (item.symbol) {
-              case '$lt':
-                return '<'
-              case '$le':
-                return '<='
-              case '$gt':
-                return '>'
-              case '$ge':
-                return '>='
-              case '$eq':
-                return '='
-              case '$ne':
-                return '!='
-            }
-            return item.symbol
+            return TextSymbolDescriptor.describe(item.symbol)
           })()
           return (
             <li key={item.key}>
               <span>{item.field.name}</span> <b style={{ color: '#dc3545' }}>{symbolText}</b>{' '}
               <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>{' '}
+              <a
+                onClick={() => {
+                  const dialog = new FilterItemDialog({
+                    filterParams: item,
+                    fieldItems: mainFields,
+                  })
+                  dialog.show((params) => {
+                    updateQueryParams({
+                      [item.key]: undefined,
+                      [params.key]: params.value,
+                    })
+                  })
+                  updateQueryParams({
+                    keywords: undefined,
+                  })
+                }}
+              >
+                <EditOutlined />
+              </a>{' '}
               <a
                 style={{ color: 'red' }}
                 onClick={() => {
