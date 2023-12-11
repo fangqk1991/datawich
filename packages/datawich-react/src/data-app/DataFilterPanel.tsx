@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FilterItemDialog } from './FilterItemDialog'
-import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons'
-import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { TextSymbol } from '@fangcha/logic'
 import { TinyList } from './TinyList'
 import { ModelFieldModel } from '@fangcha/datawich-service'
 import { useQueryParams } from '@fangcha/react'
 import { FieldFilterItem } from './FieldFilterItem'
 import { Button, Input, Space } from 'antd'
+import { DataFilterItemView } from './DataFilterItemView'
 
 interface Props {
   fields: ModelFieldModel[]
@@ -117,52 +118,14 @@ export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
             </a>
           </li>
         )}
-        {filterItems.map((item) => {
-          const symbolText = (() => {
-            // if (
-            //   (item.field.fieldType === FieldType.Date || item.field.fieldType === FieldType.Datetime) &&
-            //   Array.isArray(item.value)
-            // ) {
-            //   return TextSymbol.$between
-            // }
-            return TextSymbolDescriptor.describe(item.symbol)
-          })()
-          return (
-            <li key={item.key}>
-              <span>{item.field.name}</span> <b style={{ color: '#dc3545' }}>{symbolText}</b>{' '}
-              <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>{' '}
-              <a
-                onClick={() => {
-                  const dialog = new FilterItemDialog({
-                    filterParams: item,
-                    fieldItems: fields,
-                  })
-                  dialog.show((params) => {
-                    updateQueryParams({
-                      [item.key]: undefined,
-                      [params.key]: params.value,
-                    })
-                  })
-                  updateQueryParams({
-                    keywords: undefined,
-                  })
-                }}
-              >
-                <EditOutlined />
-              </a>{' '}
-              <a
-                style={{ color: 'red' }}
-                onClick={() => {
-                  updateQueryParams({
-                    [item.key]: undefined,
-                  })
-                }}
-              >
-                <DeleteOutlined />
-              </a>
-            </li>
-          )
-        })}
+        {filterItems.map((item) => (
+          <DataFilterItemView
+            key={item.key}
+            filterItem={item}
+            fields={fields}
+            onFilterItemChanged={(options) => updateQueryParams(options)}
+          />
+        ))}
       </TinyList>
       {/*<ProForm autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>*/}
       {/*  {fields*/}
