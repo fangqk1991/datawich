@@ -3,12 +3,10 @@ import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import { TinyList } from './TinyList'
-import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import { ModelFieldModel } from '@fangcha/datawich-service'
 import { useQueryParams } from '@fangcha/react'
 import { FieldFilterItem } from './FieldFilterItem'
-import { Space } from 'antd'
-import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
-import * as dayjs from 'dayjs'
+import { Button, Input, Space } from 'antd'
 
 interface Props {
   fields: ModelFieldModel[]
@@ -81,6 +79,28 @@ export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
           <PlusSquareOutlined />
         </a>
       </h4>
+      <Space wrap={true}>
+        <Input.Search
+          value={keywords}
+          onChange={({ target: { value } }) => setKeywords(value)}
+          placeholder='Keywords'
+          onSearch={(keywords: string) => {
+            updateQueryParams({
+              keywords: keywords,
+            })
+          }}
+          allowClear
+          enterButton
+        />
+        <Button
+          onClick={() => {
+            setQueryParams({})
+            setKeywords('')
+          }}
+        >
+          重置过滤器
+        </Button>
+      </Space>
       <TinyList>
         {keywords && (
           <li>

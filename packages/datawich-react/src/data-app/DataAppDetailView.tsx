@@ -203,86 +203,62 @@ export const DataAppDetailView: React.FC = () => {
         </>
       )}
 
-      <Space direction={'vertical'}>
-        <Space wrap={true}>
-          <Input.Search
-            value={keywords}
-            onChange={({ target: { value } }) => setKeywords(value)}
-            placeholder='Keywords'
-            onSearch={(keywords: string) => {
-              updateQueryParams({
-                keywords: keywords,
-              })
-            }}
-            allowClear
-            enterButton
-          />
-          <Button
-            onClick={() => {
-              setQueryParams({})
-              setKeywords('')
-            }}
-          >
-            重置过滤器
-          </Button>
-          <Button
-            type={'primary'}
-            onClick={() => {
-              const dialog = new FieldsDisplaySettingDialog({
-                mainFields: mainFields,
-                allFields: allFields,
-                checkedList:
-                  displaySettings.checkedList.length > 0
-                    ? displaySettings.checkedList
-                    : mainDisplayFields.map((item) => item.filterKey),
-                fixedList: displaySettings.fixedList,
-              })
-              dialog.show(async (params) => {
-                const checkedMap = params.checkedList.reduce((result, cur) => {
-                  result[`${cur}`] = true
-                  return result
-                }, {})
-                const request = MyRequest(
-                  new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
-                )
-                request.setBodyData({
-                  fixedList: params.fixedList,
-                  checkedList: params.checkedList,
-                  hiddenFieldsMap: allFields
-                    .filter((field) => !checkedMap[field.filterKey])
-                    .reduce((result, cur) => {
-                      result[cur.filterKey] = true
-                      return result
-                    }, {}),
-                })
-                await request.execute()
-                message.success('调整成功')
-                await reloadDisplaySettings()
-              })
-            }}
-          >
-            管理展示字段
-          </Button>
-          <Button
-            onClick={async () => {
-              LoadingDialog.execute({
-                handler: async () => {
-                  const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
-                  request.setBodyData(latestParams.entity)
-                  const response = await request.quickSend()
-                  DownloadTaskHelper.handleDownloadResponse(response)
-                },
-              })
-            }}
-          >
-            导出 <DownloadOutlined />
-          </Button>
-        </Space>
+      <Space>
+        <DataCreateButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
+        <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
 
-        <Space>
-          <DataCreateButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
-          <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
-        </Space>
+        <Button
+          type={'primary'}
+          onClick={() => {
+            const dialog = new FieldsDisplaySettingDialog({
+              mainFields: mainFields,
+              allFields: allFields,
+              checkedList:
+                displaySettings.checkedList.length > 0
+                  ? displaySettings.checkedList
+                  : mainDisplayFields.map((item) => item.filterKey),
+              fixedList: displaySettings.fixedList,
+            })
+            dialog.show(async (params) => {
+              const checkedMap = params.checkedList.reduce((result, cur) => {
+                result[`${cur}`] = true
+                return result
+              }, {})
+              const request = MyRequest(
+                new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
+              )
+              request.setBodyData({
+                fixedList: params.fixedList,
+                checkedList: params.checkedList,
+                hiddenFieldsMap: allFields
+                  .filter((field) => !checkedMap[field.filterKey])
+                  .reduce((result, cur) => {
+                    result[cur.filterKey] = true
+                    return result
+                  }, {}),
+              })
+              await request.execute()
+              message.success('调整成功')
+              await reloadDisplaySettings()
+            })
+          }}
+        >
+          管理展示字段
+        </Button>
+        <Button
+          onClick={async () => {
+            LoadingDialog.execute({
+              handler: async () => {
+                const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
+                request.setBodyData(latestParams.entity)
+                const response = await request.quickSend()
+                DownloadTaskHelper.handleDownloadResponse(response)
+              },
+            })
+          }}
+        >
+          导出 <DownloadOutlined />
+        </Button>
       </Space>
 
       <Divider style={{ margin: '12px 0' }} />
