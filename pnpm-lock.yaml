@@ -50,8 +50,8 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0
       '@fangcha/logic':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@fangcha/oss-models':
         specifier: ^0.2.0
         version: 0.2.0
@@ -92,8 +92,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.38.0
-        version: 0.38.0
+        specifier: ^0.39.0
+        version: 0.39.0
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -2271,8 +2271,8 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@fangcha/logic@0.3.0:
-    resolution: {integrity: sha512-R8FcgpIaW7+ucr4Rb1TbbnBguRi9HkH9dNuzGSVWCGkydPKWbmufmjIVk9NPc3xFxoHjNMYQb2tv+mmqBp55BA==}
+  /@fangcha/logic@0.4.0:
+    resolution: {integrity: sha512-HNouuB52SxRKiqkzZzMyXYkai1DMBvy1pV/N6bsbALH9aoYCnNUpJIp+x1PuwIF4uIfh0qCP1j8tJ5y4TtN/wQ==}
     dev: false
 
   /@fangcha/oss-models@0.2.0:
@@ -6291,10 +6291,10 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.38.0:
-    resolution: {integrity: sha512-kPoPlYbifBmwSXdeuK9xxwe13ftETcMLNG2KclM+c+upbvsn5cj3GhlTRiusWFVMWfvz1lR70tJy3T6O+ViAHA==}
+  /fc-feed@0.39.0:
+    resolution: {integrity: sha512-a155RZrrzqM4tDZJNscmMyaYK666hJFJtccz8IRZYNmAFhQcoZAcnc595UH8YHPwzu3cvuEpxerwoWKoPwm7AA==}
     dependencies:
-      '@fangcha/logic': 0.3.0
+      '@fangcha/logic': 0.4.0
       fc-model: 0.6.0
       fc-sql: 0.35.0
     transitivePeerDependencies:

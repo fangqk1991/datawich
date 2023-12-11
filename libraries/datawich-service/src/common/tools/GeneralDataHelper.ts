@@ -2,7 +2,10 @@ import { ModelFieldModel } from '../models'
 import { SelectOption } from '@fangcha/tools'
 
 export class GeneralDataHelper {
-  public static extractMultiEnumItems(value: string) {
+  public static extractMultiEnumItems(value: string): string[] {
+    if (Array.isArray(value)) {
+      return value
+    }
     return (value || '')
       .split(/[,]/)
       .map((item) => item.trim())
