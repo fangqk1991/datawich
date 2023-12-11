@@ -471,7 +471,7 @@ export const DataAppDetailView: React.FC = () => {
           <a
             onClick={() => {
               const dialog = new FilterItemDialog({
-                fieldItems: mainFields,
+                fieldItems: mainDisplayFields,
               })
               dialog.show((params) => {
                 updateQueryParams({
@@ -516,7 +516,7 @@ export const DataAppDetailView: React.FC = () => {
                 onClick={() => {
                   const dialog = new FilterItemDialog({
                     filterParams: item,
-                    fieldItems: mainFields,
+                    fieldItems: mainDisplayFields,
                   })
                   dialog.show((params) => {
                     updateQueryParams({
