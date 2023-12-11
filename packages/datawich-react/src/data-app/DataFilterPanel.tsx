@@ -3,9 +3,12 @@ import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import { TinyList } from './TinyList'
-import { ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { useQueryParams } from '@fangcha/react'
 import { FieldFilterItem } from './FieldFilterItem'
+import { Space } from 'antd'
+import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
+import * as dayjs from 'dayjs'
 
 interface Props {
   fields: ModelFieldModel[]
@@ -60,7 +63,7 @@ export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
   }, [queryParams, fieldMapper])
 
   return (
-    <TinyList>
+    <Space direction={'vertical'}>
       <h4 style={{ margin: '6px 0', fontSize: '110%' }}>
         筛选条件{' '}
         <a
@@ -78,67 +81,97 @@ export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
           <PlusSquareOutlined />
         </a>
       </h4>
-      {keywords && (
-        <li>
-          keywords = {keywords}{' '}
-          <a
-            style={{ color: 'red' }}
-            onClick={() => {
-              updateQueryParams({
-                keywords: undefined,
-              })
-            }}
-          >
-            <DeleteOutlined />
-          </a>
-        </li>
-      )}
-      {filterItems.map((item) => {
-        const symbolText = (() => {
-          // if (
-          //   (item.field.fieldType === FieldType.Date || item.field.fieldType === FieldType.Datetime) &&
-          //   Array.isArray(item.value)
-          // ) {
-          //   return TextSymbol.$between
-          // }
-          return TextSymbolDescriptor.describe(item.symbol)
-        })()
-        return (
-          <li key={item.key}>
-            <span>{item.field.name}</span> <b style={{ color: '#dc3545' }}>{symbolText}</b>{' '}
-            <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>{' '}
-            <a
-              onClick={() => {
-                const dialog = new FilterItemDialog({
-                  filterParams: item,
-                  fieldItems: fields,
-                })
-                dialog.show((params) => {
-                  updateQueryParams({
-                    [item.key]: undefined,
-                    [params.key]: params.value,
-                  })
-                })
-                updateQueryParams({
-                  keywords: undefined,
-                })
-              }}
-            >
-              <EditOutlined />
-            </a>{' '}
+      <TinyList>
+        {keywords && (
+          <li>
+            keywords = {keywords}{' '}
             <a
               style={{ color: 'red' }}
               onClick={() => {
                 updateQueryParams({
-                  [item.key]: undefined,
+                  keywords: undefined,
                 })
               }}
             >
               <DeleteOutlined />
             </a>
           </li>
-        )
-      })}
-    </TinyList>
+        )}
+        {filterItems.map((item) => {
+          const symbolText = (() => {
+            // if (
+            //   (item.field.fieldType === FieldType.Date || item.field.fieldType === FieldType.Datetime) &&
+            //   Array.isArray(item.value)
+            // ) {
+            //   return TextSymbol.$between
+            // }
+            return TextSymbolDescriptor.describe(item.symbol)
+          })()
+          return (
+            <li key={item.key}>
+              <span>{item.field.name}</span> <b style={{ color: '#dc3545' }}>{symbolText}</b>{' '}
+              <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>{' '}
+              <a
+                onClick={() => {
+                  const dialog = new FilterItemDialog({
+                    filterParams: item,
+                    fieldItems: fields,
+                  })
+                  dialog.show((params) => {
+                    updateQueryParams({
+                      [item.key]: undefined,
+                      [params.key]: params.value,
+                    })
+                  })
+                  updateQueryParams({
+                    keywords: undefined,
+                  })
+                }}
+              >
+                <EditOutlined />
+              </a>{' '}
+              <a
+                style={{ color: 'red' }}
+                onClick={() => {
+                  updateQueryParams({
+                    [item.key]: undefined,
+                  })
+                }}
+              >
+                <DeleteOutlined />
+              </a>
+            </li>
+          )
+        })}
+      </TinyList>
+      {/*<ProForm autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>*/}
+      {/*  {fields*/}
+      {/*    .filter((field) => [FieldType.Date, FieldType.Datetime].includes(field.fieldType as FieldType))*/}
+      {/*    .map((field) => {*/}
+      {/*      const key = `${field.filterKey}.${TextSymbol.$between}`*/}
+      {/*      return (*/}
+      {/*        <ProFormDateRangePicker*/}
+      {/*          key={key}*/}
+      {/*          name={key}*/}
+      {/*          label={field.name}*/}
+      {/*          placeholder={['开始时间', '结束时间']}*/}
+      {/*          fieldProps={{*/}
+      {/*            value:*/}
+      {/*              Array.isArray(queryParams[key]) && queryParams[key].length === 2*/}
+      {/*                ? queryParams[key].map((date: string) => dayjs(date))*/}
+      {/*                : [null, null],*/}
+      {/*            format: (value) => value.format('YYYY-MM-DD'),*/}
+      {/*            onChange: (values) => {*/}
+      {/*              const dateRange = values ? values.map((item: any) => item.format('YYYY-MM-DD')) : []*/}
+      {/*              updateQueryParams({*/}
+      {/*                [key]: dateRange,*/}
+      {/*              })*/}
+      {/*            },*/}
+      {/*          }}*/}
+      {/*        />*/}
+      {/*      )*/}
+      {/*    })}*/}
+      {/*</ProForm>*/}
+    </Space>
   )
 }

@@ -18,10 +18,8 @@ import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
-import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { GeneralDataDialog } from './GeneralDataDialog'
-import * as dayjs from 'dayjs'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
 import { TextSymbol } from '@fangcha/logic'
@@ -204,35 +202,6 @@ export const DataAppDetailView: React.FC = () => {
           <Divider style={{ margin: '12px 0' }} />
         </>
       )}
-
-      <ProForm autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>
-        {allFields
-          .filter((field) => [FieldType.Date, FieldType.Datetime].includes(field.fieldType as FieldType))
-          .map((field) => {
-            const key = `${field.filterKey}.${TextSymbol.$between}`
-            return (
-              <ProFormDateRangePicker
-                key={key}
-                name={key}
-                label={field.name}
-                placeholder={['开始时间', '结束时间']}
-                fieldProps={{
-                  value:
-                    Array.isArray(filterOptions[key]) && filterOptions[key].length === 2
-                      ? filterOptions[key].map((date: string) => dayjs(date))
-                      : [null, null],
-                  format: (value) => value.format('YYYY-MM-DD'),
-                  onChange: (values) => {
-                    const dateRange = values ? values.map((item: any) => item.format('YYYY-MM-DD')) : []
-                    updateQueryParams({
-                      [key]: dateRange,
-                    })
-                  },
-                }}
-              />
-            )
-          })}
-      </ProForm>
 
       <Space direction={'vertical'}>
         <Space wrap={true}>
