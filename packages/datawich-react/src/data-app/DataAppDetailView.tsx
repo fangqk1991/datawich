@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, Input, message, Space, Spin } from 'antd'
-import { DeleteOutlined, DownloadOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { DownloadOutlined } from '@ant-design/icons'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
@@ -13,30 +13,21 @@ import {
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import {
-  ConfirmDialog,
-  LoadingDialog,
-  RouterLink,
-  TableView,
-  TableViewColumn,
-  TextPreviewDialog,
-  useQueryParams,
-} from '@fangcha/react'
+import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
-import { DataImportHandler, FieldHelper, ProfileEvent } from '@web/datawich-common/models'
+import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { ProForm, ProFormDateRangePicker } from '@ant-design/pro-components'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { GeneralDataDialog } from './GeneralDataDialog'
 import * as dayjs from 'dayjs'
-import { ExcelPickButton } from '@fangcha/excel-react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
-import { TinyList } from './TinyList'
-import { FieldFilterItem } from './FieldFilterItem'
-import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
-import { FilterItemDialog } from './FilterItemDialog'
+import { TextSymbol } from '@fangcha/logic'
+import { DataFilterPanel } from './DataFilterPanel'
+import { DataImportButton } from './DataImportButton'
+import { DataCreateButton } from './DataCreateButton'
 
 interface DataRecord {
   rid: number
@@ -150,46 +141,6 @@ export const DataAppDetailView: React.FC = () => {
     ]
     return FieldHelper.makeDisplayFields(displayItems)
   }, [mainFields, displaySettings])
-
-  const mainFieldMapper = useMemo(() => {
-    return mainFields.reduce((result, cur) => {
-      result[cur.filterKey] = cur
-      return result
-    }, {} as { [p: string]: ModelFieldModel })
-  }, [mainFields])
-
-  const filterItems = useMemo(() => {
-    const items: FieldFilterItem[] = []
-    for (const key of Object.keys(filterOptions)) {
-      if (!filterOptions[key]) {
-        continue
-      }
-      if (mainFieldMapper[key]) {
-        items.push({
-          key: key,
-          filterKey: key,
-          symbol: TextSymbol.$eq,
-          field: mainFieldMapper[key],
-          value: filterOptions[key],
-        })
-        continue
-      }
-      const matches = key.match(/^([a-zA-Z_][\w.]+)\.(\$\w+)(\.\w+)?$/)
-      if (!matches || !mainFieldMapper[matches[1]]) {
-        continue
-      }
-      const filterKey = matches[1]
-      const symbol = matches[2] as TextSymbol
-      items.push({
-        key: key,
-        filterKey: filterKey,
-        symbol: symbol,
-        field: mainFieldMapper[filterKey],
-        value: filterOptions[key],
-      })
-    }
-    return items
-  }, [filterOptions, mainFieldMapper])
 
   const reloadDisplaySettings = async () => {
     const request = MyRequest(
@@ -360,191 +311,15 @@ export const DataAppDetailView: React.FC = () => {
         </Space>
 
         <Space>
-          <Button
-            type={'primary'}
-            onClick={() => {
-              const dialog = new GeneralDataDialog({
-                mainFields: mainFields,
-                modelKey: modelKey,
-              })
-              dialog.title = '新建数据记录'
-              dialog.show(async (params) => {
-                const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordCreate, modelKey))
-                request.setBodyData(params)
-                await request.execute()
-                message.success('创建成功')
-                forceUpdate()
-              })
-            }}
-          >
-            添加数据
-          </Button>
-
-          <ExcelPickButton
-            skipPreview={true}
-            filePickBtnText={'导入数据'}
-            columns={[
-              {
-                columnKey: 'data_id',
-                columnName: 'data_id',
-              },
-              ...mainFields.map((item) => ({
-                columnKey: item.fieldKey,
-                columnName: item.name,
-              })),
-            ]}
-            description={
-              <ul>
-                <li>_data_id 值存在时，将执行更新操作，否则执行创建操作</li>
-              </ul>
-            }
-            onPickExcel={async (excel) => {
-              await LoadingDialog.execute({
-                handler: async (context) => {
-                  const errorItems: React.ReactNode[] = []
-                  const records = await new DataImportHandler(mainFields).extractRecordsFromExcel(excel)
-                  let succCount = 0
-                  for (let i = 0; i < records.length; ++i) {
-                    let succLi: React.ReactNode | null = null
-                    const todoItem = records[i]
-                    const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordPut, modelKey))
-                    request.setMute(true)
-                    request.setQueryParams({ forBatch: 1 })
-                    request.setBodyData(todoItem)
-                    await request
-                      .execute()
-                      .then(() => {
-                        succLi = (
-                          <li>
-                            {i + 1} / {records.length} 导入成功
-                          </li>
-                        )
-                        ++succCount
-                      })
-                      .catch(async (error) => {
-                        errorItems.push(
-                          <li>
-                            {i + 1} / {records.length} 导入失败，
-                            <b style={{ color: 'red' }}>{error.message}</b>
-                            {' | '}
-                            <a onClick={() => TextPreviewDialog.previewData(todoItem)}>查看</a>
-                          </li>
-                        )
-                      })
-
-                    context.setText(
-                      <TinyList>
-                        {errorItems.map((item) => item)} {succLi}
-                      </TinyList>
-                    )
-                  }
-
-                  context.setText(
-                    <Space direction={'vertical'}>
-                      <h3>导入完成</h3>
-                      <div>
-                        <b>{succCount}</b> 条数据导入成功，<b>{errorItems.length}</b> 条数据导入失败
-                      </div>
-                      <TinyList>{errorItems.map((item) => item)}</TinyList>
-                      <Button onClick={() => context.dismiss()}>关闭</Button>
-                    </Space>,
-                    true
-                  )
-                  // const request = MyRequest(new CommonAPI(DataAppApis.DataAppBatchRecordsPut, modelKey))
-                  // request.setBodyData(records)
-                  // await request.quickSend()
-                  setVersion(version + 1)
-                },
-                manualDismiss: true,
-              })
-            }}
-          >
-            导入 Excel
-          </ExcelPickButton>
+          <DataCreateButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
+          <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
         </Space>
       </Space>
 
       <Divider style={{ margin: '12px 0' }} />
-      <TinyList>
-        <h4 style={{ margin: '6px 0', fontSize: '110%' }}>
-          筛选条件{' '}
-          <a
-            onClick={() => {
-              const dialog = new FilterItemDialog({
-                fieldItems: mainDisplayFields,
-              })
-              dialog.show((params) => {
-                updateQueryParams({
-                  [params.key]: params.value,
-                })
-              })
-            }}
-          >
-            <PlusSquareOutlined />
-          </a>
-        </h4>
-        {keywords && (
-          <li>
-            keywords = {filterOptions.keywords}{' '}
-            <a
-              style={{ color: 'red' }}
-              onClick={() => {
-                updateQueryParams({
-                  keywords: undefined,
-                })
-              }}
-            >
-              <DeleteOutlined />
-            </a>
-          </li>
-        )}
-        {filterItems.map((item) => {
-          const symbolText = (() => {
-            // if (
-            //   (item.field.fieldType === FieldType.Date || item.field.fieldType === FieldType.Datetime) &&
-            //   Array.isArray(item.value)
-            // ) {
-            //   return TextSymbol.$between
-            // }
-            return TextSymbolDescriptor.describe(item.symbol)
-          })()
-          return (
-            <li key={item.key}>
-              <span>{item.field.name}</span> <b style={{ color: '#dc3545' }}>{symbolText}</b>{' '}
-              <span>{typeof item.value === 'object' ? JSON.stringify(item.value) : item.value}</span>{' '}
-              <a
-                onClick={() => {
-                  const dialog = new FilterItemDialog({
-                    filterParams: item,
-                    fieldItems: mainDisplayFields,
-                  })
-                  dialog.show((params) => {
-                    updateQueryParams({
-                      [item.key]: undefined,
-                      [params.key]: params.value,
-                    })
-                  })
-                  updateQueryParams({
-                    keywords: undefined,
-                  })
-                }}
-              >
-                <EditOutlined />
-              </a>{' '}
-              <a
-                style={{ color: 'red' }}
-                onClick={() => {
-                  updateQueryParams({
-                    [item.key]: undefined,
-                  })
-                }}
-              >
-                <DeleteOutlined />
-              </a>
-            </li>
-          )
-        })}
-      </TinyList>
+
+      <DataFilterPanel fields={mainDisplayFields} />
+
       <TableView
         version={version}
         rowKey={(item: DataRecord) => {
