@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { JsonEditorDialog, TableView, TableViewColumn } from '@fangcha/react'
+import { ConfirmDialog, JsonEditorDialog, TableView, TableViewColumn } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis } from '@web/datawich-common/web-api'
 import { FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
@@ -168,6 +168,47 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                   >
                     编辑
                   </a>
+                  {!field.isSystem && (
+                    <>
+                      <a
+                        style={{ color: '#28a745' }}
+                        onClick={async () => {
+                          const dialog = new ModelFieldDialog({
+                            title: '创建字段',
+                            data: field,
+                          })
+                          dialog.show(async (params) => {
+                            const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
+                            request.setBodyData(params)
+                            await request.quickSend()
+                            message.success('创建成功')
+                            setVersion(version + 1)
+                          })
+                        }}
+                      >
+                        复制
+                      </a>
+                      <a
+                        style={{ color: '#dc3545' }}
+                        onClick={async () => {
+                          const dialog = new ConfirmDialog({
+                            title: '删除字段',
+                            content: `确定要删除 "${field.name}" 吗？`,
+                          })
+                          dialog.show(async () => {
+                            const request = MyRequest(
+                              new CommonAPI(ModelFieldApis.DataModelFieldDelete, modelKey, field.fieldKey)
+                            )
+                            await request.execute()
+                            message.success('删除成功')
+                            setVersion(version + 1)
+                          })
+                        }}
+                      >
+                        删除
+                      </a>
+                    </>
+                  )}
                 </Space>
               )
             },
