@@ -113,9 +113,10 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
     <div>
       <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false}>
         {visibleFields.map((field) => {
-          const nameI18n = field.extrasData.nameI18n || {}
-          const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
-          const fieldName = nameI18n[code] || field.name
+          // const nameI18n = field.extrasData.nameI18n || {}
+          // const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
+          // const fieldName = nameI18n[code] || field.name
+          const fieldName = field.name
           const editable = (() => {
             if (props.readonly) {
               return false
