@@ -9,6 +9,11 @@ export class _ModelPanel extends __ModelPanel {
   public configData(): ModelPanelConfig {
     let defaultData: ModelPanelConfig = {
       filterItems: [],
+      displaySettings: {
+        hiddenFieldsMap: {},
+        checkedList: [],
+        fixedList: [],
+      },
     }
     try {
       defaultData = JSON.parse(this.configDataStr) || defaultData

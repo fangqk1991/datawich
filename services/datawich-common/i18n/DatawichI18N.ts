@@ -51,6 +51,10 @@ export const DatawichI18N = {
     en: `Model Versions`,
     zh: `模型版本`,
   },
+  '[i18n] Model Panels': {
+    en: `Model Panels`,
+    zh: `模型面板`,
+  },
   '[i18n] Basic Info': {
     en: `Information`,
     zh: `基本信息`,

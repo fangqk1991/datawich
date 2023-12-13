@@ -11,6 +11,7 @@ import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DataModelDialog } from './DataModelDialog'
+import { ModelPanelsCard } from './ModelPanelsCard'
 
 export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInfoChanged }) => {
   const [summaryInfo, setSummaryInfo] = useState<{ count: number }>({
@@ -144,6 +145,8 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
       )}
       <Divider />
       <ModelMilestonePanel dataModel={dataModel} onModelInfoChanged={() => {}} />
+      <Divider />
+      <ModelPanelsCard dataModel={dataModel} onModelInfoChanged={() => {}} />
     </>
   )
 }
