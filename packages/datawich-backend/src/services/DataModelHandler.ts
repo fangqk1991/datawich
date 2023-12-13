@@ -7,6 +7,7 @@ import { _ModelMilestone } from '../models/extensions/_ModelMilestone'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _ModelGroup } from '../models/permission/_ModelGroup'
 import { _DatawichService } from './_DatawichService'
+import { _ModelPanel } from '../models/extensions/_ModelPanel'
 
 export class DataModelHandler {
   private readonly _dataModel: _DataModel
@@ -136,6 +137,13 @@ export class DataModelHandler {
   public getMilestoneSearcher() {
     const searcher = new _ModelMilestone().fc_searcher()
     searcher.processor().setColumns(['uid', 'model_key', 'tag_name', 'description', 'create_time'])
+    searcher.processor().addConditionKV('model_key', this._dataModel.modelKey)
+    searcher.processor().addOrderRule('_rid', 'DESC')
+    return searcher
+  }
+
+  public getPanelSearcher() {
+    const searcher = new _ModelPanel().fc_searcher()
     searcher.processor().addConditionKV('model_key', this._dataModel.modelKey)
     searcher.processor().addOrderRule('_rid', 'DESC')
     return searcher

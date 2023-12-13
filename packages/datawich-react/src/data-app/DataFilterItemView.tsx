@@ -2,8 +2,7 @@ import React from 'react'
 import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TextSymbolDescriptor } from '@fangcha/logic'
-import { FieldFilterItem } from './FieldFilterItem'
-import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldFilterItem, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 
 interface Props {
   filterItem: FieldFilterItem

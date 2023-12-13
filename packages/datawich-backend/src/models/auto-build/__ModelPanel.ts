@@ -6,6 +6,7 @@ const _cols: string[] = [
   'panel_id',
   'model_key',
   'author',
+  'name',
   'config_data_str',
   'create_time',
   'update_time',
@@ -15,12 +16,14 @@ const _insertableCols: string[] = [
   'panel_id',
   'model_key',
   'author',
+  'name',
   'config_data_str',
 ]
 const _modifiableCols: string[] = [
   // prettier-ignore
   'model_key',
   'author',
+  'name',
   'config_data_str',
   'create_time',
 ]
@@ -46,6 +49,10 @@ export default class __ModelPanel extends FeedBase {
    * @description [varchar(255)] 创建者邮箱
    */
   public author!: string
+  /**
+   * @description [varchar(127)] 名称
+   */
+  public name!: string
   /**
    * @description [text] 描述信息，空 | JSON 字符串
    */
@@ -93,6 +100,7 @@ export default class __ModelPanel extends FeedBase {
   public fc_defaultInit() {
     // This function is invoked by constructor of FCModel
     this.author = ''
+    this.name = ''
     this.configDataStr = ''
   }
 
@@ -101,6 +109,7 @@ export default class __ModelPanel extends FeedBase {
       panelId: 'panel_id',
       modelKey: 'model_key',
       author: 'author',
+      name: 'name',
       configDataStr: 'config_data_str',
       createTime: 'create_time',
       updateTime: 'update_time',

@@ -6,6 +6,7 @@ import { ModelLinksSpecs } from './ModelLinksSpecs'
 import { ModelClientSpecs } from './ModelClientSpecs'
 import { ModelAuthClientSpecs } from './ModelAuthClientSpecs'
 import { ModelMilestoneSpecs } from './ModelMilestoneSpecs'
+import { ModelPanelSpecs } from './ModelPanelSpecs'
 
 export const GeneralDataSpecs = [
   ...DataModelSpecs,
@@ -17,4 +18,5 @@ export const GeneralDataSpecs = [
   ...ModelClientSpecs,
   ...ModelAuthClientSpecs,
   ...ModelMilestoneSpecs,
+  ...ModelPanelSpecs,
 ]

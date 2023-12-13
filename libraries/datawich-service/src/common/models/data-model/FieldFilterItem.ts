@@ -1,5 +1,5 @@
-import { ModelFieldModel } from '@fangcha/datawich-service'
 import { TextSymbol } from '@fangcha/logic'
+import { ModelFieldModel } from '../field/ModelFieldModel'
 
 export interface FieldFilterParams {
   key: string
