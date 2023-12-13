@@ -9,8 +9,7 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components'
-import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
-import { FieldFilterParams } from './FieldFilterItem'
+import { FieldFilterParams, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import * as dayjs from 'dayjs'
 
