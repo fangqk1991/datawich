@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS resource_task
     current        BIGINT                                            NOT NULL DEFAULT 0 COMMENT '当前已完成',
     total          BIGINT                                            NOT NULL DEFAULT 0 COMMENT '总数',
     task_status    ENUM ('Pending', 'Processing', 'Success', 'Fail') NOT NULL DEFAULT 'Pending' COMMENT '任务状态，ResourceTaskStatus',
-    error_message   TEXT COMMENT '错误信息',
+    error_message  TEXT COMMENT '错误信息',
     raw_params_str TEXT COMMENT '任务原始参数',
     create_time    TIMESTAMP                                         NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time    TIMESTAMP                                         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -457,7 +457,21 @@ CREATE TABLE IF NOT EXISTS `datahub_column_link`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-
-
+CREATE TABLE IF NOT EXISTS model_panel
+(
+    _rid            BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    panel_id        CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'Panel ID，具备唯一性',
+    model_key       varchar(63) COLLATE ascii_bin  NOT NULL COMMENT '模型键值，SQL 外键 -> data_model.model_key',
+    FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE CASCADE,
+    author          VARCHAR(255) COLLATE ascii_bin NOT NULL DEFAULT '' COMMENT '创建者邮箱',
+    config_data_str TEXT COMMENT '描述信息，空 | JSON 字符串',
+    create_time     TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time     TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE (panel_id),
+    INDEX (model_key),
+    index (author)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 
 

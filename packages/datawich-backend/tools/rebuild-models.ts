@@ -108,6 +108,13 @@ const generalDataSchemas: DBModelSchema[] = [
     reloadOnAdded: true,
     modifiableWhiteList: [],
   },
+  {
+    tableName: 'model_panel',
+    outputFile: `${__dirname}/../src/models/auto-build/__ModelPanel.ts`,
+    extFile: `${__dirname}/../src/models/extensions/_ModelPanel.ts`,
+    reloadOnAdded: true,
+    reloadOnUpdated: true,
+  },
 ]
 
 const main = async () => {

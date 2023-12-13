@@ -18,6 +18,7 @@ import { _ModelGroup } from '../models/permission/_ModelGroup'
 import { CommonGroup } from '../models/permission/CommonGroup'
 import { MemberPower } from '../models/permission/MemberPower'
 import { OSSService, OssServiceOptions } from '@fangcha/oss-service'
+import { _ModelPanel } from '../models/extensions/_ModelPanel'
 
 interface Params {
   database: FCDatabase
@@ -70,6 +71,7 @@ class __DatawichService {
     _ModelFieldAction.setDatabase(database)
     _CommonProfile.setDatabase(database)
     _ModelMilestone.setDatabase(database)
+    _ModelPanel.setDatabase(database)
     ModelDataInfo.database = database
     this.initPermissionSettings(database)
     this.groupApp = new GeneralGroupApp(database)
