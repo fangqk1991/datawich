@@ -11,7 +11,7 @@ const factory = new SpecFactory('元信息版本')
 factory.prepare(ModelMilestoneApis.ModelMilestoneListGet, async (ctx) => {
   await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel)
-    const searcher = dataModel.getMilestoneSearcher()
+    const searcher = new DataModelHandler(dataModel).getMilestoneSearcher()
     const items = await searcher.queryAllFeeds()
     ctx.body = items.map((feed) => feed.fc_pureModel())
   })

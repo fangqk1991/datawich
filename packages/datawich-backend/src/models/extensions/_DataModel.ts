@@ -8,7 +8,6 @@ import { logger } from '@fangcha/logger'
 import { _ModelGroup } from '../permission/_ModelGroup'
 import { CommonGroup } from '../permission/CommonGroup'
 import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
-import { _ModelMilestone } from './_ModelMilestone'
 import {
   DataModelExtrasData,
   DataModelModel,
@@ -160,14 +159,6 @@ export class _DataModel extends __DataModel {
     const searcher = new _FieldIndex().fc_searcher()
     searcher.processor().addConditionKV('model_key', this.modelKey)
     return searcher.queryAllFeeds()
-  }
-
-  public getMilestoneSearcher() {
-    const searcher = new _ModelMilestone().fc_searcher()
-    searcher.processor().setColumns(['uid', 'model_key', 'tag_name', 'description', 'create_time'])
-    searcher.processor().addConditionKV('model_key', this.modelKey)
-    searcher.processor().addOrderRule('_rid', 'DESC')
-    return searcher
   }
 
   public async getUniqueColumnMap() {

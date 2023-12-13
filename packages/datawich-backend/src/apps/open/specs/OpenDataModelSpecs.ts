@@ -24,7 +24,7 @@ factory.prepare(OpenDataModelApis.ModelMasterMetadataGet, async (ctx) => {
 
 factory.prepare(OpenDataModelApis.ModelTagListGet, async (ctx) => {
   await new ModelSpecHandler(ctx).handle(async (dataModel) => {
-    const items = await dataModel.getMilestoneSearcher().queryAllFeeds()
+    const items = await new DataModelHandler(dataModel).getMilestoneSearcher().queryAllFeeds()
     ctx.body = items.map((feed) => feed.fc_pureModel())
   })
 })

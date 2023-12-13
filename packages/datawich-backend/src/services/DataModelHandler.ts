@@ -1,12 +1,7 @@
 import assert from '@fangcha/assert'
 import { makeUUID } from '@fangcha/tools'
 import { _DataModel } from '../models/extensions/_DataModel'
-import {
-  ModelFieldModel,
-  ModelFullMetadata,
-  Raw_FieldLink,
-  Raw_ModelField,
-} from '@fangcha/datawich-service'
+import { ModelFieldModel, ModelFullMetadata, Raw_FieldLink, Raw_ModelField } from '@fangcha/datawich-service'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { _ModelMilestone } from '../models/extensions/_ModelMilestone'
 import { ModelDataHandler } from './ModelDataHandler'
@@ -136,5 +131,13 @@ export class DataModelHandler {
 
     const tableHandler = database.tableHandler(dataModel.sqlTableName())
     await tableHandler.dropFromDatabase()
+  }
+
+  public getMilestoneSearcher() {
+    const searcher = new _ModelMilestone().fc_searcher()
+    searcher.processor().setColumns(['uid', 'model_key', 'tag_name', 'description', 'create_time'])
+    searcher.processor().addConditionKV('model_key', this._dataModel.modelKey)
+    searcher.processor().addOrderRule('_rid', 'DESC')
+    return searcher
   }
 }
