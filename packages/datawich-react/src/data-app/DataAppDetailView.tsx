@@ -69,6 +69,7 @@ export const DataAppDetailView: React.FC = () => {
   const [version, setVersion] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
+
   const [displaySettings, setDisplaySettings] = useState<FieldsDisplaySettings>({
     hiddenFieldsMap: {},
     checkedList: [],
@@ -82,18 +83,7 @@ export const DataAppDetailView: React.FC = () => {
     }, {})
   }, [displaySettings])
 
-  const allFields = useMemo(() => {
-    const items: ModelFieldModel[] = []
-    for (const field of mainFields) {
-      items.push(field)
-      field.refFieldLinks.forEach((link) => {
-        if (link.isInline) {
-          items.push(...link.referenceFields)
-        }
-      })
-    }
-    return items
-  }, [modelKey, mainFields])
+  const allFields = useMemo(() => FieldHelper.expandAllFields(mainFields), [modelKey, mainFields])
 
   const fullTagsCheckedMap = useMemo(() => {
     return allFields
@@ -118,20 +108,7 @@ export const DataAppDetailView: React.FC = () => {
   }, [allFields, filterOptions])
 
   const mainDisplayFields = useMemo(() => {
-    const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
-      result[cur] = true
-      return result
-    }, {})
-    let displayItems = mainFields.filter((item) => !displaySettings.hiddenFieldsMap[item.filterKey])
-    const fieldMap = displayItems.reduce((result, cur) => {
-      result[cur.filterKey] = cur
-      return result
-    }, {})
-    displayItems = [
-      ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
-      ...displayItems.filter((item) => !checkedMap[item.filterKey]),
-    ]
-    return FieldHelper.makeDisplayFields(displayItems)
+    return FieldHelper.extractDisplayFields(mainFields, displaySettings)
   }, [mainFields, displaySettings])
 
   const reloadDisplaySettings = async () => {
@@ -221,7 +198,6 @@ export const DataAppDetailView: React.FC = () => {
       <DataFilterPanel
         modelKey={modelKey}
         mainFields={mainFields}
-        visibleFields={mainDisplayFields}
         displaySettings={displaySettings}
         reloadDisplaySettings={reloadDisplaySettings}
       />

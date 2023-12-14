@@ -1,28 +1,31 @@
 import React, { useMemo, useState } from 'react'
 import { Checkbox, Select } from 'antd'
 import { DialogProps, DraggableOptionsPanel, ReactDialog } from '@fangcha/react'
-import { ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldsDisplaySettings, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldHelper } from '@web/datawich-common/models'
 
 interface Props extends DialogProps {
-  allFields: ModelFieldModel[]
   mainFields: ModelFieldModel[]
-  checkedList?: any[]
-  fixedList?: string[]
+  displaySettings: FieldsDisplaySettings
 }
 
-export class FieldsDisplaySettingDialog extends ReactDialog<
-  Props,
-  {
-    fixedList: string[]
-    checkedList: string[]
-  }
-> {
+export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplaySettings> {
   title = '管理展示字段'
 
   public rawComponent(): React.FC<Props> {
     return (props) => {
-      const [checkedList, setCheckedList] = useState(props.checkedList || [])
-      const [fixedList, setFixedList] = useState(props.fixedList || [])
+      const displayFields = useMemo(
+        () => FieldHelper.extractDisplayFields(props.mainFields, props.displaySettings),
+        [props.mainFields, props.displaySettings]
+      )
+      const allFields = useMemo(() => FieldHelper.expandAllFields(props.mainFields), [props.mainFields])
+
+      const [checkedList, setCheckedList] = useState(() =>
+        props.displaySettings.checkedList.length > 0
+          ? props.displaySettings.checkedList
+          : displayFields.map((item) => item.filterKey)
+      )
+      const [fixedList, setFixedList] = useState(() => props.displaySettings.fixedList)
 
       const checkedMap = useMemo(() => {
         return checkedList.reduce((result, cur) => {
@@ -32,7 +35,7 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
       }, [checkedList])
 
       const optionsMap = useMemo(() => {
-        return props.allFields
+        return allFields
           .map((field) => {
             return {
               label: field.name,
@@ -43,14 +46,14 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
             result[item.value] = item
             return result
           }, {})
-      }, [props.allFields])
+      }, [allFields])
 
       const checkedFieldOptions = useMemo(() => {
         return checkedList.map((filterKey) => optionsMap[filterKey]).filter((item) => !!item)
       }, [checkedList])
 
       const uncheckedFieldOptions = useMemo(() => {
-        return props.allFields
+        return allFields
           .filter((field) => !checkedMap[field.filterKey])
           .map((field) => optionsMap[field.filterKey])
           .filter((item) => !!item)
@@ -61,10 +64,17 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
       }, [checkedFieldOptions, uncheckedFieldOptions])
 
       props.context.handleResult = () => {
-        return {
+        const result: FieldsDisplaySettings = {
           fixedList: fixedList,
           checkedList: checkedList,
+          hiddenFieldsMap: allFields
+            .filter((field) => !checkedMap[field.filterKey])
+            .reduce((result, cur) => {
+              result[cur.filterKey] = true
+              return result
+            }, {}),
         }
+        return result
       }
 
       return (
@@ -73,7 +83,7 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
             style={{ display: 'block' }}
             options={allFieldOptions}
             value={checkedList}
-            onChange={(checkedValues) => setCheckedList(checkedValues)}
+            onChange={(checkedValues) => setCheckedList(checkedValues as string[])}
           />
           <h4 style={{ margin: '12px 0 4px' }}>固定列展示</h4>
           <Select
@@ -91,7 +101,7 @@ export class FieldsDisplaySettingDialog extends ReactDialog<
           <DraggableOptionsPanel
             options={checkedFieldOptions}
             onChange={(newOptions) => {
-              setCheckedList(newOptions.map((item) => item.value))
+              setCheckedList(newOptions.map((item) => item.value as string))
             }}
           />
         </div>

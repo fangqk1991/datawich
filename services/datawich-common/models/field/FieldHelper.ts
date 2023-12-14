@@ -1,5 +1,11 @@
 import { addSlashes, SelectOption } from '@fangcha/tools'
-import { DescribableField, FieldType, ModelFieldModel, Raw_ModelField } from '@fangcha/datawich-service'
+import {
+  DescribableField,
+  FieldsDisplaySettings,
+  FieldType,
+  ModelFieldModel,
+  Raw_ModelField,
+} from '@fangcha/datawich-service'
 
 export class FieldHelper {
   public static getFieldTypeDatabaseSpec(field: ModelFieldModel, beIndex = false) {
@@ -119,6 +125,36 @@ export class FieldHelper {
 
   public static checkIndexAbleField(code: FieldType | any) {
     return code !== FieldType.MultipleLinesText && !this.checkSpecialField(code)
+  }
+
+  public static extractDisplayFields(mainFields: ModelFieldModel[], displaySettings: FieldsDisplaySettings) {
+    const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
+      result[cur] = true
+      return result
+    }, {})
+    let displayItems = mainFields.filter((item) => !displaySettings.hiddenFieldsMap[item.filterKey])
+    const fieldMap = displayItems.reduce((result, cur) => {
+      result[cur.filterKey] = cur
+      return result
+    }, {})
+    displayItems = [
+      ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
+      ...displayItems.filter((item) => !checkedMap[item.filterKey]),
+    ]
+    return FieldHelper.makeDisplayFields(displayItems)
+  }
+
+  public static expandAllFields(mainFields: ModelFieldModel[]) {
+    const items: ModelFieldModel[] = []
+    for (const field of mainFields) {
+      items.push(field)
+      field.refFieldLinks.forEach((link) => {
+        if (link.isInline) {
+          items.push(...link.referenceFields)
+        }
+      })
+    }
+    return items
   }
 
   public static makeDisplayFields(fields: ModelFieldModel[]) {
