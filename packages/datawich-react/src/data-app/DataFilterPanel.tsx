@@ -3,24 +3,69 @@ import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol } from '@fangcha/logic'
 import { TinyList } from './TinyList'
-import { FieldFilterItem, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldFilterItem, FieldsDisplaySettings, ModelFieldModel } from '@fangcha/datawich-service'
 import { useQueryParams } from '@fangcha/react'
-import { Button, Input, Space } from 'antd'
+import { Button, Input, message, Space } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
+import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
+import { MyRequest } from '@fangcha/auth-react'
+import { CommonAPI } from '@fangcha/app-request'
+import { CommonProfileApis } from '@web/datawich-common/web-api'
+import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 
 interface Props {
-  fields: ModelFieldModel[]
+  modelKey: string
+  mainFields: ModelFieldModel[]
+  visibleFields: ModelFieldModel[]
+  displaySettings: FieldsDisplaySettings
+  reloadDisplaySettings: () => Promise<void>
 }
 
-export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
+export const DataFilterPanel: React.FC<Props> = ({
+  modelKey,
+  mainFields,
+  visibleFields,
+  displaySettings,
+  reloadDisplaySettings,
+}) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
 
+  const mainDisplayFields = useMemo(() => {
+    const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
+      result[cur] = true
+      return result
+    }, {})
+    let displayItems = mainFields.filter((item) => !displaySettings.hiddenFieldsMap[item.filterKey])
+    const fieldMap = displayItems.reduce((result, cur) => {
+      result[cur.filterKey] = cur
+      return result
+    }, {})
+    displayItems = [
+      ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
+      ...displayItems.filter((item) => !checkedMap[item.filterKey]),
+    ]
+    return FieldHelper.makeDisplayFields(displayItems)
+  }, [mainFields, displaySettings])
+
+  const allFields = useMemo(() => {
+    const items: ModelFieldModel[] = []
+    for (const field of mainFields) {
+      items.push(field)
+      field.refFieldLinks.forEach((link) => {
+        if (link.isInline) {
+          items.push(...link.referenceFields)
+        }
+      })
+    }
+    return items
+  }, [mainFields])
+
   const fieldMapper = useMemo(() => {
-    return fields.reduce((result, cur) => {
+    return visibleFields.reduce((result, cur) => {
       result[cur.filterKey] = cur
       return result
     }, {} as { [p: string]: ModelFieldModel })
-  }, [fields])
+  }, [visibleFields])
 
   const [keywords, setKeywords] = useState('')
   useEffect(() => {
@@ -67,7 +112,7 @@ export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
         <a
           onClick={() => {
             const dialog = new FilterItemDialog({
-              fieldItems: fields,
+              fieldItems: visibleFields,
             })
             dialog.show((params) => {
               updateQueryParams({
@@ -92,6 +137,46 @@ export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
           allowClear
           enterButton
         />
+
+        <Button
+          type={'primary'}
+          onClick={() => {
+            const dialog = new FieldsDisplaySettingDialog({
+              mainFields: mainFields,
+              allFields: allFields,
+              checkedList:
+                displaySettings.checkedList.length > 0
+                  ? displaySettings.checkedList
+                  : mainDisplayFields.map((item) => item.filterKey),
+              fixedList: displaySettings.fixedList,
+            })
+            dialog.show(async (params) => {
+              const checkedMap = params.checkedList.reduce((result, cur) => {
+                result[`${cur}`] = true
+                return result
+              }, {})
+              const request = MyRequest(
+                new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
+              )
+              request.setBodyData({
+                fixedList: params.fixedList,
+                checkedList: params.checkedList,
+                hiddenFieldsMap: allFields
+                  .filter((field) => !checkedMap[field.filterKey])
+                  .reduce((result, cur) => {
+                    result[cur.filterKey] = true
+                    return result
+                  }, {}),
+              })
+              await request.execute()
+              message.success('调整成功')
+              await reloadDisplaySettings()
+            })
+          }}
+        >
+          管理展示字段
+        </Button>
+
         <Button
           onClick={() => {
             setQueryParams({})
@@ -121,7 +206,7 @@ export const DataFilterPanel: React.FC<Props> = ({ fields }) => {
           <DataFilterItemView
             key={item.key}
             filterItem={item}
-            fields={fields}
+            fields={visibleFields}
             onFilterItemChanged={(options) => updateQueryParams(options)}
           />
         ))}

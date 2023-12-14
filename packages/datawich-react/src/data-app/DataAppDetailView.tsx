@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Button, Card, Divider, Input, message, Space, Spin } from 'antd'
+import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
+  FieldsDisplaySettings,
   FieldType,
   GeneralDataHelper,
   ModelFieldModel,
@@ -18,7 +19,6 @@ import { PageResult } from '@fangcha/tools'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
-import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { GeneralDataDialog } from './GeneralDataDialog'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
@@ -30,12 +30,6 @@ import { DataCreateButton } from './DataCreateButton'
 interface DataRecord {
   rid: number
   _data_id: string
-}
-
-interface DisplaySettings {
-  hiddenFieldsMap: { [p: string]: boolean }
-  checkedList: string[]
-  fixedList: string[]
 }
 
 const trimParams = (params: {}) => {
@@ -75,7 +69,7 @@ export const DataAppDetailView: React.FC = () => {
   const [version, setVersion] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
-  const [displaySettings, setDisplaySettings] = useState<DisplaySettings>({
+  const [displaySettings, setDisplaySettings] = useState<FieldsDisplaySettings>({
     hiddenFieldsMap: {},
     checkedList: [],
     fixedList: [],
@@ -144,7 +138,7 @@ export const DataAppDetailView: React.FC = () => {
     const request = MyRequest(
       new CommonAPI(CommonProfileApis.ProfileInfoGet, ProfileEvent.UserModelAppDisplay, modelKey)
     )
-    const displaySettings = await request.quickSend<DisplaySettings>()
+    const displaySettings = await request.quickSend<FieldsDisplaySettings>()
     displaySettings.hiddenFieldsMap = displaySettings.hiddenFieldsMap || {}
     displaySettings.checkedList = displaySettings.checkedList || []
     displaySettings.fixedList = displaySettings.fixedList || []
@@ -206,45 +200,6 @@ export const DataAppDetailView: React.FC = () => {
       <Space>
         <DataCreateButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
         <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
-
-        <Button
-          type={'primary'}
-          onClick={() => {
-            const dialog = new FieldsDisplaySettingDialog({
-              mainFields: mainFields,
-              allFields: allFields,
-              checkedList:
-                displaySettings.checkedList.length > 0
-                  ? displaySettings.checkedList
-                  : mainDisplayFields.map((item) => item.filterKey),
-              fixedList: displaySettings.fixedList,
-            })
-            dialog.show(async (params) => {
-              const checkedMap = params.checkedList.reduce((result, cur) => {
-                result[`${cur}`] = true
-                return result
-              }, {})
-              const request = MyRequest(
-                new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
-              )
-              request.setBodyData({
-                fixedList: params.fixedList,
-                checkedList: params.checkedList,
-                hiddenFieldsMap: allFields
-                  .filter((field) => !checkedMap[field.filterKey])
-                  .reduce((result, cur) => {
-                    result[cur.filterKey] = true
-                    return result
-                  }, {}),
-              })
-              await request.execute()
-              message.success('调整成功')
-              await reloadDisplaySettings()
-            })
-          }}
-        >
-          管理展示字段
-        </Button>
         <Button
           onClick={async () => {
             LoadingDialog.execute({
@@ -263,7 +218,13 @@ export const DataAppDetailView: React.FC = () => {
 
       <Divider style={{ margin: '12px 0' }} />
 
-      <DataFilterPanel fields={mainDisplayFields} />
+      <DataFilterPanel
+        modelKey={modelKey}
+        mainFields={mainFields}
+        visibleFields={mainDisplayFields}
+        displaySettings={displaySettings}
+        reloadDisplaySettings={reloadDisplaySettings}
+      />
 
       <TableView
         version={version}
