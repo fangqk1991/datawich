@@ -17,10 +17,15 @@ interface Props {
   modelKey: string
   mainFields: ModelFieldModel[]
   displaySettings: FieldsDisplaySettings
-  reloadDisplaySettings: () => Promise<void>
+  onDisplaySettingsChanged: () => Promise<void>
 }
 
-export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, displaySettings, reloadDisplaySettings }) => {
+export const DataFilterPanel: React.FC<Props> = ({
+  modelKey,
+  mainFields,
+  displaySettings,
+  onDisplaySettingsChanged,
+}) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
 
   const displayFields = useMemo(
@@ -76,6 +81,28 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, display
 
   return (
     <Space direction={'vertical'}>
+      <h2 style={{ margin: '6px 0' }}>
+        <Space>
+          <span>控制面板</span>
+          <Button
+            size={'small'}
+            type={'primary'}
+            onClick={() => {
+              message.info('开发中...')
+            }}
+          >
+            保存设置
+          </Button>
+          <Button
+            size={'small'}
+            onClick={() => {
+              message.info('开发中...')
+            }}
+          >
+            另存设置
+          </Button>
+        </Space>
+      </h2>
       <h4 style={{ margin: '6px 0', fontSize: '110%' }}>
         筛选条件{' '}
         <a
@@ -121,7 +148,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, display
               request.setBodyData(params)
               await request.execute()
               message.success('调整成功')
-              await reloadDisplaySettings()
+              await onDisplaySettingsChanged()
             })
           }}
         >

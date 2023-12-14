@@ -66,7 +66,6 @@ export const DataAppDetailView: React.FC = () => {
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
 
-  const [version, setVersion] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
 
@@ -136,7 +135,7 @@ export const DataAppDetailView: React.FC = () => {
       })
 
     reloadDisplaySettings()
-  }, [modelKey, version])
+  }, [modelKey])
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
@@ -178,6 +177,7 @@ export const DataAppDetailView: React.FC = () => {
         <DataCreateButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
         <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
         <Button
+          danger={true}
           onClick={async () => {
             LoadingDialog.execute({
               handler: async () => {
@@ -199,11 +199,10 @@ export const DataAppDetailView: React.FC = () => {
         modelKey={modelKey}
         mainFields={mainFields}
         displaySettings={displaySettings}
-        reloadDisplaySettings={reloadDisplaySettings}
+        onDisplaySettingsChanged={reloadDisplaySettings}
       />
 
       <TableView
-        version={version}
         rowKey={(item: DataRecord) => {
           return `${item.rid}`
         }}
