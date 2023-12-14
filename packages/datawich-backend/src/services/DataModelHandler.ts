@@ -1,7 +1,13 @@
 import assert from '@fangcha/assert'
 import { makeUUID } from '@fangcha/tools'
 import { _DataModel } from '../models/extensions/_DataModel'
-import { ModelFieldModel, ModelFullMetadata, Raw_FieldLink, Raw_ModelField } from '@fangcha/datawich-service'
+import {
+  ModelFieldModel,
+  ModelFullMetadata,
+  ModelPanelParams,
+  Raw_FieldLink,
+  Raw_ModelField,
+} from '@fangcha/datawich-service'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { _ModelMilestone } from '../models/extensions/_ModelMilestone'
 import { ModelDataHandler } from './ModelDataHandler'
@@ -147,5 +153,23 @@ export class DataModelHandler {
     searcher.processor().addConditionKV('model_key', this._dataModel.modelKey)
     searcher.processor().addOrderRule('_rid', 'DESC')
     return searcher
+  }
+
+  public async createPanel(params: ModelPanelParams) {
+    const dataModel = this._dataModel
+
+    assert.ok(!!params.name, '名称不能为空')
+    assert.ok(!!params.configData, 'configData 不能为空')
+    assert.ok(Array.isArray(params.configData.filterItems), 'configData.filterItems 有误')
+    assert.ok(!!params.configData.displaySettings, 'configData.displaySettings 有误')
+
+    const feed = new _ModelPanel()
+    feed.panelId = makeUUID()
+    feed.modelKey = dataModel.modelKey
+    feed.author = params.author || ''
+    feed.name = params.name
+    feed.configDataStr = JSON.stringify(params.configData)
+    await feed.addToDB()
+    return feed
   }
 }

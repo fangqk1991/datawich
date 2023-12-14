@@ -3,14 +3,14 @@ import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol } from '@fangcha/logic'
 import { TinyList } from './TinyList'
-import { FieldFilterItem, FieldsDisplaySettings, ModelFieldModel } from '@fangcha/datawich-service'
-import { useQueryParams } from '@fangcha/react'
+import { FieldFilterItem, FieldsDisplaySettings, ModelFieldModel, ModelPanelParams } from '@fangcha/datawich-service'
+import { SimpleInputDialog, useQueryParams } from '@fangcha/react'
 import { Button, Input, message, Space } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { CommonProfileApis } from '@web/datawich-common/web-api'
+import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 
 interface Props {
@@ -32,7 +32,6 @@ export const DataFilterPanel: React.FC<Props> = ({
     () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
     [mainFields, displaySettings]
   )
-  const allFields = useMemo(() => FieldHelper.expandAllFields(mainFields), [mainFields])
 
   const fieldMapper = useMemo(() => {
     return displayFields.reduce((result, cur) => {
@@ -88,7 +87,20 @@ export const DataFilterPanel: React.FC<Props> = ({
             size={'small'}
             type={'primary'}
             onClick={() => {
-              message.info('开发中...')
+              // const dialog = new FlexibleFormDialog<ModelPanelParams>({
+              //   title: '控制面板',
+              //   formBody: (
+              //     <>
+              //       <ProFormText name={'name'} label={'名称'} />
+              //     </>
+              //   ),
+              //   placeholder: {
+              //     name: '',
+              //   },
+              // })
+              // dialog.show(async (params) => {
+              //   message.info(JSON.stringify(params))
+              // })
             }}
           >
             保存设置
@@ -96,7 +108,28 @@ export const DataFilterPanel: React.FC<Props> = ({
           <Button
             size={'small'}
             onClick={() => {
-              message.info('开发中...')
+              const dialog = new SimpleInputDialog({
+                title: '另存为',
+                placeholder: '名称',
+              })
+              dialog.show(async (name) => {
+                const params: ModelPanelParams = {
+                  name: name,
+                  configData: {
+                    filterItems: filterItems.map((item) => ({
+                      key: item.key,
+                      filterKey: item.filterKey,
+                      symbol: item.symbol,
+                      value: item.value,
+                    })),
+                    displaySettings: displaySettings,
+                  },
+                }
+                const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelCreate, modelKey))
+                request.setBodyData(params)
+                await request.execute()
+                message.info('面板另存成功')
+              })
             }}
           >
             另存设置

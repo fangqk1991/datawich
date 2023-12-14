@@ -27,6 +27,12 @@ export interface ModelPanelConfig {
   displaySettings: FieldsDisplaySettings
 }
 
+export interface ModelPanelParams {
+  name: string
+  configData: ModelPanelConfig
+  author?: string
+}
+
 export interface ModelPanelInfo {
   panelId: string
   modelKey: string

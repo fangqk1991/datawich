@@ -58,11 +58,6 @@ export const DataAppDetailView: React.FC = () => {
     }
   }, [queryParams])
 
-  const [keywords, setKeywords] = useState('')
-  useEffect(() => {
-    setKeywords(filterOptions.keywords || '')
-  }, [filterOptions.keywords])
-
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
 
@@ -106,9 +101,10 @@ export const DataAppDetailView: React.FC = () => {
       }, {} as { [p: string]: TagsCheckedMap })
   }, [allFields, filterOptions])
 
-  const mainDisplayFields = useMemo(() => {
-    return FieldHelper.extractDisplayFields(mainFields, displaySettings)
-  }, [mainFields, displaySettings])
+  const displayFields = useMemo(
+    () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
+    [mainFields, displaySettings]
+  )
 
   const reloadDisplaySettings = async () => {
     const request = MyRequest(
@@ -212,7 +208,7 @@ export const DataAppDetailView: React.FC = () => {
           bordered: true,
         }}
         columns={TableViewColumn.makeColumns<DataRecord>([
-          ...(mainDisplayFields
+          ...(displayFields
             .map((field) => {
               const columns = [
                 myDataColumn({

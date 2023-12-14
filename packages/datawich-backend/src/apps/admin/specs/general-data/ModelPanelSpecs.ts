@@ -14,4 +14,16 @@ factory.prepare(ModelPanelApis.ModelPanelListGet, async (ctx) => {
   })
 })
 
+factory.prepare(ModelPanelApis.ModelPanelCreate, async (ctx) => {
+  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
+    const checker = new SessionChecker(ctx)
+    await checker.assertModelAccessible(dataModel)
+    const panel = await new DataModelHandler(dataModel).createPanel({
+      ...ctx.request.body,
+      author: checker.email,
+    })
+    ctx.body = panel.modelForClient()
+  })
+})
+
 export const ModelPanelSpecs = factory.buildSpecs()
