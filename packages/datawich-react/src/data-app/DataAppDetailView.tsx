@@ -54,6 +54,7 @@ const trimParams = (params: {}) => {
 
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+  const [version, setVersion] = useState(0)
 
   const { modelKey = '' } = useParams()
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
@@ -61,7 +62,7 @@ export const DataAppDetailView: React.FC = () => {
     panelId: string
     [p: string]: any
   }>()
-  const [panelInfo, setPanelInfo] = useState<ModelPanelInfo>()
+  const [panelInfo, setPanelInfo] = useState<ModelPanelInfo | null>()
 
   const [latestParams] = useState<{ entity: any }>({ entity: {} })
 
@@ -115,12 +116,12 @@ export const DataAppDetailView: React.FC = () => {
 
   useEffect(() => {
     if (!queryParams.panelId) {
-      setPanelInfo(undefined)
+      setPanelInfo(null)
       return
     }
     const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelGet, modelKey, queryParams.panelId))
     request.quickSend<ModelPanelInfo>().then((response) => setPanelInfo(response))
-  }, [queryParams.panelId])
+  }, [queryParams.panelId, version])
 
   const reloadDisplaySettings = async () => {
     const request = MyRequest(
@@ -208,9 +209,11 @@ export const DataAppDetailView: React.FC = () => {
       <Divider style={{ margin: '12px 0' }} />
 
       <DataFilterPanel
+        panelInfo={panelInfo}
         modelKey={modelKey}
         mainFields={mainFields}
         displaySettings={displaySettings}
+        onPanelChanged={() => setVersion(version + 1)}
         onDisplaySettingsChanged={reloadDisplaySettings}
       />
 

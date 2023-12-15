@@ -1,5 +1,6 @@
 import __ModelPanel from '../auto-build/__ModelPanel'
-import { ModelPanelConfig, ModelPanelInfo } from '@fangcha/datawich-service'
+import { ModelPanelConfig, ModelPanelInfo, ModelPanelParams } from '@fangcha/datawich-service'
+import assert from '@fangcha/assert'
 
 export class _ModelPanel extends __ModelPanel {
   public constructor() {
@@ -30,5 +31,18 @@ export class _ModelPanel extends __ModelPanel {
     data.configData = this.configData()
     delete data['configDataStr']
     return data
+  }
+
+  public async updateInfos(params: ModelPanelParams) {
+    assert.ok(!!params.name, '名称不能为空')
+    assert.ok(!!params.configData, 'configData 不能为空')
+    assert.ok(Array.isArray(params.configData.filterItems), 'configData.filterItems 有误')
+    assert.ok(!!params.configData.displaySettings, 'configData.displaySettings 有误')
+
+    this.fc_edit()
+    this.author = params.author || ''
+    this.name = params.name
+    this.configDataStr = JSON.stringify(params.configData)
+    await this.updateToDB()
   }
 }

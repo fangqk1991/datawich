@@ -20,9 +20,11 @@ import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 
 interface Props {
+  panelInfo?: ModelPanelInfo | null
   modelKey: string
   mainFields: ModelFieldModel[]
   displaySettings: FieldsDisplaySettings
+  onPanelChanged: () => Promise<void> | void
   onDisplaySettingsChanged: () => Promise<void>
 }
 
@@ -31,6 +33,8 @@ export const DataFilterPanel: React.FC<Props> = ({
   mainFields,
   displaySettings,
   onDisplaySettingsChanged,
+  onPanelChanged,
+  panelInfo,
 }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
 
@@ -89,34 +93,49 @@ export const DataFilterPanel: React.FC<Props> = ({
       <h2 style={{ margin: '6px 0' }}>
         <Space>
           <span>控制面板</span>
-          <Button
-            size={'small'}
-            type={'primary'}
-            onClick={() => {
-              // const dialog = new FlexibleFormDialog<ModelPanelParams>({
-              //   title: '控制面板',
-              //   formBody: (
-              //     <>
-              //       <ProFormText name={'name'} label={'名称'} />
-              //     </>
-              //   ),
-              //   placeholder: {
-              //     name: '',
-              //   },
-              // })
-              // dialog.show(async (params) => {
-              //   message.info(JSON.stringify(params))
-              // })
-            }}
-          >
-            保存设置
-          </Button>
+          {panelInfo && (
+            <Button
+              size={'small'}
+              type={'primary'}
+              onClick={async () => {
+                const dialog = new SimpleInputDialog({
+                  title: '保存',
+                  placeholder: '名称',
+                  curValue: panelInfo.name,
+                })
+                dialog.show(async (name) => {
+                  const params: ModelPanelParams = {
+                    name: name,
+                    configData: {
+                      filterItems: filterItems.map((item) => ({
+                        key: item.key,
+                        filterKey: item.filterKey,
+                        symbol: item.symbol,
+                        value: item.value,
+                      })),
+                      displaySettings: displaySettings,
+                    },
+                  }
+                  const request = MyRequest(
+                    new CommonAPI(ModelPanelApis.ModelPanelUpdate, modelKey, panelInfo!.panelId)
+                  )
+                  request.setBodyData(params)
+                  await request.quickSend<ModelPanelInfo>()
+                  onPanelChanged()
+                  message.info('面板保存成功')
+                })
+              }}
+            >
+              保存设置
+            </Button>
+          )}
           <Button
             size={'small'}
             onClick={() => {
               const dialog = new SimpleInputDialog({
                 title: '另存为',
                 placeholder: '名称',
+                curValue: panelInfo ? panelInfo.name : '',
               })
               dialog.show(async (name) => {
                 const params: ModelPanelParams = {
@@ -145,6 +164,15 @@ export const DataFilterPanel: React.FC<Props> = ({
           </Button>
         </Space>
       </h2>
+      {panelInfo && (
+        <div>
+          <ul>
+            <li>
+              当前面板: {panelInfo.name}({panelInfo.panelId})
+            </li>
+          </ul>
+        </div>
+      )}
       <h4 style={{ margin: '6px 0', fontSize: '110%' }}>
         筛选条件{' '}
         <a

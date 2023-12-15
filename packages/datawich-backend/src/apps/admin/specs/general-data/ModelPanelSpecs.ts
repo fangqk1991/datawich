@@ -3,8 +3,6 @@ import { SessionChecker } from '../../../../services/SessionChecker'
 import { DataModelHandler } from '../../../../services/DataModelHandler'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { ModelPanelApis } from '@web/datawich-common/web-api'
-import { _ModelPanel } from '../../../../models/extensions/_ModelPanel'
-import assert from '@fangcha/assert'
 
 const factory = new SpecFactory('模型面板')
 
@@ -29,10 +27,20 @@ factory.prepare(ModelPanelApis.ModelPanelCreate, async (ctx) => {
 })
 
 factory.prepare(ModelPanelApis.ModelPanelGet, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
+  await new DataModelSpecHandler(ctx).handleModelPanel(async (panel, dataModel) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel)
-    const panel = (await _ModelPanel.findWithUid(ctx.params.panelId))!
-    assert.ok(!!panel, 'panelId missing.')
+    ctx.body = panel.modelForClient()
+  })
+})
+
+factory.prepare(ModelPanelApis.ModelPanelUpdate, async (ctx) => {
+  await new DataModelSpecHandler(ctx).handleModelPanel(async (panel, dataModel) => {
+    const checker = new SessionChecker(ctx)
+    await checker.assertModelAccessible(dataModel)
+    await panel.updateInfos({
+      ...ctx.request.body,
+      author: checker.email,
+    })
     ctx.body = panel.modelForClient()
   })
 })

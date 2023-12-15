@@ -3,6 +3,7 @@ import { Context } from 'koa'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _FieldLink } from '../../../../models/extensions/_FieldLink'
+import { _ModelPanel } from '../../../../models/extensions/_ModelPanel'
 
 export class DataModelSpecHandler {
   ctx!: Context
@@ -41,6 +42,19 @@ export class DataModelSpecHandler {
     return this._modelField
   }
 
+  private _modelPanel!: _ModelPanel
+  private async prepareModelPanel() {
+    if (!this._modelPanel) {
+      const ctx = this.ctx
+      const dataModel = await this.prepareDataModel()
+      const panel = (await _ModelPanel.findWithUid(ctx.params.panelId))!
+      assert.ok(!!panel, 'ModelPanel Not Found')
+      assert.ok(dataModel.modelKey === panel.modelKey, 'modelKey error')
+      this._modelPanel = panel
+    }
+    return this._modelPanel
+  }
+
   public async handle(handler: (dataModel: _DataModel) => Promise<void>) {
     const dataModel = await this.prepareDataModel()
     await handler(dataModel)
@@ -57,5 +71,11 @@ export class DataModelSpecHandler {
     const fieldLink = (await _FieldLink.findLink(this.ctx.params.linkId))!
     assert.ok(!!fieldLink, 'FieldLink Not Found')
     await handler(fieldLink, dataModel)
+  }
+
+  public async handleModelPanel(handler: (panel: _ModelPanel, dataModel: _DataModel) => Promise<void>) {
+    const dataModel = await this.prepareDataModel()
+    const modelPanel = await this.prepareModelPanel()
+    await handler(modelPanel, dataModel)
   }
 }
