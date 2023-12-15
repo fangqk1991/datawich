@@ -56,13 +56,31 @@ export const DataFilterPanel: React.FC<Props> = ({
   }, [queryParams.keywords])
 
   const filterItems = useMemo(() => {
-    const items: FieldFilterItem[] = []
+    const items: FieldFilterItem[] = panelInfo
+      ? panelInfo.configData.filterItems
+          .map((item) => ({
+            ...item,
+            field: fieldMapper[item.filterKey],
+          }))
+          .filter((item) => !!item.field)
+      : []
+    const filterItemMapper = items.reduce((result, cur) => {
+      result[cur.key] = cur
+      return result
+    }, {})
+    const mergeFilterItem = (item: FieldFilterItem) => {
+      if (filterItemMapper[item.key]) {
+        filterItemMapper[item.key] = item
+      } else {
+        items.push(item)
+      }
+    }
     for (const key of Object.keys(queryParams)) {
       if (!queryParams[key]) {
         continue
       }
       if (fieldMapper[key]) {
-        items.push({
+        mergeFilterItem({
           key: key,
           filterKey: key,
           symbol: TextSymbol.$eq,
@@ -77,7 +95,7 @@ export const DataFilterPanel: React.FC<Props> = ({
       }
       const filterKey = matches[1]
       const symbol = matches[2] as TextSymbol
-      items.push({
+      mergeFilterItem({
         key: key,
         filterKey: filterKey,
         symbol: symbol,
@@ -86,7 +104,7 @@ export const DataFilterPanel: React.FC<Props> = ({
       })
     }
     return items
-  }, [queryParams, fieldMapper])
+  }, [queryParams, panelInfo, fieldMapper])
 
   return (
     <Space direction={'vertical'}>
