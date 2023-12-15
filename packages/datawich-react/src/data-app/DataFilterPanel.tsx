@@ -3,7 +3,13 @@ import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol } from '@fangcha/logic'
 import { TinyList } from './TinyList'
-import { FieldFilterItem, FieldsDisplaySettings, ModelFieldModel, ModelPanelParams } from '@fangcha/datawich-service'
+import {
+  FieldFilterItem,
+  FieldsDisplaySettings,
+  ModelFieldModel,
+  ModelPanelInfo,
+  ModelPanelParams,
+} from '@fangcha/datawich-service'
 import { SimpleInputDialog, useQueryParams } from '@fangcha/react'
 import { Button, Input, message, Space } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
@@ -127,7 +133,10 @@ export const DataFilterPanel: React.FC<Props> = ({
                 }
                 const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelCreate, modelKey))
                 request.setBodyData(params)
-                await request.execute()
+                const panel = await request.quickSend<ModelPanelInfo>()
+                updateQueryParams({
+                  panelId: panel.panelId,
+                })
                 message.info('面板另存成功')
               })
             }}

@@ -3,6 +3,8 @@ import { SessionChecker } from '../../../../services/SessionChecker'
 import { DataModelHandler } from '../../../../services/DataModelHandler'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { ModelPanelApis } from '@web/datawich-common/web-api'
+import { _ModelPanel } from '../../../../models/extensions/_ModelPanel'
+import assert from '@fangcha/assert'
 
 const factory = new SpecFactory('模型面板')
 
@@ -22,6 +24,15 @@ factory.prepare(ModelPanelApis.ModelPanelCreate, async (ctx) => {
       ...ctx.request.body,
       author: checker.email,
     })
+    ctx.body = panel.modelForClient()
+  })
+})
+
+factory.prepare(ModelPanelApis.ModelPanelGet, async (ctx) => {
+  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
+    await new SessionChecker(ctx).assertModelAccessible(dataModel)
+    const panel = (await _ModelPanel.findWithUid(ctx.params.panelId))!
+    assert.ok(!!panel, 'panelId missing.')
     ctx.body = panel.modelForClient()
   })
 })

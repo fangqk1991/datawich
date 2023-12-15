@@ -2,13 +2,20 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
-import { CommonProfileApis, DataAppApis, DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
+import {
+  CommonProfileApis,
+  DataAppApis,
+  DataModelApis,
+  ModelFieldApis,
+  ModelPanelApis,
+} from '@web/datawich-common/web-api'
 import {
   DataModelModel,
   FieldsDisplaySettings,
   FieldType,
   GeneralDataHelper,
   ModelFieldModel,
+  ModelPanelInfo,
   TagsCheckedMap,
 } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
@@ -49,14 +56,14 @@ export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
 
   const { modelKey = '' } = useParams()
-  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
-  const [latestParams] = useState<{ entity: any }>({ entity: {} })
+  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
+    keywords: string
+    panelId: string
+    [p: string]: any
+  }>()
+  const [panelInfo, setPanelInfo] = useState<ModelPanelInfo>()
 
-  const filterOptions = useMemo(() => {
-    return {
-      ...queryParams,
-    }
-  }, [queryParams])
+  const [latestParams] = useState<{ entity: any }>({ entity: {} })
 
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
@@ -85,26 +92,35 @@ export const DataAppDetailView: React.FC = () => {
       .reduce((result, field) => {
         result[field.filterKey] = {
           includingAnyOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.${TextSymbol.$includeAny}`] || '',
+            queryParams[`${field.filterKey}.${TextSymbol.$includeAny}`] || '',
             field.options
           ),
           includingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.${TextSymbol.$includeAll}`] || '',
+            queryParams[`${field.filterKey}.${TextSymbol.$includeAll}`] || '',
             field.options
           ),
           excludingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            filterOptions[`${field.filterKey}.${TextSymbol.$excludeAll}`] || '',
+            queryParams[`${field.filterKey}.${TextSymbol.$excludeAll}`] || '',
             field.options
           ),
         }
         return result
       }, {} as { [p: string]: TagsCheckedMap })
-  }, [allFields, filterOptions])
+  }, [allFields, queryParams])
 
   const displayFields = useMemo(
     () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
     [mainFields, displaySettings]
   )
+
+  useEffect(() => {
+    if (!queryParams.panelId) {
+      setPanelInfo(undefined)
+      return
+    }
+    const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelGet, modelKey, queryParams.panelId))
+    request.quickSend<ModelPanelInfo>().then((response) => setPanelInfo(response))
+  }, [queryParams.panelId])
 
   const reloadDisplaySettings = async () => {
     const request = MyRequest(
@@ -213,7 +229,7 @@ export const DataAppDetailView: React.FC = () => {
               const columns = [
                 myDataColumn({
                   field: field,
-                  filterOptions: filterOptions,
+                  filterOptions: queryParams,
                   onFilterChange: (params) => updateQueryParams(params),
                   tagsCheckedMap: fullTagsCheckedMap[field.filterKey],
                   fixedColumn: fixedColumnMap[field.filterKey],
@@ -228,7 +244,7 @@ export const DataAppDetailView: React.FC = () => {
                       myDataColumn({
                         field: refField,
                         superField: field,
-                        filterOptions: filterOptions,
+                        filterOptions: queryParams,
                         onFilterChange: (params) => updateQueryParams(params),
                         tagsCheckedMap: fullTagsCheckedMap[refField.filterKey],
                         fixedColumn: fixedColumnMap[refField.filterKey],
@@ -302,7 +318,13 @@ export const DataAppDetailView: React.FC = () => {
         loadData={async (retainParams) => {
           const params = trimParams({
             ...retainParams,
-            ...filterOptions,
+            ...(panelInfo
+              ? panelInfo.configData.filterItems.reduce((result, cur) => {
+                  result[cur.key] = cur.value
+                  return result
+                }, {})
+              : {}),
+            ...queryParams,
           })
           latestParams.entity = params
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
