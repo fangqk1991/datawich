@@ -120,7 +120,16 @@ export const DataAppDetailView: React.FC = () => {
       return
     }
     const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelGet, modelKey, queryParams.panelId))
-    request.quickSend<ModelPanelInfo>().then((response) => setPanelInfo(response))
+    request.quickSend<ModelPanelInfo>().then((response) => {
+      setPanelInfo(response)
+      updateQueryParams({
+        ...response.configData.filterItems.reduce((result, cur) => {
+          result[cur.key] = cur.value
+          return result
+        }, {}),
+        ...queryParams,
+      })
+    })
   }, [queryParams.panelId, version])
 
   const reloadDisplaySettings = async () => {
@@ -150,7 +159,7 @@ export const DataAppDetailView: React.FC = () => {
     reloadDisplaySettings()
   }, [modelKey])
 
-  if (!dataModel || mainFields.length === 0) {
+  if (!dataModel || mainFields.length === 0 || panelInfo === undefined) {
     return <Spin size='large' />
   }
 
