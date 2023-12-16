@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FilterItemDialog } from './FilterItemDialog'
-import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { CheckOutlined, DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol } from '@fangcha/logic'
 import { TinyList } from './TinyList'
 import {
@@ -10,8 +10,8 @@ import {
   ModelPanelInfo,
   ModelPanelParams,
 } from '@fangcha/datawich-service'
-import { SimpleInputDialog, useQueryParams } from '@fangcha/react'
-import { Button, Input, message, Space } from 'antd'
+import { LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
+import { Button, Input, message, Space, Tag } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { MyRequest } from '@fangcha/auth-react'
@@ -99,6 +99,15 @@ export const DataFilterPanel: React.FC<Props> = ({
     return items
   }, [queryParams, panelInfo, fieldMapper])
 
+  const { data: panelList, loading } = useLoadingData(async () => {
+    const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelListGet, modelKey))
+    return request.quickSend<ModelPanelInfo[]>()
+  }, [modelKey])
+
+  if (loading) {
+    return <LoadingView />
+  }
+
   return (
     <Space direction={'vertical'}>
       <h2 style={{ margin: '6px 0' }}>
@@ -178,15 +187,18 @@ export const DataFilterPanel: React.FC<Props> = ({
           </Button>
         </Space>
       </h2>
-      {panelInfo && (
-        <div>
-          <ul>
-            <li>
-              当前面板: {panelInfo.name}({panelInfo.panelId})
-            </li>
-          </ul>
-        </div>
-      )}
+
+      <Space>
+        {panelList.map((item) => {
+          const checked = !!panelInfo && item.panelId === panelInfo.panelId
+          return (
+            <Tag key={item.panelId} color={checked ? 'red' : 'geekblue'}>
+              {item.name} {checked && <CheckOutlined />}
+            </Tag>
+          )
+        })}
+      </Space>
+
       <h4 style={{ margin: '6px 0', fontSize: '110%' }}>
         筛选条件{' '}
         <a
