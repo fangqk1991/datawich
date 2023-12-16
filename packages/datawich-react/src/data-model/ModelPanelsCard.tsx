@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { LS } from '../core/ReactI18n'
-import { ModelPanelInfo } from '@fangcha/datawich-service'
 import { Space, Tag } from 'antd'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelPanelApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
-import { RouterLink } from '@fangcha/react'
+import { LoadingView, RouterLink, useLoadingData } from '@fangcha/react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { ModelPanelInfo } from '@fangcha/datawich-service'
 
 export const ModelPanelsCard: ModelFragmentProtocol = ({ dataModel }) => {
-  const [panelList, setPanelList] = useState<ModelPanelInfo[]>([])
-  useEffect(() => {
+  const { data: panelList, loading } = useLoadingData(async () => {
     const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelListGet, dataModel.modelKey))
-    request.quickSend().then((response) => {
-      setPanelList(response)
-    })
+    return request.quickSend<ModelPanelInfo[]>()
   }, [dataModel])
+
+  if (loading) {
+    return <LoadingView />
+  }
 
   return (
     <div>
