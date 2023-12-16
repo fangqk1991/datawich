@@ -51,7 +51,7 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilt
         style={{ color: 'red' }}
         onClick={() => {
           onFilterItemChanged({
-            [filterItem.key]: undefined,
+            [filterItem.key]: '',
           })
         }}
       >

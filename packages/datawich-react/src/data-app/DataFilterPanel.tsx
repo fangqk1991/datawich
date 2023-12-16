@@ -56,14 +56,7 @@ export const DataFilterPanel: React.FC<Props> = ({
   }, [queryParams.keywords])
 
   const filterItems = useMemo(() => {
-    const items: FieldFilterItem[] = panelInfo
-      ? panelInfo.configData.filterItems
-          .map((item) => ({
-            ...item,
-            field: fieldMapper[item.filterKey],
-          }))
-          .filter((item) => !!item.field)
-      : []
+    const items: FieldFilterItem[] = []
     const filterItemMapper = items.reduce((result, cur) => {
       result[cur.key] = cur
       return result
@@ -139,6 +132,9 @@ export const DataFilterPanel: React.FC<Props> = ({
                   )
                   request.setBodyData(params)
                   await request.quickSend<ModelPanelInfo>()
+                  setQueryParams({
+                    panelId: panelInfo!.panelId,
+                  })
                   onPanelChanged()
                   message.info('面板保存成功')
                 })
@@ -171,7 +167,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                 const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelCreate, modelKey))
                 request.setBodyData(params)
                 const panel = await request.quickSend<ModelPanelInfo>()
-                updateQueryParams({
+                setQueryParams({
                   panelId: panel.panelId,
                 })
                 message.info('面板另存成功')
