@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FilterItemDialog } from './FilterItemDialog'
-import { CheckOutlined, DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol } from '@fangcha/logic'
 import { TinyList } from './TinyList'
 import {
@@ -11,7 +11,7 @@ import {
   ModelPanelParams,
 } from '@fangcha/datawich-service'
 import { LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
-import { Button, Input, message, Space, Tag } from 'antd'
+import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { MyRequest } from '@fangcha/auth-react'
@@ -192,8 +192,8 @@ export const DataFilterPanel: React.FC<Props> = ({
         {panelList.map((item) => {
           const checked = !!panelInfo && item.panelId === panelInfo.panelId
           return (
-            <Tag key={item.panelId} color={checked ? 'red' : 'geekblue'}>
-              {item.name} {checked && <CheckOutlined />}
+            <Tag key={item.panelId} color={'red'}>
+              {item.name} {<Checkbox checked={checked} onChange={() => setQueryParams({ panelId: item.panelId })} />}
             </Tag>
           )
         })}
