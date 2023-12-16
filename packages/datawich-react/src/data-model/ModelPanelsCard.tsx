@@ -6,6 +6,8 @@ import { CommonAPI } from '@fangcha/app-request'
 import { ModelPanelApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
+import { RouterLink } from '@fangcha/react'
+import { DatawichPages } from '@web/datawich-common/admin-apis'
 
 export const ModelPanelsCard: ModelFragmentProtocol = ({ dataModel }) => {
   const [panelList, setPanelList] = useState<ModelPanelInfo[]>([])
@@ -22,17 +24,14 @@ export const ModelPanelsCard: ModelFragmentProtocol = ({ dataModel }) => {
       <Space>
         {panelList.length === 0 && <span>暂无</span>}
         {panelList.map((item) => (
-          <Tag
+          <RouterLink
             key={item.panelId}
-            color={'geekblue'}
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              // const dialog = MilestoneInfoDialog.dialog(item)
-              // dialog.show()
-            }}
+            route={DatawichPages.DataAppDetailRoute}
+            params={[dataModel.modelKey]}
+            queryParams={{ panelId: item.panelId }}
           >
-            {item.name}
-          </Tag>
+            <Tag color={'geekblue'}>{item.name}</Tag>
+          </RouterLink>
         ))}
       </Space>
     </div>
