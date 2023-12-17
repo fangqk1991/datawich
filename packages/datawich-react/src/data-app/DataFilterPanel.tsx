@@ -103,6 +103,18 @@ export const DataFilterPanel: React.FC<Props> = ({
     const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelListGet, modelKey))
     return request.quickSend<ModelPanelInfo[]>()
   }, [modelKey, version])
+  const [hideOthers, setHideOthers] = useState(true)
+  const visiblePanels = useMemo(() => {
+    if (!panelList) {
+      return []
+    }
+    if (!hideOthers) {
+      return panelList
+    }
+    return panelList.filter(
+      (panel) => panel.author === visitorCtx.userInfo.email || panel.panelId === queryParams.panelId
+    )
+  }, [panelList, hideOthers, visitorCtx.userInfo])
 
   if (loading) {
     return <LoadingView />
@@ -177,7 +189,7 @@ export const DataFilterPanel: React.FC<Props> = ({
           >
             另存设置
           </Button>
-          {panelInfo && (
+          {
             <Button
               size={'small'}
               danger={true}
@@ -186,7 +198,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                   new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelDefaultPanel, modelKey)
                 )
                 request.setBodyData({
-                  panelId: panelInfo!.panelId,
+                  panelId: panelInfo ? panelInfo.panelId : '',
                 })
                 await request.quickSend()
                 message.success('设置成功')
@@ -194,12 +206,16 @@ export const DataFilterPanel: React.FC<Props> = ({
             >
               设为默认
             </Button>
-          )}
+          }
         </Space>
       </h2>
 
+      <Checkbox checked={hideOthers} onChange={(e) => setHideOthers(e.target.checked)}>
+        隐藏他人面板
+      </Checkbox>
+
       <Space>
-        {panelList.map((item) => {
+        {visiblePanels.map((item) => {
           const checked = !!panelInfo && item.panelId === panelInfo.panelId
           const isAuthor = visitorCtx.userInfo.email === item.author
           return (
