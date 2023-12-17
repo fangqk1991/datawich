@@ -223,7 +223,7 @@ export const DataFilterPanel: React.FC<Props> = ({
               {item.name}{' '}
               <Checkbox
                 checked={checked}
-                onChange={(e) => setQueryParams({ panelId: e.target.checked ? item.panelId : undefined })}
+                onChange={(e) => setQueryParams({ panelId: e.target.checked ? item.panelId : '' })}
               />{' '}
               {isAuthor && (
                 <DeleteOutlined

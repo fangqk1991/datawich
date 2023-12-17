@@ -120,6 +120,10 @@ export const DataAppDetailView: React.FC = () => {
   )
 
   useEffect(() => {
+    if (queryParams.panelId === '') {
+      setPanelInfo(null)
+      return
+    }
     if (!queryParams.panelId) {
       const request = MyRequest(
         new CommonAPI(CommonProfileApis.ProfileInfoGet, ProfileEvent.UserModelDefaultPanel, modelKey)
