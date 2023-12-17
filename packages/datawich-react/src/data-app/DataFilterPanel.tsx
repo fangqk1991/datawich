@@ -10,7 +10,7 @@ import {
   ModelPanelInfo,
   ModelPanelParams,
 } from '@fangcha/datawich-service'
-import { LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
+import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
 import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
@@ -186,7 +186,31 @@ export const DataFilterPanel: React.FC<Props> = ({
           const isAuthor = visitorCtx.userInfo.email === item.author
           return (
             <Tag key={item.panelId} color={isAuthor ? 'success' : 'red'}>
-              {item.name} {<Checkbox checked={checked} onChange={() => setQueryParams({ panelId: item.panelId })} />}
+              {item.name}{' '}
+              <Checkbox
+                checked={checked}
+                onChange={(e) => setQueryParams({ panelId: e.target.checked ? item.panelId : undefined })}
+              />{' '}
+              {isAuthor && (
+                <DeleteOutlined
+                  style={{ color: 'red' }}
+                  onClick={() => {
+                    const dialog = new ConfirmDialog({
+                      title: '删除面板',
+                      content: `确定要删除面板 ${item.name} 吗`,
+                    })
+                    dialog.show(async () => {
+                      const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelDelete, modelKey, item.panelId))
+                      await request.quickSend<ModelPanelInfo>()
+                      if (checked) {
+                        setQueryParams({})
+                      }
+                      setVersion(version + 1)
+                      message.success('面板删除成功')
+                    })
+                  }}
+                />
+              )}
             </Tag>
           )
         })}
@@ -280,7 +304,9 @@ export const DataFilterPanel: React.FC<Props> = ({
 
         <Button
           onClick={() => {
-            setQueryParams({})
+            setQueryParams({
+              panelId: queryParams.panelId,
+            })
             setKeywords('')
           }}
         >
