@@ -127,12 +127,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                   const params: ModelPanelParams = {
                     name: name,
                     configData: {
-                      filterItems: filterItems.map((item) => ({
-                        key: item.key,
-                        filterKey: item.filterKey,
-                        symbol: item.symbol,
-                        value: item.value,
-                      })),
+                      queryParams: queryParams,
                       displaySettings: displaySettings,
                     },
                   }
@@ -145,7 +140,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                     panelId: panelInfo!.panelId,
                   })
                   onPanelChanged()
-                  message.info('面板保存成功')
+                  message.success('面板保存成功')
                 })
               }}
             >
@@ -164,12 +159,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                 const params: ModelPanelParams = {
                   name: name,
                   configData: {
-                    filterItems: filterItems.map((item) => ({
-                      key: item.key,
-                      filterKey: item.filterKey,
-                      symbol: item.symbol,
-                      value: item.value,
-                    })),
+                    queryParams: queryParams,
                     displaySettings: displaySettings,
                   },
                 }
@@ -179,7 +169,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                 setQueryParams({
                   panelId: panel.panelId,
                 })
-                message.info('面板另存成功')
+                message.success('面板另存成功')
               })
             }}
           >

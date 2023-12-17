@@ -9,7 +9,7 @@ export class _ModelPanel extends __ModelPanel {
 
   public configData(): ModelPanelConfig {
     let defaultData: ModelPanelConfig = {
-      filterItems: [],
+      queryParams: {},
       displaySettings: {
         hiddenFieldsMap: {},
         checkedList: [],
@@ -36,8 +36,8 @@ export class _ModelPanel extends __ModelPanel {
   public async updateInfos(params: ModelPanelParams) {
     assert.ok(!!params.name, '名称不能为空')
     assert.ok(!!params.configData, 'configData 不能为空')
-    assert.ok(Array.isArray(params.configData.filterItems), 'configData.filterItems 有误')
     assert.ok(!!params.configData.displaySettings, 'configData.displaySettings 有误')
+    params.configData.queryParams = params.configData.queryParams || {}
 
     this.fc_edit()
     this.author = params.author || ''

@@ -23,8 +23,8 @@ export interface FieldFilterItem extends FieldFilterParams {
 }
 
 export interface ModelPanelConfig {
-  filterItems: FieldFilterParams[]
   displaySettings: FieldsDisplaySettings
+  queryParams: { [p: string]: any }
 }
 
 export interface ModelPanelParams {

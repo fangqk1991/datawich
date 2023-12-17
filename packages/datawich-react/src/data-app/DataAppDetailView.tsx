@@ -123,10 +123,7 @@ export const DataAppDetailView: React.FC = () => {
     request.quickSend<ModelPanelInfo>().then((response) => {
       setPanelInfo(response)
       updateQueryParams({
-        ...response.configData.filterItems.reduce((result, cur) => {
-          result[cur.key] = cur.value
-          return result
-        }, {}),
+        ...response.configData.queryParams,
         ...queryParams,
       })
     })
@@ -330,12 +327,7 @@ export const DataAppDetailView: React.FC = () => {
         loadData={async (retainParams) => {
           const params = trimParams({
             ...retainParams,
-            ...(panelInfo
-              ? panelInfo.configData.filterItems.reduce((result, cur) => {
-                  result[cur.key] = cur.value
-                  return result
-                }, {})
-              : {}),
+            ...(panelInfo ? panelInfo.configData.queryParams : {}),
             ...queryParams,
           })
           latestParams.entity = params
