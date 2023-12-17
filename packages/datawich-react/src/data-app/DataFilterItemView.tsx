@@ -1,7 +1,7 @@
 import React from 'react'
 import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { TextSymbolDescriptor } from '@fangcha/logic'
+import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import { FieldFilterItem, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 
 interface Props {
@@ -12,6 +12,9 @@ interface Props {
 
 export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilterItemChanged }) => {
   const describeValue = (val: string | string[]): any => {
+    if ([TextSymbol.$isTrue, TextSymbol.$isNull, TextSymbol.$isNotNull].includes(filterItem.symbol)) {
+      return ''
+    }
     if (Array.isArray(val)) {
       return val.map((subVal) => describeValue(subVal))
     }

@@ -89,7 +89,14 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           case FieldType.Link:
           case FieldType.RichText:
           case FieldType.ReadonlyText:
-            values = [TextSymbol.$eq, TextSymbol.$ne, TextSymbol.$like]
+            values = [
+              TextSymbol.$eq,
+              TextSymbol.$ne,
+              TextSymbol.$like,
+              TextSymbol.$startsWith,
+              TextSymbol.$endsWith,
+              TextSymbol.$isTrue,
+            ]
             break
           case FieldType.TextEnum:
             // values = [TextSymbol.$eq]
@@ -137,6 +144,8 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           Array.isArray(result.value)
         ) {
           result.value = result.value ? result.value.map((item: any) => dayjs(item).format('YYYY-MM-DD')) : []
+        } else if ([TextSymbol.$isTrue, TextSymbol.$isNull, TextSymbol.$isNotNull].includes(result.symbol)) {
+          result.value = '1'
         }
         return result
       }
@@ -176,6 +185,9 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
 
           <ProFormDependency name={['filterKey', 'symbol']}>
             {({ filterKey, symbol }) => {
+              if ([TextSymbol.$isTrue, TextSymbol.$isNull, TextSymbol.$isNotNull].includes(symbol)) {
+                return <></>
+              }
               return (
                 <ProForm.Item name={'value'} label={'筛选值'}>
                   {(() => {
@@ -228,13 +240,15 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
                           />
                         )
                       case TextSymbol.$like:
+                      case TextSymbol.$startsWith:
+                      case TextSymbol.$endsWith:
                         break
                       case TextSymbol.$boolEQ:
                         break
+                      case TextSymbol.$isTrue:
                       case TextSymbol.$isNull:
-                        break
                       case TextSymbol.$isNotNull:
-                        break
+                        return '无'
                     }
                     return <ProFormText />
                   })()}
