@@ -8,6 +8,7 @@ export interface FieldsDisplaySettings {
 }
 
 export interface FieldFilterParams {
+  isNot?: boolean
   key: string
   filterKey: string
   symbol: TextSymbol
@@ -15,6 +16,7 @@ export interface FieldFilterParams {
 }
 
 export interface FieldFilterItem extends FieldFilterParams {
+  isNot?: boolean
   key: string
   filterKey: string
   symbol: TextSymbol

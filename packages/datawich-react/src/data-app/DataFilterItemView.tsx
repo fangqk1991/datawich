@@ -34,11 +34,23 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilt
     return val
   }
   const displayValue = describeValue(filterItem.value)
-  return (
-    <li>
+
+  const element = (
+    <>
       <span>{filterItem.field.name}</span>{' '}
       <b style={{ color: '#dc3545' }}>{TextSymbolDescriptor.describe(filterItem.symbol)}</b>{' '}
-      <span>{Array.isArray(displayValue) ? JSON.stringify(displayValue) : displayValue}</span>{' '}
+      <span>{Array.isArray(displayValue) ? JSON.stringify(displayValue) : displayValue}</span>
+    </>
+  )
+  return (
+    <li>
+      {filterItem.isNot ? (
+        <>
+          <b style={{ color: '#dc3545' }}>NOT</b> ({element})
+        </>
+      ) : (
+        element
+      )}{' '}
       <a
         onClick={() => {
           const dialog = new FilterItemDialog({
@@ -47,12 +59,9 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilt
           })
           dialog.show((params) => {
             onFilterItemChanged({
-              [filterItem.key]: undefined,
+              [filterItem.key]: '',
               [params.key]: params.value,
             })
-          })
-          onFilterItemChanged({
-            keywords: undefined,
           })
         }}
       >

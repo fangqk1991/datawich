@@ -3,6 +3,7 @@ import { DialogProps, ReactDialog } from '@fangcha/react'
 import { Checkbox, Form } from 'antd'
 import {
   ProForm,
+  ProFormCheckbox,
   ProFormDateRangePicker,
   ProFormDependency,
   ProFormDigit,
@@ -40,6 +41,8 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           )
         )
       )
+      params.isNot = params.isNot || false
+
       if (
         [
           TextSymbol.$in,
@@ -128,12 +131,19 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
 
       const [form] = Form.useForm<FieldFilterParams>()
       props.context.handleResult = () => {
-        const options = {
+        const options: FieldFilterParams = {
           ...params,
           ...form.getFieldsValue(),
         }
+        let key = options.filterKey
+        if (options.symbol !== TextSymbol.$eq || options.isNot) {
+          key = `${options.filterKey}.${options.symbol}`
+        }
+        if (options.isNot) {
+          key = `${options.filterKey}.\$not.${options.symbol}`
+        }
         const result: FieldFilterParams = {
-          key: options.symbol === TextSymbol.$eq ? options.filterKey : `${options.filterKey}.${options.symbol}`,
+          key: key,
           filterKey: options.filterKey,
           symbol: options.symbol,
           value: options.value,
@@ -163,6 +173,9 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
             }
           }}
         >
+          <ProFormCheckbox name={'isNot'}>
+            <b style={{ color: 'red' }}>结果取反</b>
+          </ProFormCheckbox>
           <ProFormRadio.Group
             name={'filterKey'}
             label={'字段'}

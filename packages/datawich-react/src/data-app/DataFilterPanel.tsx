@@ -82,13 +82,15 @@ export const DataFilterPanel: React.FC<Props> = ({
         })
         continue
       }
-      const matches = key.match(/^([a-zA-Z_][\w.]+)\.(\$\w+)(\.\w+)?$/)
+      const matches = key.match(/^([a-zA-Z_][\w.]+)\.(\$not\.)?(\$\w+)(\.\w+)?$/)
       if (!matches || !fieldMapper[matches[1]]) {
         continue
       }
       const filterKey = matches[1]
-      const symbol = matches[2] as TextSymbol
+      const isNot = matches[2] === '$not.'
+      const symbol = matches[3] as TextSymbol
       mergeFilterItem({
+        isNot: isNot,
         key: key,
         filterKey: filterKey,
         symbol: symbol,
@@ -355,7 +357,7 @@ export const DataFilterPanel: React.FC<Props> = ({
               style={{ color: 'red' }}
               onClick={() => {
                 updateQueryParams({
-                  keywords: undefined,
+                  keywords: '',
                 })
               }}
             >
