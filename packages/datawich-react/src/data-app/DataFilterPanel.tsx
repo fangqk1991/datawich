@@ -115,7 +115,7 @@ export const DataFilterPanel: React.FC<Props> = ({
       <h2 style={{ margin: '6px 0' }}>
         <Space>
           <span>控制面板</span>
-          {panelInfo && (
+          {panelInfo && visitorCtx.userInfo.email === panelInfo.author && (
             <Button
               size={'small'}
               type={'primary'}
