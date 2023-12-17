@@ -199,7 +199,17 @@ export const DataAppDetailView: React.FC = () => {
         </>
       )}
 
-      <Space>
+      <DataFilterPanel
+        panelInfo={panelInfo}
+        modelKey={modelKey}
+        mainFields={mainFields}
+        displaySettings={displaySettings}
+        onPanelChanged={() => setVersion(version + 1)}
+      />
+
+      <Divider style={{ margin: '0 0 12px' }} />
+
+      <Space style={{ marginBottom: '12px' }}>
         <DataCreateButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
         <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
         <Button
@@ -219,15 +229,7 @@ export const DataAppDetailView: React.FC = () => {
         </Button>
       </Space>
 
-      <Divider style={{ margin: '12px 0' }} />
-
-      <DataFilterPanel
-        panelInfo={panelInfo}
-        modelKey={modelKey}
-        mainFields={mainFields}
-        displaySettings={displaySettings}
-        onPanelChanged={() => setVersion(version + 1)}
-      />
+      {/*<Divider style={{ margin: '12px 0' }} />*/}
 
       <TableView
         rowKey={(item: DataRecord) => {
