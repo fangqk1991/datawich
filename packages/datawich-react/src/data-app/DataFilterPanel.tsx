@@ -27,6 +27,15 @@ interface Props {
   onPanelChanged: () => Promise<void> | void
 }
 
+const trimQueryParams = (queryParams: {} = {}) => {
+  return Object.keys(queryParams)
+    .filter((key) => !!queryParams[key])
+    .reduce((result, key) => {
+      result[key] = queryParams[key]
+      return result
+    }, {})
+}
+
 export const DataFilterPanel: React.FC<Props> = ({
   modelKey,
   mainFields,
@@ -141,7 +150,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                   const params: ModelPanelParams = {
                     name: name,
                     configData: {
-                      queryParams: queryParams,
+                      queryParams: trimQueryParams(queryParams),
                       displaySettings: displaySettings,
                     },
                   }
@@ -174,7 +183,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                 const params: ModelPanelParams = {
                   name: name,
                   configData: {
-                    queryParams: queryParams,
+                    queryParams: trimQueryParams(queryParams),
                     displaySettings: displaySettings,
                   },
                 }
@@ -295,7 +304,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                 const params: ModelPanelParams = {
                   name: panelInfo.name,
                   configData: {
-                    queryParams: queryParams,
+                    queryParams: trimQueryParams(queryParams),
                     displaySettings: newDisplaySettings,
                   },
                 }
@@ -318,7 +327,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                   const params: ModelPanelParams = {
                     name: name,
                     configData: {
-                      queryParams: queryParams,
+                      queryParams: trimQueryParams(queryParams),
                       displaySettings: newDisplaySettings,
                     },
                   }
