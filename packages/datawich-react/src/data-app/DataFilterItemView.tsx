@@ -18,6 +18,14 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilt
     switch (filterItem.field.fieldType) {
       case FieldType.TextEnum:
       case FieldType.MultiEnum:
+        if (val.includes(',')) {
+          return describeValue(
+            val
+              .split(',')
+              .map((item) => item.trim())
+              .filter((item) => !!item)
+          )
+        }
         return filterItem.field.value2LabelMap[val]
     }
     return val
