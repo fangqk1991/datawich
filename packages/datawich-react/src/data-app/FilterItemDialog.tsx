@@ -46,7 +46,6 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
       if (
         [
           TextSymbol.$in,
-          TextSymbol.$notIn,
           TextSymbol.$includeAll,
           TextSymbol.$includeAny,
           TextSymbol.$excludeAll,
@@ -62,25 +61,7 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
       const [curField, setCurField] = useState(() => displayFields.find((item) => item.filterKey === params.filterKey)!)
 
       const symbolOptions = useMemo(() => {
-        let values: TextSymbol[] = [
-          TextSymbol.$eq,
-          TextSymbol.$ne,
-          // TextSymbol.$ge,
-          // TextSymbol.$gt,
-          // TextSymbol.$le,
-          // TextSymbol.$lt,
-          // TextSymbol.$includeAll,
-          // TextSymbol.$includeAny,
-          // TextSymbol.$excludeAll,
-          // TextSymbol.$excludeAny,
-          // TextSymbol.$in,
-          // TextSymbol.$notIn,
-          // TextSymbol.$between,
-          // TextSymbol.$like,
-          // TextSymbol.$boolEQ,
-          // TextSymbol.$isNull,
-          // TextSymbol.$isNotNull,
-        ]
+        let values: TextSymbol[] = [TextSymbol.$eq, TextSymbol.$ne]
         switch (curField.fieldType) {
           case FieldType.Integer:
           case FieldType.Float:

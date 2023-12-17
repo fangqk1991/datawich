@@ -344,15 +344,16 @@ export const DataFilterPanel: React.FC<Props> = ({
               panelId: queryParams.panelId,
             })
             setKeywords('')
+            onPanelChanged()
           }}
         >
           重置过滤器
         </Button>
       </Space>
       <TinyList>
-        {keywords && (
+        {queryParams.keywords && (
           <li>
-            keywords = {keywords}{' '}
+            keywords = {queryParams.keywords}{' '}
             <a
               style={{ color: 'red' }}
               onClick={() => {
