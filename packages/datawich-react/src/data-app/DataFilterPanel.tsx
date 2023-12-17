@@ -16,8 +16,8 @@ import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { MyRequest, useVisitorCtx } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelPanelApis } from '@web/datawich-common/web-api'
-import { FieldHelper } from '@web/datawich-common/models'
+import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
+import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 
 interface Props {
   panelInfo?: ModelPanelInfo | null
@@ -177,6 +177,24 @@ export const DataFilterPanel: React.FC<Props> = ({
           >
             另存设置
           </Button>
+          {panelInfo && (
+            <Button
+              size={'small'}
+              danger={true}
+              onClick={async () => {
+                const request = MyRequest(
+                  new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelDefaultPanel, modelKey)
+                )
+                request.setBodyData({
+                  panelId: panelInfo!.panelId,
+                })
+                await request.quickSend()
+                message.success('设置成功')
+              }}
+            >
+              设为默认
+            </Button>
+          )}
         </Space>
       </h2>
 

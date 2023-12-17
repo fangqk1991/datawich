@@ -2,7 +2,13 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
-import { DataAppApis, DataModelApis, ModelFieldApis, ModelPanelApis, } from '@web/datawich-common/web-api'
+import {
+  CommonProfileApis,
+  DataAppApis,
+  DataModelApis,
+  ModelFieldApis,
+  ModelPanelApis,
+} from '@web/datawich-common/web-api'
 import {
   DataModelModel,
   FieldsDisplaySettings,
@@ -17,7 +23,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { GeneralDataDialog } from './GeneralDataDialog'
@@ -115,7 +121,18 @@ export const DataAppDetailView: React.FC = () => {
 
   useEffect(() => {
     if (!queryParams.panelId) {
-      setPanelInfo(null)
+      const request = MyRequest(
+        new CommonAPI(CommonProfileApis.ProfileInfoGet, ProfileEvent.UserModelDefaultPanel, modelKey)
+      )
+      request.quickSend<{ panelId: string }>().then(({ panelId }) => {
+        if (panelId) {
+          updateQueryParams({
+            panelId: panelId,
+          })
+        } else {
+          setPanelInfo(null)
+        }
+      })
       return
     }
     const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelGet, modelKey, queryParams.panelId))
