@@ -2,13 +2,7 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
-import {
-  CommonProfileApis,
-  DataAppApis,
-  DataModelApis,
-  ModelFieldApis,
-  ModelPanelApis,
-} from '@web/datawich-common/web-api'
+import { DataAppApis, DataModelApis, ModelFieldApis, ModelPanelApis, } from '@web/datawich-common/web-api'
 import {
   DataModelModel,
   FieldsDisplaySettings,
@@ -23,7 +17,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
-import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
+import { FieldHelper } from '@web/datawich-common/models'
 import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { GeneralDataDialog } from './GeneralDataDialog'
@@ -72,11 +66,16 @@ export const DataAppDetailView: React.FC = () => {
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
 
-  const [displaySettings, setDisplaySettings] = useState<FieldsDisplaySettings>({
-    hiddenFieldsMap: {},
-    checkedList: [],
-    fixedList: [],
-  })
+  const displaySettings = useMemo<FieldsDisplaySettings>(() => {
+    if (panelInfo) {
+      return panelInfo.configData.displaySettings
+    }
+    return {
+      hiddenFieldsMap: {},
+      checkedList: [],
+      fixedList: [],
+    }
+  }, [panelInfo])
 
   const fixedColumnMap = useMemo(() => {
     return displaySettings.fixedList.reduce((result, cur) => {
@@ -129,17 +128,6 @@ export const DataAppDetailView: React.FC = () => {
     })
   }, [queryParams.panelId, version])
 
-  const reloadDisplaySettings = async () => {
-    const request = MyRequest(
-      new CommonAPI(CommonProfileApis.ProfileInfoGet, ProfileEvent.UserModelAppDisplay, modelKey)
-    )
-    const displaySettings = await request.quickSend<FieldsDisplaySettings>()
-    displaySettings.hiddenFieldsMap = displaySettings.hiddenFieldsMap || {}
-    displaySettings.checkedList = displaySettings.checkedList || []
-    displaySettings.fixedList = displaySettings.fixedList || []
-    setDisplaySettings(displaySettings)
-  }
-
   useEffect(() => {
     MyRequest(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, modelKey))
       .quickSend()
@@ -152,8 +140,6 @@ export const DataAppDetailView: React.FC = () => {
       .then((response) => {
         setDataModel(response)
       })
-
-    reloadDisplaySettings()
   }, [modelKey])
 
   if (!dataModel || mainFields.length === 0 || panelInfo === undefined) {
@@ -220,7 +206,6 @@ export const DataAppDetailView: React.FC = () => {
         mainFields={mainFields}
         displaySettings={displaySettings}
         onPanelChanged={() => setVersion(version + 1)}
-        onDisplaySettingsChanged={reloadDisplaySettings}
       />
 
       <TableView

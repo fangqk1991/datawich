@@ -16,8 +16,8 @@ import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { MyRequest, useVisitorCtx } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
-import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
+import { ModelPanelApis } from '@web/datawich-common/web-api'
+import { FieldHelper } from '@web/datawich-common/models'
 
 interface Props {
   panelInfo?: ModelPanelInfo | null
@@ -25,14 +25,12 @@ interface Props {
   mainFields: ModelFieldModel[]
   displaySettings: FieldsDisplaySettings
   onPanelChanged: () => Promise<void> | void
-  onDisplaySettingsChanged: () => Promise<void>
 }
 
 export const DataFilterPanel: React.FC<Props> = ({
   modelKey,
   mainFields,
   displaySettings,
-  onDisplaySettingsChanged,
   onPanelChanged,
   panelInfo,
 }) => {
@@ -232,14 +230,48 @@ export const DataFilterPanel: React.FC<Props> = ({
               mainFields: mainFields,
               displaySettings: displaySettings,
             })
-            dialog.show(async (params) => {
-              const request = MyRequest(
-                new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelAppDisplay, modelKey)
-              )
-              request.setBodyData(params)
-              await request.execute()
-              message.success('调整成功')
-              await onDisplaySettingsChanged()
+            dialog.show(async (newDisplaySettings) => {
+              if (panelInfo) {
+                const params: ModelPanelParams = {
+                  name: panelInfo.name,
+                  configData: {
+                    queryParams: queryParams,
+                    displaySettings: newDisplaySettings,
+                  },
+                }
+                const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelUpdate, modelKey, panelInfo.panelId))
+                request.setBodyData(params)
+                await request.quickSend<ModelPanelInfo>()
+                setQueryParams({
+                  panelId: panelInfo.panelId,
+                })
+                onPanelChanged()
+                setVersion(version + 1)
+                message.success('面板保存成功')
+              } else {
+                const dialog = new SimpleInputDialog({
+                  title: '另存为',
+                  placeholder: '面板名称',
+                  curValue: '',
+                })
+                dialog.show(async (name) => {
+                  const params: ModelPanelParams = {
+                    name: name,
+                    configData: {
+                      queryParams: queryParams,
+                      displaySettings: newDisplaySettings,
+                    },
+                  }
+                  const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelCreate, modelKey))
+                  request.setBodyData(params)
+                  const panel = await request.quickSend<ModelPanelInfo>()
+                  setQueryParams({
+                    panelId: panel.panelId,
+                  })
+                  setVersion(version + 1)
+                  message.success('面板另存成功')
+                })
+              }
             })
           }}
         >
