@@ -14,7 +14,7 @@ import { LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '
 import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
-import { MyRequest } from '@fangcha/auth-react'
+import { MyRequest, useVisitorCtx } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
@@ -37,6 +37,8 @@ export const DataFilterPanel: React.FC<Props> = ({
   panelInfo,
 }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
+  const [version, setVersion] = useState(0)
+  const visitorCtx = useVisitorCtx()
 
   const displayFields = useMemo(
     () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
@@ -102,7 +104,7 @@ export const DataFilterPanel: React.FC<Props> = ({
   const { data: panelList, loading } = useLoadingData(async () => {
     const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelListGet, modelKey))
     return request.quickSend<ModelPanelInfo[]>()
-  }, [modelKey])
+  }, [modelKey, version])
 
   if (loading) {
     return <LoadingView />
@@ -140,6 +142,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                     panelId: panelInfo!.panelId,
                   })
                   onPanelChanged()
+                  setVersion(version + 1)
                   message.success('面板保存成功')
                 })
               }}
@@ -169,6 +172,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                 setQueryParams({
                   panelId: panel.panelId,
                 })
+                setVersion(version + 1)
                 message.success('面板另存成功')
               })
             }}
@@ -181,8 +185,9 @@ export const DataFilterPanel: React.FC<Props> = ({
       <Space>
         {panelList.map((item) => {
           const checked = !!panelInfo && item.panelId === panelInfo.panelId
+          const isAuthor = visitorCtx.userInfo.email === item.author
           return (
-            <Tag key={item.panelId} color={'red'}>
+            <Tag key={item.panelId} color={isAuthor ? 'success' : 'red'}>
               {item.name} {<Checkbox checked={checked} onChange={() => setQueryParams({ panelId: item.panelId })} />}
             </Tag>
           )

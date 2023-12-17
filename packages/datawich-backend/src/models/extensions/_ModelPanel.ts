@@ -40,7 +40,6 @@ export class _ModelPanel extends __ModelPanel {
     params.configData.queryParams = params.configData.queryParams || {}
 
     this.fc_edit()
-    this.author = params.author || ''
     this.name = params.name
     this.configDataStr = JSON.stringify(params.configData)
     await this.updateToDB()

@@ -3,6 +3,7 @@ import { SessionChecker } from '../../../../services/SessionChecker'
 import { DataModelHandler } from '../../../../services/DataModelHandler'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { ModelPanelApis } from '@web/datawich-common/web-api'
+import assert from '@fangcha/assert'
 
 const factory = new SpecFactory('模型面板')
 
@@ -37,11 +38,19 @@ factory.prepare(ModelPanelApis.ModelPanelUpdate, async (ctx) => {
   await new DataModelSpecHandler(ctx).handleModelPanel(async (panel, dataModel) => {
     const checker = new SessionChecker(ctx)
     await checker.assertModelAccessible(dataModel)
-    await panel.updateInfos({
-      ...ctx.request.body,
-      author: checker.email,
-    })
+    assert.ok(checker.email === panel.author, `Only the author can modify it.`)
+    await panel.updateInfos(ctx.request.body)
     ctx.body = panel.modelForClient()
+  })
+})
+
+factory.prepare(ModelPanelApis.ModelPanelDelete, async (ctx) => {
+  await new DataModelSpecHandler(ctx).handleModelPanel(async (panel, dataModel) => {
+    const checker = new SessionChecker(ctx)
+    await checker.assertModelAccessible(dataModel)
+    assert.ok(checker.email === panel.author, `Only the author can modify it.`)
+    await panel.deleteFromDB()
+    ctx.status = 200
   })
 })
 
