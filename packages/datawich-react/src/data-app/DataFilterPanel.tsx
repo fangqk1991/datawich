@@ -44,11 +44,11 @@ export const DataFilterPanel: React.FC<Props> = ({
   )
 
   const fieldMapper = useMemo(() => {
-    return displayFields.reduce((result, cur) => {
+    return mainFields.reduce((result, cur) => {
       result[cur.filterKey] = cur
       return result
     }, {} as { [p: string]: ModelFieldModel })
-  }, [displayFields])
+  }, [mainFields])
 
   const [keywords, setKeywords] = useState('')
   useEffect(() => {
@@ -221,7 +221,7 @@ export const DataFilterPanel: React.FC<Props> = ({
         <a
           onClick={() => {
             const dialog = new FilterItemDialog({
-              fieldItems: displayFields,
+              displayFields: displayFields,
             })
             dialog.show((params) => {
               updateQueryParams({

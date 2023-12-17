@@ -31,8 +31,8 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilt
       <a
         onClick={() => {
           const dialog = new FilterItemDialog({
-            filterParams: filterItem,
-            fieldItems: fields,
+            filterItem: filterItem,
+            displayFields: fields,
           })
           dialog.show((params) => {
             onFilterItemChanged({

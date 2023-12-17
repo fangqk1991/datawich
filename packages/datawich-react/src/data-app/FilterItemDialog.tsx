@@ -9,13 +9,13 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components'
-import { FieldFilterParams, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldFilterItem, FieldFilterParams, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import * as dayjs from 'dayjs'
 
 interface Props extends DialogProps {
-  fieldItems: ModelFieldModel[]
-  filterParams?: FieldFilterParams
+  displayFields: ModelFieldModel[]
+  filterItem?: FieldFilterItem
 }
 
 export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
@@ -23,14 +23,17 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
 
   public rawComponent(): React.FC<Props> {
     return (props) => {
-      const fieldItems = props.fieldItems
+      const displayFields = [...props.displayFields]
+      if (props.filterItem && !displayFields.find((item) => props.filterItem!.field === item)) {
+        displayFields.push(props.filterItem.field)
+      }
       const [params, setParams] = useState<FieldFilterParams>(
         JSON.parse(
           JSON.stringify(
-            props.filterParams ||
+            props.filterItem ||
               ({
-                key: fieldItems[0].filterKey,
-                filterKey: fieldItems[0].filterKey,
+                key: displayFields[0].filterKey,
+                filterKey: displayFields[0].filterKey,
                 symbol: TextSymbol.$eq,
                 value: '',
               } as FieldFilterParams)
@@ -53,7 +56,7 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           .map((item) => item.trim())
           .filter((item) => !!item)
       }
-      const [curField, setCurField] = useState(() => fieldItems.find((item) => item.filterKey === params.filterKey)!)
+      const [curField, setCurField] = useState(() => displayFields.find((item) => item.filterKey === params.filterKey)!)
 
       const symbolOptions = useMemo(() => {
         let values: TextSymbol[] = [
@@ -147,14 +150,14 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           initialValues={params}
           onValuesChange={(options: FieldFilterParams) => {
             if (options.filterKey) {
-              setCurField(fieldItems.find((item) => item.filterKey === options.filterKey)!)
+              setCurField(displayFields.find((item) => item.filterKey === options.filterKey)!)
             }
           }}
         >
           <ProFormRadio.Group
             name={'filterKey'}
             label={'字段'}
-            options={fieldItems.map((item) => ({ label: item.name, value: item.filterKey }))}
+            options={displayFields.map((item) => ({ label: item.name, value: item.filterKey }))}
             radioType='button'
           />
           <ProFormRadio.Group
