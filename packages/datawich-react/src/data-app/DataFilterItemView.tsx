@@ -2,7 +2,8 @@ import React from 'react'
 import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
-import { FieldFilterItem, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldFilterItem, FieldType, ModelFieldModel, ModelPanelTools } from '@fangcha/datawich-service'
+import { Checkbox, Tag } from 'antd'
 
 interface Props {
   filterItem: FieldFilterItem
@@ -42,41 +43,72 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilt
       <span>{Array.isArray(displayValue) ? JSON.stringify(displayValue) : displayValue}</span>
     </>
   )
+  const checked = !filterItem.disabled
   return (
     <li>
-      {filterItem.isNot ? (
-        <>
-          <b style={{ color: '#dc3545' }}>NOT</b> ({element})
-        </>
-      ) : (
-        element
-      )}{' '}
-      <a
-        onClick={() => {
-          const dialog = new FilterItemDialog({
-            filterItem: filterItem,
-            displayFields: fields,
-          })
-          dialog.show((params) => {
+      <Tag color={checked ? 'green' : ''}>
+        {filterItem.isNot ? (
+          <>
+            <b style={{ color: '#dc3545' }}>NOT</b> ({element})
+          </>
+        ) : (
+          element
+        )}{' '}
+        <Checkbox
+          checked={checked}
+          onChange={(e) => {
+            if (e.target.checked) {
+              onFilterItemChanged({
+                [ModelPanelTools.calculateFilterItemKey({
+                  ...filterItem,
+                  disabled: true,
+                })]: '',
+                [ModelPanelTools.calculateFilterItemKey({
+                  ...filterItem,
+                  disabled: false,
+                })]: filterItem.value,
+              })
+            } else {
+              onFilterItemChanged({
+                [ModelPanelTools.calculateFilterItemKey({
+                  ...filterItem,
+                  disabled: false,
+                })]: '',
+                [ModelPanelTools.calculateFilterItemKey({
+                  ...filterItem,
+                  disabled: true,
+                })]: filterItem.value,
+              })
+            }
+          }}
+        />{' '}
+        <a
+          onClick={() => {
+            const dialog = new FilterItemDialog({
+              filterItem: filterItem,
+              displayFields: fields,
+            })
+            dialog.show((params) => {
+              onFilterItemChanged({
+                [filterItem.key]: '',
+                [params.key]: params.value,
+              })
+            })
+          }}
+        >
+          <EditOutlined />
+        </a>{' '}
+        <a
+          style={{ color: 'red' }}
+          onClick={() => {
             onFilterItemChanged({
               [filterItem.key]: '',
-              [params.key]: params.value,
             })
-          })
-        }}
-      >
-        <EditOutlined />
-      </a>{' '}
-      <a
-        style={{ color: 'red' }}
-        onClick={() => {
-          onFilterItemChanged({
-            [filterItem.key]: '',
-          })
-        }}
-      >
-        <DeleteOutlined />
-      </a>
+          }}
+        >
+          <DeleteOutlined />
+        </a>
+      </Tag>
     </li>
   )
 }

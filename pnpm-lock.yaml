@@ -92,8 +92,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.44.0
-        version: 0.44.0
+        specifier: ^0.45.0
+        version: 0.45.0
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -6291,8 +6291,8 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.44.0:
-    resolution: {integrity: sha512-c6viDLOjo8vluPW6mKTRfD3O9fhEXSNhcT7lePfAL5GnhzvcX8yKTrQlHT+weEVngA8wcfIJgZSlOX3IpzyR3w==}
+  /fc-feed@0.45.0:
+    resolution: {integrity: sha512-BZE0odqvZvsGz0TKJXksklhqC7RbDlJIOJhBAQocuH9CzUyXU1U/0f/h/myAI7aD6+xkkCYVMooCWYq4FsF2Ow==}
     dependencies:
       '@fangcha/logic': 0.7.0
       fc-model: 0.6.0

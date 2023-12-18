@@ -338,6 +338,11 @@ export const DataAppDetailView: React.FC = () => {
             ...(panelInfo ? panelInfo.configData.queryParams : {}),
             ...queryParams,
           })
+          Object.keys(params)
+            .filter((key) => key.endsWith('.disabled'))
+            .forEach((key) => {
+              delete params[key]
+            })
           latestParams.entity = params
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
           request.setQueryParams(params)

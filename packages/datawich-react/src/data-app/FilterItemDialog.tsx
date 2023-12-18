@@ -10,7 +10,13 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components'
-import { FieldFilterItem, FieldFilterParams, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import {
+  FieldFilterItem,
+  FieldFilterParams,
+  FieldType,
+  ModelFieldModel,
+  ModelPanelTools,
+} from '@fangcha/datawich-service'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import * as dayjs from 'dayjs'
 
@@ -116,15 +122,8 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           ...params,
           ...form.getFieldsValue(),
         }
-        let key = options.filterKey
-        if (options.symbol !== TextSymbol.$eq || options.isNot) {
-          key = `${options.filterKey}.${options.symbol}`
-        }
-        if (options.isNot) {
-          key = `${options.filterKey}.\$not.${options.symbol}`
-        }
         const result: FieldFilterParams = {
-          key: key,
+          key: ModelPanelTools.calculateFilterItemKey(options),
           filterKey: options.filterKey,
           symbol: options.symbol,
           value: options.value,

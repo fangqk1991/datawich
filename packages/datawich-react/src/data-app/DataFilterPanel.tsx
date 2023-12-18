@@ -98,8 +98,10 @@ export const DataFilterPanel: React.FC<Props> = ({
       const filterKey = matches[1]
       const isNot = matches[2] === '$not.'
       const symbol = matches[3] as TextSymbol
+      const extension = matches[4]
       mergeFilterItem({
         isNot: isNot,
+        disabled: extension === '.disabled',
         key: key,
         filterKey: filterKey,
         symbol: symbol,
