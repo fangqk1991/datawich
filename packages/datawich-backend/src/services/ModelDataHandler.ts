@@ -87,21 +87,42 @@ export class ModelDataHandler {
 
   public async convertData(data: any) {
     const convertData = (fieldType: string, dataKey: string) => {
+      const entityKey = GeneralDataHelper.entityKey(dataKey)
       switch (fieldType) {
         case FieldType.StringList: {
+          let entity: string[] = []
           if (data[dataKey]) {
             try {
               if (data[dataKey]) {
-                data[dataKey] = JSON.parse(data[dataKey])
+                entity = JSON.parse(data[dataKey])
+              }
+            } catch (e) {
+              console.error(e)
+            }
+            /**
+             * @deprecated
+             */
+            data[dataKey] = entity
+          }
+          data[entityKey] = entity
+          break
+        }
+        case FieldType.JSON: {
+          let entity = {}
+          if (data[dataKey]) {
+            try {
+              if (data[dataKey]) {
+                entity = JSON.parse(data[dataKey])
               }
             } catch (e) {
               console.error(e)
             }
           }
+          data[entityKey] = entity
           break
         }
         case FieldType.MultiEnum: {
-          data[GeneralDataHelper.entityKey(dataKey)] = GeneralDataHelper.extractMultiEnumItems(data[dataKey])
+          data[entityKey] = GeneralDataHelper.extractMultiEnumItems(data[dataKey])
           break
         }
         case FieldType.Attachment: {
@@ -114,7 +135,7 @@ export class ModelDataHandler {
           } catch (e) {
             console.error(e)
           }
-          data[GeneralDataHelper.entityKey(dataKey)] = entity
+          data[entityKey] = entity
           break
         }
       }

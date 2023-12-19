@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Tag } from 'antd'
-import { MyRichTextPanel, MyTagsPanel } from '@fangcha/react'
+import { JsonPre, MyRichTextPanel, MyTagsPanel } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
 import { OssFileInfo } from '@fangcha/oss-models'
@@ -66,7 +66,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.MultipleLinesText:
             return <pre>{value}</pre>
           case FieldType.JSON:
-            break
+            return <JsonPre value={value} />
           case FieldType.StringList:
             return (
               <MyTagsPanel
