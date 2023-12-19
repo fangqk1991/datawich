@@ -45,7 +45,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
               let val = realValue
               let unit
               const units = ['', 'K', 'M', 'B', 'T']
-              while ((unit = units.shift()) !== undefined && val > 1000) {
+              while ((unit = units.shift()) !== undefined && val >= 1000) {
                 val = val / 1000
               }
               return (
