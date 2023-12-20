@@ -152,7 +152,9 @@ export class ModelDataHandler {
 
     modelFields
       .filter((field) =>
-        [FieldType.StringList, FieldType.Attachment, FieldType.MultiEnum].includes(field.fieldType as FieldType)
+        [FieldType.StringList, FieldType.JSON, FieldType.Attachment, FieldType.MultiEnum].includes(
+          field.fieldType as FieldType
+        )
       )
       .forEach((field) => {
         convertData(field.fieldType, field.fieldKey)
@@ -162,7 +164,9 @@ export class ModelDataHandler {
       const refFields = await link.getRefFields()
       refFields
         .filter((field) =>
-          [FieldType.StringList, FieldType.Attachment, FieldType.MultiEnum].includes(field.fieldType as FieldType)
+          [FieldType.StringList, FieldType.JSON, FieldType.Attachment, FieldType.MultiEnum].includes(
+            field.fieldType as FieldType
+          )
         )
         .forEach((refField) => {
           convertData(refField.fieldType, GeneralDataHelper.calculateDataKey(refField, link))

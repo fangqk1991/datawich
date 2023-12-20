@@ -66,7 +66,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
           case FieldType.MultipleLinesText:
             return <pre>{value}</pre>
           case FieldType.JSON:
-            if (value && Object.keys(value).length > 0) {
+            if (value && value !== '{}') {
               return <a onClick={() => TextPreviewDialog.previewData(value)}>点击查看</a>
             }
             break
