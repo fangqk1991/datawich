@@ -33,6 +33,7 @@ import { TextSymbol } from '@fangcha/logic'
 import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
+import { FilePickerDialog } from '../core/FilePickerDialog'
 
 interface DataRecord {
   rid: number
@@ -226,6 +227,20 @@ export const DataAppDetailView: React.FC = () => {
           }}
         >
           导出 <DownloadOutlined />
+        </Button>
+        <Button
+          danger={true}
+          onClick={async () => {
+            const dialog = new FilePickerDialog({
+              title: '上传文件 title',
+              // description: '上传文件 description',
+            })
+            dialog.show(async (file) => {
+              console.info(file)
+            })
+          }}
+        >
+          上传 Test
         </Button>
       </Space>
 
