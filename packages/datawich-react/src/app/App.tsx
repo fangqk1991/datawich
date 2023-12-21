@@ -5,6 +5,7 @@ import { MyRouter } from './MyRouter'
 import { ReactTheme } from '@fangcha/react'
 import { VisitorProvider } from '@fangcha/auth-react'
 import './app.scss'
+import './bootstrap-like.scss'
 
 ReactTheme.colorPrimary = 'rgb(221 115 164)'
 
