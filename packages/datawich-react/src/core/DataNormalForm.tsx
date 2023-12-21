@@ -66,17 +66,17 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
 
   const [form] = Form.useForm<any>()
 
+  const updateData = (options: any) => {
+    setData({
+      ...myData,
+      ...options,
+    })
+    form.setFieldsValue(options)
+  }
+
   useImperativeHandle(ref, () => ({
     exportResult: () => {
-      const data = {
-        // ...myData,
-        ...form.getFieldsValue(),
-      }
-      props.allFields
-        .filter((field) => field.fieldType === FieldType.Attachment)
-        .forEach((field) => {
-          data[field.fieldKey] = myData[field.fieldKey]
-        })
+      const data = form.getFieldsValue()
       props.allFields
         .filter((field) => field.fieldType === FieldType.MultiEnum)
         .forEach((field) => {
@@ -218,7 +218,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                           mimeType: resource.mimeType,
                           size: resource.size,
                         }
-                        setData({
+                        updateData({
                           [field.fieldKey]: JSON.stringify(fileInfo),
                           [entityKey]: {
                             ...fileInfo,
@@ -249,7 +249,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                             <a
                               className={'text-danger'}
                               onClick={() => {
-                                setData({
+                                updateData({
                                   [field.fieldKey]: '',
                                   [entityKey]: null,
                                 })
