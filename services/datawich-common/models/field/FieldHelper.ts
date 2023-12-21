@@ -3,6 +3,7 @@ import {
   DescribableField,
   FieldsDisplaySettings,
   FieldType,
+  GeneralDataHelper,
   ModelFieldModel,
   Raw_ModelField,
 } from '@fangcha/datawich-service'
@@ -187,19 +188,20 @@ export class FieldHelper {
   public static cleanDataByModelFields(data: any, modelFields: Raw_ModelField[] = []) {
     const realData: any = {}
     modelFields.forEach((field) => {
-      const key = field.fieldKey
-      if (key in data) {
-        realData[key] = data[key]
-        if (!realData[key]) {
-          if (field.fieldType === FieldType.JSON) {
-            realData[key] = '{}'
-          } else if (field.fieldType === FieldType.StringList) {
-            realData[key] = []
-          }
-        } else {
-          if (field.fieldType === FieldType.StringList) {
-            if (typeof realData[key] === 'string') {
-              realData[key] = JSON.parse(realData[key])
+      for (const key of [field.fieldKey, GeneralDataHelper.entityKey(field.fieldKey)]) {
+        if (key in data) {
+          realData[key] = data[key]
+          if (!realData[key]) {
+            if (field.fieldType === FieldType.JSON) {
+              realData[key] = '{}'
+            } else if (field.fieldType === FieldType.StringList) {
+              realData[key] = []
+            }
+          } else {
+            if (field.fieldType === FieldType.StringList) {
+              if (typeof realData[key] === 'string') {
+                realData[key] = JSON.parse(realData[key])
+              }
             }
           }
         }

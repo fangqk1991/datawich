@@ -11,11 +11,10 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { Form, message, Tooltip } from 'antd'
-import { FieldType, GeneralDataChecker, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
-import { I18nCode } from '@fangcha/tools'
-import { ReactI18n } from './ReactI18n'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import { OssFileInfo } from '@fangcha/oss-models'
 
 interface Props {
   allFields: ModelFieldModel[]
@@ -198,6 +197,12 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                     return <ProFormSelect mode='tags' />
                   case FieldType.RichText:
                     // TODO: RichText
+                    break
+                  case FieldType.Attachment:
+                    const ossFileInfo = myData[GeneralDataHelper.entityKey(field.dataKey)] as OssFileInfo
+                    if (ossFileInfo) {
+                      return <>已上传</>
+                    }
                     break
                 }
                 return <ProFormText disabled={!editable} />
