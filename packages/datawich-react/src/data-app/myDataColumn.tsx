@@ -20,7 +20,9 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
   const superField = props.superField
   const filterOptions = props.filterOptions || {}
   const filterKey = field.filterKey
-  const filtered = !!Object.keys(filterOptions).find((item) => item.startsWith(filterKey))
+  const filtered = !!Object.keys(filterOptions).find(
+    (key) => key.startsWith(filterKey) && !key.endsWith('.disabled') && !!filterOptions[key]
+  )
 
   const getOptionsForEnumField = (data?: any) => {
     let options = field.options || []
