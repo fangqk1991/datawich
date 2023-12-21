@@ -22,7 +22,6 @@ export class GeneralDataDialog extends ReactDialog<Props> {
           data[field.dataKey] = field.defaultValue
         }
       }
-      data = JSON.parse(JSON.stringify(data))
 
       const writeableFields = useMemo(() => {
         return props.mainFields.filter((field) => !field.isSystem)

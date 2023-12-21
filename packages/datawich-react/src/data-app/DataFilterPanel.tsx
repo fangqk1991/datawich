@@ -135,7 +135,7 @@ export const DataFilterPanel: React.FC<Props> = ({
 
   return (
     <Space direction={'vertical'}>
-      <h2 style={{ margin: '6px 0' }}>
+      <h4 style={{ margin: '6px 0' }}>
         <Space>
           <span>控制面板</span>
           {panelInfo && visitorCtx.userInfo.email === panelInfo.author && (
@@ -221,7 +221,7 @@ export const DataFilterPanel: React.FC<Props> = ({
             </Button>
           }
         </Space>
-      </h2>
+      </h4>
 
       <Checkbox checked={hideOthers} onChange={(e) => setHideOthers(e.target.checked)}>
         隐藏他人面板

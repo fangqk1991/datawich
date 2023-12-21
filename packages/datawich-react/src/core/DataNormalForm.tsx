@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useMemo } from 'react'
+import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
 import {
   ProForm,
   ProFormCheckbox,
@@ -26,26 +26,27 @@ interface Props {
 }
 
 export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
-  const myData = {
-    ...props.myData,
-  }
-  props.allFields
-    .filter((field) => field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime)
-    .forEach((field) => {
-      if (myData[field.fieldKey] !== undefined && !myData[field.fieldKey]) {
-        myData[field.fieldKey] = null
-      }
-    })
-  props.allFields
-    .filter((field) => field.fieldType === FieldType.MultiEnum)
-    .forEach((field) => {
-      if (myData[field.fieldKey] && !Array.isArray(myData[field.fieldKey])) {
-        myData[field.fieldKey] = (myData[field.fieldKey] as string)
-          .split(',')
-          .map((item) => item.trim())
-          .filter((item) => !!item)
-      }
-    })
+  const [myData, setData] = useState(() => {
+    const myData = JSON.parse(JSON.stringify(props.myData))
+    props.allFields
+      .filter((field) => field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime)
+      .forEach((field) => {
+        if (myData[field.fieldKey] !== undefined && !myData[field.fieldKey]) {
+          myData[field.fieldKey] = null
+        }
+      })
+    props.allFields
+      .filter((field) => field.fieldType === FieldType.MultiEnum)
+      .forEach((field) => {
+        if (myData[field.fieldKey] && !Array.isArray(myData[field.fieldKey])) {
+          myData[field.fieldKey] = (myData[field.fieldKey] as string)
+            .split(',')
+            .map((item) => item.trim())
+            .filter((item) => !!item)
+        }
+      })
+    return myData
+  })
 
   const visibleFields = useMemo(() => {
     const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
@@ -199,9 +200,57 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                     // TODO: RichText
                     break
                   case FieldType.Attachment:
-                    const ossFileInfo = myData[GeneralDataHelper.entityKey(field.dataKey)] as OssFileInfo
+                    const entityKey = GeneralDataHelper.entityKey(field.dataKey)
+                    const ossFileInfo = myData[entityKey] as OssFileInfo
                     if (ossFileInfo) {
-                      return <>已上传</>
+                      return (
+                        <div style={{ marginBottom: '10px' }}>
+                          <span>已上传</span>
+                          {' | '}
+                          <a href={ossFileInfo.url} target='_blank'>
+                            点击查看
+                          </a>
+                          {editable && (
+                            <>
+                              {' | '}
+                              <a
+                                onClick={() => {
+                                  // const field = this.field
+                                  // const dialog = new OssUploadDialog()
+                                  // dialog.bucketName = _DatawichAttachmentOptions.bucketName
+                                  // dialog.ossZone = _DatawichAttachmentOptions.ossZone
+                                  // dialog.show(async (resource: OSSResourceModel) => {
+                                  //   const fileInfo: OssFileInfo = {
+                                  //     ossKey: resource.ossKey,
+                                  //     mimeType: resource.mimeType,
+                                  //     size: resource.size,
+                                  //   }
+                                  //   this.myData[field.fieldKey] = JSON.stringify(fileInfo)
+                                  //   this.myData[GeneralDataHelper.entityKey(field.dataKey)] = {
+                                  //     ...fileInfo,
+                                  //     url: resource.url,
+                                  //   }
+                                  // })
+                                }}
+                              >
+                                更新
+                              </a>
+                              {' | '}
+                              <a
+                                className={'text-danger'}
+                                onClick={() => {
+                                  setData({
+                                    [field.fieldKey]: '',
+                                    [entityKey]: null,
+                                  })
+                                }}
+                              >
+                                移除
+                              </a>
+                            </>
+                          )}
+                        </div>
+                      )
                     }
                     break
                 }
