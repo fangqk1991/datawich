@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Checkbox, Select } from 'antd'
 import { DialogProps, DraggableOptionsPanel, ReactDialog } from '@fangcha/react'
-import { FieldsDisplaySettings, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldsDisplaySettings, FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
 import { FieldHelper } from '@web/datawich-common/models'
 
 interface Props extends DialogProps {
@@ -99,7 +99,12 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplay
           />
           <h4 style={{ margin: '12px 0 4px' }}>调整顺序</h4>
           <DraggableOptionsPanel
-            options={checkedFieldOptions}
+            options={allFields
+              .filter((item) => checkedMap[item.filterKey])
+              .map((field) => ({
+                value: field.filterKey,
+                label: `${field.name} (${FieldTypeDescriptor.describe(field.fieldType)})`,
+              }))}
             onChange={(newOptions) => {
               setCheckedList(newOptions.map((item) => item.value as string))
             }}
