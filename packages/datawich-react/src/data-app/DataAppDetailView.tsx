@@ -33,10 +33,7 @@ import { TextSymbol } from '@fangcha/logic'
 import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
-import { FilePickerDialog } from '../core/FilePickerDialog'
-import { FrontendFile } from '@fangcha/tools/lib/file-frontend'
-import { OssTypicalParams } from '@fangcha/oss-models'
-import { OssFrontendService } from '../core/OssFrontendService'
+import { OssUploadDialog } from '../core/OssUploadDialog'
 
 interface DataRecord {
   rid: number
@@ -234,27 +231,8 @@ export const DataAppDetailView: React.FC = () => {
         <Button
           danger={true}
           onClick={async () => {
-            const dialog = new FilePickerDialog({
-              title: '上传文件 title',
-              // description: '上传文件 description',
-            })
-            dialog.show(async (file) => {
-              console.info(file)
-
-              const fileHash = await FrontendFile.computeFileHash(file)
-              const fileExt = FrontendFile.computeFileExt(file)
-              const mimeType = FrontendFile.computeFileMimeType(file)
-              const params: OssTypicalParams = {
-                fileHash: fileHash,
-                mimeType: mimeType,
-                fileExt: fileExt,
-                fileSize: file.size,
-                bucketName: '' || OssFrontendService.options.defaultBucketName,
-                ossZone: '' || OssFrontendService.options.defaultOssZone,
-              }
-              console.info(params)
-              // const metadataDelegate: MetadataBuildProtocol = this.metadataDelegate || OssHTTP.getOssResourceMetadata
-              // return await metadataDelegate(params)
+            OssUploadDialog.uploadFile(async (resource) => {
+              message.success(JSON.stringify(resource))
             })
           }}
         >
