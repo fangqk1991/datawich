@@ -33,7 +33,6 @@ import { TextSymbol } from '@fangcha/logic'
 import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
-import { OssUploadDialog } from '../core/OssUploadDialog'
 
 interface DataRecord {
   rid: number
@@ -227,16 +226,6 @@ export const DataAppDetailView: React.FC = () => {
           }}
         >
           导出 <DownloadOutlined />
-        </Button>
-        <Button
-          danger={true}
-          onClick={async () => {
-            OssUploadDialog.uploadFile(async (resource) => {
-              message.success(JSON.stringify(resource))
-            })
-          }}
-        >
-          上传 Test
         </Button>
       </Space>
 

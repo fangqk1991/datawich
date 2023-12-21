@@ -15,6 +15,7 @@ import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } fro
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OssFileInfo } from '@fangcha/oss-models'
+import { OssUploadDialog } from './OssUploadDialog'
 
 interface Props {
   allFields: ModelFieldModel[]
@@ -67,7 +68,15 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     exportResult: () => {
-      const data = form.getFieldsValue()
+      const data = {
+        // ...myData,
+        ...form.getFieldsValue(),
+      }
+      props.allFields
+        .filter((field) => field.fieldType === FieldType.Attachment)
+        .forEach((field) => {
+          data[field.fieldKey] = myData[field.fieldKey]
+        })
       props.allFields
         .filter((field) => field.fieldType === FieldType.MultiEnum)
         .forEach((field) => {
@@ -202,57 +211,56 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                   case FieldType.Attachment:
                     const entityKey = GeneralDataHelper.entityKey(field.dataKey)
                     const ossFileInfo = myData[entityKey] as OssFileInfo
-                    if (ossFileInfo) {
+                    const uploadFile = () => {
+                      OssUploadDialog.uploadFile(async (resource) => {
+                        const fileInfo: OssFileInfo = {
+                          ossKey: resource.ossKey,
+                          mimeType: resource.mimeType,
+                          size: resource.size,
+                        }
+                        setData({
+                          [field.fieldKey]: JSON.stringify(fileInfo),
+                          [entityKey]: {
+                            ...fileInfo,
+                            url: resource.url,
+                          },
+                        })
+                      })
+                    }
+                    if (!ossFileInfo) {
                       return (
                         <div style={{ marginBottom: '10px' }}>
-                          <span>已上传</span>
-                          {' | '}
-                          <a href={ossFileInfo.url} target='_blank'>
-                            点击查看
-                          </a>
-                          {editable && (
-                            <>
-                              {' | '}
-                              <a
-                                onClick={() => {
-                                  // const field = this.field
-                                  // const dialog = new OssUploadDialog()
-                                  // dialog.bucketName = _DatawichAttachmentOptions.bucketName
-                                  // dialog.ossZone = _DatawichAttachmentOptions.ossZone
-                                  // dialog.show(async (resource: OSSResourceModel) => {
-                                  //   const fileInfo: OssFileInfo = {
-                                  //     ossKey: resource.ossKey,
-                                  //     mimeType: resource.mimeType,
-                                  //     size: resource.size,
-                                  //   }
-                                  //   this.myData[field.fieldKey] = JSON.stringify(fileInfo)
-                                  //   this.myData[GeneralDataHelper.entityKey(field.dataKey)] = {
-                                  //     ...fileInfo,
-                                  //     url: resource.url,
-                                  //   }
-                                  // })
-                                }}
-                              >
-                                更新
-                              </a>
-                              {' | '}
-                              <a
-                                className={'text-danger'}
-                                onClick={() => {
-                                  setData({
-                                    [field.fieldKey]: '',
-                                    [entityKey]: null,
-                                  })
-                                }}
-                              >
-                                移除
-                              </a>
-                            </>
-                          )}
+                          <a onClick={uploadFile}>上传</a>
                         </div>
                       )
                     }
-                    break
+                    return (
+                      <div style={{ marginBottom: '10px' }}>
+                        <span>已上传</span>
+                        {' | '}
+                        <a href={ossFileInfo.url} target='_blank'>
+                          点击查看
+                        </a>
+                        {editable && (
+                          <>
+                            {' | '}
+                            <a onClick={uploadFile}>更新</a>
+                            {' | '}
+                            <a
+                              className={'text-danger'}
+                              onClick={() => {
+                                setData({
+                                  [field.fieldKey]: '',
+                                  [entityKey]: null,
+                                })
+                              }}
+                            >
+                              移除
+                            </a>
+                          </>
+                        )}
+                      </div>
+                    )
                 }
                 return <ProFormText disabled={!editable} />
               })()}

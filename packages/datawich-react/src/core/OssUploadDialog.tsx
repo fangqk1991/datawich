@@ -2,7 +2,7 @@ import { Divider, message, Progress, Upload, UploadFile } from 'antd'
 import React, { useState } from 'react'
 import { InboxOutlined } from '@ant-design/icons'
 import { DialogProps, ReactDialog } from '@fangcha/react'
-import { OSSResourceModel } from '@fangcha/oss-models'
+import { MetadataBuildProtocol, OSSResourceModel } from '@fangcha/oss-models'
 import { FrontendFile } from '@fangcha/tools/lib/file-frontend'
 import { OssHTTP } from './OssHTTP'
 import { OssFrontendService } from './OssFrontendService'
@@ -10,6 +10,9 @@ import axios from 'axios'
 
 interface Props extends DialogProps {
   description?: React.ReactNode
+  metadataDelegate?: MetadataBuildProtocol
+  bucketName?: string
+  ossZone?: string
 }
 
 export class OssUploadDialog extends ReactDialog<Props, OSSResourceModel> {
@@ -36,15 +39,14 @@ export class OssUploadDialog extends ReactDialog<Props, OSSResourceModel> {
         const fileHash = await FrontendFile.computeFileHash(file)
         const fileExt = FrontendFile.computeFileExt(file)
         const mimeType = FrontendFile.computeFileMimeType(file)
-        // const metadataDelegate: MetadataBuildProtocol = this.metadataDelegate || OssHTTP.getOssResourceMetadata
-        // return await metadataDelegate(params)
-        const resourceMetadata = await OssHTTP.getOssResourceMetadata({
+        const metadataDelegate: MetadataBuildProtocol = props.metadataDelegate || OssHTTP.getOssResourceMetadata
+        const resourceMetadata = await metadataDelegate({
           fileHash: fileHash,
           mimeType: mimeType,
           fileExt: fileExt,
           fileSize: file.size,
-          bucketName: '' || OssFrontendService.options.defaultBucketName,
-          ossZone: '' || OssFrontendService.options.defaultOssZone,
+          bucketName: props.bucketName || OssFrontendService.options.defaultBucketName,
+          ossZone: props.ossZone || OssFrontendService.options.defaultOssZone,
         })
 
         const formData = new FormData()
