@@ -2,7 +2,7 @@ import { UserOutlined } from '@ant-design/icons'
 import { ProLayout } from '@ant-design/pro-layout'
 import React from 'react'
 import { ConfigProvider, Dropdown } from 'antd'
-import { useVisitorCtx } from '@fangcha/auth-react'
+import { useSession } from '@fangcha/auth-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { WebAuthApis } from '@fangcha/sso-models'
 import { useMenu } from '../app/useMenu'
@@ -13,10 +13,10 @@ interface Props {
 }
 
 export const MainLayout: React.FC<Props> = ({ appName }) => {
-  const visitorCtx = useVisitorCtx()
+  const sessionCtx = useSession()
   const menu = useMenu()
 
-  const { userInfo } = visitorCtx
+  const userInfo = sessionCtx.userInfo!
 
   const location = useLocation()
   const navigate = useNavigate()

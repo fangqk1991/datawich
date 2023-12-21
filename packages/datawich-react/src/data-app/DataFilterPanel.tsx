@@ -14,7 +14,7 @@ import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQuery
 import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
-import { MyRequest, useVisitorCtx } from '@fangcha/auth-react'
+import { MyRequest, useSession } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
@@ -45,7 +45,8 @@ export const DataFilterPanel: React.FC<Props> = ({
 }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [version, setVersion] = useState(0)
-  const visitorCtx = useVisitorCtx()
+  const sessionCtx = useSession()
+  const userInfo = sessionCtx.userInfo!
 
   const displayFields = useMemo(
     () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
@@ -124,10 +125,8 @@ export const DataFilterPanel: React.FC<Props> = ({
     if (!hideOthers) {
       return panelList
     }
-    return panelList.filter(
-      (panel) => panel.author === visitorCtx.userInfo.email || panel.panelId === queryParams.panelId
-    )
-  }, [panelList, hideOthers, visitorCtx.userInfo])
+    return panelList.filter((panel) => panel.author === userInfo.email || panel.panelId === queryParams.panelId)
+  }, [panelList, hideOthers, userInfo])
 
   if (loading) {
     return <LoadingView />
@@ -138,7 +137,7 @@ export const DataFilterPanel: React.FC<Props> = ({
       <h4 style={{ margin: '6px 0' }}>
         <Space>
           <span>控制面板</span>
-          {panelInfo && visitorCtx.userInfo.email === panelInfo.author && (
+          {panelInfo && userInfo.email === panelInfo.author && (
             <Button
               size={'small'}
               type={'primary'}
@@ -230,7 +229,7 @@ export const DataFilterPanel: React.FC<Props> = ({
       <Space>
         {visiblePanels.map((item) => {
           const checked = !!panelInfo && item.panelId === panelInfo.panelId
-          const isAuthor = visitorCtx.userInfo.email === item.author
+          const isAuthor = userInfo.email === item.author
           return (
             <Tag key={item.panelId} color={isAuthor ? 'success' : 'red'}>
               {item.name}{' '}
