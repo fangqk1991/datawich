@@ -15,7 +15,7 @@ import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } fro
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OssFileInfo } from '@fangcha/oss-models'
-import { OssUploadDialog } from './OssUploadDialog'
+import { OssUploadDialog } from '@fangcha/oss-react'
 
 interface Props {
   allFields: ModelFieldModel[]

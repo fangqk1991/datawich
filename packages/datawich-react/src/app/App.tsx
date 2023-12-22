@@ -6,7 +6,7 @@ import { ReactTheme } from '@fangcha/react'
 import { SessionContext, useSession, useSessionConfig } from '@fangcha/auth-react'
 import './app.scss'
 import './bootstrap-like.scss'
-import { OssFrontendService } from '../core/OssFrontendService'
+import { OssSDK } from '@fangcha/oss-react'
 
 ReactTheme.colorPrimary = 'rgb(221 115 164)'
 
@@ -14,7 +14,7 @@ export const App: React.FC = () => {
   const sessionCtx = useSession()
   const config = useSessionConfig() as any
 
-  OssFrontendService.init(config.ossParams)
+  OssSDK.init(config.ossParams)
 
   return (
     <ErrorBoundary>

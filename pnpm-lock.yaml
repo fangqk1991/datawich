@@ -53,8 +53,11 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0
       '@fangcha/oss-models':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
+      '@fangcha/oss-react':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@fangcha/oss-service':
         specifier: ^0.10.0
         version: 0.10.0
@@ -2275,8 +2278,12 @@ packages:
     resolution: {integrity: sha512-UULIUU0LRVKf0y54NYF6qBtse1C7URB9ZQASmY8zP/d7MgYaY2BpqwwNZDCGhtdAEikI86P8H2smHDqa7NA5WQ==}
     dev: false
 
-  /@fangcha/oss-models@0.2.0:
-    resolution: {integrity: sha512-WA1DAH4N8ARc3Rfv9S2wfjY5q4jRyAE8tUl6YI037f4fvUOrAqqXU2t1SzTbidmJfMx3LeNgEDbgub10Wzk6uQ==}
+  /@fangcha/oss-models@0.3.0:
+    resolution: {integrity: sha512-D/z7XW0uxfjwhAFwCVy+NGNP0YJKcLOTzafkMGlRpRl4VzeJsXQoPB7dLQW7MwM2zbBNyq905E4b9Qg8qqYhyA==}
+    dev: false
+
+  /@fangcha/oss-react@0.3.0:
+    resolution: {integrity: sha512-iiOZNZgHqDYPiEiXjtHuDEIH6+m/1K2GlMlR4yqutRS09q56FfWZwGi4v+jxPSG7EkhWE3AXeMpBpC/QTQNCGg==}
     dev: false
 
   /@fangcha/oss-service@0.10.0:
