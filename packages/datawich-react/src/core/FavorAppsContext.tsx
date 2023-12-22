@@ -29,7 +29,9 @@ export const FavorAppsProvider = ({ children }: React.ComponentProps<any>) => {
   const reloadFavorApps = () => {
     const request = MyRequest(DataAppApis.FavorDataAppListGet)
     request.quickSend().then((response) => {
-      setFavorApps(response)
+      if (Array.isArray(response)) {
+        setFavorApps(response)
+      }
     })
   }
 
