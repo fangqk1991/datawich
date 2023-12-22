@@ -14,7 +14,7 @@ import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQuery
 import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
 import { DataFilterItemView } from './DataFilterItemView'
 import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
-import { MyRequest, useSession } from '@fangcha/auth-react'
+import { MyRequest, useUserInfo } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
@@ -45,8 +45,7 @@ export const DataFilterPanel: React.FC<Props> = ({
 }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [version, setVersion] = useState(0)
-  const sessionCtx = useSession()
-  const userInfo = sessionCtx.userInfo!
+  const userInfo = useUserInfo()
 
   const displayFields = useMemo(
     () => FieldHelper.extractDisplayFields(mainFields, displaySettings),

@@ -147,8 +147,8 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0(@fangcha/app-error@1.6.0)(@fangcha/app-request@1.8.0)
       '@fangcha/auth-react':
-        specifier: ^0.18.0
-        version: 0.18.0(@popperjs/core@2.11.7)
+        specifier: ^0.20.0
+        version: 0.20.0(@popperjs/core@2.11.7)
       '@fangcha/eslint':
         specifier: ^0.8.0
         version: 0.8.0(typescript@4.9.5)
@@ -2151,8 +2151,8 @@ packages:
       '@fangcha/app-request': 1.8.0
     dev: true
 
-  /@fangcha/auth-react@0.18.0(@popperjs/core@2.11.7):
-    resolution: {integrity: sha512-PgRH4G1X5O67xhVHulKY3wjjSFoCxdqbzwjil3Mh3QJXNlVk95unwxqJlS2+6VHtD8uOvkWYdWho94881e9FmQ==}
+  /@fangcha/auth-react@0.20.0(@popperjs/core@2.11.7):
+    resolution: {integrity: sha512-aPtd881JqRdETshh2B3QMcqUbkQXAZ2Z5i6JPMlLFswE0OMSs+yujXhLOjB/ZXC+flCaSNw559AFI+1Y0lfpuw==}
     dependencies:
       bootstrap: 5.2.3(@popperjs/core@2.11.7)
     transitivePeerDependencies:
