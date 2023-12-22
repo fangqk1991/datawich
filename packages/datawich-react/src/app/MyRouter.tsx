@@ -9,7 +9,7 @@ import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { JobListView } from '@fangcha/job-react'
-import { ResourceTaskListView } from '../oss/ResourceTaskListView'
+import { ResourceTaskListView } from '@fangcha/oss-react'
 
 export const MyRouter = createBrowserRouter([
   {

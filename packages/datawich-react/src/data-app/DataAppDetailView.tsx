@@ -28,11 +28,11 @@ import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { GeneralDataDialog } from './GeneralDataDialog'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
-import { DownloadTaskHelper } from '../oss/DownloadTaskHelper'
 import { TextSymbol } from '@fangcha/logic'
 import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
+import { DownloadTaskHelper } from '@fangcha/oss-react'
 
 interface DataRecord {
   rid: number
