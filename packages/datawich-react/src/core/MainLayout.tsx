@@ -16,7 +16,7 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
   const sessionCtx = useSession()
   const menu = useMenu()
 
-  const userInfo = sessionCtx.userInfo!
+  const userInfo = sessionCtx.userInfo || { email: '' }
 
   const location = useLocation()
   const navigate = useNavigate()
