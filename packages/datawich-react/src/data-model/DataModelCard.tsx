@@ -23,7 +23,7 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
   }, [dataApp.modelKey])
   return (
     <div>
-      <h4
+      <h5
         style={{
           margin: '8px 0',
           marginBlockStart: '0',
@@ -45,7 +45,7 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
         >
           <InfoCircleOutlined />
         </Tooltip>
-      </h4>
+      </h5>
       <ul
         style={{
           paddingInlineStart: '12px',
