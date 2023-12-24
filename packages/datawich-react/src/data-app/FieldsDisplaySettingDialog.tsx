@@ -34,6 +34,13 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplay
         }, {})
       }, [checkedList])
 
+      const fieldsMap = useMemo(() => {
+        return allFields.reduce((result, cur) => {
+          result[cur.filterKey] = cur
+          return result
+        }, {} as { [p: string]: ModelFieldModel })
+      }, [allFields])
+
       const optionsMap = useMemo(() => {
         return allFields
           .map((field) => {
@@ -99,12 +106,13 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplay
           />
           <h4 style={{ margin: '12px 0 4px' }}>调整顺序</h4>
           <DraggableOptionsPanel
-            options={allFields
-              .filter((item) => checkedMap[item.filterKey])
-              .map((field) => ({
+            options={checkedList.map((filterKey) => {
+              const field = fieldsMap[filterKey]
+              return {
                 value: field.filterKey,
                 label: `${field.name} (${FieldTypeDescriptor.describe(field.fieldType)})`,
-              }))}
+              }
+            })}
             onChange={(newOptions) => {
               setCheckedList(newOptions.map((item) => item.value as string))
             }}
