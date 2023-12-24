@@ -106,10 +106,14 @@ export const MyDataCell: React.FC<Props> = (props) => {
             if (!info) {
               break
             }
-            if (info.mimeType.startsWith('image')) {
+            if (info.mimeType.startsWith('image/')) {
               return (
                 <div style={{ textAlign: 'center' }}>
-                  <Image style={{ maxWidth: '200px', maxHeight: '200px' }} src={info.url} />
+                  <Image
+                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                    src={info.thumbnailUrl}
+                    preview={{ src: info.url }}
+                  />
                 </div>
               )
             }

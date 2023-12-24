@@ -8,8 +8,8 @@ importers:
         specifier: ^0.19.0
         version: 0.19.0
       '@fangcha/ali-oss':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.4.0
+        version: 1.4.0
       '@fangcha/app-models':
         specifier: ^0.2.0
         version: 0.2.0
@@ -53,14 +53,14 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0
       '@fangcha/oss-models':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@fangcha/oss-react':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@fangcha/oss-service':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^0.12.0
+        version: 0.12.0
       '@fangcha/resque':
         specifier: ^1.7.0
         version: 1.7.0
@@ -2095,8 +2095,8 @@ packages:
       notification-center-js: 0.2.0
     dev: true
 
-  /@fangcha/ali-oss@1.2.0:
-    resolution: {integrity: sha512-x2TV6Vqs3jrItAbGd8D27U6Q8O642pleGhsK9oCr/BgXqI1JJf0hJ39kH4ukYKGNWL1X/qFm+VohC6GChbOglQ==}
+  /@fangcha/ali-oss@1.4.0:
+    resolution: {integrity: sha512-iULjPGjhmddGH+0LeuytOQUumU6epMsC50KDomnweStHs/36/qcQe+erHgITmluGZ420jPGRpx4oF2dBSo4AWg==}
     dependencies:
       ali-oss: 6.17.1
       md5-file: 5.0.0
@@ -2278,16 +2278,16 @@ packages:
     resolution: {integrity: sha512-UULIUU0LRVKf0y54NYF6qBtse1C7URB9ZQASmY8zP/d7MgYaY2BpqwwNZDCGhtdAEikI86P8H2smHDqa7NA5WQ==}
     dev: false
 
-  /@fangcha/oss-models@0.3.0:
-    resolution: {integrity: sha512-D/z7XW0uxfjwhAFwCVy+NGNP0YJKcLOTzafkMGlRpRl4VzeJsXQoPB7dLQW7MwM2zbBNyq905E4b9Qg8qqYhyA==}
+  /@fangcha/oss-models@0.4.0:
+    resolution: {integrity: sha512-0hmun0PVPPEzor/OZzWf3JE5NIeTvrVVm7h95C3vJz7zF5M/o3HZUVcDxDcEilnY94IQ9IFRNptAn5717Uvi8w==}
     dev: false
 
-  /@fangcha/oss-react@0.3.0:
-    resolution: {integrity: sha512-iiOZNZgHqDYPiEiXjtHuDEIH6+m/1K2GlMlR4yqutRS09q56FfWZwGi4v+jxPSG7EkhWE3AXeMpBpC/QTQNCGg==}
+  /@fangcha/oss-react@0.4.0:
+    resolution: {integrity: sha512-tkQOjRKX2XIo1nnp4OgZYCk7LQ5K8uODOYjYNmQgIsicTjqH8LA0uGffjhig72lWr9xhxrSH5G8yVZSYhbhcww==}
     dev: false
 
-  /@fangcha/oss-service@0.10.0:
-    resolution: {integrity: sha512-PBUomc+11AzT86vJicMzvz098npMwZySS5GHvwEAn+KavtqG2xUzacf6boebHEEx8iQ89qROV4S7d/s8QYRH4Q==}
+  /@fangcha/oss-service@0.12.0:
+    resolution: {integrity: sha512-ovADEmZmepC8Wf3zkcWQDGXbMDBfN6W7j7YsbFSQU++4oHQCnPINcM4Jp5GigIeBLnLCdGarHVYWgZjTieD4RA==}
     dev: false
 
   /@fangcha/react@0.50.2(moment@2.29.4)(prop-types@15.8.1)(rc-field-form@1.40.0):
@@ -3728,7 +3728,7 @@ packages:
     resolution: {integrity: sha512-DCq42Mfsh3RldrWysM2xuLJaKNXlBcAKhyLoYnTvr33o4n8FnnxXl1RQuEtl/vgpVBmumPOD6r+NpO6d2RLTfQ==}
     hasBin: true
     dependencies:
-      '@fangcha/ali-oss': 1.2.0
+      '@fangcha/ali-oss': 1.4.0
       '@fangcha/tools': 1.39.0
       shelljs: 0.8.5
     transitivePeerDependencies:
@@ -11966,6 +11966,7 @@ packages:
   /vm2@3.9.16:
     resolution: {integrity: sha512-3T9LscojNTxdOyG+e8gFeyBXkMlOBYDoF6dqZbj+MPVHi9x10UfiTAJIobuchRCp3QvC+inybTbMJIUrLsig0w==}
     engines: {node: '>=6.0'}
+    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
     dependencies:
       acorn: 8.8.2

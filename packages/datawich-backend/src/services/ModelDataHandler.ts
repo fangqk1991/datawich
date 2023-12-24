@@ -23,6 +23,7 @@ import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
 import { FieldHelper } from '@web/datawich-common/models'
 import { TypicalExcel } from '@fangcha/excel'
+import { OssTools } from '@fangcha/ali-oss'
 const archiver = require('archiver')
 
 export class ModelDataHandler {
@@ -131,6 +132,10 @@ export class ModelDataHandler {
             if (data[dataKey]) {
               entity = JSON.parse(data[dataKey]) as OssFileInfo
               entity.url = _DatawichService.ossForSignature!.signatureURL(entity.ossKey)
+              if (entity.mimeType.startsWith('image/')) {
+                const thumbnailOptions = OssTools.buildThumbnailOptions(400, 400)
+                entity.thumbnailUrl = _DatawichService.ossForSignature!.signatureURL(entity.ossKey, thumbnailOptions)
+              }
             }
           } catch (e) {
             console.error(e)
