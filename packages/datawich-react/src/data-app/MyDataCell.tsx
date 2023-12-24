@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
-import { Tag } from 'antd'
+import { Image, Tag } from 'antd'
 import { MyRichTextPanel, MyTagsPanel, TextPreviewDialog } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
@@ -103,12 +103,20 @@ export const MyDataCell: React.FC<Props> = (props) => {
             break
           case FieldType.Attachment:
             const info = props.data[GeneralDataHelper.entityKey(field.dataKey)] as OssFileInfo
-            return (
-              !!info && (
-                <a href={info.url} target='_blank'>
-                  点击查看
-                </a>
+            if (!info) {
+              break
+            }
+            if (info.mimeType.startsWith('image')) {
+              return (
+                <div style={{ textAlign: 'center' }}>
+                  <Image style={{ maxWidth: '200px', maxHeight: '200px' }} src={info.url} />
+                </div>
               )
+            }
+            return (
+              <a href={info.url} target='_blank'>
+                点击查看
+              </a>
             )
           case FieldType.User:
             break
