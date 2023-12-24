@@ -133,7 +133,7 @@ export class ModelDataHandler {
               entity = JSON.parse(data[dataKey]) as OssFileInfo
               entity.url = _DatawichService.ossForSignature!.signatureURL(entity.ossKey)
               if (entity.mimeType.startsWith('image/')) {
-                const thumbnailOptions = OssTools.buildThumbnailOptions(400, 400)
+                const thumbnailOptions = OssTools.buildThumbnailOptions(200, 200)
                 entity.thumbnailUrl = _DatawichService.ossForSignature!.signatureURL(entity.ossKey, thumbnailOptions)
               }
             }

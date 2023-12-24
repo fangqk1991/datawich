@@ -110,7 +110,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
               return (
                 <div style={{ textAlign: 'center' }}>
                   <Image
-                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                    style={{ maxWidth: '100px', maxHeight: '100px' }}
                     src={info.thumbnailUrl}
                     preview={{ src: info.url }}
                   />
