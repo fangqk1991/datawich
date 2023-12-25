@@ -2,7 +2,7 @@ import { UserOutlined } from '@ant-design/icons'
 import { ProLayout } from '@ant-design/pro-layout'
 import React from 'react'
 import { ConfigProvider, Dropdown } from 'antd'
-import { useUserInfo } from '@fangcha/auth-react'
+import { useSessionConfig, useUserInfo } from '@fangcha/auth-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { WebAuthApis } from '@fangcha/sso-models'
 import { useMenu } from '../app/useMenu'
@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const MainLayout: React.FC<Props> = ({ appName }) => {
+  const config = useSessionConfig()
   const userInfo = useUserInfo()
   const menu = useMenu()
 
@@ -35,7 +36,7 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
           },
         }}
         logo={null}
-        title={appName}
+        title={config.appName || appName}
         fixSiderbar={true}
         layout='mix'
         splitMenus={false}

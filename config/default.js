@@ -45,6 +45,7 @@ module.exports = {
     },
     frontendConfig: {
       // colorPrimary: 'rgb(221 115 164)',
+      appName: 'Datawich 🍰',
       colorPrimary: '#DD73A4',
       ossParams: {
         defaultBucketName: 'fc-web-oss',
