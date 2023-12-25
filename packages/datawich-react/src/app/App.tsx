@@ -16,9 +16,5 @@ export const App: React.FC = () => {
 
   OssSDK.init(config.ossParams)
 
-  return (
-    <ErrorBoundary>
-      <RouterProvider router={MyRouter}></RouterProvider>
-    </ErrorBoundary>
-  )
+  return <RouterProvider router={MyRouter}></RouterProvider>
 }
