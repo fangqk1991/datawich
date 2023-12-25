@@ -40,6 +40,7 @@ module.exports = {
       redisPort: envData.Redis_Port,
     },
     frontendConfig: {
+      colorPrimary: envData.colorPrimary,
       ossParams: {
         defaultBucketName: envData.AliOSS_bucket,
         defaultOssZone: envData.oss_remoteRootDir,

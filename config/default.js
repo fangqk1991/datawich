@@ -44,6 +44,8 @@ module.exports = {
       dynamicQueues: [],
     },
     frontendConfig: {
+      // colorPrimary: 'rgb(221 115 164)',
+      colorPrimary: '#DD73A4',
       ossParams: {
         defaultBucketName: 'fc-web-oss',
         defaultOssZone: 'datawich',
