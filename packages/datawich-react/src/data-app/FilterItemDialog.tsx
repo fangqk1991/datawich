@@ -74,6 +74,16 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
             values = [TextSymbol.$eq, TextSymbol.$ne, TextSymbol.$ge, TextSymbol.$gt, TextSymbol.$le, TextSymbol.$lt]
             break
           case FieldType.SingleLineText:
+            values = [
+              TextSymbol.$eq,
+              TextSymbol.$ne,
+              TextSymbol.$like,
+              TextSymbol.$startsWith,
+              TextSymbol.$endsWith,
+              TextSymbol.$isTrue,
+              TextSymbol.$in,
+            ]
+            break
           case FieldType.MultipleLinesText:
           case FieldType.StringList:
           case FieldType.Link:
@@ -204,6 +214,9 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
                       case TextSymbol.$excludeAny:
                       case TextSymbol.$in:
                       case TextSymbol.$notIn:
+                        if (curField.fieldType === FieldType.SingleLineText) {
+                          return <ProFormText />
+                        }
                         return (
                           <Checkbox.Group
                             style={{
