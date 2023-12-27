@@ -11,6 +11,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { Form, message, Tooltip } from 'antd'
+import { RichTextEditor } from '@fangcha/react/rich-text'
 import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -206,8 +207,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                   case FieldType.StringList:
                     return <ProFormSelect mode='tags' />
                   case FieldType.RichText:
-                    // TODO: RichText
-                    break
+                    return <RichTextEditor />
                   case FieldType.Attachment:
                     const entityKey = GeneralDataHelper.entityKey(field.dataKey)
                     const ossFileInfo = myData[entityKey] as OssFileInfo
