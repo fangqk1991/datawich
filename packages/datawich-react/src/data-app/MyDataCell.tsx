@@ -42,7 +42,8 @@ export const MyDataCell: React.FC<Props> = (props) => {
                 return <b>{valueText}</b>
               }
             } else if (field.extrasData.numberFormat === NumberFormat.Format) {
-              let val = realValue
+              const prefix = realValue < 0 ? '-' : ''
+              let val = Math.abs(realValue)
               let unit
               const units = ['', 'K', 'M', 'B', 'T']
               while ((unit = units.shift()) !== undefined && val >= 1000) {
@@ -50,6 +51,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
               }
               return (
                 <span style={{ color: '#28a745' }}>
+                  {prefix}
                   {unit === '' ? val : val.toFixed(2)}
                   <b>{unit}</b>
                 </span>
