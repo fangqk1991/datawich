@@ -1,5 +1,4 @@
 import { OssFrontendService, OssRouteData } from '@fangcha/vue/oss-service'
-import { DataDisplayView } from './views/data-app/DataDisplayView'
 import { LogicExpressionView } from './components/LogicExpressionView'
 import { Page404 } from '@fangcha/vue/app'
 import { AdminApp } from '@fangcha/admin-vue'
@@ -118,7 +117,7 @@ const _fcApp = new AdminApp({
     },
     {
       path: DatawichPages.DataAppDetailRoute,
-      component: DataDisplayView,
+      component: DataAppListView,
       name: 'DataDisplayView',
       props: true,
     },

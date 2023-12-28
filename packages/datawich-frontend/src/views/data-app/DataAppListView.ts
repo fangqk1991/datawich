@@ -1,41 +1,6 @@
-import { Component, GridView, TableViewProtocol, ViewController } from '@fangcha/vue'
-import { DataAppApis } from '@web/datawich-common/web-api'
-import { MyAxios } from '@fangcha/vue/basic'
-import { DataAppCard } from './DataAppCard'
+import { Component, ViewController } from '@fangcha/vue'
 
 @Component({
-  components: {
-    'grid-view': GridView,
-    'data-app-card': DataAppCard,
-  },
-  template: `
-    <div>
-      <h2>{{ LS('[i18n] Data Apps') }}</h2>
-      <grid-view ref="tableView" :delegate="delegate" class="mt-4" style="line-height: 3">
-        <data-app-card slot-scope="scope" :data="scope.data" class="mr-2" />
-      </grid-view>
-    </div>
-  `,
+  template: ` <div>Vue 版本已废弃，请移步 React 版网站</div> `,
 })
-export class DataAppListView extends ViewController {
-  async viewDidLoad() {
-    this.tableView().resetFilter(true)
-  }
-
-  tableView() {
-    return this.$refs.tableView as GridView
-  }
-
-  get delegate(): TableViewProtocol {
-    return {
-      loadOnePageItems: async (_retainParams) => {
-        // const params: any = {
-        //   ...retainParams,
-        //   level: this.filterParams['level'],
-        // }
-        const request = MyAxios(DataAppApis.DataAppListGet)
-        return request.quickSend()
-      },
-    }
-  }
-}
+export class DataAppListView extends ViewController {}
