@@ -8,7 +8,8 @@ import { MyRequest } from '@fangcha/auth-react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { MilestoneInfoDialog } from './MilestoneInfoDialog'
 import * as moment from 'moment/moment'
-import { JsonEditorDialog } from '@fangcha/react'
+import { FlexibleFormDialog, JsonEditorDialog } from '@fangcha/react'
+import { ProFormText } from '@ant-design/pro-components'
 
 export const ModelMilestonePanel: ModelFragmentProtocol = ({ dataModel }) => {
   const [milestoneList, setMilestoneList] = useState<ModelMilestoneModel[]>([])
@@ -25,6 +26,29 @@ export const ModelMilestonePanel: ModelFragmentProtocol = ({ dataModel }) => {
       <h3>{LS('[i18n] Model Versions')}</h3>
       <Space direction={'vertical'}>
         <Space>
+          <Button
+            type={'primary'}
+            onClick={() => {
+              const dialog = new FlexibleFormDialog({
+                title: '创建版本',
+                formBody: (
+                  <>
+                    <ProFormText name={'tagName'} label={'版本名'} placeholder={'v1.0.0'} />
+                    <ProFormText name={'description'} label={'描述'} placeholder={'可以为空'} />
+                  </>
+                ),
+              })
+              dialog.show(async (params) => {
+                const request = MyRequest(new CommonAPI(ModelMilestoneApis.ModelMilestoneCreate, dataModel.modelKey))
+                request.setBodyData(params)
+                await request.execute()
+                message.success('创建成功')
+                setVersion(version + 1)
+              })
+            }}
+          >
+            {LS('[i18n] Create')}
+          </Button>
           <Button
             onClick={() => {
               const dialog = new JsonEditorDialog({

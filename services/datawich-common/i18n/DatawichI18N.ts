@@ -35,6 +35,10 @@ export const DatawichI18N = {
     en: `Search`,
     zh: `快速检索`,
   },
+  '[i18n] Create': {
+    en: `Create`,
+    zh: `创建`,
+  },
   '[i18n] Import': {
     en: `Import`,
     zh: `导入`,
