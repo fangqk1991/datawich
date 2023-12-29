@@ -7,10 +7,10 @@ import {
   ModelFullMetadata,
   SdkDatawichApis2,
 } from '@fangcha/datawich-service'
-import { MultiEnumContainer } from '../data-app'
 import { MyAxios } from '@fangcha/vue/basic'
 import { OssFileInfo } from '@fangcha/oss-models'
 import { I18nCode } from '@fangcha/tools'
+import { MultiEnumContainer } from './MultiEnumContainer'
 
 @Component({
   components: {
