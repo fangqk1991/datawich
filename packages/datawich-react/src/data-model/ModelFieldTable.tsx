@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { ConfirmDialog, JsonEditorDialog, TableView, TableViewColumn } from '@fangcha/react'
+import { ConfirmDialog, JsonEditorDialog, TableView, TableViewColumn, TextPreviewDialog } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
-import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
@@ -17,22 +17,8 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
   const [version, setVersion] = useState(0)
 
   useEffect(() => {
-    const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldListGet, modelKey))
-    request.quickSend().then((response) => {
-      setFields(response)
-    })
-  }, [modelKey, version])
-
-  const fieldMap = useMemo(() => {
-    return fields.reduce((result, cur) => {
-      result[cur.fieldKey] = cur
-      return result
-    }, {} as { [p: string]: ModelFieldModel })
-  }, [fields])
-
-  useEffect(() => {
     {
-      const request = MyRequest(new CommonAPI(ModelIndexApis.DataModelColumnIndexListGet, modelKey))
+      const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldListGet, modelKey))
       request.quickSend().then((response) => {
         setFields(response)
       })
@@ -44,6 +30,13 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
       })
     }
   }, [modelKey, version])
+
+  const fieldMap = useMemo(() => {
+    return fields.reduce((result, cur) => {
+      result[cur.fieldKey] = cur
+      return result
+    }, {} as { [p: string]: ModelFieldModel })
+  }, [fields])
 
   const { indexMap, indexBoolMap, uniqueBoolMap } = useMemo(() => {
     const indexMap = indexes.reduce((result, cur) => {
@@ -173,6 +166,25 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                   }}
                 />
               ),
+          },
+          {
+            title: '特殊属性',
+            render: (field) => {
+              return (
+                <>
+                  {!!field.isSystem && <Tag>系统字段</Tag>}
+                  {!!field.searchable && <Tag>可搜索</Tag>}
+                  {field.extrasData.numberFormat === NumberFormat.Percent && <Tag color={'warning'}>Percent</Tag>}
+                  {!!field.extrasData.readonly && <Tag color={'warning'}>Readonly</Tag>}
+                  {!!field.extrasData.matchRegex && <Tag color={'danger'}>{field.extrasData.matchRegex}</Tag>}
+                  {!!field.extrasData.visibleLogic && (
+                    <Tag color={'danger'} onClick={() => TextPreviewDialog.previewData(field.extrasData.visibleLogic)}>
+                      visibleLogic
+                    </Tag>
+                  )}
+                </>
+              )
+            },
           },
           {
             title: '操作',
