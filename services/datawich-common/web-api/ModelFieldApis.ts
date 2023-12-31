@@ -41,6 +41,11 @@ export const ModelFieldApis = {
     route: '/api/v1/general-data/:modelKey/field-link',
     description: '模型关联字段列表获取',
   },
+  DataModelFieldsSort: {
+    method: 'PUT',
+    route: '/api/v1/general-data/:modelKey/sort-fields',
+    description: '调整字段顺序',
+  },
   DataModelFieldCreate: {
     method: 'POST',
     route: '/api/v1/general-data/:modelKey/field',

@@ -3,7 +3,7 @@ import assert from '@fangcha/assert'
 import { _ModelField } from './_ModelField'
 import { _FieldIndex } from './_FieldIndex'
 import { _FieldLink } from './_FieldLink'
-import { SQLSearcher, Transaction } from 'fc-sql'
+import { SQLModifier, SQLSearcher, Transaction } from 'fc-sql'
 import { logger } from '@fangcha/logger'
 import { _ModelGroup } from '../permission/_ModelGroup'
 import { CommonGroup } from '../permission/CommonGroup'
@@ -167,6 +167,25 @@ export class _DataModel extends __DataModel {
       result[cur.fieldKey] = true
       return result
     }, {})
+  }
+
+  public async sortFields(fieldKeys: string[]) {
+    const database = this.dbSpec().database
+    const fieldTableKey = new _ModelField().dbSpec().table
+    const runner = database.createTransactionRunner()
+    await runner.commit(async (transaction) => {
+      for (let i = 0; i < fieldKeys.length; ++i) {
+        const fieldKey = fieldKeys[i]
+        const modifier = new SQLModifier(database)
+        modifier.transaction = transaction
+        modifier.setTable(fieldTableKey)
+        modifier.updateKV('weight', fieldKeys.length - i)
+        modifier.addConditionKV('model_key', this.modelKey)
+        modifier.addConditionKV('field_key', fieldKey)
+        await modifier.execute()
+      }
+      await this.increaseVersion(transaction)
+    })
   }
 
   public async createField(params: ModelFieldModel) {

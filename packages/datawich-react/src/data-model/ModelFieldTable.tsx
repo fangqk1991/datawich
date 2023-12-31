@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { ConfirmDialog, JsonEditorDialog, TableView, TableViewColumn, TextPreviewDialog } from '@fangcha/react'
+import {
+  ConfirmDialog,
+  DraggableOptionsDialog,
+  JsonEditorDialog,
+  TableView,
+  TableViewColumn,
+  TextPreviewDialog,
+} from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
@@ -32,20 +39,12 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
     }
   }, [modelKey, version])
 
-  const fieldMap = useMemo(() => {
-    return fields.reduce((result, cur) => {
-      result[cur.fieldKey] = cur
-      return result
-    }, {} as { [p: string]: ModelFieldModel })
-  }, [fields])
-
-  const { indexMap, indexBoolMap, uniqueBoolMap } = useMemo(() => {
+  const { indexBoolMap, uniqueBoolMap } = useMemo(() => {
     const indexMap = indexes.reduce((result, cur) => {
       result[cur.fieldKey] = cur
       return result
     }, {} as { [p: string]: FieldIndexModel })
     return {
-      indexMap: indexMap,
       indexBoolMap: fields.reduce((result, cur) => {
         result[cur.fieldKey] = !!indexMap[cur.fieldKey]
         return result
@@ -111,6 +110,27 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
         >
           导入 JSON
         </Button>
+        <Button
+          type='primary'
+          onClick={() => {
+            const dialog = DraggableOptionsDialog.dialogWithOptions(
+              fields.map((field) => ({
+                label: field.name,
+                value: field.fieldKey,
+                entity: field,
+              }))
+            )
+            dialog.show(async (options) => {
+              const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldsSort, modelKey))
+              request.setBodyData(options.map((item) => item.value))
+              await request.quickSend()
+              message.success('调整成功')
+              setVersion(version + 1)
+            })
+          }}
+        >
+          字段排序
+        </Button>
       </Space>
       <Divider />
       <TableView
@@ -168,7 +188,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
             title: '是否必填',
             render: (field) =>
               field.isSystem ? (
-                <Tag>自动填</Tag>
+                <Tag color={'geekblue'}>自动填</Tag>
               ) : (
                 <Switch
                   checked={!!field.required}
@@ -316,6 +336,9 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                       </a>
                     </>
                   )}
+                  <a type='primary' onClick={() => TextPreviewDialog.previewData(field)}>
+                    Raw
+                  </a>
                 </Space>
               )
             },

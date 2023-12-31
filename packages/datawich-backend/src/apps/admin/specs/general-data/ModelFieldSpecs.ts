@@ -79,6 +79,14 @@ factory.prepare(ModelFieldApis.DataModelFieldTop, async (ctx) => {
   })
 })
 
+factory.prepare(ModelFieldApis.DataModelFieldsSort, async (ctx) => {
+  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
+    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
+    await dataModel.sortFields(ctx.request.body)
+    ctx.status = 200
+  })
+})
+
 factory.prepare(ModelFieldApis.DataModelFieldCreate, async (ctx) => {
   await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
