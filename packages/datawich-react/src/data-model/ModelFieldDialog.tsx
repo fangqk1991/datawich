@@ -5,6 +5,7 @@ import { ProForm, ProFormDependency, ProFormDigit, ProFormRadio, ProFormText } f
 import {
   FieldType,
   FieldTypeDescriptor,
+  ModelFieldModel,
   ModelFieldParams,
   NumberFormat,
   NumberFormatDescriptor,
@@ -13,7 +14,7 @@ import { NumBoolDescriptor } from '@fangcha/tools'
 import { TagsFieldExtension } from './TagsFieldExtension'
 
 interface Props extends DialogProps {
-  data?: ModelFieldParams
+  field?: ModelFieldModel
   forEditing?: boolean
 }
 
@@ -26,7 +27,7 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
       const [params, setParams] = useState<ModelFieldParams>(
         JSON.parse(
           JSON.stringify(
-            props.data ||
+            props.field ||
               ({
                 fieldKey: '',
                 name: '',

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import {
   ConfirmDialog,
   DraggableOptionsDialog,
+  FlexibleFormDialog,
   JsonEditorDialog,
   TableView,
   TableViewColumn,
@@ -14,6 +15,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
 import { FieldHelper } from '@web/datawich-common/models'
+import { ProFormText } from '@ant-design/pro-components'
 
 interface Props {
   modelKey: string
@@ -277,20 +279,46 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                   <a
                     type='primary'
                     onClick={() => {
-                      const dialog = new ModelFieldDialog({
-                        title: '编辑字段',
-                        data: field,
-                        forEditing: true,
-                      })
-                      dialog.show(async (params) => {
-                        const request = MyRequest(
-                          new CommonAPI(ModelFieldApis.DataModelFieldUpdate, modelKey, field.fieldKey)
-                        )
-                        request.setBodyData(params)
-                        await request.quickSend()
-                        message.success('更新成功')
-                        setVersion(version + 1)
-                      })
+                      if (field.isSystem) {
+                        const dialog = new FlexibleFormDialog({
+                          title: '编辑系统字段',
+                          formBody: (
+                            <>
+                              <ProFormText name={'fieldKey'} label={'字段 Key'} disabled={true} />
+                              <ProFormText name={'name'} label={'字段名称'} />
+                            </>
+                          ),
+                          placeholder: {
+                            fieldKey: field.fieldKey,
+                            name: field.name,
+                          },
+                        })
+                        dialog.width = '400px'
+                        dialog.show(async (params) => {
+                          const request = MyRequest(
+                            new CommonAPI(ModelFieldApis.DataSystemModelFieldUpdate, modelKey, field.fieldKey)
+                          )
+                          request.setBodyData(params)
+                          await request.execute()
+                          message.success('修改成功')
+                          setVersion(version + 1)
+                        })
+                      } else {
+                        const dialog = new ModelFieldDialog({
+                          title: '编辑字段',
+                          field: field,
+                          forEditing: true,
+                        })
+                        dialog.show(async (params) => {
+                          const request = MyRequest(
+                            new CommonAPI(ModelFieldApis.DataModelFieldUpdate, modelKey, field.fieldKey)
+                          )
+                          request.setBodyData(params)
+                          await request.quickSend()
+                          message.success('更新成功')
+                          setVersion(version + 1)
+                        })
+                      }
                     }}
                   >
                     编辑
@@ -302,7 +330,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                         onClick={async () => {
                           const dialog = new ModelFieldDialog({
                             title: '创建字段',
-                            data: field,
+                            field: field,
                           })
                           dialog.show(async (params) => {
                             const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
