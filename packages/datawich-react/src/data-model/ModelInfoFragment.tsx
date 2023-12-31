@@ -127,7 +127,7 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
       {outerModels.length > 0 && (
         <div>
           <Divider />
-          <h3>以下模型在引用本模型</h3>
+          <h4>以下模型在引用本模型</h4>
           <Space>
             {outerModels.map((model) => (
               <Button

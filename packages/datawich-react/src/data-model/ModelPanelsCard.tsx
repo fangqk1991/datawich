@@ -21,7 +21,7 @@ export const ModelPanelsCard: ModelFragmentProtocol = ({ dataModel }) => {
 
   return (
     <div>
-      <h3>{LS('[i18n] Model Panels')}</h3>
+      <h4>{LS('[i18n] Model Panels')}</h4>
       <Space>
         {panelList.length === 0 && <span>暂无</span>}
         {panelList.map((item) => (

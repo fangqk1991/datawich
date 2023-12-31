@@ -121,7 +121,7 @@ export class MilestoneInfoDialog extends ReactDialog<Props> {
 
                           context.setText(
                             <Space direction={'vertical'}>
-                              <h3>版本还原成功</h3>
+                              <h4>版本还原成功</h4>
                               <Button onClick={() => window.location.reload()}>刷新页面</Button>
                             </Space>,
                             true

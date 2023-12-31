@@ -23,7 +23,7 @@ export const ModelMilestonePanel: ModelFragmentProtocol = ({ dataModel }) => {
 
   return (
     <div>
-      <h3>{LS('[i18n] Model Versions')}</h3>
+      <h4>{LS('[i18n] Model Versions')}</h4>
       <Space direction={'vertical'}>
         <Space>
           <Button

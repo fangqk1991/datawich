@@ -77,7 +77,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
 
   return (
     <div>
-      <h3>字段管理</h3>
+      <h4>字段管理</h4>
       <Space>
         <Button
           type='primary'
@@ -267,6 +267,16 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                       visibleLogic
                     </Tag>
                   )}
+                </>
+              )
+            },
+          },
+          {
+            title: '动作',
+            render: (field) => {
+              return (
+                <>
+                  <Tag>TODO</Tag>
                 </>
               )
             },
