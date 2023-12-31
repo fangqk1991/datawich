@@ -53,13 +53,14 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
       return (
         <ProForm form={form} layout='vertical' style={{ marginTop: '16px' }} submitter={false} initialValues={params}>
           <ProFormText name={'fieldKey'} label={'字段 Key'} disabled={props.forEditing} />
-          <ProFormText name={'name'} label={'字段名称'} />
           <ProFormRadio.Group
             name={'fieldType'}
             label={'字段类型'}
             options={FieldTypeDescriptor.options()}
             radioType='button'
+            disabled={props.forEditing}
           />
+          <ProFormText name={'name'} label={'字段名称'} />
           <ProFormRadio.Group
             name={'required'}
             label={'是否必填'}
