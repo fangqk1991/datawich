@@ -53,7 +53,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   ////
   options: { value: number | string; label: string }[]
   value2LabelMap: { [p: string]: string }
-  dateRange: DateRange
   searchable: number
   isUnique: number
   extrasData: ModelFieldExtrasData

@@ -6,7 +6,7 @@ import {
   AttachmentOptions,
   FieldPluginCenter,
 } from '@fangcha/datawich-frontend'
-import { AccessLevelDescriptor, describeAccessLevelDetail } from '@web/datawich-common/models'
+import { AccessLevelDescriptor, ActionEventDescriptor, describeAccessLevelDetail } from '@web/datawich-common/models'
 
 class _GeneralDataManager {
   public loadVueFilters() {
@@ -21,6 +21,11 @@ class _GeneralDataManager {
     Vue.filter('describe_model_access_level_detail', function (val: any) {
       return describeAccessLevelDetail(val)
     })
+
+    Vue.filter('describe_action_event', function (val: any) {
+      return ActionEventDescriptor.describe(val)
+    })
+
     Vue.filter(
       'digitFormat',
       function (n: number | string, digits: number = 2, maximumFractionDigits: number | null = null) {

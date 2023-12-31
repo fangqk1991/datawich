@@ -236,7 +236,6 @@ export class _DataModel extends __DataModel {
       }
       extras.options = params.options
     } else if (field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime) {
-      extras.dateRange = params.dateRange
     } else if (field.fieldType === FieldType.SingleLineText) {
       extras.searchable = params.searchable || 0
     }
@@ -609,9 +608,6 @@ export class _DataModel extends __DataModel {
         // })
       }
       extras.options = options
-    }
-    if (params.dateRange !== undefined) {
-      extras.dateRange = params.dateRange
     }
     if (params.searchable !== undefined) {
       extras.searchable = params.searchable

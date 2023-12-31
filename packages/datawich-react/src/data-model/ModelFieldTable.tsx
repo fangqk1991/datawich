@@ -111,7 +111,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           导入 JSON
         </Button>
         <Button
-          type='primary'
+          danger={true}
           onClick={() => {
             const dialog = DraggableOptionsDialog.dialogWithOptions(
               fields.map((field) => ({

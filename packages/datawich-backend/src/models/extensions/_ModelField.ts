@@ -78,11 +78,12 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
         assert.ok(!!option.label, '枚举名称不能为空')
       })
     } else if (params.fieldType === FieldType.Date || params.fieldType === FieldType.Datetime) {
-      assert.ok(!!params.dateRange, '时间范围有误')
-      ;['floor', 'ceil'].forEach((key) => {
-        const date = params.dateRange[key]
-        assert.ok(date === '' || /^[+-]\d+d$/.test(date) || /^\d{4}-\d{2}-\d{2}$/.test(date), `${key} 时间格式有误`)
-      })
+      if (params.extrasData.dateRange) {
+        ;['floor', 'ceil'].forEach((key) => {
+          const date = params.extrasData.dateRange[key]
+          assert.ok(date === '' || /^[+-]\d+d$/.test(date) || /^\d{4}-\d{2}-\d{2}$/.test(date), `${key} 时间格式有误`)
+        })
+      }
     } else if (params.fieldType === FieldType.SingleLineText) {
       if (params.searchable !== undefined) {
         assert.ok([0, 1].includes(params.searchable), 'searchable 参数有误')
@@ -164,6 +165,7 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     }
     return dateRange
   }
+
   public getHint() {
     switch (this.fieldType as FieldType) {
       case FieldType.TextEnum: {

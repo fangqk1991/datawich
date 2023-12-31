@@ -85,9 +85,11 @@ import { FieldHelper } from '@web/datawich-common/models'
               </div>
             </el-tooltip>
           </span>
-          <el-input v-model="data.dateRange.floor" type="text" placeholder="日期下限" style="width: 120px;"> </el-input>
+          <el-input v-model="data.extrasData.dateRange.floor" type="text" placeholder="日期下限" style="width: 120px;">
+          </el-input>
           ~
-          <el-input v-model="data.dateRange.ceil" type="text" placeholder="日期上限" style="width: 120px;"> </el-input>
+          <el-input v-model="data.extrasData.dateRange.ceil" type="text" placeholder="日期上限" style="width: 120px;">
+          </el-input>
         </el-form-item>
         <el-form-item label="正则约束">
           <el-input v-model="data.extrasData.matchRegex" type="text" style="width: 200px;"> </el-input>
@@ -184,10 +186,6 @@ export default class ModelFieldDialog extends CustomDialog {
     special: 0,
     star: 0,
     options: [],
-    dateRange: {
-      floor: '',
-      ceil: '',
-    },
     searchable: 0,
     useEnumSelector: false,
     isHidden: 0,
@@ -203,6 +201,10 @@ export default class ModelFieldDialog extends CustomDialog {
       readonly: false,
       matchRegex: '',
       numberFormat: NumberFormat.Normal,
+      dateRange: {
+        floor: '',
+        ceil: '',
+      },
     } as ModelFieldExtrasData,
   }
 

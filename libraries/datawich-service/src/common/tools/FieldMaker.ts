@@ -1,6 +1,5 @@
 import {
   checkFieldHasOptions,
-  DateRange,
   DescribableField,
   FieldLinkModel,
   FieldType,
@@ -108,22 +107,6 @@ export class FieldMaker {
         result[cur.value] = cur.label
         return result
       }, {})
-      result.dateRange = (() => {
-        const dateRange = {
-          floor: '',
-          ceil: '',
-        }
-        if (rawData.fieldType === FieldType.Date || rawData.fieldType === FieldType.Datetime) {
-          const dateRange1: Partial<DateRange> = extrasData.dateRange || {}
-          if (dateRange1.floor) {
-            dateRange.floor = dateRange1.floor
-          }
-          if (dateRange1.ceil) {
-            dateRange.ceil = dateRange1.ceil
-          }
-        }
-        return dateRange
-      })()
       result.searchable = rawData.fieldType === FieldType.SingleLineText && extrasData.searchable ? 1 : 0
       result.useEnumSelector = extrasData.useEnumSelector || false
       result.referenceCheckedInfos = extrasData.referenceCheckedInfos || []

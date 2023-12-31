@@ -264,19 +264,21 @@ export class DataNormalForm extends ViewController {
       fields
         .filter((field) => field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime)
         .forEach((field) => {
-          const dateRange = field.dateRange
-          const floorDate = moment(_getCalcDate(dateRange.floor))
-          const ceilDate = moment(_getCalcDate(dateRange.ceil))
-          pickerOptionsMap[field.fieldKey] = {
-            disabledDate(time: Date) {
-              if (time.getTime() < floorDate.valueOf()) {
-                return true
-              }
-              if (time.getTime() > ceilDate.valueOf()) {
-                return true
-              }
-              return false
-            },
+          const dateRange = field.extrasData.dateRange
+          if (dateRange) {
+            const floorDate = moment(_getCalcDate(dateRange.floor))
+            const ceilDate = moment(_getCalcDate(dateRange.ceil))
+            pickerOptionsMap[field.fieldKey] = {
+              disabledDate(time: Date) {
+                if (time.getTime() < floorDate.valueOf()) {
+                  return true
+                }
+                if (time.getTime() > ceilDate.valueOf()) {
+                  return true
+                }
+                return false
+              },
+            }
           }
         })
       this.pickerOptionsMap = pickerOptionsMap
