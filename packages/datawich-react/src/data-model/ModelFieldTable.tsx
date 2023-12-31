@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { ConfirmDialog, JsonEditorDialog, TableView, TableViewColumn } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelFieldApis } from '@web/datawich-common/web-api'
-import { FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
+import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
+import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
@@ -13,6 +13,7 @@ interface Props {
 
 export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
   const [fields, setFields] = useState<ModelFieldModel[]>([])
+  const [indexes, setIndexes] = useState<FieldIndexModel[]>([])
   const [version, setVersion] = useState(0)
 
   useEffect(() => {
@@ -26,10 +27,41 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
     return fields.reduce((result, cur) => {
       result[cur.fieldKey] = cur
       return result
-    }, {})
+    }, {} as { [p: string]: ModelFieldModel })
   }, [fields])
 
-  // this.rebuildIndexMaps()
+  useEffect(() => {
+    {
+      const request = MyRequest(new CommonAPI(ModelIndexApis.DataModelColumnIndexListGet, modelKey))
+      request.quickSend().then((response) => {
+        setFields(response)
+      })
+    }
+    {
+      const request = MyRequest(new CommonAPI(ModelIndexApis.DataModelColumnIndexListGet, modelKey))
+      request.quickSend().then((response) => {
+        setIndexes(response)
+      })
+    }
+  }, [modelKey, version])
+
+  const { indexMap, indexBoolMap, uniqueBoolMap } = useMemo(() => {
+    const indexMap = indexes.reduce((result, cur) => {
+      result[cur.fieldKey] = cur
+      return result
+    }, {} as { [p: string]: FieldIndexModel })
+    return {
+      indexMap: indexMap,
+      indexBoolMap: fields.reduce((result, cur) => {
+        result[cur.fieldKey] = !!indexMap[cur.fieldKey]
+        return result
+      }, {} as { [p: string]: boolean }),
+      uniqueBoolMap: fields.reduce((result, cur) => {
+        result[cur.fieldKey] = !!indexMap[cur.fieldKey] && !!indexMap[cur.fieldKey].isUnique
+        return result
+      }, {} as { [p: string]: boolean }),
+    }
+  }, [fields, indexes])
 
   return (
     <div>
