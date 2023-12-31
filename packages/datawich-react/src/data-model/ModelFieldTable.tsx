@@ -6,6 +6,7 @@ import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } f
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
+import { FieldHelper } from '@web/datawich-common/models'
 
 interface Props {
   modelKey: string
@@ -55,6 +56,23 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
       }, {} as { [p: string]: boolean }),
     }
   }, [fields, indexes])
+
+  const createIndex = (field: ModelFieldModel, isUnique: boolean) => {
+    const request = MyRequest(new CommonAPI(ModelIndexApis.DataModelColumnIndexCreate, field.modelKey, field.fieldKey))
+    request.setBodyData({ isUnique: isUnique ? 1 : 0 })
+    request.execute().then(() => {
+      message.success('调整索引成功')
+      setVersion(version + 1)
+    })
+  }
+
+  const dropIndex = (field: ModelFieldModel) => {
+    const request = MyRequest(new CommonAPI(ModelIndexApis.DataModelColumnIndexDrop, field.modelKey, field.fieldKey))
+    request.execute().then(() => {
+      message.success('移除索引成功')
+      setVersion(version + 1)
+    })
+  }
 
   return (
     <div>
@@ -168,12 +186,57 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
               ),
           },
           {
+            title: '是否唯一',
+            render: (field) => {
+              if (field.fieldKey === 'rid') {
+                return <Tag color={'geekblue'}>唯一</Tag>
+              }
+              if (field.isSystem || !FieldHelper.checkIndexAbleField(field.fieldType)) {
+                return <Tag>不可唯一</Tag>
+              }
+              return (
+                <Switch
+                  checked={uniqueBoolMap[field.fieldKey]}
+                  onChange={(checked) => {
+                    if (checked) {
+                      createIndex(field, true)
+                    } else if (indexBoolMap[field.fieldKey]) {
+                      createIndex(field, false)
+                    } else {
+                      dropIndex(field)
+                    }
+                  }}
+                />
+              )
+            },
+          },
+          {
+            title: '索引',
+            render: (field) => {
+              if (!FieldHelper.checkIndexAbleField(field.fieldType)) {
+                return <Tag>不可索引</Tag>
+              }
+              return (
+                <Switch
+                  checked={indexBoolMap[field.fieldKey]}
+                  onChange={(checked) => {
+                    if (checked) {
+                      createIndex(field, false)
+                    } else {
+                      dropIndex(field)
+                    }
+                  }}
+                />
+              )
+            },
+          },
+          {
             title: '特殊属性',
             render: (field) => {
               return (
                 <>
-                  {!!field.isSystem && <Tag>系统字段</Tag>}
-                  {!!field.searchable && <Tag>可搜索</Tag>}
+                  {!!field.isSystem && <Tag color={'geekblue'}>系统字段</Tag>}
+                  {!!field.searchable && <Tag color={'geekblue'}>可搜索</Tag>}
                   {field.extrasData.numberFormat === NumberFormat.Percent && <Tag color={'warning'}>Percent</Tag>}
                   {!!field.extrasData.readonly && <Tag color={'warning'}>Readonly</Tag>}
                   {!!field.extrasData.matchRegex && <Tag color={'danger'}>{field.extrasData.matchRegex}</Tag>}
