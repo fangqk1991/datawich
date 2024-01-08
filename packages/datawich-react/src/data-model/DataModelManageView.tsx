@@ -39,7 +39,7 @@ const trimParams = (params: {}) => {
 export const DataModelManageView: React.FC = () => {
   const { modelKey = '' } = useParams()
 
-  const { queryParams, updateQueryParams } = useQueryParams()
+  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams()
 
   const [version, setVersion] = useState(0)
   const [dataModel, setDataModel] = useState<DataModelModel>()
@@ -72,11 +72,7 @@ export const DataModelManageView: React.FC = () => {
 
       <Tabs
         activeKey={queryParams['curTab'] || 'fragment-model-info'}
-        onChange={(tab) => {
-          updateQueryParams({
-            curTab: tab,
-          })
-        }}
+        onChange={(tab) => setQueryParams({ curTab: tab })}
         type='card'
         items={[
           {
