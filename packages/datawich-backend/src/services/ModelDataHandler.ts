@@ -1,6 +1,6 @@
 import { FilterOptions } from 'fc-feed'
 import { SearchBuilder } from '@fangcha/tools/lib/database'
-import { SQLSearcher } from 'fc-sql'
+import { SQLBulkAdder, SQLSearcher } from 'fc-sql'
 import * as fs from 'fs'
 import { CsvMaker, makeUUID, PageResult, SelectOption } from '@fangcha/tools'
 import { logger } from '@fangcha/logger'
@@ -661,6 +661,87 @@ export class ModelDataHandler {
       }
     })
     return infoList
+  }
+
+  public async upsertMultipleData(customDataList: any[]) {
+    if (customDataList.length <= 0) {
+      return
+    }
+    const dataModel = this._dataModel
+    const database = ModelDataInfo.database
+    const fields = await dataModel.getFields()
+    const dataList: any[] = customDataList.map((options) => {
+      const data = FieldHelper.cleanDataByModelFields(options, fields as any)
+      delete data['create_time']
+      delete data['update_time']
+      delete data['rid']
+      delete data['author']
+      data['update_author'] = this._operator
+      // await this.assertParamsValid(data)
+      return data
+    })
+
+    const keys = fields.filter((item) => item.fieldKey in dataList[0]).map((item) => item.fieldKey)
+    const indexes = await dataModel.getUniqueIndexes()
+    const uniqueKeys = indexes.map((item) => item.fieldKey)
+    const usingUniqueKey = keys.find((key) => uniqueKeys.includes(key))
+
+    let existingMap: { [p: string]: String } = {}
+    if (usingUniqueKey) {
+      const searcher = new SQLSearcher(database)
+      searcher.setTable(dataModel.sqlTableName())
+      searcher.setColumns(['_data_id', 'author', usingUniqueKey])
+      searcher.addConditionKeyInArray(
+        usingUniqueKey,
+        dataList.map((item) => item[usingUniqueKey])
+      )
+      const existingItems = await searcher.queryList()
+      existingMap = existingItems.reduce((result, cur) => {
+        result[cur[usingUniqueKey]] = cur['_data_id']
+        return result
+      }, {})
+    }
+
+    const runner = database.createTransactionRunner()
+    await runner.commit(async (transaction) => {
+      {
+        const toInsertItems = dataList.filter((item) => !(usingUniqueKey && existingMap[item[usingUniqueKey]]))
+        const bulkAdder = new SQLBulkAdder(database)
+        bulkAdder.transaction = transaction
+        bulkAdder.setTable(dataModel.sqlTableName())
+        bulkAdder.setInsertKeys(['_data_id', 'author', ...keys])
+        bulkAdder.declareTimestampKey(
+          ...fields.filter((field) => field.fieldType === FieldType.Datetime).map((field) => field.fieldKey)
+        )
+        bulkAdder.useUpdateWhenDuplicate()
+        toInsertItems.forEach((item) => {
+          bulkAdder.putObject({
+            ...item,
+            author: this._operator,
+            _data_id: makeUUID(),
+          })
+        })
+        await bulkAdder.execute()
+      }
+      if (usingUniqueKey) {
+        const toUpdateItems = dataList.filter((item) => usingUniqueKey && existingMap[item[usingUniqueKey]])
+        const bulkAdder = new SQLBulkAdder(database)
+        bulkAdder.transaction = transaction
+        bulkAdder.setTable(dataModel.sqlTableName())
+        bulkAdder.setInsertKeys(['_data_id', ...keys])
+        bulkAdder.declareTimestampKey(
+          ...fields.filter((field) => field.fieldType === FieldType.Datetime).map((field) => field.fieldKey)
+        )
+        bulkAdder.useUpdateWhenDuplicate()
+        toUpdateItems.forEach((item) => {
+          bulkAdder.putObject({
+            ...item,
+            _data_id: existingMap[item[usingUniqueKey]],
+          })
+        })
+        await bulkAdder.execute()
+      }
+    })
   }
 
   public async modifyModelData(dataInfo: ModelDataInfo, params: any) {

@@ -108,6 +108,21 @@ export const OpenDataAppApis = {
       },
     ] as SwaggerParameter[],
   },
+  DataAppRecordsBatchUpsert: {
+    method: 'POST',
+    route: '/api/data-app/v1/data-model/:modelKey/batch-upsert',
+    description: '批量创建/更新应用数据',
+    detailInfo: '批量创建/更新具备事务性',
+    parameters: [
+      {
+        name: 'bodyData',
+        type: 'array',
+        in: 'body',
+        description: dataPostInfoStr,
+        schema: buildSwaggerSchema([{ fieldKey1: 'fieldValue1', fieldKey2: 'fieldValue2' }]),
+      },
+    ] as SwaggerParameter[],
+  },
   ModelDataInfoGet: {
     method: 'GET',
     route: '/api/data-app/v1/data-model/:modelKey/data/:uniqueFieldKey/:fieldValue',

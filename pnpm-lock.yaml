@@ -95,8 +95,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.46.0
-        version: 0.46.0
+        specifier: ^0.47.0
+        version: 0.47.0
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -104,8 +104,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       fc-sql:
-        specifier: ^0.40.0
-        version: 0.40.0
+        specifier: ^0.41.0
+        version: 0.41.0
       file-type:
         specifier: ^12.4.0
         version: 12.4.2
@@ -2242,7 +2242,7 @@ packages:
       '@fangcha/tools': 1.39.0
       '@types/ejs': 3.1.2
       ejs: 3.1.9
-      fc-sql: 0.40.0
+      fc-sql: 0.41.0
     transitivePeerDependencies:
       - ibm_db
       - mariadb
@@ -6307,12 +6307,12 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.46.0:
-    resolution: {integrity: sha512-xd1sKs4fCwUl8ECXiVzwOtgiC2nk+NaoNlHG3LX3Nh4NyHvUjOJ3SeBkedNmslZ2RM6bCy8iFMU2Foss+wNS6w==}
+  /fc-feed@0.47.0:
+    resolution: {integrity: sha512-fHmF0UqmkRSy0QK7Xf9SLGwENf0ZBten0E6WT2MbHqfYBeXhUca+zZHc2+4jme7VC5Bc1Nmjjkg3dbRQOac8RQ==}
     dependencies:
       '@fangcha/logic': 0.8.0
       fc-model: 0.6.0
-      fc-sql: 0.40.0
+      fc-sql: 0.41.0
     transitivePeerDependencies:
       - ibm_db
       - mariadb
@@ -6333,8 +6333,8 @@ packages:
     resolution: {integrity: sha512-PJlpsjAOCg0RUbekTuJZlyBArs1/hMQnan0LeGLP57+wYXClZ0WJ7J7XeCaCXlkO9NZI05pu+4Xl58DUsyQKeg==}
     dev: false
 
-  /fc-sql@0.40.0:
-    resolution: {integrity: sha512-Nl4BvxnXsBYrOhYUfg+d4RFYQj/EMA5HciOCZOT08LdOWaO4FO/Nh3mtnhjAkwpnnpdW5xnFuPVg26bf0LCOyw==}
+  /fc-sql@0.41.0:
+    resolution: {integrity: sha512-QM/WKiKdavrfQp5nC528lF4d0v94WWQAkCRRQGe/qdZYRm/V4YWZGY7i8B6+ISoYSN3DB+JC8g+2rkkBBV5/sw==}
     dependencies:
       moment: 2.29.4
       mysql2: 3.2.1

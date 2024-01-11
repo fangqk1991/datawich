@@ -74,6 +74,19 @@ factory.prepare(OpenDataAppApis.DataAppRecordsBatch, async (ctx) => {
   })
 })
 
+factory.prepare(OpenDataAppApis.DataAppRecordsBatchUpsert, async (ctx) => {
+  const session = ctx.session as FangchaSession
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
+    const dataList = ctx.request.body
+    assert.ok(Array.isArray(dataList), '数据不合法，Body 应为 Array 类型')
+    const dataHandler = new ModelDataHandler(dataModel)
+    dataHandler.setOperator(session.curUserStr())
+    await dataHandler.upsertMultipleData(dataList)
+    ctx.status = 200
+  })
+})
+
 factory.prepare(OpenDataAppApis.DataAppRecordUpdate, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const session = ctx.session as FangchaSession
