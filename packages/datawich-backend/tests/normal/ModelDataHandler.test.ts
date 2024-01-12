@@ -40,6 +40,7 @@ describe('Test ModelDataHandler', () => {
   it(`Test upsertMultipleData`, async () => {
     const dataModel = await _DataModel.prepareWithUid('demo')
     const dataHandler = new ModelDataHandler(dataModel)
-    await dataHandler.upsertMultipleData([])
+    const { items } = await dataHandler.getPageResult()
+    await dataHandler.upsertMultipleData(items)
   })
 })
