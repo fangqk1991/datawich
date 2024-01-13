@@ -14,7 +14,7 @@ import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } f
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
-import { FieldHelper } from '@web/datawich-common/models'
+import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
 import { ProFormText } from '@ant-design/pro-components'
 
 interface Props {
@@ -276,7 +276,26 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
             render: (field) => {
               return (
                 <>
-                  <Tag>TODO</Tag>
+                  {field.extrasData.actions &&
+                    field.extrasData.actions.map((action) => (
+                      <Tag key={action.actionId} color={'red'}>
+                        {ActionEventDescriptor.describe(action.event)}: {action.title}
+                      </Tag>
+                    ))}
+                  <a onClick={() => {}}>添加</a>
+
+                  {/*    <el-tag*/}
+                  {/*      v-for="action in scope.row.actions"*/}
+                  {/*    :key="action.actionId"*/}
+                  {/*    size="mini"*/}
+                  {/*    type="danger"*/}
+                  {/*    closable*/}
+                  {/*    @click="onUpdateAction(scope.row, action)"*/}
+                  {/*    @close="onDeleteAction(scope.row, action)"*/}
+                  {/*    >*/}
+                  {/*    {{ action.event | describe_action_event }}: {{ action.title }}*/}
+                  {/*  </el-tag>*/}
+                  {/*<a href="javascript:" @click="onAddAction(scope.row)">添加</a>*/}
                 </>
               )
             },
