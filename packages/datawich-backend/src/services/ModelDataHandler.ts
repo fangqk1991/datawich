@@ -617,52 +617,6 @@ export class ModelDataHandler {
     return dataInfo
   }
 
-  public async createMultipleData(customDataList: any[]) {
-    const dataModel = this._dataModel
-    const dataList: any[] = []
-    for (const item of customDataList) {
-      const data = await dataModel.getClearData({
-        ...item,
-        author: this._operator,
-        update_author: this._operator,
-      })
-      await this.assertParamsValid(data)
-      dataList.push(data)
-    }
-
-    const fields = await dataModel.getFields()
-    const database = ModelDataInfo.database
-    const runner = database.createTransactionRunner()
-    const infoList: ModelDataInfo[] = []
-    // TODO: 批量插入性能更佳
-    await runner.commit(async (transaction) => {
-      for (const customData of dataList) {
-        const dataId = makeUUID()
-        const adder = database.adder()
-        adder.transaction = transaction
-        adder.setTable(dataModel.sqlTableName())
-        adder.insertKV('_data_id', dataId)
-        for (const field of fields) {
-          const fieldKey = field.fieldKey
-          if (fieldKey in customData) {
-            if (field.fieldType === FieldType.Datetime) {
-              if (customData[fieldKey]) {
-                adder.insertKVForTimestamp(fieldKey, customData[fieldKey])
-              }
-            } else if (field.fieldType === FieldType.StringList) {
-              adder.insertKV(fieldKey, JSON.stringify(customData[fieldKey]))
-            } else {
-              adder.insertKV(fieldKey, customData[fieldKey])
-            }
-          }
-        }
-        await adder.execute()
-        infoList.push(new ModelDataInfo(dataModel, dataId))
-      }
-    })
-    return infoList
-  }
-
   public async upsertMultipleData(customDataList: any[]) {
     if (customDataList.length <= 0) {
       return

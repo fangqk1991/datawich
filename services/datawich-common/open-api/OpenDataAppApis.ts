@@ -92,22 +92,6 @@ export const OpenDataAppApis = {
     route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
     description: '删除应用数据记录',
   },
-  DataAppRecordsBatch: {
-    method: 'POST',
-    route: '/api/data-app/v1/data-model/:modelKey/batch',
-    description: '批量创建应用数据',
-    detailInfo:
-      '对于批量创建的处理，当前服务端采用逐行导入的方式；批量创建具备事务性，过程中若出现错误，已创建的数据会被回滚',
-    parameters: [
-      {
-        name: 'bodyData',
-        type: 'array',
-        in: 'body',
-        description: dataPostInfoStr,
-        schema: buildSwaggerSchema([{ fieldKey1: 'fieldValue1', fieldKey2: 'fieldValue2' }]),
-      },
-    ] as SwaggerParameter[],
-  },
   DataAppRecordsBatchUpsert: {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/batch-upsert',
