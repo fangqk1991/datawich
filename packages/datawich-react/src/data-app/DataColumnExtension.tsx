@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { FieldActionModel, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldActionParams, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { InfoCircleOutlined, LinkOutlined } from '@ant-design/icons'
 import { InformationDialog } from '@fangcha/react'
 import { Tag } from 'antd'
@@ -17,7 +17,7 @@ export const DataColumnExtension: React.FC<Props> = (props) => {
     return GeneralDataHelper.calculateDataKey(props.field, props.superField)
   }, [props.field, props.superField])
 
-  const actions = props.field.actions as FieldActionModel[]
+  const actions = props.field.actions as FieldActionParams[]
   const linkActions = actions.filter((action) => action.event === 'Link')
   const refFieldLinks = props.field.refFieldLinks || []
   const outerLinks = refFieldLinks.filter((link) => !link.isInline)

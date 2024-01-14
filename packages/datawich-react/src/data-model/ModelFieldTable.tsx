@@ -275,66 +275,59 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           {
             title: '动作',
             render: (field) => {
+              const actions = field.extrasData.actions || []
               return (
                 <>
-                  {field.extrasData.actions &&
-                    field.extrasData.actions.map((action) => (
-                      <Tag
-                        key={action.actionId}
-                        style={{ cursor: 'pointer' }}
-                        color={'red'}
-                        closable={true}
-                        onClick={() => {
-                          const dialog = new FieldActionDialog({
-                            data: action,
-                          })
-                          dialog.show(async (params) => {
-                            const request = MyRequest(
-                              new CommonAPI(
-                                ModelFieldApis.DataModelFieldActionUpdate,
-                                field.modelKey,
-                                field.fieldKey,
-                                action.actionId
-                              )
-                            )
-                            request.setBodyData(params)
-                            await request.execute()
-                            message.success('更新成功')
-                            setVersion(version + 1)
-                          })
-                        }}
-                        onClose={(e) => {
-                          e.preventDefault()
-                          const dialog = new ConfirmDialog({
-                            title: '移除动作',
-                            content: `确定要移除 "${action.title}" 吗？`,
-                          })
-                          dialog.show(async () => {
-                            const request = MyRequest(
-                              new CommonAPI(
-                                ModelFieldApis.DataModelFieldActionDelete,
-                                field.modelKey,
-                                field.fieldKey,
-                                action.actionId
-                              )
-                            )
-                            await request.execute()
-                            message.success('移除成功')
-                            setVersion(version + 1)
-                          })
-                        }}
-                      >
-                        {ActionEventDescriptor.describe(action.event)}: {action.title}
-                      </Tag>
-                    ))}
+                  {actions.map((action) => (
+                    <Tag
+                      key={action.actionId}
+                      style={{ cursor: 'pointer' }}
+                      color={'red'}
+                      closable={true}
+                      onClick={() => {
+                        const dialog = new FieldActionDialog({
+                          data: action,
+                        })
+                        dialog.show(async (params) => {
+                          const request = MyRequest(
+                            new CommonAPI(ModelFieldApis.DataModelFieldActionsUpdate, field.modelKey, field.fieldKey)
+                          )
+                          request.setBodyData(
+                            actions.map((item) => (item.actionId === params.actionId ? params : item))
+                          )
+                          await request.execute()
+                          message.success('更新成功')
+                          setVersion(version + 1)
+                        })
+                      }}
+                      onClose={(e) => {
+                        e.preventDefault()
+                        const dialog = new ConfirmDialog({
+                          title: '移除动作',
+                          content: `确定要移除 "${action.title}" 吗？`,
+                        })
+                        dialog.show(async () => {
+                          const request = MyRequest(
+                            new CommonAPI(ModelFieldApis.DataModelFieldActionsUpdate, field.modelKey, field.fieldKey)
+                          )
+                          request.setBodyData(actions.filter((item) => item !== action))
+                          await request.execute()
+                          message.success('移除成功')
+                          setVersion(version + 1)
+                        })
+                      }}
+                    >
+                      {ActionEventDescriptor.describe(action.event)}: {action.title}
+                    </Tag>
+                  ))}
                   <a
                     onClick={() => {
                       const dialog = new FieldActionDialog({})
                       dialog.show(async (params) => {
                         const request = MyRequest(
-                          new CommonAPI(ModelFieldApis.DataModelFieldActionCreate, field.modelKey, field.fieldKey)
+                          new CommonAPI(ModelFieldApis.DataModelFieldActionsUpdate, field.modelKey, field.fieldKey)
                         )
-                        request.setBodyData(params)
+                        request.setBodyData([...actions, params])
                         await request.execute()
                         message.success('添加成功')
                         setVersion(version + 1)
@@ -343,19 +336,6 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                   >
                     添加
                   </a>
-
-                  {/*    <el-tag*/}
-                  {/*      v-for="action in scope.row.actions"*/}
-                  {/*    :key="action.actionId"*/}
-                  {/*    size="mini"*/}
-                  {/*    type="danger"*/}
-                  {/*    closable*/}
-                  {/*    @click="onUpdateAction(scope.row, action)"*/}
-                  {/*    @close="onDeleteAction(scope.row, action)"*/}
-                  {/*    >*/}
-                  {/*    {{ action.event | describe_action_event }}: {{ action.title }}*/}
-                  {/*  </el-tag>*/}
-                  {/*<a href="javascript:" @click="onAddAction(scope.row)">添加</a>*/}
                 </>
               )
             },

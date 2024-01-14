@@ -4,11 +4,9 @@ import { Transaction } from 'fc-sql'
 import { _DataModel } from './_DataModel'
 import { _FieldLink } from './_FieldLink'
 import { _FieldEnumMetadata } from './_FieldEnumMetadata'
-import { _ModelFieldAction } from './_ModelFieldAction'
-import { makeUUID } from '@fangcha/tools'
 import {
   checkFieldHasOptions,
-  FieldActionModel,
+  FieldActionParams,
   FieldType,
   FieldTypeDescriptor,
   GeneralDataFormatter,
@@ -207,7 +205,7 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     return 'Some Text'
   }
 
-  public async updateFeed(params: any, extras: any, transaction: Transaction) {
+  public async updateFeed(params: any, extras: any, transaction?: Transaction) {
     this.fc_edit()
     if (params.name !== undefined) {
       this.name = params.name
@@ -325,69 +323,13 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     }
   }
 
-  public async syncActions(transaction: Transaction) {
-    const searcher = new _ModelFieldAction().fc_searcher()
-    searcher.processor().addConditionKV('model_key', this.modelKey)
-    searcher.processor().addConditionKV('field_key', this.fieldKey)
-    searcher.processor().transaction = transaction
-    const feeds = await searcher.queryFeeds()
-    const actions = feeds.map((feed) => {
-      return {
-        actionId: feed.actionId,
-        event: feed.event,
-        title: feed.title,
-        content: feed.content,
-      }
+  public async updateActions(actions: FieldActionParams[]) {
+    actions.forEach((params) => {
+      assert.ok(ActionEventDescriptor.checkValueValid(params.event), '动作类型有误')
+      assert.ok(!!params.title, '动作描述不能为空')
+      assert.ok(!!params.content, '动作内容不能为空')
     })
-    await this.updateFeed({}, { actions: actions }, transaction)
-  }
-
-  public async addAction(params: FieldActionModel) {
-    assert.ok(ActionEventDescriptor.checkValueValid(params.event), '动作类型有误')
-    assert.ok(!!params.title, '动作描述不能为空')
-    assert.ok(!!params.content, '动作内容不能为空')
-
-    const action = new _ModelFieldAction()
-    action.actionId = makeUUID()
-    action.modelKey = this.modelKey
-    action.fieldKey = this.fieldKey
-    action.event = params.event
-    action.title = params.title
-    action.content = params.content
-
-    const runner = this.dbSpec().database.createTransactionRunner()
-    await runner.commit(async (transaction) => {
-      await action.addToDB(transaction)
-      await this.syncActions(transaction)
-    })
-  }
-
-  public async updateAction(action: _ModelFieldAction, params: FieldActionModel) {
-    assert.ok(ActionEventDescriptor.checkValueValid(params.event), '动作类型有误')
-    assert.ok(!!params.title, '动作描述不能为空')
-    assert.ok(!!params.content, '动作内容不能为空')
-    assert.ok(action.modelKey === this.modelKey, '该动作不属于本字段')
-    assert.ok(action.fieldKey === this.fieldKey, '该动作不属于本字段')
-
-    action.fc_edit()
-    action.event = params.event
-    action.title = params.title
-    action.content = params.content
-    const runner = this.dbSpec().database.createTransactionRunner()
-    await runner.commit(async (transaction) => {
-      await action.updateToDB(transaction)
-      await this.syncActions(transaction)
-    })
-  }
-
-  public async removeAction(action: _ModelFieldAction) {
-    assert.ok(action.modelKey === this.modelKey, '该动作不属于本字段')
-    assert.ok(action.fieldKey === this.fieldKey, '该动作不属于本字段')
-    const runner = this.dbSpec().database.createTransactionRunner()
-    await runner.commit(async (transaction) => {
-      await action.deleteFromDB(transaction)
-      await this.syncActions(transaction)
-    })
+    await this.updateFeed({}, { actions: actions })
   }
 
   public async checkHasReferences() {

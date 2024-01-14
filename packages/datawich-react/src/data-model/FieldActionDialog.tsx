@@ -5,6 +5,7 @@ import { ProForm, ProFormRadio, ProFormText } from '@ant-design/pro-components'
 import { FieldActionParams } from '@fangcha/datawich-service'
 import { ActionEvent, ActionEventDescriptor } from '@web/datawich-common/models'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import { makeUUID } from '@fangcha/tools'
 
 interface Props extends DialogProps {
   data?: FieldActionParams
@@ -21,6 +22,7 @@ export class FieldActionDialog extends ReactDialog<Props, FieldActionParams> {
           JSON.stringify(
             props.data ||
               ({
+                actionId: makeUUID(),
                 event: ActionEvent.Link,
                 title: '',
                 content: '',

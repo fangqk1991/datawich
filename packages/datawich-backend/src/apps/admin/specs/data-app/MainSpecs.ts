@@ -11,7 +11,6 @@ import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _FieldLink } from '../../../../models/extensions/_FieldLink'
 import { ModelDataInfo } from '../../../../services/ModelDataInfo'
 import { SessionChecker } from '../../../../services/SessionChecker'
-import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldAction'
 import { DataImportHandler } from '../../../../services/DataImportHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { GeneralPermission, ProfileEvent } from '@web/datawich-common/models'
@@ -200,15 +199,6 @@ factory.prepare(DataAppApis.DataAppRecordInfosGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo) => {
     ctx.body = await new ModelDataHandler(dataInfo.dataModel).makeReadableInfosForClient(dataInfo)
     ctx.status = 200
-  })
-})
-
-factory.prepare(DataAppApis.DataAppRecordActionPerformerGet, async (ctx) => {
-  await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo) => {
-    const action = (await _ModelFieldAction.findWithUid(ctx.params.actionId)) as _ModelFieldAction
-    assert.ok(!!action, '动作不存在')
-    assert.ok(action.modelKey === dataInfo.dataModel.modelKey, '动作与数据模型不匹配')
-    ctx.body = await dataInfo.actionPerformerInfos(action, ctx.params.fieldKey)
   })
 })
 

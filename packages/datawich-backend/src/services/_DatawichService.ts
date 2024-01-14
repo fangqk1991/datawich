@@ -9,7 +9,6 @@ import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _AppClient } from '../models/extensions/_AppClient'
 import { _ModelAuthorization } from '../models/extensions/_ModelAuthorization'
 import { _FieldEnumMetadata } from '../models/extensions/_FieldEnumMetadata'
-import { _ModelFieldAction } from '../models/extensions/_ModelFieldAction'
 import { _CommonProfile } from '../models/extensions/_CommonProfile'
 import { _ModelMilestone } from '../models/extensions/_ModelMilestone'
 import { ModelDataInfo } from './ModelDataInfo'
@@ -68,7 +67,6 @@ class __DatawichService {
     _AppClient.setDatabase(database)
     _ModelAuthorization.setDatabase(database)
     _FieldEnumMetadata.setDatabase(database)
-    _ModelFieldAction.setDatabase(database)
     _CommonProfile.setDatabase(database)
     _ModelMilestone.setDatabase(database)
     _ModelPanel.setDatabase(database)

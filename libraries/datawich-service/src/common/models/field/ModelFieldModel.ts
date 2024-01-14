@@ -1,7 +1,7 @@
 import { I18nTextData, SelectOption } from '@fangcha/tools'
 import { FieldLinkModel } from './FieldLinkModel'
 import { FieldType } from './FieldType'
-import { FieldActionModel, Raw_ModelField } from './ModelFieldTypes'
+import { FieldActionParams, Raw_ModelField } from './ModelFieldTypes'
 import { LogicExpression } from '@fangcha/logic'
 import { NumberFormat } from './NumberFormat'
 
@@ -29,7 +29,7 @@ export interface ModelFieldExtrasData {
   referenceCheckedInfos: ReferenceCheckedInfo[]
   referenceInline: number
   constraintKey: string
-  actions: FieldActionModel[]
+  actions: FieldActionParams[]
   nameI18n: I18nTextData
   readonly: boolean
   matchRegex: string
@@ -61,7 +61,7 @@ export interface ModelFieldModel extends Raw_ModelField {
   constraintKey: string
   filterKey: string
   dataKey: string
-  actions: FieldActionModel[]
+  actions: FieldActionParams[]
   refFieldLinks: FieldLinkModel[]
   fieldDisplayMode: string
   fieldDisplayTmpl: string

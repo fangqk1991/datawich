@@ -4,7 +4,6 @@ import { ModelFieldApis } from '@web/datawich-common/web-api'
 import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
-import { _ModelFieldAction } from '../../../../models/extensions/_ModelFieldAction'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 import { RawTableHandler } from '../../../../services/RawTableHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
@@ -162,33 +161,11 @@ factory.prepare(ModelFieldApis.DataModelFieldDelete, async (ctx) => {
   })
 })
 
-factory.prepare(ModelFieldApis.DataModelFieldActionCreate, async (ctx) => {
+factory.prepare(ModelFieldApis.DataModelFieldActionsUpdate, async (ctx) => {
   await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
     assert.ok(!modelField.isSystem, '本接口不能修改系统字段')
-    await modelField.addAction(ctx.request.body)
-    ctx.status = 200
-  })
-})
-
-factory.prepare(ModelFieldApis.DataModelFieldActionUpdate, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    assert.ok(!modelField.isSystem, '本接口不能修改系统字段')
-    const action = (await _ModelFieldAction.findWithUid(ctx.params.actionId)) as _ModelFieldAction
-    assert.ok(!!action, 'Action 不存在')
-    await modelField.updateAction(action, ctx.request.body)
-    ctx.status = 200
-  })
-})
-
-factory.prepare(ModelFieldApis.DataModelFieldActionDelete, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    assert.ok(!modelField.isSystem, '本接口不能修改系统字段')
-    const action = (await _ModelFieldAction.findWithUid(ctx.params.actionId)) as _ModelFieldAction
-    assert.ok(!!action, 'Action 不存在')
-    await modelField.removeAction(action)
+    await modelField.updateActions(ctx.request.body)
     ctx.status = 200
   })
 })

@@ -69,11 +69,6 @@ export const DataAppApis = {
     route: '/api/v1/data-app/:modelKey/record/:dataId/infos',
     description: '获取数据记录',
   },
-  DataAppRecordActionPerformerGet: {
-    method: 'GET',
-    route: '/api/v1/data-app/:modelKey/record/:dataId/reference/:fieldKey/action/:actionId/performer',
-    description: '获取记录动作执行信息',
-  },
   DataAppRecordEmailSend: {
     method: 'POST',
     route: '/api/v1/data-app/:modelKey/record/:dataId/email',

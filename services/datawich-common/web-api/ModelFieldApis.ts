@@ -86,20 +86,10 @@ export const ModelFieldApis = {
     route: '/api/v1/general-data/:modelKey/field/:fieldKey/clone-data',
     description: '字段克隆',
   },
-  DataModelFieldActionCreate: {
-    method: 'POST',
-    route: '/api/v1/general-data/:modelKey/field/:fieldKey/action',
-    description: '添加字段动作',
-  },
-  DataModelFieldActionUpdate: {
+  DataModelFieldActionsUpdate: {
     method: 'PUT',
-    route: '/api/v1/general-data/:modelKey/field/:fieldKey/action/:actionId',
-    description: '修改字段动作',
-  },
-  DataModelFieldActionDelete: {
-    method: 'DELETE',
-    route: '/api/v1/general-data/:modelKey/field/:fieldKey/action/:actionId',
-    description: '修改字段动作',
+    route: '/api/v1/general-data/:modelKey/field/:fieldKey/actions',
+    description: '添加字段动作',
   },
   DataDisplayColumnUpdate: {
     method: 'PUT',

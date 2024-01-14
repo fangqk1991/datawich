@@ -23,7 +23,6 @@ import { GeneralDataHelper } from '@fangcha/datawich-service'
   `,
 })
 export class AttachmentFormItem extends FieldFormItemBase {
-  // TODO: Fill url
   get attachmentEntity() {
     return this.myData[GeneralDataHelper.entityKey(this.field.dataKey)] as OssFileInfo
   }

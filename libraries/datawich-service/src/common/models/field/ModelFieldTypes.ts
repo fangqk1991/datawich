@@ -1,18 +1,8 @@
 export interface FieldActionParams {
-  event: string
-  title: string
-  content: string
-}
-
-export interface FieldActionModel extends FieldActionParams {
   actionId: string
-  modelKey: string
-  fieldKey: string
   event: string
   title: string
   content: string
-  createTime: string
-  updateTime: string
 }
 
 export interface FieldGroupModel {

@@ -308,23 +308,6 @@ CREATE TABLE IF NOT EXISTS model_group
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS model_field_action
-(
-    _rid        BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `action_id` varchar(63)                   NOT NULL COMMENT '动作 ID，具备唯一性',
-    `model_key` varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，SQL 外键 -> model_field.model_key',
-    `field_key` varchar(63) COLLATE ascii_bin NOT NULL COMMENT '字段键值，SQL 外键 -> model_field.field_key',
-    FOREIGN KEY (model_key, field_key) REFERENCES model_field (model_key, field_key) ON DELETE CASCADE,
-    `event`     varchar(63)                   NOT NULL COMMENT '事件描述项',
-    `title`     varchar(127)                  NOT NULL COMMENT '描述文字',
-    `content`   varchar(1023)                 NOT NULL COMMENT '动作内容',
-    create_time TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    UNIQUE (`action_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS common_profile
 (
     _rid          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

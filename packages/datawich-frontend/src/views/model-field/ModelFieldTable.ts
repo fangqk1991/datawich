@@ -12,13 +12,12 @@ import {
   TextPreviewDialog,
   ViewController,
 } from '@fangcha/vue'
-import { FieldActionModel, FieldIndexModel, FieldType, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
+import { FieldIndexModel, FieldType, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
 import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
 import SystemFieldDialog from './SystemFieldDialog'
 import { NotificationCenter } from 'notification-center-js'
-import FieldActionDialog from './FieldActionDialog'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
@@ -142,22 +141,6 @@ import { LogicExpressionHelper } from '@fangcha/logic'
         </template>
       </el-table-column>
       <el-table-column prop="defaultValue" label="默认值" />
-      <el-table-column label="动作">
-        <template slot-scope="scope">
-          <el-tag
-            v-for="action in scope.row.actions"
-            :key="action.actionId"
-            size="mini"
-            type="danger"
-            closable
-            @click="onUpdateAction(scope.row, action)"
-            @close="onDeleteAction(scope.row, action)"
-          >
-            {{ action.event | describe_action_event }}: {{ action.title }}
-          </el-tag>
-          <a href="javascript:" @click="onAddAction(scope.row)">添加</a>
-        </template>
-      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <a class="text-success" href="javascript:" @click="onTopItem(scope.row)">置顶</a> |
@@ -329,44 +312,6 @@ export class ModelFieldTable extends ViewController {
       this.$message.success(
         `${fromField.name} [${fromField.fieldKey}] -> ${toField.name} [${toField.fieldKey}]  数据填充成功`
       )
-    })
-  }
-
-  async onAddAction(feed: ModelFieldModel) {
-    const dialog = FieldActionDialog.createActionDialog()
-    dialog.show(async (params: FieldActionModel) => {
-      const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldActionCreate, feed.modelKey, feed.fieldKey))
-      request.setBodyData(params)
-      await request.execute()
-      this.$message.success('添加成功')
-      this.reloadData()
-    })
-  }
-
-  async onUpdateAction(field: ModelFieldModel, action: FieldActionModel) {
-    const dialog = FieldActionDialog.editActionDialog(action)
-    dialog.show(async (params: FieldActionModel) => {
-      const request = MyAxios(
-        new CommonAPI(ModelFieldApis.DataModelFieldActionUpdate, field.modelKey, field.fieldKey, action.actionId)
-      )
-      request.setBodyData(params)
-      await request.execute()
-      this.$message.success('修改成功')
-      this.reloadData()
-    })
-  }
-
-  async onDeleteAction(field: ModelFieldModel, action: FieldActionModel) {
-    const dialog = new ConfirmDialog()
-    dialog.title = '移除动作'
-    dialog.content = `确定要移除 "${action.title}" 吗？`
-    dialog.show(async () => {
-      const request = MyAxios(
-        new CommonAPI(ModelFieldApis.DataModelFieldActionDelete, field.modelKey, field.fieldKey, action.actionId)
-      )
-      await request.execute()
-      this.$message.success('移除成功')
-      this.reloadData()
     })
   }
 

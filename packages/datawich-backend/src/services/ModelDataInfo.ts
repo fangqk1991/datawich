@@ -2,11 +2,7 @@ import { FCDatabase, Transaction } from 'fc-sql'
 import assert from '@fangcha/assert'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
-import { FieldType } from '@fangcha/datawich-service'
-import { _ModelFieldAction } from '../models/extensions/_ModelFieldAction'
-import { _ModelField } from '../models/extensions/_ModelField'
-import { GeneralDataHelper } from '@fangcha/datawich-service'
-import { ActionPerformInfo } from '@web/datawich-common/models'
+import { FieldType, GeneralDataHelper } from '@fangcha/datawich-service'
 
 export class ModelDataInfo {
   public static database: FCDatabase
@@ -116,40 +112,5 @@ export class ModelDataInfo {
       }
     }
     return [...userEmailList] as string[]
-  }
-
-  public async actionPerformerInfos(action: _ModelFieldAction, fieldKey: string) {
-    const curData = await this.getRawData()
-    const performer = action.derivativeInfo()
-    const referenceModel = await _DataModel.findModel(performer.toModelKey)
-    const targetField = await _ModelField.findModelField(performer.toModelKey, performer.toFieldKey)
-    const dataHandler = new ModelDataHandler(referenceModel)
-    const options = {
-      [GeneralDataHelper.calculateFilterKey(targetField)]: curData[fieldKey],
-    }
-    const searcher = await dataHandler.dataSearcherWithFilter(options)
-    const rawData = await searcher.querySingle()
-    if (!rawData) {
-      return {
-        modelName: referenceModel.name,
-        infos: [
-          {
-            label: '错误',
-            value: `找不到 ${performer.toFieldKey} = ${curData[fieldKey]} 的记录`,
-          },
-        ],
-      }
-    }
-    const [data] = await dataHandler.transferItemsValueNaturalLanguage([rawData])
-    const descriptionFields = await dataHandler.makeDescriptionFields()
-    return {
-      modelName: referenceModel.name,
-      infos: descriptionFields.map((descriptionField) => {
-        return {
-          label: descriptionField.name,
-          value: data[descriptionField.dataKey] || '',
-        }
-      }),
-    } as ActionPerformInfo
   }
 }
