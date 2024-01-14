@@ -14,9 +14,9 @@ import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } f
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
-import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@web/datawich-common/models'
 import { ProFormText } from '@ant-design/pro-components'
-import { FieldActionDialog } from './FieldActionDialog'
+import { FieldActionsCell } from '../model-field/FieldActionsCell'
 
 interface Props {
   modelKey: string
@@ -274,71 +274,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           },
           {
             title: '动作',
-            render: (field) => {
-              const actions = field.extrasData.actions || []
-              return (
-                <>
-                  {actions.map((action) => (
-                    <Tag
-                      key={action.actionId}
-                      style={{ cursor: 'pointer' }}
-                      color={'red'}
-                      closable={true}
-                      onClick={() => {
-                        const dialog = new FieldActionDialog({
-                          data: action,
-                        })
-                        dialog.show(async (params) => {
-                          const request = MyRequest(
-                            new CommonAPI(ModelFieldApis.DataModelFieldActionsUpdate, field.modelKey, field.fieldKey)
-                          )
-                          request.setBodyData(
-                            actions.map((item) => (item.actionId === params.actionId ? params : item))
-                          )
-                          await request.execute()
-                          message.success('更新成功')
-                          setVersion(version + 1)
-                        })
-                      }}
-                      onClose={(e) => {
-                        e.preventDefault()
-                        const dialog = new ConfirmDialog({
-                          title: '移除动作',
-                          content: `确定要移除 "${action.title}" 吗？`,
-                        })
-                        dialog.show(async () => {
-                          const request = MyRequest(
-                            new CommonAPI(ModelFieldApis.DataModelFieldActionsUpdate, field.modelKey, field.fieldKey)
-                          )
-                          request.setBodyData(actions.filter((item) => item !== action))
-                          await request.execute()
-                          message.success('移除成功')
-                          setVersion(version + 1)
-                        })
-                      }}
-                    >
-                      {ActionEventDescriptor.describe(action.event)}: {action.title}
-                    </Tag>
-                  ))}
-                  <a
-                    onClick={() => {
-                      const dialog = new FieldActionDialog({})
-                      dialog.show(async (params) => {
-                        const request = MyRequest(
-                          new CommonAPI(ModelFieldApis.DataModelFieldActionsUpdate, field.modelKey, field.fieldKey)
-                        )
-                        request.setBodyData([...actions, params])
-                        await request.execute()
-                        message.success('添加成功')
-                        setVersion(version + 1)
-                      })
-                    }}
-                  >
-                    添加
-                  </a>
-                </>
-              )
-            },
+            render: (field) => <FieldActionsCell field={field} onActionsChanged={() => setVersion(version + 1)} />,
           },
           {
             title: '操作',
