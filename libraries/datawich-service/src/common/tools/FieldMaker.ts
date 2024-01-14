@@ -113,7 +113,6 @@ export class FieldMaker {
       result.referenceInline = extrasData.referenceInline || 0
       result.constraintKey = extrasData.constraintKey
       result.keyAlias = extrasData.keyAlias
-      result.actions = extrasData.actions || []
       result.nameI18n = extrasData.nameI18n || {
         [I18nCode.en]: rawData.name,
         [I18nCode.zhHans]: rawData.name,

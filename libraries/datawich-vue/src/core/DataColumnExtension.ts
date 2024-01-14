@@ -29,7 +29,7 @@ export class DataColumnExtension extends ViewController {
   outerLinks: FieldLinkModel[] = []
 
   viewDidLoad() {
-    const actions = this.field.actions as FieldActionParams[]
+    const actions = this.field.extrasData.actions || []
     this.linkActions = actions.filter((action) => action.event === 'Link')
     const refFieldLinks = this.field.refFieldLinks || []
     this.outerLinks = refFieldLinks.filter((link) => !link.isInline)

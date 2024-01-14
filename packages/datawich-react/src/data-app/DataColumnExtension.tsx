@@ -17,7 +17,7 @@ export const DataColumnExtension: React.FC<Props> = (props) => {
     return GeneralDataHelper.calculateDataKey(props.field, props.superField)
   }, [props.field, props.superField])
 
-  const actions = props.field.actions as FieldActionParams[]
+  const actions = props.field.extrasData.actions || []
   const linkActions = actions.filter((action) => action.event === 'Link')
   const refFieldLinks = props.field.refFieldLinks || []
   const outerLinks = refFieldLinks.filter((link) => !link.isInline)

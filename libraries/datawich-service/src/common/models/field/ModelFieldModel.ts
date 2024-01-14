@@ -61,7 +61,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   constraintKey: string
   filterKey: string
   dataKey: string
-  actions: FieldActionParams[]
   refFieldLinks: FieldLinkModel[]
   fieldDisplayMode: string
   fieldDisplayTmpl: string
