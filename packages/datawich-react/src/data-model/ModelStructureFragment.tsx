@@ -1,6 +1,6 @@
 import React from 'react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
-import { ModelFieldTable } from './ModelFieldTable'
+import { ModelFieldTable } from '../model-field/ModelFieldTable'
 import { FieldLinkTable } from './FieldLinkTable'
 import { Divider } from 'antd'
 

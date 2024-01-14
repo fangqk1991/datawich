@@ -11,7 +11,7 @@ import {
   NumberFormatDescriptor,
 } from '@fangcha/datawich-service'
 import { NumBoolDescriptor } from '@fangcha/tools'
-import { TagsFieldExtension } from './TagsFieldExtension'
+import { TagsFieldExtension } from '../data-model/TagsFieldExtension'
 
 interface Props extends DialogProps {
   field?: ModelFieldModel

@@ -16,7 +16,7 @@ import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
 import { FieldHelper } from '@web/datawich-common/models'
 import { ProFormText } from '@ant-design/pro-components'
-import { FieldActionsCell } from '../model-field/FieldActionsCell'
+import { FieldActionsCell } from './FieldActionsCell'
 
 interface Props {
   modelKey: string
