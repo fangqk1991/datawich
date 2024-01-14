@@ -1,4 +1,10 @@
-export interface FieldActionModel {
+export interface FieldActionParams {
+  event: string
+  title: string
+  content: string
+}
+
+export interface FieldActionModel extends FieldActionParams {
   actionId: string
   modelKey: string
   fieldKey: string

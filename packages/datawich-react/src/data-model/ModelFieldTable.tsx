@@ -16,6 +16,7 @@ import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
 import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
 import { ProFormText } from '@ant-design/pro-components'
+import { FieldActionDialog } from './FieldActionDialog'
 
 interface Props {
   modelKey: string
@@ -278,11 +279,70 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                 <>
                   {field.extrasData.actions &&
                     field.extrasData.actions.map((action) => (
-                      <Tag key={action.actionId} color={'red'}>
+                      <Tag
+                        key={action.actionId}
+                        style={{ cursor: 'pointer' }}
+                        color={'red'}
+                        closable={true}
+                        onClick={() => {
+                          const dialog = new FieldActionDialog({
+                            data: action,
+                          })
+                          dialog.show(async (params) => {
+                            const request = MyRequest(
+                              new CommonAPI(
+                                ModelFieldApis.DataModelFieldActionUpdate,
+                                field.modelKey,
+                                field.fieldKey,
+                                action.actionId
+                              )
+                            )
+                            request.setBodyData(params)
+                            await request.execute()
+                            message.success('更新成功')
+                            setVersion(version + 1)
+                          })
+                        }}
+                        onClose={(e) => {
+                          e.preventDefault()
+                          const dialog = new ConfirmDialog({
+                            title: '移除动作',
+                            content: `确定要移除 "${action.title}" 吗？`,
+                          })
+                          dialog.show(async () => {
+                            const request = MyRequest(
+                              new CommonAPI(
+                                ModelFieldApis.DataModelFieldActionDelete,
+                                field.modelKey,
+                                field.fieldKey,
+                                action.actionId
+                              )
+                            )
+                            await request.execute()
+                            message.success('移除成功')
+                            setVersion(version + 1)
+                          })
+                        }}
+                      >
                         {ActionEventDescriptor.describe(action.event)}: {action.title}
                       </Tag>
                     ))}
-                  <a onClick={() => {}}>添加</a>
+                  <a
+                    onClick={() => {
+                      const dialog = new FieldActionDialog({})
+                      dialog.show(async (params) => {
+                        const request = MyRequest(
+                          new CommonAPI(ModelFieldApis.DataModelFieldActionCreate, field.modelKey, field.fieldKey)
+                        )
+                        request.setBodyData(params)
+                        await request.execute()
+                        message.success('添加成功')
+                        setVersion(version + 1)
+                      })
+                    }}
+                  >
+                    添加
+                  </a>
 
                   {/*    <el-tag*/}
                   {/*      v-for="action in scope.row.actions"*/}
