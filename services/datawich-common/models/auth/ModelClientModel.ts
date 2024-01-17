@@ -10,3 +10,10 @@ export interface ModelClientModel extends ModelClientParams {
   createTime: string
   updateTime: string
 }
+
+export interface ModelAuthInfo {
+  modelKey: string
+  appid: string
+  createTime: string
+  updateTime: string
+}

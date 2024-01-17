@@ -44,9 +44,7 @@ export class AuthClientTable extends ViewController {
   async loadAllClients() {
     const request = MyAxios(DatawichClientApis.ModelClientListGet)
     request.setQueryParams({ _length: 10000 })
-    const { elements: clients } = (await request.quickSend()) as {
-      elements: ModelClientModel[]
-    }
+    const clients = await request.quickSend<ModelClientModel[]>()
     this.clientOptions = clients.map((item) => {
       return {
         value: item.appid,
