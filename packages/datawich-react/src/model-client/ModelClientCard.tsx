@@ -6,6 +6,7 @@ import { makeClientFormDialog } from './makeClientFormDialog'
 import { MyRequest } from '@fangcha/auth-react'
 import { DatawichClientApis } from '@web/datawich-common/web-api'
 import { CommonAPI } from '@fangcha/app-request'
+import { ConfirmDialog } from '@fangcha/react'
 
 interface Props {
   client: ModelClientModel
@@ -47,7 +48,21 @@ export const ModelClientCard: React.FC<Props> = ({ client, onClientChanged }) =>
               {LS('Edit')}
             </a>
             <a onClick={() => {}}>{LS('[i18n] Auth Models')}</a>
-            <a className={'text-danger'} onClick={() => {}}>
+            <a
+              className={'text-danger'}
+              onClick={() => {
+                const dialog = new ConfirmDialog({
+                  title: '删除应用',
+                  content: `确定要删除 "${client.name}" 吗？`,
+                })
+                dialog.show(async () => {
+                  const request = MyRequest(new CommonAPI(DatawichClientApis.ModelClientDelete, client.appid))
+                  await request.execute()
+                  message.success('移除成功')
+                  onClientChanged()
+                })
+              }}
+            >
               {LS('Delete')}
             </a>
           </Space>
