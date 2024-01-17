@@ -6,7 +6,7 @@ import { _FieldLink } from './_FieldLink'
 import { _FieldEnumMetadata } from './_FieldEnumMetadata'
 import {
   checkFieldHasOptions,
-  FieldActionParams,
+  FieldActionParams, FieldHelper,
   FieldType,
   FieldTypeDescriptor,
   GeneralDataFormatter,
@@ -14,7 +14,7 @@ import {
   ModelFieldModel,
   Raw_ModelField,
 } from '@fangcha/datawich-service'
-import { ActionEventDescriptor, FieldHelper } from '@web/datawich-common/models'
+import { ActionEventDescriptor } from '@web/datawich-common/models'
 
 export class _ModelField extends __ModelField implements Raw_ModelField {
   public constructor() {

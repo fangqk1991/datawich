@@ -6,7 +6,7 @@ import { _ModelField } from '../models/extensions/_ModelField'
 import { FieldType, GeneralDataHelper } from '@fangcha/datawich-service'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { _FieldLink } from '../models/extensions/_FieldLink'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@fangcha/datawich-service'
 import { FilterCondition, FilterSymbol, FilterSymbolDescriptor } from '@fangcha/logic'
 
 interface SearchableField {

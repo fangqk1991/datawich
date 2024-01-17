@@ -14,7 +14,7 @@ import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } f
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@fangcha/datawich-service'
 import { ProFormText } from '@ant-design/pro-components'
 import { FieldActionsCell } from './FieldActionsCell'
 

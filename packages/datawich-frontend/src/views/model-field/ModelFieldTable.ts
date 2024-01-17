@@ -22,7 +22,7 @@ import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { LogicExpressionDialog } from '../../components/LogicExpressionDialog'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@fangcha/datawich-service'
 import { LogicExpressionHelper } from '@fangcha/logic'
 
 @Component({

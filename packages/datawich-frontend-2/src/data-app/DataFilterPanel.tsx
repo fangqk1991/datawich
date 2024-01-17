@@ -4,7 +4,7 @@ import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol } from '@fangcha/logic'
 import { TinyList } from './TinyList'
 import {
-  FieldFilterItem,
+  FieldFilterItem, FieldHelper,
   FieldsDisplaySettings,
   ModelFieldModel,
   ModelPanelInfo,
@@ -17,7 +17,7 @@ import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { MyRequest, useUserInfo } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
-import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
+import { ProfileEvent } from '@web/datawich-common/models'
 
 interface Props {
   panelInfo?: ModelPanelInfo | null

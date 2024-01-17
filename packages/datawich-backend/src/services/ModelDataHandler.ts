@@ -21,7 +21,7 @@ import { ModelDataInfo } from './ModelDataInfo'
 import { WideSearcherBuilder } from './WideSearcherBuilder'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@fangcha/datawich-service'
 import { TypicalExcel } from '@fangcha/excel'
 import { OssTools } from '@fangcha/ali-oss'
 const archiver = require('archiver')

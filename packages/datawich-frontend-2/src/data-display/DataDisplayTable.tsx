@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { FieldsDisplaySettings, ModelFieldModel, ModelPanelInfo } from '@fangcha/datawich-service'
 import { TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@fangcha/datawich-service'
 import { myDataColumn } from './myDataColumn'
 
 interface DataRecord {

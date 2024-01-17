@@ -11,7 +11,7 @@ import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
 import {
   DataModelExtrasData,
   DataModelModel,
-  DataModelParams,
+  DataModelParams, FieldHelper,
   FieldType,
   ModelFieldModel,
   ModelFullMetadata,
@@ -19,7 +19,6 @@ import {
 import {
   AccessLevel,
   DataRecordEvent,
-  FieldHelper,
   GeneralPermissionDescriptor,
   ModelType,
   ModelTypeDescriptor,

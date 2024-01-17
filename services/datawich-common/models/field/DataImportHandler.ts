@@ -1,8 +1,13 @@
 import { Row } from 'exceljs'
 import * as moment from 'moment'
-import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import {
+  FieldHelper,
+  FieldType,
+  GeneralDataChecker,
+  GeneralDataHelper,
+  ModelFieldModel
+} from '@fangcha/datawich-service'
 import { TypicalExcel } from '@fangcha/excel'
-import { FieldHelper } from './FieldHelper'
 
 const setHintRowStyle = (row: Row) => {
   row.eachCell((cell) => {

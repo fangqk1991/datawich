@@ -4,7 +4,7 @@ import { ModelIndexApis } from '@web/datawich-common/web-api'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _FieldIndex } from '../../../../models/extensions/_FieldIndex'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@fangcha/datawich-service'
 
 const factory = new SpecFactory('数据索引')
 

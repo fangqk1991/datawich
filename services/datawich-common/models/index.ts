@@ -1,4 +1,3 @@
-export * from './field/FieldHelper'
 export * from './field/FieldDisplayMode'
 export * from './field/DataImportHandler'
 export * from './auth/ModelClientModel'

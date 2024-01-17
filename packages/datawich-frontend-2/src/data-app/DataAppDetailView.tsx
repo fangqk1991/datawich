@@ -9,12 +9,18 @@ import {
   ModelFieldApis,
   ModelPanelApis,
 } from '@web/datawich-common/web-api'
-import { DataModelModel, FieldsDisplaySettings, ModelFieldModel, ModelPanelInfo } from '@fangcha/datawich-service'
+import {
+  DataModelModel,
+  FieldHelper,
+  FieldsDisplaySettings,
+  ModelFieldModel,
+  ModelPanelInfo
+} from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
-import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
+import { ProfileEvent } from '@web/datawich-common/models'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { DataFilterPanel } from './DataFilterPanel'

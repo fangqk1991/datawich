@@ -1,12 +1,6 @@
 import { addSlashes, SelectOption } from '@fangcha/tools'
-import {
-  DescribableField,
-  FieldsDisplaySettings,
-  FieldType,
-  GeneralDataHelper,
-  ModelFieldModel,
-  Raw_ModelField,
-} from '@fangcha/datawich-service'
+import { DescribableField, FieldsDisplaySettings, FieldType, ModelFieldModel, Raw_ModelField } from '../models'
+import { GeneralDataHelper } from './GeneralDataHelper'
 
 export class FieldHelper {
   public static getFieldTypeDatabaseSpec(field: ModelFieldModel, beIndex = false) {

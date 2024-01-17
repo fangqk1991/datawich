@@ -4,7 +4,7 @@ import assert from '@fangcha/assert'
 import { _ModelField } from './_ModelField'
 import { _DataModel } from './_DataModel'
 import { FieldIndexModel } from '@fangcha/datawich-service'
-import { FieldHelper } from '@web/datawich-common/models'
+import { FieldHelper } from '@fangcha/datawich-service'
 
 export class _FieldIndex extends __FieldIndex {
   public constructor() {
