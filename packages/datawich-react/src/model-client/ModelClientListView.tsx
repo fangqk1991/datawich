@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { LS } from '../core/ReactI18n'
-import { Button, Card, Divider, message, Space } from 'antd'
+import { Button, Card, Divider, Space } from 'antd'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { DataAppApis, DatawichClientApis } from '@web/datawich-common/web-api'
 import { MyRequest } from '@fangcha/auth-react'
@@ -63,7 +63,7 @@ export const ModelClientListView: React.FC = () => {
             }}
             key={client.appid}
           >
-            <ModelClientCard client={client} />
+            <ModelClientCard client={client} onClientChanged={() => setVersion(version + 1)} />
           </Card.Grid>
         ))}
       </Card>

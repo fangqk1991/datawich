@@ -1,13 +1,18 @@
 import React from 'react'
-import { Space } from 'antd'
+import { message, Space } from 'antd'
 import { ModelClientModel } from '@web/datawich-common/models'
 import { LS } from '../core/ReactI18n'
+import { makeClientFormDialog } from './makeClientFormDialog'
+import { MyRequest } from '@fangcha/auth-react'
+import { DatawichClientApis } from '@web/datawich-common/web-api'
+import { CommonAPI } from '@fangcha/app-request'
 
 interface Props {
   client: ModelClientModel
+  onClientChanged: () => void
 }
 
-export const ModelClientCard: React.FC<Props> = ({ client }) => {
+export const ModelClientCard: React.FC<Props> = ({ client, onClientChanged }) => {
   return (
     <div>
       <h5
@@ -27,7 +32,20 @@ export const ModelClientCard: React.FC<Props> = ({ client }) => {
       >
         <li>
           <Space>
-            <a onClick={() => {}}>{LS('Edit')}</a>
+            <a
+              onClick={() => {
+                const dialog = makeClientFormDialog(client)
+                dialog.show(async (params) => {
+                  const request = MyRequest(new CommonAPI(DatawichClientApis.ModelClientUpdate, client.appid))
+                  request.setBodyData(params)
+                  await request.quickSend()
+                  message.success('更新成功')
+                  onClientChanged()
+                })
+              }}
+            >
+              {LS('Edit')}
+            </a>
             <a onClick={() => {}}>{LS('[i18n] Auth Models')}</a>
             <a className={'text-danger'} onClick={() => {}}>
               {LS('Delete')}

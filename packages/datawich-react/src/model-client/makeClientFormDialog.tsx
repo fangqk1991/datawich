@@ -12,9 +12,6 @@ export const makeClientFormDialog = (params?: ModelClientParams) => {
         <ProFormText name={'name'} label={'应用名称'} />
       </>
     ),
-    placeholder: {
-      appid: '',
-      name: '',
-    } as ModelClientParams,
+    placeholder: params,
   })
 }
