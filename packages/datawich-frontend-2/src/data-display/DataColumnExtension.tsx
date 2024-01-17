@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { FieldActionParams, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { InfoCircleOutlined, LinkOutlined } from '@ant-design/icons'
 import { InformationDialog } from '@fangcha/react'
 import { Tag } from 'antd'

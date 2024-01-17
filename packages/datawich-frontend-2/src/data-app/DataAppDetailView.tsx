@@ -21,7 +21,7 @@ import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
-import { DataDisplayTable } from './DataDisplayTable'
+import { DataDisplayTable } from '../data-display/DataDisplayTable'
 import { GeneralDataDialog } from './GeneralDataDialog'
 
 export const DataAppDetailView: React.FC = () => {
