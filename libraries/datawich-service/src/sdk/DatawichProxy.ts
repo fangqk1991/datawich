@@ -1,4 +1,4 @@
-import { CommonAPI } from '@fangcha/app-request'
+import { AxiosBuilder, CommonAPI } from '@fangcha/app-request'
 import { OpenDataAppApis, OpenDataModelApis } from '../common/open-api'
 import { ModelFullMetadata, ModelMilestoneModel } from '../common/models'
 import { BasicAuthConfig, PageResult } from '@fangcha/tools'
@@ -6,8 +6,17 @@ import { BasicAuthProxy, RequestFollower } from '@fangcha/app-request-extensions
 import { FilterOptions } from 'fc-feed'
 
 export class DatawichProxy extends BasicAuthProxy {
+  visitorId!: string
+
   public constructor(config: BasicAuthConfig, observerClass?: { new (requestId?: string): RequestFollower }) {
     super(config, observerClass)
+  }
+
+  protected onRequestMade(request: AxiosBuilder) {
+    super.onRequestMade(request)
+    if (this.visitorId) {
+      request.addHeader('x-datawich-visitor', this.visitorId)
+    }
   }
 
   public baseURL() {

@@ -23,8 +23,8 @@ Object.values(SdkDatawichApis).forEach((api) => {
     if (ctx.request.method !== 'GET') {
       request.setBodyData(ctx.request.body)
     }
-    // const session = ctx.session as FangchaSession
-    // request.addHeader('x-datawich-visitor', session.curUserStr())
+    const session = ctx.session as FangchaSession
+    request.addHeader('x-datawich-visitor', session.curUserStr())
     ctx.body = await request.quickSend()
     ctx.status = 200
   })
