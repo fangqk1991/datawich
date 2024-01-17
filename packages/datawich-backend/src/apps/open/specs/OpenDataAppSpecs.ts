@@ -5,7 +5,7 @@ import { _ModelField } from '../../../models/extensions/_ModelField'
 import { ModelDataHandler } from '../../../services/ModelDataHandler'
 import { ModelDataInfo } from '../../../services/ModelDataInfo'
 import { FangchaSession } from '@fangcha/session'
-import { OpenDataAppApis } from '@fangcha/datawich-service'
+import { FieldLinkModel, ModelFieldModel, OpenDataAppApis } from '@fangcha/datawich-service'
 
 const factory = new SpecFactory('Data App', { skipAuth: true })
 
@@ -22,17 +22,38 @@ factory.prepare(OpenDataAppApis.ModelFieldListGet, async (ctx) => {
   })
 })
 
+factory.prepare(OpenDataAppApis.ModelVisibleFieldListGet, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    const feeds = await dataModel.getVisibleFields()
+    const allLinks = await dataModel.getFieldLinks()
+    const uniqueMap = await dataModel.getUniqueColumnMap()
+    const result: ModelFieldModel[] = []
+    for (const feed of feeds) {
+      const data = feed.modelForClient()
+      const links = allLinks.filter((link) => link.fieldKey === feed.fieldKey)
+      const linkModels: FieldLinkModel[] = []
+      for (const link of links) {
+        linkModels.push(await link.modelWithRefFields())
+      }
+      data.refFieldLinks = linkModels
+      data.isUnique = uniqueMap[feed.fieldKey] ? 1 : 0
+      result.push(data)
+    }
+    ctx.body = result
+  })
+})
+
 factory.prepare(OpenDataAppApis.DataAppRecordPageDataSearch, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const options = { ...ctx.request.body }
-    ctx.body = await new ModelDataHandler(dataModel).deprecated_getListData(options)
+    ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
   })
 })
 
 factory.prepare(OpenDataAppApis.DataAppRecordPageDataGet, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const options = { ...ctx.request.query }
-    ctx.body = await new ModelDataHandler(dataModel).deprecated_getListData(options)
+    ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
   })
 })
 
