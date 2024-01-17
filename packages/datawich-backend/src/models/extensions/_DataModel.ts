@@ -11,6 +11,7 @@ import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
 import {
   DataModelExtrasData,
   DataModelModel,
+  DataModelParams,
   FieldType,
   ModelFieldModel,
   ModelFullMetadata,
@@ -105,7 +106,7 @@ export class _DataModel extends __DataModel {
     return (await searcher.queryAllFeeds()) as _FieldIndex[]
   }
 
-  public static checkValidParams(params: DataModelModel, onlyCheckDefinedKeys = false) {
+  public static checkValidParams(params: DataModelParams, onlyCheckDefinedKeys = false) {
     if (!onlyCheckDefinedKeys) {
       assert.ok(!!params.modelKey, '模型 Key 不能为空')
       assert.ok(/^[a-z][a-z0-9_]{1,62}$/.test(params.modelKey), '模型 Key 需满足规则 /^[a-z][a-z0-9_]{1,62}$/')
@@ -653,14 +654,13 @@ export class _DataModel extends __DataModel {
     return this._linkedGroups
   }
 
-  // TODO: DataModelModel -> DataModelParams
   public async updateFeed(options: Partial<DataModelModel>) {
     delete options.star
     delete options.extrasInfo
     // TODO: 暂不支持对 shortKey 的修改
     delete options.shortKey
 
-    _DataModel.checkValidParams(options as DataModelModel, true)
+    _DataModel.checkValidParams(options as DataModelParams, true)
     if (options.shortKey && options.shortKey !== this.shortKey) {
       const searcher = _DataModel.dbSearcher()
       searcher.addConditionKV('short_key', options.shortKey)

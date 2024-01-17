@@ -13,18 +13,11 @@ export interface FieldLinkParams {
 
 export interface FieldLinkModel extends FieldLinkParams {
   linkId: string
-  modelKey: string
-  fieldKey: string
-  refModel: string
-  refField: string
-  isForeignKey: number
-  isInline: number
   fkName: string
   onUpdateAction: string
   onDeleteAction: string
   extrasInfo: string
   createTime: string
   updateTime: string
-  referenceCheckedInfos: LinkMapperInfo[]
   referenceFields: ModelFieldModel[]
 }

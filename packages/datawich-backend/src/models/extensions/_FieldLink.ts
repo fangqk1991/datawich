@@ -4,7 +4,7 @@ import assert from '@fangcha/assert'
 import { Transaction } from 'fc-sql'
 import { logger } from '@fangcha/logger'
 import { makeUUID } from '@fangcha/tools'
-import { FieldLinkModel, LinkMapperInfo, Raw_FieldLink } from '@fangcha/datawich-service'
+import { FieldLinkModel, FieldLinkParams, LinkMapperInfo, Raw_FieldLink } from '@fangcha/datawich-service'
 import { _ModelField } from './_ModelField'
 import { _FieldIndex } from './_FieldIndex'
 import { describeSQLTriggerAction, TriggerAction } from '@web/datawich-common/models'
@@ -67,7 +67,7 @@ export class _FieldLink extends __FieldLink implements Raw_FieldLink {
     return fields.filter((field) => !!checkedMap[field.fieldKey])
   }
 
-  public static async checkValidParams(params: FieldLinkModel, onlyCheckDefinedKeys = false) {
+  public static async checkValidParams(params: FieldLinkParams, onlyCheckDefinedKeys = false) {
     const { modelKey, fieldKey, refModel, refField, isInline, referenceCheckedInfos } = params
     if (!onlyCheckDefinedKeys) {
       assert.ok(!!modelKey, 'modelKey 参数不合法')
@@ -92,7 +92,7 @@ export class _FieldLink extends __FieldLink implements Raw_FieldLink {
     }
   }
 
-  public static async createLink(fieldLinkModel: FieldLinkModel) {
+  public static async createLink(fieldLinkModel: FieldLinkParams) {
     await _FieldLink.checkValidParams(fieldLinkModel, false)
 
     const fieldLink = new _FieldLink()
