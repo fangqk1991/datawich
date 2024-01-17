@@ -34,6 +34,6 @@ export const DatawichSdkPlugin = (options: DatawichServiceOptions): AppPluginPro
     appDidLoad: async () => {
       DatawichService.initOptions(options)
     },
-    specDocItem: DatawichSpecDocItem,
+    specDocItems: [DatawichSpecDocItem],
   }
 }
