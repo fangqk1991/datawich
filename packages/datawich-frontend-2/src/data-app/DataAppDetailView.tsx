@@ -27,8 +27,8 @@ import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
-import { DataDisplayTable } from '../data-display/DataDisplayTable'
 import { GeneralDataDialog } from './GeneralDataDialog'
+import { DataDisplayTable } from '@fangcha/datawich-react'
 
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)

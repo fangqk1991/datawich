@@ -299,6 +299,9 @@ importers:
 
   packages/datawich-frontend-2:
     devDependencies:
+      '@fangcha/datawich-react':
+        specifier: workspace:*
+        version: link:../../libraries/datawich-react
       '@fangcha/excel-react':
         specifier: ^0.10.1
         version: 0.10.1(@fangcha/excel@0.6.0)
