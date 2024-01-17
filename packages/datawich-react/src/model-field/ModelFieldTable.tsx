@@ -135,7 +135,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           字段排序
         </Button>
       </Space>
-      <Divider />
+      <div className={'my-3'} />
       <TableView
         version={version}
         rowKey={(item: ModelFieldModel) => {

@@ -56,7 +56,7 @@ export const FieldLinkTable: React.FC<Props> = ({ modelKey }) => {
           创建关联
         </Button>
       </Space>
-      <Divider />
+      <div className={'my-3'} />
       <TableView
         version={version}
         rowKey={(item: FieldLinkModel) => {
