@@ -1,5 +1,5 @@
 import { SwaggerDocItem } from '@fangcha/router'
-import { DataAppSwaggerModelList } from '@web/datawich-common/models'
+import { DataAppSwaggerModelList } from '@fangcha/datawich-service'
 import { OpenDataModelSpecs } from './OpenDataModelSpecs'
 import { OpenDataAppSpecs } from './OpenDataAppSpecs'
 

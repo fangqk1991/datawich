@@ -17,6 +17,9 @@ export const OpenDataAppApis = {
     route: '/api/data-app/v1/data-model/:modelKey/field',
     description: '获取模型字段信息',
   },
+  /**
+   * @deprecated
+   */
   DataAppRecordPageDataGet: {
     method: 'GET',
     route: '/api/data-app/v1/data-model/:modelKey/record',
@@ -39,6 +42,9 @@ export const OpenDataAppApis = {
       },
     ] as SwaggerParameter[],
   },
+  /**
+   * @deprecated
+   */
   DataAppRecordPageDataSearch: {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/query',

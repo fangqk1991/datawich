@@ -1,8 +1,8 @@
 import { SpecFactory } from '@fangcha/router'
 import { _DataModel } from '../../../models/extensions/_DataModel'
-import { OpenDataModelApis } from '@web/datawich-common/open-api'
 import { DataModelHandler } from '../../../services/DataModelHandler'
 import { ModelSpecHandler } from './ModelSpecHandler'
+import { OpenDataModelApis } from '@fangcha/datawich-service'
 
 const factory = new SpecFactory('Data Model')
 
