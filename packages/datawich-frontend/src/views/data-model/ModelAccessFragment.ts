@@ -1,6 +1,5 @@
 import { Component } from '@fangcha/vue'
 import { LinkedGroupTable } from '../widgets/LinkedGroupTable'
-import { AuthClientTable } from '../widgets/AuthClientTable'
 import { ModelFragmentBase } from './ModelFragmentBase'
 import { CommonGroupTable } from '../common-group/CommonGroupTable'
 
@@ -8,7 +7,6 @@ import { CommonGroupTable } from '../common-group/CommonGroupTable'
   components: {
     'common-group-table': CommonGroupTable,
     'linked-group-table': LinkedGroupTable,
-    'auth-client-table': AuthClientTable,
   },
   template: `
     <div v-if="dataModel">
@@ -23,7 +21,6 @@ import { CommonGroupTable } from '../common-group/CommonGroupTable'
         <h3 slot="header">成员组管理</h3>
       </common-group-table>
       <linked-group-table class="mt-4" ref="linkPanel" :model-key="modelKey" />
-      <auth-client-table class="mt-4" :model-key="modelKey" />
     </div>
   `,
 })

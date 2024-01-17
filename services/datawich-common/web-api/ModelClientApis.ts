@@ -9,9 +9,4 @@ export const ModelClientApis = {
     route: '/api/v1/general-data/:modelKey/auth-client',
     description: '更新模型 API 访问者列表',
   },
-  ModelAuthClientDelete: {
-    method: 'DELETE',
-    route: '/api/v1/general-data/:modelKey/auth-client/:appid',
-    description: '移除模型 API 访问者',
-  },
 }

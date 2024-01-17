@@ -31,20 +31,4 @@ factory.prepare(ModelClientApis.ModelAuthClientListUpdate, async (ctx) => {
   })
 })
 
-factory.prepare(ModelClientApis.ModelAuthClientDelete, async (ctx) => {
-  await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    const appid = ctx.params.appid
-    assert.ok(!!appid, 'appid 不合法')
-    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
-    await new ModelAuthHandler(dataModel).updateAuthModels([
-      {
-        modelKey: dataModel.modelKey,
-        appid: appid,
-        checked: false,
-      },
-    ])
-    ctx.status = 200
-  })
-})
-
 export const ModelAuthClientSpecs = factory.buildSpecs()
