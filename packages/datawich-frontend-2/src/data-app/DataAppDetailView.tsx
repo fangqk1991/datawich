@@ -176,7 +176,7 @@ export const DataAppDetailView: React.FC = () => {
         extrasColumns={[
           {
             title: '操作',
-            fixed: 'right',
+            // fixed: 'right',
             render: (item) => {
               return (
                 <Space>
