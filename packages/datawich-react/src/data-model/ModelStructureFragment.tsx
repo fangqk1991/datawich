@@ -1,7 +1,7 @@
 import React from 'react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { ModelFieldTable } from '../model-field/ModelFieldTable'
-import { FieldLinkTable } from './FieldLinkTable'
+import { FieldLinkTable } from '../field-link/FieldLinkTable'
 import { Divider } from 'antd'
 
 export const ModelStructureFragment: ModelFragmentProtocol = ({ dataModel }) => {
@@ -9,7 +9,7 @@ export const ModelStructureFragment: ModelFragmentProtocol = ({ dataModel }) => 
     <>
       <ModelFieldTable modelKey={dataModel.modelKey} />
       <Divider />
-      <FieldLinkTable />
+      <FieldLinkTable modelKey={dataModel.modelKey} />
     </>
   )
 }
