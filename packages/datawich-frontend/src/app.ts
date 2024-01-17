@@ -9,7 +9,6 @@ import { DataAppListView } from './views/data-app/DataAppListView'
 import { DataModelListView } from './views/data-model/DataModelListView'
 import { DataModelManageView } from './views/data-model/DataModelManageView'
 import { UserGroupListView } from './views/user/UserGroupListView'
-import { ModelClientListView } from './views/model-client/ModelClientListView'
 import { GeneralDataManager } from './services/GeneralDataManager'
 import { DatawichI18N } from '@web/datawich-common/i18n'
 import { MyFavorSidebar } from './views/data-app/MyFavorSidebar'
@@ -89,11 +88,6 @@ const _fcApp = new AdminApp({
         //   titleZh: '用户组管理',
         //   path: '/v1/user-group',
         // },
-        {
-          titleEn: 'API Clients',
-          titleZh: 'API 应用管理',
-          path: DatawichPages.ClientListRoute,
-        },
       ],
     },
     {
@@ -135,11 +129,6 @@ const _fcApp = new AdminApp({
       path: '/v1/user-group',
       component: UserGroupListView,
       name: 'UserGroupListView',
-    },
-    {
-      path: DatawichPages.ClientListRoute,
-      component: ModelClientListView,
-      name: 'ModelClientListView',
     },
     {
       path: '/v0/component/logic-expression',
