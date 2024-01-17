@@ -1,4 +1,4 @@
-import { Input } from 'antd'
+import { Input, InputProps } from 'antd'
 import React, { useState } from 'react'
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
   onValueChanged?: (value: any) => void
 }
 
-export const InputCell: React.FC<Props> = (props) => {
+export const InputCell: React.FC<Props & InputProps> = ({ onValueChanged, ...props }) => {
   const [value, setValue] = useState(props.defaultValue || undefined)
   return (
     <Input
@@ -17,13 +17,13 @@ export const InputCell: React.FC<Props> = (props) => {
         setValue(e.target.value)
       }}
       onPressEnter={() => {
-        if (props.onValueChanged) {
-          props.onValueChanged(value)
+        if (onValueChanged) {
+          onValueChanged(value)
         }
       }}
       onBlur={() => {
-        if (props.onValueChanged) {
-          props.onValueChanged(value)
+        if (onValueChanged) {
+          onValueChanged(value)
         }
       }}
     />

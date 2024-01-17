@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Divider, message, Space, Switch } from 'antd'
-import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service/lib'
+import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
 import { ConfirmDialog, RouterLink, TableView, TableViewColumn } from '@fangcha/react'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
 import { TinyList } from '../data-app/TinyList'
+import { FieldLinkDialog } from './FieldLinkDialog'
 
 interface Props {
   modelKey: string
@@ -39,16 +40,17 @@ export const FieldLinkTable: React.FC<Props> = ({ modelKey }) => {
         <Button
           type='primary'
           onClick={() => {
-            // const dialog = new ModelFieldDialog({
-            //   title: '创建字段',
-            // })
-            // dialog.show(async (params) => {
-            //   const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
-            //   request.setBodyData(params)
-            //   await request.quickSend()
-            //   message.success('创建成功')
-            //   setVersion(version + 1)
-            // })
+            const dialog = new FieldLinkDialog({
+              modelKey: modelKey,
+              fields: fields,
+            })
+            dialog.show(async (params) => {
+              const request = MyRequest(new CommonAPI(DataModelApis.ModelHoldingLinkCreate, modelKey))
+              request.setBodyData(params)
+              await request.quickSend()
+              message.success('创建成功')
+              setVersion(version + 1)
+            })
           }}
         >
           创建关联
@@ -134,10 +136,27 @@ export const FieldLinkTable: React.FC<Props> = ({ modelKey }) => {
             render: (item) => {
               return (
                 <Space>
-                  <a type='primary' onClick={() => {}}>
+                  <a
+                    type='primary'
+                    onClick={() => {
+                      const dialog = new FieldLinkDialog({
+                        modelKey: modelKey,
+                        fields: fields,
+                        data: item,
+                      })
+                      dialog.show(async (params) => {
+                        const request = MyRequest(
+                          new CommonAPI(DataModelApis.ModelHoldingLinkUpdate, modelKey, item.linkId)
+                        )
+                        request.setBodyData(params)
+                        await request.quickSend()
+                        message.success('更新成功')
+                        setVersion(version + 1)
+                      })
+                    }}
+                  >
                     编辑
                   </a>
-
                   <a
                     style={{ color: '#dc3545' }}
                     onClick={async () => {
