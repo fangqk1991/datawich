@@ -9,62 +9,32 @@ import {
   ModelFieldApis,
   ModelPanelApis,
 } from '@web/datawich-common/web-api'
-import {
-  DataModelModel,
-  FieldsDisplaySettings,
-  FieldType,
-  GeneralDataHelper,
-  ModelFieldModel,
-  ModelPanelInfo,
-  TagsCheckedMap,
-} from '@fangcha/datawich-service'
+import { DataModelModel, FieldsDisplaySettings, ModelFieldModel, ModelPanelInfo } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { ConfirmDialog, LoadingDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
-import { PageResult } from '@fangcha/tools'
+import { ConfirmDialog, LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
 import { FieldHelper, ProfileEvent } from '@web/datawich-common/models'
-import { myDataColumn } from './myDataColumn'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
-import { GeneralDataDialog } from './GeneralDataDialog'
 import { DatawichPages } from '@web/datawich-common/admin-apis'
-import { TextSymbol } from '@fangcha/logic'
 import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
-
-interface DataRecord {
-  rid: number
-  _data_id: string
-}
-
-const trimParams = (params: {}) => {
-  params = params || {}
-  const newParams = {}
-  Object.keys(params)
-    .filter((key) => {
-      return params[key] !== ''
-    })
-    .forEach((key) => {
-      newParams[key] = params[key]
-    })
-  return newParams
-}
+import { DataDisplayTable } from './DataDisplayTable'
+import { GeneralDataDialog } from './GeneralDataDialog'
 
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
   const [version, setVersion] = useState(0)
 
   const { modelKey = '' } = useParams()
-  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
+  const { queryParams, updateQueryParams } = useQueryParams<{
     keywords: string
     panelId: string
     [p: string]: any
   }>()
   const [panelInfo, setPanelInfo] = useState<ModelPanelInfo | null>()
-
-  const [latestParams] = useState<{ entity: any }>({ entity: {} })
 
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
@@ -82,42 +52,6 @@ export const DataAppDetailView: React.FC = () => {
       fixedList: [],
     }
   }, [panelInfo])
-
-  const fixedColumnMap = useMemo(() => {
-    return displaySettings.fixedList.reduce((result, cur) => {
-      result[cur] = true
-      return result
-    }, {})
-  }, [displaySettings])
-
-  const allFields = useMemo(() => FieldHelper.expandAllFields(mainFields), [modelKey, mainFields])
-
-  const fullTagsCheckedMap = useMemo(() => {
-    return allFields
-      .filter((field) => field.fieldType === FieldType.MultiEnum)
-      .reduce((result, field) => {
-        result[field.filterKey] = {
-          includingAnyOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            queryParams[`${field.filterKey}.${TextSymbol.$includeAny}`] || '',
-            field.options
-          ),
-          includingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            queryParams[`${field.filterKey}.${TextSymbol.$includeAll}`] || '',
-            field.options
-          ),
-          excludingAllOf: GeneralDataHelper.extractMultiEnumCheckedMapForValue(
-            queryParams[`${field.filterKey}.${TextSymbol.$excludeAll}`] || '',
-            field.options
-          ),
-        }
-        return result
-      }, {} as { [p: string]: TagsCheckedMap })
-  }, [allFields, queryParams])
-
-  const displayFields = useMemo(
-    () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
-    [mainFields, displaySettings]
-  )
 
   useEffect(() => {
     if (queryParams.panelId === '') {
@@ -218,7 +152,7 @@ export const DataAppDetailView: React.FC = () => {
             LoadingDialog.execute({
               handler: async () => {
                 const request = MyRequest(new CommonAPI(DataAppApis.DataAppExcelExport, modelKey))
-                request.setBodyData(latestParams.entity)
+                request.setBodyData(queryParams)
                 const response = await request.quickSend()
                 DownloadTaskHelper.handleDownloadResponse(response)
               },
@@ -231,52 +165,18 @@ export const DataAppDetailView: React.FC = () => {
 
       {/*<Divider style={{ margin: '12px 0' }} />*/}
 
-      <TableView
-        rowKey={(item: DataRecord) => {
-          return `${item.rid}`
+      <DataDisplayTable
+        mainFields={mainFields}
+        panelInfo={panelInfo}
+        loadData={async (params) => {
+          const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
+          request.setQueryParams(params)
+          return request.quickSend()
         }}
-        reactiveQuery={true}
-        tableProps={{
-          size: 'small',
-          bordered: true,
-        }}
-        columns={TableViewColumn.makeColumns<DataRecord>([
-          ...(displayFields
-            .map((field) => {
-              const columns = [
-                myDataColumn({
-                  field: field,
-                  filterOptions: queryParams,
-                  onFilterChange: (params) => updateQueryParams(params),
-                  tagsCheckedMap: fullTagsCheckedMap[field.filterKey],
-                  fixedColumn: fixedColumnMap[field.filterKey],
-                }),
-              ]
-              for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
-                columns.push({
-                  title: `${field.name} 关联`,
-                  children: fieldLink.referenceFields
-                    .filter((refField) => !displaySettings.hiddenFieldsMap[refField.filterKey])
-                    .map((refField) =>
-                      myDataColumn({
-                        field: refField,
-                        superField: field,
-                        filterOptions: queryParams,
-                        onFilterChange: (params) => updateQueryParams(params),
-                        tagsCheckedMap: fullTagsCheckedMap[refField.filterKey],
-                        fixedColumn: fixedColumnMap[refField.filterKey],
-                      })
-                    ),
-                })
-              }
-              return columns
-            })
-            .reduce((result, cur) => {
-              result.push(...cur)
-              return result
-            }, []) as any[]),
+        extrasColumns={[
           {
             title: '操作',
+            fixed: 'right',
             render: (item) => {
               return (
                 <Space>
@@ -325,29 +225,7 @@ export const DataAppDetailView: React.FC = () => {
               )
             },
           },
-        ])}
-        // defaultSettings={{
-        //   pageSize: Number(queryParams.pageSize) || 10,
-        //   pageNumber: Number(queryParams.pageNumber) || 1,
-        //   sortKey: queryParams.sortKey,
-        //   sortDirection: queryParams.sortDirection,
-        // }}
-        loadData={async (retainParams) => {
-          const params = trimParams({
-            ...retainParams,
-            ...(panelInfo ? panelInfo.configData.queryParams : {}),
-            ...queryParams,
-          })
-          Object.keys(params)
-            .filter((key) => key.endsWith('.disabled'))
-            .forEach((key) => {
-              delete params[key]
-            })
-          latestParams.entity = params
-          const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
-          request.setQueryParams(params)
-          return request.quickSend<PageResult<DataRecord>>()
-        }}
+        ]}
       />
     </div>
   )

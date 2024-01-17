@@ -1,17 +1,15 @@
 import React from 'react'
-import { FieldType, GeneralDataHelper, ModelFieldModel, TagsCheckedMap } from '@fangcha/datawich-service'
+import { FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyDataCell } from './MyDataCell'
 import { ColumnType } from 'antd/es/table/interface'
-import { Checkbox, Select } from 'antd'
+import { Select } from 'antd'
 import * as moment from 'moment'
-import { TextSymbol } from '@fangcha/logic'
 
 interface Props {
   field: ModelFieldModel
   superField?: ModelFieldModel
   filterOptions?: {}
   onFilterChange?: (params: {}) => void
-  tagsCheckedMap?: TagsCheckedMap
   fixedColumn?: boolean
 }
 
@@ -69,53 +67,6 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
             ...getOptionsForEnumField(),
           ]}
         />
-      )
-      break
-    case FieldType.MultiEnum:
-      const tagsCheckedMap: TagsCheckedMap = props.tagsCheckedMap || {
-        includingAnyOf: {},
-        includingAllOf: {},
-        excludingAllOf: {},
-      }
-      filterView = (
-        <>
-          <h4 style={{ margin: '0 0 8px' }}>Including anyOf</h4>
-          <Checkbox.Group
-            options={field.options}
-            value={GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.includingAnyOf)}
-            onChange={(checkedValue) => {
-              if (props.onFilterChange) {
-                props.onFilterChange({
-                  [`${filterKey}.${TextSymbol.$includeAny}`]: checkedValue.join(','),
-                })
-              }
-            }}
-          />
-          <h4 style={{ margin: '8px 0' }}>Including allOf</h4>
-          <Checkbox.Group
-            options={field.options}
-            value={GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.includingAllOf)}
-            onChange={(checkedValue) => {
-              if (props.onFilterChange) {
-                props.onFilterChange({
-                  [`${filterKey}.${TextSymbol.$includeAll}`]: checkedValue.join(','),
-                })
-              }
-            }}
-          />
-          <h4 style={{ margin: '8px 0' }}>Excluding allOf</h4>
-          <Checkbox.Group
-            options={field.options}
-            value={GeneralDataHelper.getCheckedValuesForField(field, tagsCheckedMap.excludingAllOf)}
-            onChange={(checkedValue) => {
-              if (props.onFilterChange) {
-                props.onFilterChange({
-                  [`${filterKey}.${TextSymbol.$excludeAll}`]: checkedValue.join(','),
-                })
-              }
-            }}
-          />
-        </>
       )
       break
   }
