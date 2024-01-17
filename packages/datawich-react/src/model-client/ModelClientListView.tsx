@@ -63,7 +63,7 @@ export const ModelClientListView: React.FC = () => {
             }}
             key={client.appid}
           >
-            <ModelClientCard client={client} onClientChanged={() => setVersion(version + 1)} />
+            <ModelClientCard client={client} modelList={modelList} onClientChanged={() => setVersion(version + 1)} />
           </Card.Grid>
         ))}
       </Card>
