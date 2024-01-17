@@ -36,6 +36,20 @@ factory.prepare(OpenDataAppApis.DataAppRecordPageDataGet, async (ctx) => {
   })
 })
 
+factory.prepare(OpenDataAppApis.DataAppRecordPageDataSearchV2, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    const options = { ...ctx.request.body }
+    ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
+  })
+})
+
+factory.prepare(OpenDataAppApis.DataAppRecordPageDataGetV2, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    const options = { ...ctx.request.query }
+    ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
+  })
+})
+
 factory.prepare(OpenDataAppApis.DataAppRecordCreate, async (ctx) => {
   const session = ctx.session as FangchaSession
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
