@@ -84,7 +84,11 @@ export class ModelClientListView extends ViewController implements FragmentProto
         }
         const request = MyAxios(DatawichClientApis.ModelClientListGet)
         request.setQueryParams(params)
-        return request.quickSend()
+        const items = await request.quickSend<any[]>()
+        return {
+          elements: items,
+          totalSize: items.length,
+        }
       },
       reactiveQueryParams: (retainQueryParams) => {
         return retainQueryParams

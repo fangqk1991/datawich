@@ -17,10 +17,7 @@ const prepareModelClient = async (ctx: Context) => {
 factory.prepare(DatawichClientApis.ModelClientListGet, async (ctx) => {
   const searcher = new _AppClient().fc_searcher(ctx.request.query)
   const feeds = await searcher.queryFeeds()
-  ctx.body = {
-    elements: feeds.map((feed) => feed.modelForClient()),
-    totalSize: await searcher.queryCount(),
-  }
+  ctx.body = feeds.map((feed) => feed.modelForClient())
 })
 
 factory.prepare(DatawichClientApis.ModelClientCreate, async (ctx) => {

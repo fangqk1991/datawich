@@ -1,4 +1,9 @@
-export interface ModelClientModel {
+export interface ModelClientParams {
+  appid: string
+  name: string
+}
+
+export interface ModelClientModel extends ModelClientParams {
   appid: string
   name: string
   appSecret: string
