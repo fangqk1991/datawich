@@ -1,7 +1,8 @@
 import * as assert from 'assert'
 
 export class DatawichWebPages {
-  public static DatawichAppRoute = '/v1/datawich/:modelKey'
+  public static DatawichAppListRoute = '/'
+  public static DatawichAppDetailRoute = '/v1/app/:modelKey'
 
   public static buildRoute(route: string, params: { [p: string]: string | number } | (string | number)[]) {
     if (Array.isArray(params)) {

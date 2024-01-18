@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Spin } from 'antd'
+import { Breadcrumb, Divider, Space, Spin } from 'antd'
 import { DataModelModel, ModelFieldModel, SdkDatawichApis } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataDisplayTable } from '@fangcha/datawich-react'
+import { RouterLink } from '@fangcha/react'
+import { DatawichWebPages } from '@web/datawich-common/web-apis'
 
-export const DatawichAppView: React.FC = () => {
+export const DatawichAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
 
   const [dataModel, setDataModel] = useState<DataModelModel>()
@@ -32,7 +34,19 @@ export const DatawichAppView: React.FC = () => {
 
   return (
     <div>
-      <h2>{dataModel.name}</h2>
+      <Breadcrumb
+        items={[
+          {
+            title: <RouterLink route={DatawichWebPages.DatawichAppListRoute}>{'数据应用'}</RouterLink>,
+          },
+          {
+            title: <Space>{dataModel.name}</Space>,
+          },
+        ]}
+      />
+
+      <Divider style={{ margin: '12px 0' }} />
+
       <DataDisplayTable
         mainFields={mainFields}
         loadData={async (params) => {

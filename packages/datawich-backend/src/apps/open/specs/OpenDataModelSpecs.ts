@@ -3,12 +3,20 @@ import { _DataModel } from '../../../models/extensions/_DataModel'
 import { DataModelHandler } from '../../../services/DataModelHandler'
 import { ModelSpecHandler } from './ModelSpecHandler'
 import { OpenDataModelApis } from '@fangcha/datawich-service'
+import { FangchaOpenSession } from '@fangcha/session'
 
 const factory = new SpecFactory('Data Model')
 
 factory.prepare(OpenDataModelApis.ModelListGet, async (ctx) => {
+  const session = ctx.session as FangchaOpenSession
   const { keywords } = ctx.request.query
   const searcher = new _DataModel().fc_searcher()
+  searcher
+    .processor()
+    .addSpecialCondition(
+      `EXISTS (SELECT model_authorization.model_key FROM model_authorization WHERE model_authorization.model_key = data_model.model_key AND model_authorization.appid = ?)`,
+      session.curUserStr()
+    )
   if (keywords) {
     searcher.processor().addSpecialCondition('model_key LIKE ?', `%${keywords}%`)
   }
