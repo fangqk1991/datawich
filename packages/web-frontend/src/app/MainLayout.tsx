@@ -13,7 +13,7 @@ interface Props {
 
 export const MainLayout: React.FC<Props> = ({ appName }) => {
   const config = useSessionConfig()
-  const userInfo = useUserInfo()
+  const userInfo = useUserInfo(true)
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -43,6 +43,13 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
       avatarProps={{
         icon: <UserOutlined />,
         render: (avatarProps, avatar) => {
+          if (!userInfo) {
+            return (
+              <>
+                未登录，<a href={WebAuthApis.RedirectLogin.route}>点击登录</a>
+              </>
+            )
+          }
           return (
             <Dropdown
               menu={{
