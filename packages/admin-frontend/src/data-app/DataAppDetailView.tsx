@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
@@ -10,84 +10,34 @@ import {
   ModelFieldApis,
   ModelPanelApis,
 } from '@web/datawich-common/admin-apis'
-import {
-  DataModelModel,
-  FieldHelper,
-  FieldsDisplaySettings,
-  ModelFieldModel,
-  ModelPanelInfo,
-} from '@fangcha/datawich-service'
+import { DataModelModel, FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
-import { ProfileEvent } from '@fangcha/datawich-service'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
 import { GeneralDataDialog } from './GeneralDataDialog'
-import { DataDisplayTable } from '@fangcha/datawich-react'
+import { DataDisplayTable, ModelPanelProvider } from '@fangcha/datawich-react'
 import { DataFilterPanel } from '@fangcha/datawich-react/src/filter/DataFilterPanel'
 
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
-  const [version, setVersion] = useState(0)
 
   const { modelKey = '' } = useParams()
-  const { queryParams, updateQueryParams } = useQueryParams<{
+  const { queryParams } = useQueryParams<{
     keywords: string
     panelId: string
     [p: string]: any
   }>()
-  const [panelInfo, setPanelInfo] = useState<ModelPanelInfo | null>()
 
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
 
   const [dataModel, setDataModel] = useState<DataModelModel>()
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
-
-  const displaySettings = useMemo<FieldsDisplaySettings>(() => {
-    if (panelInfo) {
-      return panelInfo.configData.displaySettings
-    }
-    return {
-      hiddenFieldsMap: {},
-      checkedList: [],
-      fixedList: [],
-    }
-  }, [panelInfo])
-
-  useEffect(() => {
-    if (queryParams.panelId === '') {
-      setPanelInfo(null)
-      return
-    }
-    if (!queryParams.panelId) {
-      const request = MyRequest(
-        new CommonAPI(CommonProfileApis.ProfileInfoGet, ProfileEvent.UserModelDefaultPanel, modelKey)
-      )
-      request.quickSend<{ panelId: string }>().then(({ panelId }) => {
-        if (panelId) {
-          updateQueryParams({
-            panelId: panelId,
-          })
-        } else {
-          setPanelInfo(null)
-        }
-      })
-      return
-    }
-    const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelGet, modelKey, queryParams.panelId))
-    request.quickSend<ModelPanelInfo>().then((response) => {
-      setPanelInfo(response)
-      updateQueryParams({
-        ...response.configData.queryParams,
-        ...queryParams,
-      })
-    })
-  }, [queryParams.panelId, version])
 
   useEffect(() => {
     MyRequest(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, modelKey))
@@ -103,12 +53,17 @@ export const DataAppDetailView: React.FC = () => {
       })
   }, [modelKey])
 
-  if (!dataModel || mainFields.length === 0 || panelInfo === undefined) {
+  if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
   }
 
   return (
-    <div>
+    <ModelPanelProvider
+      apis={{
+        getProfileInfo: CommonProfileApis.ProfileInfoGet,
+        getPanelInfo: ModelPanelApis.ModelPanelGet,
+      }}
+    >
       <Breadcrumb
         items={[
           {
@@ -140,11 +95,8 @@ export const DataAppDetailView: React.FC = () => {
       )}
 
       <DataFilterPanel
-        panelInfo={panelInfo}
         modelKey={modelKey}
         mainFields={mainFields}
-        displaySettings={displaySettings}
-        onPanelChanged={() => setVersion(version + 1)}
         apis={{
           updateProfileInfo: CommonProfileApis.ProfileUserInfoUpdate,
           createPanel: ModelPanelApis.ModelPanelCreate,
@@ -180,7 +132,6 @@ export const DataAppDetailView: React.FC = () => {
 
       <DataDisplayTable
         mainFields={mainFields}
-        panelInfo={panelInfo}
         loadData={async (params) => {
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
           request.setQueryParams(params)
@@ -240,6 +191,6 @@ export const DataAppDetailView: React.FC = () => {
           },
         ]}
       />
-    </div>
+    </ModelPanelProvider>
   )
 }

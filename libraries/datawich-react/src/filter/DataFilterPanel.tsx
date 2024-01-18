@@ -17,13 +17,11 @@ import { ApiOptions, CommonAPI } from '@fangcha/app-request'
 import { FilterItemDialog } from './FilterItemDialog'
 import { FieldsDisplaySettingDialog } from '../data-display/FieldsDisplaySettingDialog'
 import { DataFilterItemView } from './DataFilterItemView'
+import { useModelPanel } from './ModelPanelContext'
 
 interface Props {
-  panelInfo?: ModelPanelInfo | null
   modelKey: string
   mainFields: ModelFieldModel[]
-  displaySettings: FieldsDisplaySettings
-  onPanelChanged: () => Promise<void> | void
 
   apis: {
     updateProfileInfo: ApiOptions
@@ -43,17 +41,13 @@ const trimQueryParams = (queryParams: {} = {}) => {
     }, {})
 }
 
-export const DataFilterPanel: React.FC<Props> = ({
-  modelKey,
-  mainFields,
-  displaySettings,
-  onPanelChanged,
-  panelInfo,
-  apis,
-}) => {
+export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [version, setVersion] = useState(0)
   const userInfo = useUserInfo()
+
+  const panelCtx = useModelPanel()
+  const { displaySettings, panelInfo, reloadPanelInfo } = panelCtx
 
   const displayFields = useMemo(
     () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
@@ -168,7 +162,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                   setQueryParams({
                     panelId: panelInfo!.panelId,
                   })
-                  onPanelChanged()
+                  reloadPanelInfo()
                   setVersion(version + 1)
                   message.success('面板保存成功')
                 })
@@ -320,7 +314,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                 setQueryParams({
                   panelId: panelInfo.panelId,
                 })
-                onPanelChanged()
+                reloadPanelInfo()
                 setVersion(version + 1)
                 message.success('面板保存成功')
               } else {
@@ -359,7 +353,7 @@ export const DataFilterPanel: React.FC<Props> = ({
               panelId: queryParams.panelId,
             })
             setKeywords('')
-            onPanelChanged()
+            reloadPanelInfo()
           }}
         >
           重置过滤器

@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
-import { FieldsDisplaySettings, ModelFieldModel, ModelPanelInfo } from '@fangcha/datawich-service'
+import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
-import { FieldHelper } from '@fangcha/datawich-service'
 import { myDataColumn } from './myDataColumn'
+import { useModelPanel } from '../filter/ModelPanelContext'
 
 interface DataRecord {
   rid: number
@@ -26,30 +26,21 @@ const trimParams = (params: {}) => {
 interface Props {
   mainFields: ModelFieldModel[]
   loadData: (params: {}) => Promise<PageResult<DataRecord>>
-  panelInfo?: ModelPanelInfo | null
   extrasColumns?: {
     title: React.ReactNode
     render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
   }[]
 }
 
-export const DataDisplayTable: React.FC<Props> = ({ mainFields, panelInfo, extrasColumns, loadData }) => {
+export const DataDisplayTable: React.FC<Props> = ({ mainFields, extrasColumns, loadData }) => {
   const { queryParams, updateQueryParams } = useQueryParams<{
     keywords: string
     panelId: string
     [p: string]: any
   }>()
 
-  const displaySettings = useMemo<FieldsDisplaySettings>(() => {
-    if (panelInfo) {
-      return panelInfo.configData.displaySettings
-    }
-    return {
-      hiddenFieldsMap: {},
-      checkedList: [],
-      fixedList: [],
-    }
-  }, [panelInfo])
+  const panelCtx = useModelPanel()
+  const { displaySettings, panelInfo } = panelCtx
 
   const fixedColumnMap = useMemo(() => {
     return displaySettings.fixedList.reduce((result, cur) => {
