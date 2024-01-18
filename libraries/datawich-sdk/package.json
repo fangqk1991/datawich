@@ -1,7 +1,7 @@
 {
-  "name": "@fangcha/datawich-service",
-  "version": "0.43.0",
-  "description": "Datawich Service.",
+  "name": "@fangcha/datawich-sdk",
+  "version": "0.1.0",
+  "description": "Datawich SDK.",
   "main": "src/index.ts",
   "publishConfig": {
     "main": "lib/index.js",
@@ -24,5 +24,8 @@
   ],
   "nyc": {
     "sourceMap": false
+  },
+  "devDependencies": {
+    "@fangcha/datawich-service": "workspace:^"
   }
 }

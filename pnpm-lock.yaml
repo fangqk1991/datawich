@@ -278,6 +278,12 @@ importers:
 
   libraries/datawich-react: {}
 
+  libraries/datawich-sdk:
+    devDependencies:
+      '@fangcha/datawich-service':
+        specifier: workspace:^
+        version: link:../datawich-service
+
   libraries/datawich-service: {}
 
   libraries/datawich-vue: {}
@@ -302,6 +308,9 @@ importers:
 
   packages/datawich-backend:
     dependencies:
+      '@fangcha/datawich-sdk':
+        specifier: workspace:^
+        version: link:../../libraries/datawich-sdk
       '@web/datawich-common':
         specifier: workspace:*
         version: link:../../services/datawich-common

@@ -3,7 +3,7 @@ import { GlobalAppConfig } from 'fc-config'
 import { WebApp } from '@fangcha/backend-kit/lib/router'
 import { _FangchaState } from '@fangcha/backend-kit'
 import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
-import { DatawichSdkPlugin } from '@fangcha/datawich-service/lib/sdk-plugin'
+import { DatawichSdkPlugin } from '@fangcha/datawich-sdk'
 
 const app = new WebApp({
   env: GlobalAppConfig.Env,

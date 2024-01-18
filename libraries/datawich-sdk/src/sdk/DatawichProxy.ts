@@ -1,9 +1,8 @@
 import { AxiosBuilder, CommonAPI } from '@fangcha/app-request'
-import { OpenDataAppApis, OpenDataModelApis } from '../common/open-api'
-import { ModelFullMetadata, ModelMilestoneModel } from '../common/models'
 import { BasicAuthConfig, PageResult } from '@fangcha/tools'
 import { BasicAuthProxy, RequestFollower } from '@fangcha/app-request-extensions'
 import { FilterOptions } from 'fc-feed'
+import { ModelFullMetadata, ModelMilestoneModel, OpenDataAppApis, OpenDataModelApis } from '@fangcha/datawich-service'
 
 export class DatawichProxy extends BasicAuthProxy {
   visitorId!: string

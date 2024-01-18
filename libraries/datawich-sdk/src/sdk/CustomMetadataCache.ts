@@ -1,5 +1,5 @@
 import { DatawichProxy } from './DatawichProxy'
-import { CustomConfigParams, ModelFullMetadata } from '../common/models'
+import { CustomConfigParams, ModelFullMetadata } from '@fangcha/datawich-service'
 
 export class CustomMetadataCache {
   public readonly cache: {

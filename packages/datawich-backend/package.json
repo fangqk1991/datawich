@@ -15,6 +15,7 @@
     "rebuild-models": "ts-node ./tools/rebuild-models.ts"
   },
   "dependencies": {
-    "@web/datawich-common": "workspace:*"
+    "@web/datawich-common": "workspace:*",
+    "@fangcha/datawich-sdk": "workspace:^"
   }
 }
