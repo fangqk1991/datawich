@@ -7,10 +7,12 @@ module.exports = {
     wecomBotKey: envData.wecomBotKey,
     adminPort_frontend: 3299,
     adminBaseURL: envData.adminBaseURL,
-    adminPort: 3300,
     adminJwtSecret: envData.adminJwtSecret,
+    adminPort: 3300,
     openPort: 3200,
     openBaseURL: envData.openBaseURL,
+    webJwtSecret: envData.webJwtSecret,
+    webBaseURL: envData.webBaseURL,
     adminSSO: {
       baseURL: envData.adminSSO_baseURL,
       clientId: envData.adminSSO_clientId,
