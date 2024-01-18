@@ -2,6 +2,7 @@ export * from './custom-form/CustomConfigModels'
 
 export * from './general/DatawichSystemInfo'
 export * from './general/OperationLevel'
+export * from './general/ProfileEvent'
 
 export * from './field/FieldType'
 export * from './field/LinkMapperInfo'

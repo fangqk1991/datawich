@@ -6,6 +6,7 @@ import {
   CommonProfileApis,
   DataAppApis,
   DataModelApis,
+  DatawichAdminPages,
   ModelFieldApis,
   ModelPanelApis,
 } from '@web/datawich-common/admin-apis'
@@ -14,7 +15,7 @@ import {
   FieldHelper,
   FieldsDisplaySettings,
   ModelFieldModel,
-  ModelPanelInfo
+  ModelPanelInfo,
 } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
@@ -22,13 +23,12 @@ import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
 import { ProfileEvent } from '@web/datawich-common/models'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
-import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
-import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
 import { GeneralDataDialog } from './GeneralDataDialog'
 import { DataDisplayTable } from '@fangcha/datawich-react'
+import { DataFilterPanel } from '@fangcha/datawich-react/src/filter/DataFilterPanel'
 
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
@@ -145,6 +145,13 @@ export const DataAppDetailView: React.FC = () => {
         mainFields={mainFields}
         displaySettings={displaySettings}
         onPanelChanged={() => setVersion(version + 1)}
+        apis={{
+          updateProfileInfo: CommonProfileApis.ProfileUserInfoUpdate,
+          createPanel: ModelPanelApis.ModelPanelCreate,
+          updatePanel: ModelPanelApis.ModelPanelUpdate,
+          deletePanel: ModelPanelApis.ModelPanelDelete,
+          getPanelList: ModelPanelApis.ModelPanelListGet,
+        }}
       />
 
       <Divider style={{ margin: '0 0 12px' }} />

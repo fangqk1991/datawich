@@ -8,14 +8,15 @@ import {
   ModelFieldModel,
   ModelPanelInfo,
   ModelPanelParams,
+  ProfileEvent,
 } from '@fangcha/datawich-service'
 import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
 import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
 import { MyRequest, useUserInfo } from '@fangcha/auth-react'
-import { CommonAPI } from '@fangcha/app-request'
-import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/admin-apis'
-import { ProfileEvent } from '@web/datawich-common/models'
-import { DataFilterItemView, FieldsDisplaySettingDialog, FilterItemDialog } from '@fangcha/datawich-react'
+import { ApiOptions, CommonAPI } from '@fangcha/app-request'
+import { FilterItemDialog } from './FilterItemDialog'
+import { FieldsDisplaySettingDialog } from '../data-display/FieldsDisplaySettingDialog'
+import { DataFilterItemView } from './DataFilterItemView'
 
 interface Props {
   panelInfo?: ModelPanelInfo | null
@@ -23,6 +24,14 @@ interface Props {
   mainFields: ModelFieldModel[]
   displaySettings: FieldsDisplaySettings
   onPanelChanged: () => Promise<void> | void
+
+  apis: {
+    updateProfileInfo: ApiOptions
+    createPanel: ApiOptions
+    updatePanel: ApiOptions
+    deletePanel: ApiOptions
+    getPanelList: ApiOptions
+  }
 }
 
 const trimQueryParams = (queryParams: {} = {}) => {
@@ -40,6 +49,7 @@ export const DataFilterPanel: React.FC<Props> = ({
   displaySettings,
   onPanelChanged,
   panelInfo,
+  apis,
 }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [version, setVersion] = useState(0)
@@ -111,7 +121,7 @@ export const DataFilterPanel: React.FC<Props> = ({
   }, [queryParams, panelInfo, fieldMapper])
 
   const { data: panelList, loading } = useLoadingData(async () => {
-    const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelListGet, modelKey))
+    const request = MyRequest(new CommonAPI(apis.getPanelList, modelKey))
     return request.quickSend<ModelPanelInfo[]>()
   }, [modelKey, version])
   const [hideOthers, setHideOthers] = useState(true)
@@ -152,9 +162,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                       displaySettings: displaySettings,
                     },
                   }
-                  const request = MyRequest(
-                    new CommonAPI(ModelPanelApis.ModelPanelUpdate, modelKey, panelInfo!.panelId)
-                  )
+                  const request = MyRequest(new CommonAPI(apis.updatePanel, modelKey, panelInfo!.panelId))
                   request.setBodyData(params)
                   await request.quickSend<ModelPanelInfo>()
                   setQueryParams({
@@ -185,14 +193,14 @@ export const DataFilterPanel: React.FC<Props> = ({
                     displaySettings: displaySettings,
                   },
                 }
-                const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelCreate, modelKey))
+                const request = MyRequest(new CommonAPI(apis.createPanel, modelKey))
                 request.setBodyData(params)
                 const panel = await request.quickSend<ModelPanelInfo>()
                 setQueryParams({
                   panelId: panel.panelId,
                 })
                 setVersion(version + 1)
-                message.success('面板另存成功')
+                message.success('面板另存 成功')
               })
             }}
           >
@@ -204,7 +212,7 @@ export const DataFilterPanel: React.FC<Props> = ({
               danger={true}
               onClick={async () => {
                 const request = MyRequest(
-                  new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelDefaultPanel, modelKey)
+                  new CommonAPI(apis.updateProfileInfo, ProfileEvent.UserModelDefaultPanel, modelKey)
                 )
                 request.setBodyData({
                   panelId: panelInfo ? panelInfo.panelId : '',
@@ -243,7 +251,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                       content: `确定要删除面板 ${item.name} 吗`,
                     })
                     dialog.show(async () => {
-                      const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelDelete, modelKey, item.panelId))
+                      const request = MyRequest(new CommonAPI(apis.deletePanel, modelKey, item.panelId))
                       await request.quickSend<ModelPanelInfo>()
                       if (checked) {
                         setQueryParams({})
@@ -306,7 +314,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                     displaySettings: newDisplaySettings,
                   },
                 }
-                const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelUpdate, modelKey, panelInfo.panelId))
+                const request = MyRequest(new CommonAPI(apis.updatePanel, modelKey, panelInfo.panelId))
                 request.setBodyData(params)
                 await request.quickSend<ModelPanelInfo>()
                 setQueryParams({
@@ -329,7 +337,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                       displaySettings: newDisplaySettings,
                     },
                   }
-                  const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelCreate, modelKey))
+                  const request = MyRequest(new CommonAPI(apis.createPanel, modelKey))
                   request.setBodyData(params)
                   const panel = await request.quickSend<ModelPanelInfo>()
                   setQueryParams({
