@@ -11,7 +11,7 @@ module.exports = {
     adminPort: 3300,
     adminJwtSecret: '<Datawich Random 32>',
     webPort_frontend: 3303,
-    webBaseURL: 'http://localhost:3304',
+    webBaseURL: 'http://localhost:3303',
     webPort: 3304,
     webJwtSecret: '<Datawich Random 32>',
     webSSO: {
@@ -22,7 +22,7 @@ module.exports = {
       tokenPath: '/api/v1/oauth/token',
       logoutPath: '/api/v1/logout',
       scope: 'basic',
-      callbackUri: 'http://localhost:3304/api/v1/handleSSO',
+      callbackUri: 'http://localhost:3303/api-302/auth-sdk/v1/handle-sso',
       userInfoURL: 'https://sso.staging.fangcha.net/api/v1/oauth/user-info',
     },
     openPort: 3200,
