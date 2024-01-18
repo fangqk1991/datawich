@@ -22,6 +22,17 @@ module.exports = {
       callbackUri: envData.adminSSO_callbackUri,
       userInfoURL: envData.adminSSO_userInfoURL,
     },
+    webSSO: {
+      baseURL: envData.webSSO_baseURL,
+      clientId: envData.webSSO_clientId,
+      clientSecret: envData.webSSO_clientSecret,
+      authorizePath: envData.webSSO_authorizePath,
+      tokenPath: envData.webSSO_tokenPath,
+      logoutPath: envData.webSSO_logoutPath,
+      scope: envData.webSSO_scope,
+      callbackUri: envData.webSSO_callbackUri,
+      userInfoURL: envData.webSSO_userInfoURL,
+    },
     mysql: {
       datawichDB: {
         host: envData.DB_Host,
