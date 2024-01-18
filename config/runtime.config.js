@@ -74,5 +74,10 @@ module.exports = {
         downloadRootDir: envData.oss_downloadRootDir,
       },
     },
+    datawichSDK: {
+      urlBase: envData.datawichSDK_urlBase,
+      username: envData.datawichSDK_username,
+      password: envData.datawichSDK_password,
+    },
   },
 }
