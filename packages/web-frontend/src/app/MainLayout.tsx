@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons'
-import { ProLayout } from '@ant-design/pro-layout'
+import { DefaultFooter, ProLayout } from '@ant-design/pro-layout'
 import React from 'react'
 import { Dropdown } from 'antd'
 import { useSessionConfig, useUserInfo } from '@fangcha/auth-react'
@@ -29,17 +29,12 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
       logo={null}
       title={config.appName || appName || 'App'}
       layout='top'
-      splitMenus={false}
+      fixedHeader={true}
       defaultCollapsed={false}
       location={{
         pathname: location.pathname,
       }}
       onMenuHeaderClick={() => navigate('/')}
-      menu={{
-        type: 'sub',
-        defaultOpenAll: true,
-        ignoreFlatMenu: true,
-      }}
       avatarProps={{
         icon: <UserOutlined />,
         render: (avatarProps, avatar) => {
@@ -75,20 +70,8 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
                 >
                   {userInfo.email}
                 </span>
-
-                {/*<Space>*/}
-                {/*  Click me*/}
-                {/*  <DownOutlined />*/}
-                {/*</Space>*/}
               </div>
             </Dropdown>
-
-            // <div
-            //   onClick={() => {
-            //     console.info('onclick')
-            //   }}
-            // >
-            // </div>
           )
         },
       }}
@@ -99,6 +82,17 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
       menuItemRender={(item, dom) => <RouterLink route={item.path || '/'}>{dom}</RouterLink>}
     >
       <Outlet />
+      <DefaultFooter
+        copyright={false}
+        links={[
+          {
+            key: 'Datawich',
+            title: 'Powered by fangqk1991/datawich',
+            href: 'https://github.com/fangqk1991/datawich',
+            blankTarget: true,
+          },
+        ]}
+      />
     </ProLayout>
   )
 }
