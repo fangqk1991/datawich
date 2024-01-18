@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Checkbox, Select } from 'antd'
 import { DialogProps, DraggableOptionsPanel, ReactDialog } from '@fangcha/react'
-import { FieldsDisplaySettings, FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
-import { FieldHelper } from '@fangcha/datawich-service'
+import { FieldHelper, FieldsDisplaySettings, FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
 
 interface Props extends DialogProps {
   mainFields: ModelFieldModel[]

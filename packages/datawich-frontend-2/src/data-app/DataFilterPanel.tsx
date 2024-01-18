@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons'
 import { TextSymbol } from '@fangcha/logic'
-import { TinyList } from './TinyList'
 import {
-  FieldFilterItem, FieldHelper,
+  FieldFilterItem,
+  FieldHelper,
   FieldsDisplaySettings,
   ModelFieldModel,
   ModelPanelInfo,
@@ -12,12 +11,11 @@ import {
 } from '@fangcha/datawich-service'
 import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
 import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
-import { DataFilterItemView } from './DataFilterItemView'
-import { FieldsDisplaySettingDialog } from './FieldsDisplaySettingDialog'
 import { MyRequest, useUserInfo } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
 import { ProfileEvent } from '@web/datawich-common/models'
+import { DataFilterItemView, FieldsDisplaySettingDialog, FilterItemDialog } from '@fangcha/datawich-react'
 
 interface Props {
   panelInfo?: ModelPanelInfo | null
@@ -359,7 +357,12 @@ export const DataFilterPanel: React.FC<Props> = ({
           重置过滤器
         </Button>
       </Space>
-      <TinyList>
+      <ul
+        style={{
+          paddingInlineStart: '10px',
+          marginBlockStart: '4px',
+        }}
+      >
         {queryParams.keywords && (
           <li>
             keywords = {queryParams.keywords}{' '}
@@ -383,7 +386,7 @@ export const DataFilterPanel: React.FC<Props> = ({
             onFilterItemChanged={(options) => updateQueryParams(options)}
           />
         ))}
-      </TinyList>
+      </ul>
       {/*<ProForm autoFocusFirstInput={false} submitter={false} layout={'horizontal'}>*/}
       {/*  {fields*/}
       {/*    .filter((field) => [FieldType.Date, FieldType.Datetime].includes(field.fieldType as FieldType))*/}

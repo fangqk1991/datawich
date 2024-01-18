@@ -1,9 +1,9 @@
 import React from 'react'
-import { FilterItemDialog } from './FilterItemDialog'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import { FieldFilterItem, FieldType, ModelFieldModel, ModelPanelTools } from '@fangcha/datawich-service'
 import { Checkbox, Tag } from 'antd'
+import { FilterItemDialog } from './FilterItemDialog'
 
 interface Props {
   filterItem: FieldFilterItem
