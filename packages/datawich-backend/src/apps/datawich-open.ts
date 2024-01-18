@@ -7,6 +7,7 @@ import { _DatawichService } from '../services/_DatawichService'
 import { MyDatabase } from '../services/MyDatabase'
 import { AliyunOSS } from '@fangcha/ali-oss'
 import { VisitorCenter } from './open/VisitorCenter'
+import { OpenSession } from '../services/OpenSession'
 
 const app = new WebApp({
   env: GlobalAppConfig.Env,
@@ -24,6 +25,7 @@ const app = new WebApp({
         return VisitorCenter.findVisitor(username, password)
       },
     },
+    Session: OpenSession,
   },
   plugins: [DatawichOssPlugin],
 

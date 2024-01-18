@@ -1,39 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Divider, Space, Spin } from 'antd'
-import { DataModelModel, ModelFieldModel, SdkDatawichApis } from '@fangcha/datawich-service'
+import { SdkDatawichApis } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataDisplayTable } from '@fangcha/datawich-react'
+import {
+  DataDisplayTable,
+  DataFilterPanel,
+  ModelPanelProvider,
+  useDataModel,
+  useMainFields,
+} from '@fangcha/datawich-react'
 import { RouterLink } from '@fangcha/react'
 import { DatawichWebPages } from '@web/datawich-common/web-apis'
 
 export const DatawichAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
 
-  const [dataModel, setDataModel] = useState<DataModelModel>()
-  const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
-
-  useEffect(() => {
-    MyRequest(new CommonAPI(SdkDatawichApis.ModelVisibleFieldListGet, modelKey))
-      .quickSend()
-      .then((response) => {
-        setMainFields(response)
-      })
-
-    MyRequest(new CommonAPI(SdkDatawichApis.DataModelInfoGet, modelKey))
-      .quickSend()
-      .then((response) => {
-        setDataModel(response)
-      })
-  }, [modelKey])
+  const dataModel = useDataModel(SdkDatawichApis.DataModelInfoGet)
+  const mainFields = useMainFields(SdkDatawichApis.ModelVisibleFieldListGet)
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
   }
 
   return (
-    <div>
+    <ModelPanelProvider
+      apis={{
+        getProfileInfo: SdkDatawichApis.ProfileInfoGet,
+        getPanelInfo: SdkDatawichApis.ModelPanelGet,
+      }}
+    >
       <Breadcrumb
         items={[
           {
@@ -47,6 +44,20 @@ export const DatawichAppDetailView: React.FC = () => {
 
       <Divider style={{ margin: '12px 0' }} />
 
+      <DataFilterPanel
+        modelKey={modelKey}
+        mainFields={mainFields}
+        apis={{
+          updateProfileInfo: SdkDatawichApis.ProfileUserInfoUpdate,
+          createPanel: SdkDatawichApis.ModelPanelCreate,
+          updatePanel: SdkDatawichApis.ModelPanelUpdate,
+          deletePanel: SdkDatawichApis.ModelPanelDelete,
+          getPanelList: SdkDatawichApis.ModelPanelListGet,
+        }}
+      />
+
+      <Divider style={{ margin: '0 0 12px' }} />
+
       <DataDisplayTable
         mainFields={mainFields}
         loadData={async (params) => {
@@ -56,6 +67,6 @@ export const DatawichAppDetailView: React.FC = () => {
         }}
         extrasColumns={[]}
       />
-    </div>
+    </ModelPanelProvider>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
@@ -10,7 +10,7 @@ import {
   ModelFieldApis,
   ModelPanelApis,
 } from '@web/datawich-common/admin-apis'
-import { DataModelModel, FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldHelper } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
@@ -20,11 +20,19 @@ import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
 import { GeneralDataDialog } from './GeneralDataDialog'
-import { DataDisplayTable, ModelPanelProvider } from '@fangcha/datawich-react'
-import { DataFilterPanel } from '@fangcha/datawich-react/src/filter/DataFilterPanel'
+import {
+  DataDisplayTable,
+  DataFilterPanel,
+  ModelPanelProvider,
+  useDataModel,
+  useMainFields
+} from '@fangcha/datawich-react'
 
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+
+  const dataModel = useDataModel(DataModelApis.DataModelInfoGet)
+  const mainFields = useMainFields(ModelFieldApis.DataModelVisibleFieldListGet)
 
   const { modelKey = '' } = useParams()
   const { queryParams } = useQueryParams<{
@@ -35,23 +43,6 @@ export const DataAppDetailView: React.FC = () => {
 
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
-
-  const [dataModel, setDataModel] = useState<DataModelModel>()
-  const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
-
-  useEffect(() => {
-    MyRequest(new CommonAPI(ModelFieldApis.DataModelVisibleFieldListGet, modelKey))
-      .quickSend()
-      .then((response) => {
-        setMainFields(response)
-      })
-
-    MyRequest(new CommonAPI(DataModelApis.DataModelInfoGet, modelKey))
-      .quickSend()
-      .then((response) => {
-        setDataModel(response)
-      })
-  }, [modelKey])
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />

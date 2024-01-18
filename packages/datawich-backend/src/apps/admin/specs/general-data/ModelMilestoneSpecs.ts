@@ -3,7 +3,7 @@ import assert from '@fangcha/assert'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { DataModelHandler } from '../../../../services/DataModelHandler'
 import { _ModelMilestone } from '../../../../models/extensions/_ModelMilestone'
-import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
+import { DataModelSpecHandler } from '../../../../services/DataModelSpecHandler'
 import { ModelMilestoneApis } from '@web/datawich-common/admin-apis'
 
 const factory = new SpecFactory('元信息版本')

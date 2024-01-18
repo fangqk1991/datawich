@@ -8,7 +8,7 @@ import { DataModelHandler } from '../../../../services/DataModelHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { FangchaSession } from '@fangcha/session'
 import { ModelDataHandler } from '../../../../services/ModelDataHandler'
-import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
+import { DataModelSpecHandler } from '../../../../services/DataModelSpecHandler'
 import { GeneralPermission, ModelType } from '@web/datawich-common/models'
 
 const factory = new SpecFactory('数据模型')

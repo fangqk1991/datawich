@@ -1,9 +1,9 @@
 import assert from '@fangcha/assert'
 import { Context } from 'koa'
-import { _DataModel } from '../../../../models/extensions/_DataModel'
-import { _ModelField } from '../../../../models/extensions/_ModelField'
-import { _FieldLink } from '../../../../models/extensions/_FieldLink'
-import { _ModelPanel } from '../../../../models/extensions/_ModelPanel'
+import { _DataModel } from '../models/extensions/_DataModel'
+import { _ModelField } from '../models/extensions/_ModelField'
+import { _FieldLink } from '../models/extensions/_FieldLink'
+import { _ModelPanel } from '../models/extensions/_ModelPanel'
 
 export class DataModelSpecHandler {
   ctx!: Context

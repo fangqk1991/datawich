@@ -3,7 +3,7 @@ import assert from '@fangcha/assert'
 import { ModelIndexApis } from '@web/datawich-common/admin-apis'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _FieldIndex } from '../../../../models/extensions/_FieldIndex'
-import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
+import { DataModelSpecHandler } from '../../../../services/DataModelSpecHandler'
 import { FieldHelper } from '@fangcha/datawich-service'
 
 const factory = new SpecFactory('数据索引')

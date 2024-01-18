@@ -3,7 +3,7 @@ import { DataModelApis } from '@web/datawich-common/admin-apis'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { FieldLinkModel } from '@fangcha/datawich-service'
 import { _FieldLink } from '../../../../models/extensions/_FieldLink'
-import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
+import { DataModelSpecHandler } from '../../../../services/DataModelSpecHandler'
 
 const factory = new SpecFactory('模型关联信息')
 
