@@ -1,6 +1,8 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import React from 'react'
 import { RouteErrorBoundary } from '@fangcha/react'
+import { DatawichWebPages } from '@web/datawich-common/web-apis'
+import { DatawichAppView } from '../datawich/DatawichAppView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -10,7 +12,11 @@ export const MyRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: '!!!!',
+        element: <div>Home</div>,
+      },
+      {
+        path: DatawichWebPages.DatawichAppRoute,
+        element: <DatawichAppView />,
       },
       {
         path: '*',

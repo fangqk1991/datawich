@@ -5,6 +5,7 @@ import { DatawichDataAppSpecs } from './admin/specs/DatawichDataAppSpecs'
 import { _FangchaState } from '@fangcha/backend-kit'
 import { DatawichSwaggerDocItems } from './admin/specs'
 import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
+import { DatawichSdkPlugin } from '@fangcha/datawich-service/src/sdk-plugin'
 
 const app = new WebApp({
   env: GlobalAppConfig.Env,
@@ -34,6 +35,9 @@ const app = new WebApp({
         jwtKey: 'datawich_web_jwt',
         jwtSecret: DatawichConfig.webJwtSecret,
       },
+    }),
+    DatawichSdkPlugin({
+      authConfig: DatawichConfig.datawichSDK,
     }),
   ],
   appDidLoad: async () => {

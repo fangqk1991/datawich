@@ -9,7 +9,9 @@ const datawichProxyForSession = (session: FangchaSession) => {
   return DatawichService.proxy.proxyForSession(session.reqid)
 }
 
-const factory = new SpecFactory('Datawich SDK 相关')
+const factory = new SpecFactory('Datawich SDK 相关', {
+  skipAuth: true,
+})
 
 Object.values(SdkDatawichApis).forEach((api) => {
   factory.prepare(api, async (ctx) => {

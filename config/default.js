@@ -94,5 +94,10 @@ module.exports = {
         downloadRootDir: '/data/datawich-zone/downloads',
       },
     },
+    datawichSDK: {
+      urlBase: 'http://localhost:3200',
+      username: '<username>',
+      password: '<password>',
+    },
   },
 }
