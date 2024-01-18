@@ -1,9 +1,7 @@
 import { DatawichConfig } from '../DatawichConfig'
 import { GlobalAppConfig } from 'fc-config'
 import { WebApp } from '@fangcha/backend-kit/lib/router'
-import { DatawichDataAppSpecs } from './admin/specs/DatawichDataAppSpecs'
 import { _FangchaState } from '@fangcha/backend-kit'
-import { DatawichSwaggerDocItems } from './admin/specs'
 import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
 import { DatawichSdkPlugin } from '@fangcha/datawich-service/src/sdk-plugin'
 
@@ -12,14 +10,7 @@ const app = new WebApp({
   tags: GlobalAppConfig.Tags,
   appName: 'datawich-web',
   wecomBotKey: DatawichConfig.wecomBotKey,
-  mainDocItems: [
-    ...DatawichSwaggerDocItems,
-    {
-      name: 'Data App Extras',
-      pageURL: '/api-docs/v1/data-app-extras',
-      specs: DatawichDataAppSpecs,
-    },
-  ],
+  mainDocItems: [],
   routerOptions: {
     baseURL: DatawichConfig.webBaseURL,
     backendPort: DatawichConfig.webPort,
