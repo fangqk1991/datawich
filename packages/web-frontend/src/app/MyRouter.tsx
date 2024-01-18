@@ -1,13 +1,14 @@
-import { createBrowserRouter, Outlet } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import React from 'react'
 import { RouteErrorBoundary } from '@fangcha/react'
 import { DatawichWebPages } from '@web/datawich-common/web-apis'
 import { DatawichAppView } from '../datawich/DatawichAppView'
+import { MainLayout } from './MainLayout'
 
 export const MyRouter = createBrowserRouter([
   {
     path: '/',
-    element: <Outlet />,
+    element: <MainLayout />,
     errorElement: <RouteErrorBoundary />,
     children: [
       {
