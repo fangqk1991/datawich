@@ -9,7 +9,7 @@ import {
   TextPreviewDialog,
 } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
+import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/admin-apis'
 import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, Divider, message, Space, Switch, Tag } from 'antd'

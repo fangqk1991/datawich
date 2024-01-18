@@ -2,7 +2,7 @@ import { AppstoreOutlined, DesktopOutlined, UserOutlined } from '@ant-design/ico
 import { Route } from '@ant-design/pro-layout/es/typing'
 import { LS } from '../core/ReactI18n'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import React from 'react'
 
 export const useMenu = () => {
@@ -17,11 +17,11 @@ export const useMenu = () => {
         icon: <DesktopOutlined />,
         children: [
           {
-            path: DatawichPages.AllDataAppsRoute,
+            path: DatawichAdminPages.AllDataAppsRoute,
             name: LS('[i18n] All Apps'),
           },
           ...favorAppsCtx.favorApps.map((item) => ({
-            path: DatawichPages.buildRoute(DatawichPages.DataAppDetailRoute, [item.modelKey]),
+            path: DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [item.modelKey]),
             name: item.name,
           })),
         ],
@@ -32,11 +32,11 @@ export const useMenu = () => {
         icon: <AppstoreOutlined />,
         children: [
           {
-            path: DatawichPages.ModelListRoute,
+            path: DatawichAdminPages.ModelListRoute,
             name: LS('[i18n] Data Model'),
           },
           {
-            path: DatawichPages.ClientListRoute,
+            path: DatawichAdminPages.ClientListRoute,
             name: LS('[i18n] API Clients'),
           },
           // ...(visitorCtx.userInfo.isAdmin
@@ -55,7 +55,7 @@ export const useMenu = () => {
         icon: <UserOutlined />,
         children: [
           {
-            path: DatawichPages.ResourceTaskListRoute,
+            path: DatawichAdminPages.ResourceTaskListRoute,
             name: '我的下载',
           },
         ],

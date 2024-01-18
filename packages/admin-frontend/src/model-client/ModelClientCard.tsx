@@ -4,7 +4,7 @@ import { ClientAuthModel, ClientAuthParams, ModelClientModel } from '@web/datawi
 import { LS } from '../core/ReactI18n'
 import { makeClientFormDialog } from './makeClientFormDialog'
 import { MyRequest } from '@fangcha/auth-react'
-import { DatawichClientApis } from '@web/datawich-common/web-api'
+import { DatawichClientApis } from '@web/datawich-common/admin-apis'
 import { CommonAPI } from '@fangcha/app-request'
 import { ConfirmDialog, MultiplePickerDialog } from '@fangcha/react'
 import { DataModelModel } from '@fangcha/datawich-service'

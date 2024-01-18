@@ -4,12 +4,12 @@ import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { AccessLevel, describeAccessLevelDetail } from '@web/datawich-common/models'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataModelApis } from '@web/datawich-common/web-api'
+import { DataModelApis } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { DataModelDialog } from './DataModelDialog'
 import { ModelPanelsCard } from './ModelPanelsCard'
 
@@ -119,7 +119,7 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
         <Descriptions.Item label='创建时间'>{dataModel.createTime}</Descriptions.Item>
         <Descriptions.Item label='更新时间'>{dataModel.updateTime}</Descriptions.Item>
         <Descriptions.Item label='应用地址'>
-          <RouterLink route={DatawichPages.DataAppDetailRoute} params={[dataModel.modelKey]}>
+          <RouterLink route={DatawichAdminPages.DataAppDetailRoute} params={[dataModel.modelKey]}>
             点击查看
           </RouterLink>
         </Descriptions.Item>

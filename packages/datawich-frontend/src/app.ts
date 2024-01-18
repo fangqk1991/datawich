@@ -13,7 +13,7 @@ import { GeneralDataManager } from './services/GeneralDataManager'
 import { DatawichI18N } from '@web/datawich-common/i18n'
 import { MyFavorSidebar } from './views/data-app/MyFavorSidebar'
 import { WebAuthApis } from '@fangcha/sso-models'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 
 const _fcApp = new AdminApp({
   appName: 'Datawich 🍰',
@@ -69,7 +69,7 @@ const _fcApp = new AdminApp({
         {
           titleEn: 'All Apps',
           titleZh: '所有应用',
-          path: DatawichPages.DataAppListRoute,
+          path: DatawichAdminPages.DataAppListRoute,
         },
       ],
     },
@@ -81,7 +81,7 @@ const _fcApp = new AdminApp({
         {
           titleEn: 'Models',
           titleZh: '模型管理',
-          path: DatawichPages.ModelListRoute,
+          path: DatawichAdminPages.ModelListRoute,
         },
         // {
         //   titleEn: '用户组管理',
@@ -105,18 +105,18 @@ const _fcApp = new AdminApp({
   ],
   routes: [
     {
-      path: DatawichPages.DataAppListRoute,
+      path: DatawichAdminPages.DataAppListRoute,
       component: DataAppListView,
       name: 'DataAppListView',
     },
     {
-      path: DatawichPages.DataAppDetailRoute,
+      path: DatawichAdminPages.DataAppDetailRoute,
       component: DataAppListView,
       name: 'DataDisplayView',
       props: true,
     },
     {
-      path: DatawichPages.ModelListRoute,
+      path: DatawichAdminPages.ModelListRoute,
       component: DataModelListView,
       name: 'DataModelListView',
     },

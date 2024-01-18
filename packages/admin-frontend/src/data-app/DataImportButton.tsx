@@ -5,7 +5,7 @@ import { LoadingDialog, TextPreviewDialog } from '@fangcha/react'
 import { DataImportHandler } from '@web/datawich-common/models'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataAppApis } from '@web/datawich-common/web-api'
+import { DataAppApis } from '@web/datawich-common/admin-apis'
 import { Button, Space } from 'antd'
 import { ExcelPickButton } from '@fangcha/excel-react'
 

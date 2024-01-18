@@ -3,7 +3,7 @@ import { SpecFactory } from '@fangcha/router'
 import { Context } from 'koa'
 import { FangchaSession } from '@fangcha/session'
 import { _CommonProfile } from '../../../../models/extensions/_CommonProfile'
-import { CommonProfileApis } from '@web/datawich-common/web-api'
+import { CommonProfileApis } from '@web/datawich-common/admin-apis'
 import { ProfileEventDescriptor } from '@web/datawich-common/models'
 
 const prepareProfile = async (ctx: Context) => {

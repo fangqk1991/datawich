@@ -1,7 +1,7 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
-import { ModelUserApis } from '@web/datawich-common/web-api'
+import { ModelUserApis } from '@web/datawich-common/admin-apis'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { FangchaSession } from '@fangcha/session'
 import { CommonGroupSpecHandler } from '../handlers/CommonGroupSpecHandler'

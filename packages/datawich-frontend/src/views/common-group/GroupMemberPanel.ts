@@ -1,4 +1,4 @@
-import { CommonGroupApis } from '@web/datawich-common/web-api'
+import { CommonGroupApis } from '@web/datawich-common/admin-apis'
 import { Component, ConfirmDialog, Prop, SimpleInputDialog, SimplePickerDialog, ViewController } from '@fangcha/vue'
 import { Watch } from 'vue-property-decorator'
 import { CommonMemberModel } from '@fangcha/general-group/lib/common/models'

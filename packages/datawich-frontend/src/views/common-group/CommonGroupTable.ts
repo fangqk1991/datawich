@@ -8,7 +8,7 @@ import {
   TableViewProtocol,
   ViewController,
 } from '@fangcha/vue'
-import { CommonGroupApis, ModelUserApis } from '@web/datawich-common/web-api'
+import { CommonGroupApis, ModelUserApis } from '@web/datawich-common/admin-apis'
 import { GroupMemberDialog } from './GroupMemberDialog'
 import { GroupPermissionDialog } from './GroupPermissionDialog'
 import { SelectOption } from '@fangcha/tools'

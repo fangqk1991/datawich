@@ -1,6 +1,6 @@
 import { Component } from 'vue-property-decorator'
 import { SimpleInputDialog, TypicalDialog, TypicalDialogView } from '@fangcha/vue'
-import { CommonGroupApis } from '@web/datawich-common/web-api'
+import { CommonGroupApis } from '@web/datawich-common/admin-apis'
 import { SelectOption } from '@fangcha/tools'
 import {
   CommonGroupModel,

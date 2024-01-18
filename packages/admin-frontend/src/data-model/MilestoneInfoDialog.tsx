@@ -7,7 +7,7 @@ import {
   ModelMilestoneModel,
 } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/web-api'
+import { ModelFieldApis, ModelMilestoneApis } from '@web/datawich-common/admin-apis'
 import { ModelStructurePanel } from './ModelStructurePanel'
 import { MyRequest } from '@fangcha/auth-react'
 import { sleep } from '@fangcha/tools'

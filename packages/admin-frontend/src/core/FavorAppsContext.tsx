@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { CommonProfileApis, DataAppApis } from '@web/datawich-common/web-api'
+import { CommonProfileApis, DataAppApis } from '@web/datawich-common/admin-apis'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'

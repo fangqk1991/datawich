@@ -1,5 +1,5 @@
 import { Component, MyTableView, Prop, TableViewProtocol, ViewController } from '@fangcha/vue'
-import { ModelGroupApis } from '@web/datawich-common/web-api'
+import { ModelGroupApis } from '@web/datawich-common/admin-apis'
 import { CommonGroupModel, GroupSpace } from '@fangcha/general-group/lib/common/models'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'

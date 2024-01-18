@@ -5,9 +5,9 @@ import { CheckCircleOutlined, InfoCircleOutlined, WarningOutlined } from '@ant-d
 import { AccessLevel, AccessLevelDescriptor, describeAccessLevelDetail } from '@web/datawich-common/models'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataModelApis } from '@web/datawich-common/web-api'
+import { DataModelApis } from '@web/datawich-common/admin-apis'
 import { RouterLink } from '@fangcha/react'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 
 interface Props {
   dataApp: DataModelModel
@@ -90,10 +90,10 @@ export const DataModelCard: React.FC<Props> = ({ dataApp }) => {
         </li>
         <li>
           <Space>
-            <RouterLink route={DatawichPages.ModelDetailRoute} params={[dataApp.modelKey]}>
+            <RouterLink route={DatawichAdminPages.ModelDetailRoute} params={[dataApp.modelKey]}>
               管理模型
             </RouterLink>
-            <RouterLink route={DatawichPages.DataAppDetailRoute} params={[dataApp.modelKey]}>
+            <RouterLink route={DatawichAdminPages.DataAppDetailRoute} params={[dataApp.modelKey]}>
               查看应用
             </RouterLink>
           </Space>

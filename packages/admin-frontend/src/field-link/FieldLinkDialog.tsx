@@ -11,7 +11,7 @@ import {
 } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
+import { DataModelApis, ModelFieldApis } from '@web/datawich-common/admin-apis'
 import { NumBoolDescriptor, SelectOption } from '@fangcha/tools'
 import { InputCell } from '../data-model/InputCell'
 

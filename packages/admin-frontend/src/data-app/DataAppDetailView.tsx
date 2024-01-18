@@ -8,7 +8,7 @@ import {
   DataModelApis,
   ModelFieldApis,
   ModelPanelApis,
-} from '@web/datawich-common/web-api'
+} from '@web/datawich-common/admin-apis'
 import {
   DataModelModel,
   FieldHelper,
@@ -22,7 +22,7 @@ import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
 import { ProfileEvent } from '@web/datawich-common/models'
 import { useFavorAppsCtx } from '../core/FavorAppsContext'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { DataFilterPanel } from './DataFilterPanel'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
@@ -112,13 +112,13 @@ export const DataAppDetailView: React.FC = () => {
       <Breadcrumb
         items={[
           {
-            title: <RouterLink route={DatawichPages.AllDataAppsRoute}>{LS('[i18n] Data Apps')}</RouterLink>,
+            title: <RouterLink route={DatawichAdminPages.AllDataAppsRoute}>{LS('[i18n] Data Apps')}</RouterLink>,
           },
           {
             title: (
               <Space>
                 {dataModel.name} |
-                <RouterLink route={DatawichPages.ModelDetailRoute} params={[modelKey]}>
+                <RouterLink route={DatawichAdminPages.ModelDetailRoute} params={[modelKey]}>
                   模型管理
                 </RouterLink>
                 |<a onClick={() => favorAppsCtx.toggleAppFavor(modelKey)}>{favored ? '取消关注' : '关注'}</a>

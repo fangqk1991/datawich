@@ -1,4 +1,4 @@
-import { CommonProfileApis, DataAppApis } from '@web/datawich-common/web-api'
+import { CommonProfileApis, DataAppApis } from '@web/datawich-common/admin-apis'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { NotificationCenter } from 'notification-center-js'
 import { CommonAPI } from '@fangcha/app-request'
@@ -7,7 +7,7 @@ import { MyAxios } from '@fangcha/vue/basic'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { getRouterToDataApp } from '../../services/ModelDataHelper'
 import { ProfileEvent } from '@web/datawich-common/models'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 
 class _MyFavorSidebar {
   private _favorApps?: DataModelModel[]
@@ -71,7 +71,7 @@ class _MyFavorSidebar {
       {
         titleEn: '所有应用',
         titleZh: '所有应用',
-        path: DatawichPages.DataAppListRoute,
+        path: DatawichAdminPages.DataAppListRoute,
       },
       ...links,
     ])

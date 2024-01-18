@@ -1,6 +1,6 @@
 import { DataModelModel } from '@fangcha/datawich-service'
 import { Component, ConfirmDialog, SimpleInputDialog } from '@fangcha/vue'
-import { DataModelApis } from '@web/datawich-common/web-api'
+import { DataModelApis } from '@web/datawich-common/admin-apis'
 import { NotificationCenter } from 'notification-center-js'
 import { CommonAPI } from '@fangcha/app-request'
 import { MyAxios } from '@fangcha/vue/basic'

@@ -13,7 +13,7 @@ import {
   ViewController,
 } from '@fangcha/vue'
 import { FieldIndexModel, FieldType, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
-import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/web-api'
+import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/admin-apis'
 import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
 import SystemFieldDialog from './SystemFieldDialog'

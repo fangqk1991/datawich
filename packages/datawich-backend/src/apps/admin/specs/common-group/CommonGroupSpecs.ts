@@ -1,7 +1,7 @@
 import assert from '@fangcha/assert'
 import { SpecFactory } from '@fangcha/router'
 import { CommonGroupSpecHandler } from '../handlers/CommonGroupSpecHandler'
-import { CommonGroupApis } from '@web/datawich-common/web-api'
+import { CommonGroupApis } from '@web/datawich-common/admin-apis'
 
 const factory = new SpecFactory('通用用户组')
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ConfirmDialog } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelFieldApis } from '@web/datawich-common/web-api'
+import { ModelFieldApis } from '@web/datawich-common/admin-apis'
 import { ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { message, Tag } from 'antd'

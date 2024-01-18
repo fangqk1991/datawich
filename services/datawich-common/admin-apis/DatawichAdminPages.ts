@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 
-export class DatawichPages {
+export class DatawichAdminPages {
   public static ModelListRoute = '/v1/data-model'
   public static ModelDetailRoute = '/v1/data-model/:modelKey'
 

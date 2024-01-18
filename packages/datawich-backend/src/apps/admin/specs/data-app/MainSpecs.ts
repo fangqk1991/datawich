@@ -1,7 +1,7 @@
 import assert from '@fangcha/assert'
 import { SpecFactory } from '@fangcha/router'
 import { _OSSResource } from '@fangcha/oss-service'
-import { DataAppApis } from '@web/datawich-common/web-api'
+import { DataAppApis } from '@web/datawich-common/admin-apis'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
 import { FangchaSession } from '@fangcha/session'
 import { _CommonProfile } from '../../../../models/extensions/_CommonProfile'

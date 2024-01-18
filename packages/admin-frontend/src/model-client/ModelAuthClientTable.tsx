@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DatawichClientApis, ModelClientApis } from '@web/datawich-common/web-api'
+import { DatawichClientApis, ModelClientApis } from '@web/datawich-common/admin-apis'
 import { ModelAuthInfo, ModelClientModel } from '@web/datawich-common/models'
 import { Checkbox, message, Space } from 'antd'
 

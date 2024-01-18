@@ -1,6 +1,6 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
-import { ModelIndexApis } from '@web/datawich-common/web-api'
+import { ModelIndexApis } from '@web/datawich-common/admin-apis'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _FieldIndex } from '../../../../models/extensions/_FieldIndex'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'

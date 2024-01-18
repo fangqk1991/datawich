@@ -13,7 +13,7 @@ import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQuery
 import { Button, Checkbox, Input, message, Space, Tag } from 'antd'
 import { MyRequest, useUserInfo } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/web-api'
+import { CommonProfileApis, ModelPanelApis } from '@web/datawich-common/admin-apis'
 import { ProfileEvent } from '@web/datawich-common/models'
 import { DataFilterItemView, FieldsDisplaySettingDialog, FilterItemDialog } from '@fangcha/datawich-react'
 

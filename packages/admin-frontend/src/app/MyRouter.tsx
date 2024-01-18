@@ -7,7 +7,7 @@ import { DataAppDetailView } from '../data-app/DataAppDetailView'
 import { FavorAppsProvider } from '../core/FavorAppsContext'
 import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { JobListView } from '@fangcha/job-react'
 import { ResourceTaskListView } from '@fangcha/oss-react'
 import { ModelClientListView } from '../model-client/ModelClientListView'
@@ -27,31 +27,31 @@ export const MyRouter = createBrowserRouter([
         element: <DataAppListView />,
       },
       {
-        path: DatawichPages.AllDataAppsRoute,
+        path: DatawichAdminPages.AllDataAppsRoute,
         element: <DataAppListView />,
       },
       {
-        path: DatawichPages.DataAppDetailRoute,
+        path: DatawichAdminPages.DataAppDetailRoute,
         element: <DataAppDetailView />,
       },
       {
-        path: DatawichPages.ModelListRoute,
+        path: DatawichAdminPages.ModelListRoute,
         element: <DataModelListView />,
       },
       {
-        path: DatawichPages.ModelDetailRoute,
+        path: DatawichAdminPages.ModelDetailRoute,
         element: <DataModelManageView />,
       },
       {
-        path: DatawichPages.JobListRoute,
+        path: DatawichAdminPages.JobListRoute,
         element: <JobListView />,
       },
       {
-        path: DatawichPages.ResourceTaskListRoute,
+        path: DatawichAdminPages.ResourceTaskListRoute,
         element: <ResourceTaskListView />,
       },
       {
-        path: DatawichPages.ClientListRoute,
+        path: DatawichAdminPages.ClientListRoute,
         element: <ModelClientListView />,
       },
       {

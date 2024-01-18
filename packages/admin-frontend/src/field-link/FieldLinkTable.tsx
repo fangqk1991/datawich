@@ -3,9 +3,9 @@ import { Button, Divider, message, Space, Switch } from 'antd'
 import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataModelApis, ModelFieldApis } from '@web/datawich-common/web-api'
+import { DataModelApis, ModelFieldApis } from '@web/datawich-common/admin-apis'
 import { ConfirmDialog, RouterLink, TableView, TableViewColumn } from '@fangcha/react'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { TinyList } from '../data-app/TinyList'
 import { FieldLinkDialog } from './FieldLinkDialog'
 
@@ -76,7 +76,7 @@ export const FieldLinkTable: React.FC<Props> = ({ modelKey }) => {
             title: '关联键',
             render: (item) => {
               return (
-                <RouterLink route={DatawichPages.ModelDetailRoute} params={[item.refModel]}>
+                <RouterLink route={DatawichAdminPages.ModelDetailRoute} params={[item.refModel]}>
                   {item.refModel}.{item.refField}
                 </RouterLink>
               )

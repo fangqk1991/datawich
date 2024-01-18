@@ -2,7 +2,7 @@ import React from 'react'
 import { ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataAppApis } from '@web/datawich-common/web-api'
+import { DataAppApis } from '@web/datawich-common/admin-apis'
 import { Button, message } from 'antd'
 import { GeneralDataDialog } from './GeneralDataDialog'
 

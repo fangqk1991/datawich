@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Card, Divider, Spin } from 'antd'
-import { DataAppApis } from '@web/datawich-common/web-api'
+import { DataAppApis } from '@web/datawich-common/admin-apis'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { useNavigate } from 'react-router-dom'
 import { LS } from '../core/ReactI18n'
-import { DatawichPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 
 export const DataAppListView: React.FC = () => {
   const [appList, setAppList] = useState<DataModelModel[]>()
@@ -41,7 +41,7 @@ export const DataAppListView: React.FC = () => {
             }}
             key={dataApp.modelKey}
             onClick={() => {
-              navigate(DatawichPages.buildRoute(DatawichPages.DataAppDetailRoute, [dataApp.modelKey]))
+              navigate(DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [dataApp.modelKey]))
             }}
           >
             <b>{dataApp.name}</b>

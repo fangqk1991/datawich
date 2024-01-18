@@ -1,5 +1,5 @@
 import { SpecFactory } from '@fangcha/router'
-import { ModelGroupApis } from '@web/datawich-common/web-api'
+import { ModelGroupApis } from '@web/datawich-common/admin-apis'
 import { DataModelSpecHandler } from '../handlers/DataModelSpecHandler'
 
 const factory = new SpecFactory('模型组')

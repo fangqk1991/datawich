@@ -1,6 +1,6 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
-import { DataModelApis } from '@web/datawich-common/web-api'
+import { DataModelApis } from '@web/datawich-common/admin-apis'
 import { _DataModel } from '../../../../models/extensions/_DataModel'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { ModelFullMetadata } from '@fangcha/datawich-service'

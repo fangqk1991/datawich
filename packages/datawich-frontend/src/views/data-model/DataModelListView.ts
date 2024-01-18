@@ -7,7 +7,7 @@ import {
   ViewController,
 } from '@fangcha/vue'
 import { DataModelModel, ModelFullMetadata } from '@fangcha/datawich-service'
-import { DataAppApis, DataModelApis } from '@web/datawich-common/web-api'
+import { DataAppApis, DataModelApis } from '@web/datawich-common/admin-apis'
 import { SelectOption } from '@fangcha/tools'
 import { AppTask, AppTaskQueue } from 'fc-queue'
 import { MyAxios } from '@fangcha/vue/basic'

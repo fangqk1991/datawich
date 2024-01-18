@@ -1,6 +1,6 @@
 import { DataModelModel } from '@fangcha/datawich-service'
 import { Component, ViewController } from '@fangcha/vue'
-import { DataModelApis } from '@web/datawich-common/web-api'
+import { DataModelApis } from '@web/datawich-common/admin-apis'
 import { NotificationCenter } from 'notification-center-js'
 import { MyAxios } from '@fangcha/vue/basic'
 import { CommonAPI } from '@fangcha/app-request'

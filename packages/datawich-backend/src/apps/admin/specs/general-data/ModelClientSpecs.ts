@@ -2,7 +2,7 @@ import assert from '@fangcha/assert'
 import { Context } from 'koa'
 import { SpecFactory } from '@fangcha/router'
 import { _AppClient } from '../../../../models/extensions/_AppClient'
-import { DatawichClientApis } from '@web/datawich-common/web-api'
+import { DatawichClientApis } from '@web/datawich-common/admin-apis'
 import { FangchaSession } from '@fangcha/session'
 import { ClientAuthParams, GeneralDataPermissionKey } from '@web/datawich-common/models'
 
