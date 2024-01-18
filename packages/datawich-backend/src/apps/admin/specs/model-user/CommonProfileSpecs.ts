@@ -4,7 +4,7 @@ import { Context } from 'koa'
 import { FangchaSession } from '@fangcha/session'
 import { _CommonProfile } from '../../../../models/extensions/_CommonProfile'
 import { CommonProfileApis } from '@web/datawich-common/admin-apis'
-import { ProfileEventDescriptor } from '@web/datawich-common/models'
+import { ProfileEventDescriptor } from '@fangcha/datawich-service'
 
 const prepareProfile = async (ctx: Context) => {
   const event = ctx.params.event

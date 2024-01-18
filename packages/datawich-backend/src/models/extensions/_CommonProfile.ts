@@ -1,5 +1,5 @@
 import __CommonProfile from '../auto-build/__CommonProfile'
-import { ProfileEvent } from '@web/datawich-common/models'
+import { ProfileEvent } from '@fangcha/datawich-service'
 
 export class _CommonProfile extends __CommonProfile {
   public constructor() {

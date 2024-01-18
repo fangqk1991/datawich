@@ -13,7 +13,8 @@ import { ModelDataInfo } from '../../../../services/ModelDataInfo'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { DataImportHandler } from '../../../../services/DataImportHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
-import { GeneralPermission, ProfileEvent } from '@web/datawich-common/models'
+import { GeneralPermission } from '@web/datawich-common/models'
+import { ProfileEvent } from '@fangcha/datawich-service'
 
 const factory = new SpecFactory('数据应用（常规）')
 

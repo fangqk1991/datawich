@@ -6,7 +6,7 @@ import { MenuSubNode } from '@fangcha/vue'
 import { MyAxios } from '@fangcha/vue/basic'
 import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { getRouterToDataApp } from '../../services/ModelDataHelper'
-import { ProfileEvent } from '@web/datawich-common/models'
+import { ProfileEvent } from '@fangcha/datawich-service'
 import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 
 class _MyFavorSidebar {

@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { DiffMapper } from '@fangcha/tools'
 import { initGeneralDataSettingsTest } from '../GeneralDataServiceDev'
 import { _CommonProfile } from '../../src/models/extensions/_CommonProfile'
-import { ProfileEvent } from '@web/datawich-common/models'
+import { ProfileEvent } from '@fangcha/datawich-service'
 
 initGeneralDataSettingsTest()
 

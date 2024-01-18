@@ -3,7 +3,7 @@ import { CommonProfileApis, DataAppApis } from '@web/datawich-common/admin-apis'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { ProfileEvent } from '@web/datawich-common/models'
+import { ProfileEvent } from '@fangcha/datawich-service'
 
 interface Context {
   favorApps: DataModelModel[]
