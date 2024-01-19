@@ -34,19 +34,21 @@ export const DatawichAppListView: React.FC = () => {
       <Divider style={{ margin: '12px 0' }} />
 
       <Card>
-        {appList.map((dataApp) => (
-          <Card.Grid
-            style={{
-              cursor: 'pointer',
-            }}
-            key={dataApp.modelKey}
-            onClick={() => {
-              navigate(DatawichWebPages.buildRoute(DatawichWebPages.DatawichAppDetailRoute, [dataApp.modelKey]))
-            }}
-          >
-            <b>{dataApp.name}</b>
-          </Card.Grid>
-        ))}
+        {appList
+          .filter((item) => item.isOnline)
+          .map((dataApp) => (
+            <Card.Grid
+              style={{
+                cursor: 'pointer',
+              }}
+              key={dataApp.modelKey}
+              onClick={() => {
+                navigate(DatawichWebPages.buildRoute(DatawichWebPages.DatawichAppDetailRoute, [dataApp.modelKey]))
+              }}
+            >
+              <b>{dataApp.name}</b>
+            </Card.Grid>
+          ))}
       </Card>
     </div>
   )
