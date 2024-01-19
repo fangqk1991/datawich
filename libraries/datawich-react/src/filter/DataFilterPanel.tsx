@@ -134,95 +134,101 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis })
 
   return (
     <Space direction={'vertical'}>
-      <h4 style={{ margin: '6px 0' }}>
-        <Space>
-          <span>控制面板</span>
-          {panelInfo && userInfo.email === panelInfo.author && (
-            <Button
-              size={'small'}
-              type={'primary'}
-              onClick={async () => {
-                const dialog = new SimpleInputDialog({
-                  title: '保存',
-                  placeholder: '名称',
-                  curValue: panelInfo.name,
-                })
-                dialog.show(async (name) => {
-                  const params: ModelPanelParams = {
-                    name: name,
-                    configData: {
-                      queryParams: trimQueryParams(queryParams),
-                      displaySettings: displaySettings,
-                    },
-                  }
-                  const request = MyRequest(new CommonAPI(apis.updatePanel, modelKey, panelInfo!.panelId))
-                  request.setBodyData(params)
-                  await request.quickSend<ModelPanelInfo>()
-                  setQueryParams({
-                    panelId: panelInfo!.panelId,
+      {!!userInfo.email ? (
+        <>
+          <h4 style={{ margin: '6px 0' }}>
+            <Space>
+              <span>控制面板</span>
+              {panelInfo && userInfo.email === panelInfo.author && (
+                <Button
+                  size={'small'}
+                  type={'primary'}
+                  onClick={async () => {
+                    const dialog = new SimpleInputDialog({
+                      title: '保存',
+                      placeholder: '名称',
+                      curValue: panelInfo.name,
+                    })
+                    dialog.show(async (name) => {
+                      const params: ModelPanelParams = {
+                        name: name,
+                        configData: {
+                          queryParams: trimQueryParams(queryParams),
+                          displaySettings: displaySettings,
+                        },
+                      }
+                      const request = MyRequest(new CommonAPI(apis.updatePanel, modelKey, panelInfo!.panelId))
+                      request.setBodyData(params)
+                      await request.quickSend<ModelPanelInfo>()
+                      setQueryParams({
+                        panelId: panelInfo!.panelId,
+                      })
+                      reloadPanelInfo()
+                      setVersion(version + 1)
+                      message.success('面板保存成功')
+                    })
+                  }}
+                >
+                  保存设置
+                </Button>
+              )}
+              <Button
+                size={'small'}
+                onClick={() => {
+                  const dialog = new SimpleInputDialog({
+                    title: '另存为',
+                    placeholder: '名称',
+                    curValue: panelInfo ? panelInfo.name : '',
                   })
-                  reloadPanelInfo()
-                  setVersion(version + 1)
-                  message.success('面板保存成功')
-                })
-              }}
-            >
-              保存设置
-            </Button>
-          )}
-          <Button
-            size={'small'}
-            onClick={() => {
-              const dialog = new SimpleInputDialog({
-                title: '另存为',
-                placeholder: '名称',
-                curValue: panelInfo ? panelInfo.name : '',
-              })
-              dialog.show(async (name) => {
-                const params: ModelPanelParams = {
-                  name: name,
-                  configData: {
-                    queryParams: trimQueryParams(queryParams),
-                    displaySettings: displaySettings,
-                  },
-                }
-                const request = MyRequest(new CommonAPI(apis.createPanel, modelKey))
-                request.setBodyData(params)
-                const panel = await request.quickSend<ModelPanelInfo>()
-                setQueryParams({
-                  panelId: panel.panelId,
-                })
-                setVersion(version + 1)
-                message.success('面板另存 成功')
-              })
-            }}
-          >
-            另存设置
-          </Button>
-          {
-            <Button
-              size={'small'}
-              danger={true}
-              onClick={async () => {
-                const request = MyRequest(
-                  new CommonAPI(apis.updateProfileInfo, ProfileEvent.UserModelDefaultPanel, modelKey)
-                )
-                request.setBodyData({
-                  panelId: panelInfo ? panelInfo.panelId : '',
-                })
-                await request.quickSend()
-                message.success('设置成功')
-              }}
-            >
-              设为默认
-            </Button>
-          }
-        </Space>
-      </h4>
+                  dialog.show(async (name) => {
+                    const params: ModelPanelParams = {
+                      name: name,
+                      configData: {
+                        queryParams: trimQueryParams(queryParams),
+                        displaySettings: displaySettings,
+                      },
+                    }
+                    const request = MyRequest(new CommonAPI(apis.createPanel, modelKey))
+                    request.setBodyData(params)
+                    const panel = await request.quickSend<ModelPanelInfo>()
+                    setQueryParams({
+                      panelId: panel.panelId,
+                    })
+                    setVersion(version + 1)
+                    message.success('面板另存 成功')
+                  })
+                }}
+              >
+                另存设置
+              </Button>
+              {
+                <Button
+                  size={'small'}
+                  danger={true}
+                  onClick={async () => {
+                    const request = MyRequest(
+                      new CommonAPI(apis.updateProfileInfo, ProfileEvent.UserModelDefaultPanel, modelKey)
+                    )
+                    request.setBodyData({
+                      panelId: panelInfo ? panelInfo.panelId : '',
+                    })
+                    await request.quickSend()
+                    message.success('设置成功')
+                  }}
+                >
+                  设为默认
+                </Button>
+              }
+            </Space>
+          </h4>
 
-      <Checkbox checked={hideOthers} onChange={(e) => setHideOthers(e.target.checked)}>
-        隐藏他人面板
-      </Checkbox>
+          <Checkbox checked={hideOthers} onChange={(e) => setHideOthers(e.target.checked)}>
+            隐藏他人面板
+          </Checkbox>
+        </>
+      ) : (
+        <h4 style={{ margin: '6px 0' }}>控制面板</h4>
+      )}
 
       <Space>
         {visiblePanels.map((item) => {
