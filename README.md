@@ -14,6 +14,8 @@ Datawich 是一个数据协作管理系统，可用于[从典型需求中解脱]
 
 ![](https://image.fangqk.com/2024-01-19/ipo-hk.png)
 
+![](https://image.fangqk.com/2024-01-19/ipo-us.png)
+
 ---
 
 ### 准备
