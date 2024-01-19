@@ -9,12 +9,10 @@ Datawich 是一个数据协作管理系统，可用于[从典型需求中解脱]
 * 个性化的数据展示和分析，精准满足需要
 * 技术人员可以通过 API 进行数据操作
 
-### Demo
-* <https://demo.datawich.com/>
+### 典型应用
+* 股票数据: <https://stock.datawich.com/>
 
-![](https://image.fangqk.com/2022-11-22/datawich-admin-1.png)
-![](https://image.fangqk.com/2022-11-22/datawich-admin-2.png)
-![](https://image.fangqk.com/2022-11-22/datawich-admin-3.png)
+![](https://image.fangqk.com/2024-01-19/ipo-hk.png)
 
 ---
 
