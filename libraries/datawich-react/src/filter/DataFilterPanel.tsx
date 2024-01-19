@@ -230,7 +230,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis })
         <h4 style={{ margin: '6px 0' }}>控制面板</h4>
       )}
 
-      <Space>
+      <Space wrap={true}>
         {visiblePanels.map((item) => {
           const checked = !!panelInfo && item.panelId === panelInfo.panelId
           const isAuthor = userInfo.email === item.author
