@@ -1,15 +1,14 @@
 import React from 'react'
 import { LS } from '../core/ReactI18n'
-import { Space, Tag } from 'antd'
+import { message, Select, Space, Tag } from 'antd'
 import { CommonAPI } from '@fangcha/app-request'
-import { ModelPanelApis } from '@web/datawich-common/admin-apis'
+import { DataModelApis, DatawichAdminPages, ModelPanelApis } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { LoadingView, RouterLink, useLoadingData } from '@fangcha/react'
-import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { ModelPanelInfo } from '@fangcha/datawich-service'
 
-export const ModelPanelsCard: ModelFragmentProtocol = ({ dataModel }) => {
+export const ModelPanelsCard: ModelFragmentProtocol = ({ dataModel, onModelInfoChanged }) => {
   const { data: panelList, loading } = useLoadingData(async () => {
     const request = MyRequest(new CommonAPI(ModelPanelApis.ModelPanelListGet, dataModel.modelKey))
     return request.quickSend<ModelPanelInfo[]>()
@@ -35,6 +34,33 @@ export const ModelPanelsCard: ModelFragmentProtocol = ({ dataModel }) => {
           </RouterLink>
         ))}
       </Space>
+      <div className={'mt-2'}>
+        <Space>
+          <b>模型默认面板</b>
+          <Select
+            style={{ width: '220px' }}
+            value={dataModel.extrasData.defaultPanelId || ''}
+            onChange={async (panelId) => {
+              const request = MyRequest(new CommonAPI(DataModelApis.DataModelUpdate, dataModel.modelKey))
+              request.setBodyData({
+                extrasData: {
+                  defaultPanelId: panelId,
+                },
+              })
+              await request.quickSend()
+              message.success('更新成功')
+              onModelInfoChanged()
+            }}
+            options={[
+              {
+                label: 'None',
+                value: '',
+              },
+              ...panelList.map((item) => ({ label: item.name, value: item.panelId })),
+            ]}
+          />
+        </Space>
+      </div>
     </div>
   )
 }

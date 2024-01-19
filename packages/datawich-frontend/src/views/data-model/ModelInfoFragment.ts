@@ -33,7 +33,7 @@ import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHe
             {{ dataModel.shortKey }}
           </el-form-item>
           <el-form-item v-if="false" class="card-form-item" label="别名">
-            {{ dataModel.keyAlias }} |
+            {{ dataModel.extrasData.keyAlias }} |
             <a href="javascript:" @click="onEditKeyAlias">编辑</a>
           </el-form-item>
           <el-form-item class="card-form-item" label="模型名称">
@@ -178,7 +178,9 @@ export class ModelInfoFragment extends ModelFragmentBase {
     dialog.show(async (dataInfoTmpl) => {
       const request = MyAxios(new CommonAPI(DataModelApis.DataModelUpdate, this.modelKey))
       request.setBodyData({
-        dataInfoTmpl: dataInfoTmpl,
+        extrasData: {
+          dataInfoTmpl: dataInfoTmpl,
+        },
       })
       await request.execute()
       this.$message.success('更新成功')
@@ -189,11 +191,13 @@ export class ModelInfoFragment extends ModelFragmentBase {
   onEditKeyAlias() {
     const dialog = SimpleInputDialog.textInputDialog()
     dialog.title = '编辑别名'
-    dialog.content = this.dataModel.keyAlias
+    dialog.content = this.dataModel.extrasData.keyAlias
     dialog.show(async (keyAlias) => {
       const request = MyAxios(new CommonAPI(DataModelApis.DataModelUpdate, this.modelKey))
       request.setBodyData({
-        keyAlias: keyAlias,
+        extrasData: {
+          keyAlias: keyAlias,
+        },
       })
       await request.execute()
       this.$message.success('更新成功')

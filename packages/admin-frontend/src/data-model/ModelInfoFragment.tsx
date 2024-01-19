@@ -4,12 +4,11 @@ import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { AccessLevel, describeAccessLevelDetail } from '@web/datawich-common/models'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataModelApis } from '@web/datawich-common/admin-apis'
+import { DataModelApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
-import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { DataModelDialog } from './DataModelDialog'
 import { ModelPanelsCard } from './ModelPanelsCard'
 
@@ -144,9 +143,9 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
         </div>
       )}
       <Divider />
-      <ModelMilestonePanel dataModel={dataModel} onModelInfoChanged={() => {}} />
+      <ModelMilestonePanel dataModel={dataModel} onModelInfoChanged={onModelInfoChanged} />
       <Divider />
-      <ModelPanelsCard dataModel={dataModel} onModelInfoChanged={() => {}} />
+      <ModelPanelsCard dataModel={dataModel} onModelInfoChanged={onModelInfoChanged} />
     </>
   )
 }

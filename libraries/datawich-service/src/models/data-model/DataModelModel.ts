@@ -3,6 +3,7 @@ export interface DataModelExtrasData {
   keyAlias: string
   dataInfoTmpl?: string
   broadcastEventData?: { [p in string]: boolean }
+  defaultPanelId?: string
 }
 
 export interface SessionModelPowerData {
@@ -52,7 +53,6 @@ export interface DataModelModel extends DataModelParams {
   updateTime: string
 
   ////////////////////////////
-  keyAlias: string
   // session 对当前模型的访问能力
   powerData: SessionModelPowerData
   extrasData: DataModelExtrasData

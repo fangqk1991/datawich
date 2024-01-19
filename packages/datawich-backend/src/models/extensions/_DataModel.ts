@@ -667,15 +667,7 @@ export class _DataModel extends __DataModel {
     }
 
     const extrasData = this.getExtrasData()
-    if (options.keyAlias !== undefined) {
-      extrasData.keyAlias = options.keyAlias
-    }
-    if (options.extrasData && options.extrasData.broadcastEventData) {
-      extrasData.broadcastEventData = options.extrasData.broadcastEventData
-    }
-    if (options['dataInfoTmpl'] !== undefined) {
-      extrasData.dataInfoTmpl = options['dataInfoTmpl']
-    }
+    Object.assign(extrasData, options.extrasData || {})
 
     this.fc_edit()
     this.fc_generateWithModel(options)
@@ -742,7 +734,6 @@ export class _DataModel extends __DataModel {
     data.powerData = {}
     data.tagList = this.tagList()
     data.extrasData = extrasData
-    data.keyAlias = extrasData.keyAlias
     return data
   }
 
