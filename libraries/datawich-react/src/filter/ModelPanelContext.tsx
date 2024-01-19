@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { FieldsDisplaySettings, ModelPanelInfo, ProfileEvent } from '@fangcha/datawich-service'
+import { DataModelModel, FieldsDisplaySettings, ModelPanelInfo, ProfileEvent } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { useQueryParams } from '@fangcha/react'
 import { MyRequest } from '@fangcha/auth-react'
@@ -18,14 +18,15 @@ export const useModelPanel = (): Context => {
   return useContext(ModelPanelContext)
 }
 
-interface Props {
+interface Props extends React.ComponentProps<any> {
+  dataModel: DataModelModel
   apis: {
     getProfileInfo: ApiOptions
     getPanelInfo: ApiOptions
   }
 }
 
-export const ModelPanelProvider: React.FC<Props> = ({ children, apis }: Props & React.ComponentProps<any>) => {
+export const ModelPanelProvider: React.FC<Props> = ({ children, apis, dataModel }: Props) => {
   const [version, setVersion] = useState(0)
 
   const { modelKey = '' } = useParams()
@@ -55,9 +56,10 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, apis }: Props & 
     if (!queryParams.panelId) {
       const request = MyRequest(new CommonAPI(apis.getProfileInfo, ProfileEvent.UserModelDefaultPanel, modelKey))
       request.quickSend<{ panelId: string }>().then(({ panelId }) => {
-        if (panelId) {
+        const usingPanelId = panelId || dataModel.extrasData.defaultPanelId
+        if (usingPanelId) {
           updateQueryParams({
-            panelId: panelId,
+            panelId: usingPanelId,
           })
         } else {
           setPanelInfo(null)
@@ -66,14 +68,22 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, apis }: Props & 
       return
     }
     const request = MyRequest(new CommonAPI(apis.getPanelInfo, modelKey, queryParams.panelId))
-    request.quickSend<ModelPanelInfo>().then((response) => {
-      setPanelInfo(response)
-      updateQueryParams({
-        ...response.configData.queryParams,
-        ...queryParams,
+    request
+      .quickSend<ModelPanelInfo>()
+      .then((response) => {
+        setPanelInfo(response)
+        updateQueryParams({
+          ...response.configData.queryParams,
+          ...queryParams,
+        })
       })
-    })
-  }, [queryParams.panelId, version])
+      .catch(() => {
+        setPanelInfo(null)
+        updateQueryParams({
+          panelId: '',
+        })
+      })
+  }, [queryParams.panelId, dataModel, version])
 
   const context: Context = {
     panelInfo: panelInfo,

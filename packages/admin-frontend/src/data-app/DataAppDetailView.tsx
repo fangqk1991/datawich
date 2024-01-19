@@ -50,6 +50,7 @@ export const DataAppDetailView: React.FC = () => {
 
   return (
     <ModelPanelProvider
+      dataModel={dataModel}
       apis={{
         getProfileInfo: CommonProfileApis.ProfileInfoGet,
         getPanelInfo: ModelPanelApis.ModelPanelGet,

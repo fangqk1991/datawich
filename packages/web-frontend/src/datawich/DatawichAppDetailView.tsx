@@ -26,6 +26,7 @@ export const DatawichAppDetailView: React.FC = () => {
 
   return (
     <ModelPanelProvider
+      dataModel={dataModel}
       apis={{
         getProfileInfo: SdkDatawichApis.ProfileInfoGet,
         getPanelInfo: SdkDatawichApis.ModelPanelGet,
