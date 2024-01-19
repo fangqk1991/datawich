@@ -21,7 +21,7 @@ export class DataAppSpecHandler {
       const dataModel = await _DataModel.findModel(ctx.params.modelKey)
       assert.ok(!!dataModel, '应用不存在')
       if (!(await new SessionChecker(ctx).checkModelPermission(dataModel, GeneralPermission.ManageModel))) {
-        assert.ok(!!dataModel.isOnline, `应用暂时停用，如有疑问，请联系 ${dataModel.author}`)
+        // assert.ok(!!dataModel.isOnline, `应用暂时停用，如有疑问，请联系 ${dataModel.author}`)
       }
       await new SessionChecker(ctx).assertModelAccessible(dataModel)
       this._dataApp = dataModel
