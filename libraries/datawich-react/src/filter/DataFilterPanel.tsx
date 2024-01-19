@@ -4,7 +4,6 @@ import { TextSymbol } from '@fangcha/logic'
 import {
   FieldFilterItem,
   FieldHelper,
-  FieldsDisplaySettings,
   ModelFieldModel,
   ModelPanelInfo,
   ModelPanelParams,
@@ -118,7 +117,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis })
     const request = MyRequest(new CommonAPI(apis.getPanelList, modelKey))
     return request.quickSend<ModelPanelInfo[]>()
   }, [modelKey, version])
-  const [hideOthers, setHideOthers] = useState(true)
+  const [hideOthers, setHideOthers] = useState(false)
   const visiblePanels = useMemo(() => {
     if (!panelList) {
       return []
