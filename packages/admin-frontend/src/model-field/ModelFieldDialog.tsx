@@ -82,7 +82,7 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
                     <ProFormDigit name={['extrasData', 'floatBits']} label={'小数精度'} min={Number.MIN_SAFE_INTEGER} />
                   </>
                 )
-              } else if (fieldType === FieldType.MultiEnum) {
+              } else if (fieldType === FieldType.TextEnum || fieldType === FieldType.MultiEnum) {
                 return (
                   <>
                     <TagsFieldExtension
