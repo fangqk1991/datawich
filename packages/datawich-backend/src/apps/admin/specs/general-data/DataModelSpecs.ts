@@ -15,11 +15,9 @@ const factory = new SpecFactory('数据模型')
 
 factory.prepare(DataModelApis.DataModelListGet, async (ctx) => {
   const searcher = new _DataModel().fc_searcher(ctx.request.query)
+  searcher.processor().setLimitInfo(0, -1)
   const feeds = await searcher.queryFeeds()
-  ctx.body = {
-    elements: feeds.map((feed) => feed.modelForClient()),
-    totalSize: await searcher.queryCount(),
-  }
+  ctx.body = feeds.map((feed) => feed.modelForClient())
 })
 
 factory.prepare(DataModelApis.DataModelAccessibleCheck, async (ctx) => {

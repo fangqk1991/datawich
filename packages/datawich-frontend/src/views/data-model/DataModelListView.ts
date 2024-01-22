@@ -77,10 +77,13 @@ export class DataModelListView extends ViewController implements FragmentProtoco
         }
         const request = MyAxios(DataModelApis.DataModelListGet)
         request.setQueryParams(params)
-        const pageData = (await request.quickSend()) as any
-        this.currentItems = pageData.elements
+        const items = (await request.quickSend()) as any
+        this.currentItems = items
         this.reloadModelRecordCounts()
-        return pageData
+        return {
+          elements: items,
+          totalSize: items.length,
+        }
       },
     }
   }

@@ -13,7 +13,7 @@ export const DataModelListView: React.FC = () => {
   const [version, setVersion] = useState(0)
 
   useEffect(() => {
-    MyRequest(DataAppApis.DataAppListGet)
+    MyRequest(DataModelApis.DataModelListGet)
       .quickSend()
       .then((response) => {
         setAppList(response)
