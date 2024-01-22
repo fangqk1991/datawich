@@ -49,8 +49,8 @@ export class DatawichProxy extends BasicAuthProxy {
   }
 
   public async getPageResult<T = any>(modelKey: string, params: FilterOptions = {}) {
-    const request = this.makeRequest(new CommonAPI(OpenDataAppApis.DataAppRecordPageDataGetV2, modelKey))
-    request.setQueryParams(params)
+    const request = this.makeRequest(new CommonAPI(OpenDataAppApis.DataAppRecordPageDataSearch, modelKey))
+    request.setBodyData(params)
     return await request.quickSend<PageResult<T>>()
   }
 

@@ -22,9 +22,6 @@ export const OpenDataAppApis = {
     route: '/api/data-app/v1/data-model/:modelKey/visible-field',
     description: '模型可见字段列表获取',
   },
-  /**
-   * @deprecated
-   */
   DataAppRecordPageDataGet: {
     method: 'GET',
     route: '/api/data-app/v1/data-model/:modelKey/record',
@@ -47,9 +44,6 @@ export const OpenDataAppApis = {
       },
     ] as SwaggerParameter[],
   },
-  /**
-   * @deprecated
-   */
   DataAppRecordPageDataSearch: {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/query',
