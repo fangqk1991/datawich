@@ -135,10 +135,11 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis })
   return (
     <Collapse
       ghost
+      size={'small'}
       items={[
         {
           key: '1',
-          label: '控制面板',
+          label: <b>控制面板</b>,
           children: (
             <Space direction={'vertical'}>
               {!!userInfo.email && (
@@ -364,6 +365,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis })
                 style={{
                   paddingInlineStart: '10px',
                   marginBlockStart: '4px',
+                  marginBottom: 0,
                 }}
               >
                 {queryParams.keywords && (
