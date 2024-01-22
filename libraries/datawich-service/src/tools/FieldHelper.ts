@@ -18,11 +18,11 @@ export class FieldHelper {
         return `DOUBLE NULL COMMENT '${commentText}'`
       case FieldType.SingleLineText:
         return `VARCHAR(1023) NULL DEFAULT '' COMMENT '${commentText}'`
-      case FieldType.MultipleLinesText:
-      case FieldType.JSON:
       case FieldType.StringList:
       case FieldType.Link:
         return `TEXT COMMENT '${commentText}'`
+      case FieldType.MultipleLinesText:
+      case FieldType.JSON:
       case FieldType.RichText:
         return `MEDIUMTEXT COMMENT '${commentText}'`
       case FieldType.TextEnum:
