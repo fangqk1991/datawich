@@ -284,9 +284,9 @@ CREATE TABLE IF NOT EXISTS model_authorization
 (
     _rid        BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `model_key` varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，SQL 外键 -> data_model.model_key',
-    FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE RESTRICT,
+    FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE CASCADE,
     `appid`     varchar(63)                   NOT NULL COMMENT '模型键值，SQL 外键 -> app_client.appid',
-    FOREIGN KEY (appid) REFERENCES app_client (appid) ON DELETE RESTRICT,
+    FOREIGN KEY (appid) REFERENCES app_client (appid) ON DELETE CASCADE,
     create_time TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE (`model_key`, `appid`)
