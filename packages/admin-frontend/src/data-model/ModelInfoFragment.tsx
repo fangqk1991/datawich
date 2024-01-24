@@ -11,8 +11,10 @@ import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
 import { DataModelDialog } from './DataModelDialog'
 import { ModelPanelsCard } from './ModelPanelsCard'
+import { useNavigate } from 'react-router-dom'
 
 export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInfoChanged }) => {
+  const navigate = useNavigate()
   const [summaryInfo, setSummaryInfo] = useState<{ count: number }>({
     count: 0,
   })
@@ -73,6 +75,28 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
           }}
         >
           清空数据
+        </Button>
+        <Button
+          danger={true}
+          onClick={() => {
+            const dialog = new ConfirmDialog({
+              content: `确定要删除 "${dataModel.name}"？`,
+              forceVerify: true,
+            })
+            dialog.show(async (params) => {
+              await LoadingDialog.execute({
+                handler: async () => {
+                  const request = MyRequest(new CommonAPI(DataModelApis.DataModelDelete, dataModel.modelKey))
+                  request.setBodyData(params)
+                  await request.quickSend()
+                  message.success('模型已删除')
+                  navigate(DatawichAdminPages.ModelListRoute)
+                },
+              })
+            })
+          }}
+        >
+          删除模型
         </Button>
       </Space>
       <Divider />

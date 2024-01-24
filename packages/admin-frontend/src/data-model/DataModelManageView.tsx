@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Divider, Spin, Tabs } from 'antd'
-import { DataModelApis } from '@web/datawich-common/admin-apis'
+import { DataModelApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
@@ -10,31 +10,6 @@ import { RouterLink, useQueryParams } from '@fangcha/react'
 import { ModelInfoFragment } from './ModelInfoFragment'
 import { ModelStructureFragment } from './ModelStructureFragment'
 import { ModelAccessFragment } from './ModelAccessFragment'
-import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
-
-interface DataRecord {
-  rid: number
-  _data_id: string
-}
-
-interface DisplaySettings {
-  hiddenFieldsMap: { [p: string]: boolean }
-  checkedList: string[]
-  fixedList: string[]
-}
-
-const trimParams = (params: {}) => {
-  params = params || {}
-  const newParams = {}
-  Object.keys(params)
-    .filter((key) => {
-      return params[key] !== ''
-    })
-    .forEach((key) => {
-      newParams[key] = params[key]
-    })
-  return newParams
-}
 
 export const DataModelManageView: React.FC = () => {
   const { modelKey = '' } = useParams()
