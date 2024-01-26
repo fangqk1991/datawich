@@ -9,6 +9,7 @@ import assert from '@fangcha/assert'
 import { _DataModel } from '../models/extensions/_DataModel'
 import {
   DescribableField,
+  FieldHelper,
   FieldLinkModel,
   FieldType,
   GeneralDataChecker,
@@ -21,7 +22,6 @@ import { ModelDataInfo } from './ModelDataInfo'
 import { WideSearcherBuilder } from './WideSearcherBuilder'
 import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
-import { FieldHelper } from '@fangcha/datawich-service'
 import { TypicalExcel } from '@fangcha/excel'
 import { OssTools } from '@fangcha/ali-oss'
 const archiver = require('archiver')
@@ -45,7 +45,7 @@ export class ModelDataHandler {
     return this._dataSearcher(options, fields, fieldLinks)
   }
 
-  public async dataSearcher() {
+  public async dataSearcherWithoutFields() {
     return this._dataSearcher()
   }
 
@@ -186,21 +186,6 @@ export class ModelDataHandler {
       await this.convertData(item)
     }
     return items
-  }
-
-  /**
-   * @deprecated
-   */
-  public async deprecated_getListData(options: FilterOptions = {}) {
-    const searcher = await this.dataSearcherWithFilter(options)
-    options._offset = Math.max(options._offset || 0, 0)
-    options._length = Math.max(Math.min(options._length || 100, 10000), 0)
-    searcher.setLimitInfo(options._offset, options._length)
-    const items = await this.queryItems(searcher)
-    return {
-      elements: items,
-      totalSize: await searcher.queryCount(),
-    }
   }
 
   public async getPageResult(options: FilterOptions = {}): Promise<PageResult> {
@@ -559,7 +544,7 @@ export class ModelDataHandler {
       for (const columnIndex of indexes) {
         if (customData[columnIndex.fieldKey]) {
           const tableName = dataModel.sqlTableName()
-          const searcher = await this.dataSearcher()
+          const searcher = await this.dataSearcherWithoutFields()
           searcher.addSpecialCondition(
             `\`${tableName}\`.\`${columnIndex.fieldKey}\` = ?`,
             customData[columnIndex.fieldKey]
@@ -761,7 +746,7 @@ export class ModelDataHandler {
     for (const columnIndex of indexes) {
       if (params[columnIndex.fieldKey]) {
         const tableName = dataModel.sqlTableName()
-        const searcher = await this.dataSearcher()
+        const searcher = await this.dataSearcherWithoutFields()
         searcher.addSpecialCondition(`\`${tableName}\`.\`${columnIndex.fieldKey}\` = ?`, params[columnIndex.fieldKey])
         if ((await searcher.queryCount()) > 0) {
           return true
@@ -780,7 +765,7 @@ export class ModelDataHandler {
     for (const columnIndex of indexes) {
       if (params[columnIndex.fieldKey]) {
         const tableName = dataModel.sqlTableName()
-        const searcher = await this.dataSearcher()
+        const searcher = await this.dataSearcherWithoutFields()
         searcher.addSpecialCondition(`\`${tableName}\`.\`${columnIndex.fieldKey}\` = ?`, params[columnIndex.fieldKey])
         if (curDataId) {
           searcher.addSpecialCondition(`${tableName}._data_id != ?`, curDataId)
@@ -812,7 +797,7 @@ export class ModelDataHandler {
           const link = foreignLinkMap[field.fieldKey]
           const referenceModel = await _DataModel.findModel(link.refModel)
           const refTableName = referenceModel.sqlTableName()
-          const searcher = await new ModelDataHandler(referenceModel).dataSearcher()
+          const searcher = await new ModelDataHandler(referenceModel).dataSearcherWithoutFields()
           searcher.addSpecialCondition(`\`${refTableName}\`.\`${link.refField}\` = ?`, value)
           if ((await searcher.queryCount()) === 0) {
             errorMap[field.fieldKey] = `${field.name} -> ${link.referenceKey()} 关联数据不存在`

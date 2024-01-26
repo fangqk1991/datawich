@@ -44,12 +44,7 @@ factory.prepare(DataAppApis.FavorDataAppListGet, async (ctx) => {
 factory.prepare(DataAppApis.DataAppRecordListGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataSearch(async (dataModel, options) => {
     const handler = new ModelDataHandler(dataModel)
-    const result = await handler.deprecated_getListData(options)
-    // const summaryInfo = await handler.dataSummaryInfo(options)
-    // if (summaryInfo) {
-    //   result['summaryInfo'] = summaryInfo
-    // }
-    ctx.body = result
+    ctx.body = await handler.getPageResult(options)
   })
 })
 

@@ -14,6 +14,9 @@ export const DataAppApis = {
     route: '/api/v1/data-app/:modelKey/record',
     description: '获取应用数据列表',
   },
+  /**
+   * @deprecated
+   */
   DataAppRecordListGetV2: {
     method: 'GET',
     route: '/api/v2/data-app/:modelKey/record',

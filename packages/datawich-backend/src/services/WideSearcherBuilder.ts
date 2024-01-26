@@ -52,7 +52,11 @@ export class WideSearcherBuilder {
 
   public async makeSearcher() {
     const dataModel = this.mainModel
-
+    const accessFullText = !!(
+      this.filterOptions.dataId ||
+      this.filterOptions._data_id ||
+      this.filterOptions[`${dataModel.modelKey}.rid`]
+    )
     const filterMapper: {
       [p: string]: {
         columnName: string
@@ -68,7 +72,7 @@ export class WideSearcherBuilder {
     const userColumnNames: string[] = []
     const searchableFields: SearchableField[] = []
     for (const field of this.mainFields) {
-      if (field.extrasData.bigText) {
+      if (!accessFullText && field.extrasData.bigText) {
         continue
       }
       const leftColumnName = `${mainTableName}.${field.fieldKey}`
@@ -94,7 +98,7 @@ export class WideSearcherBuilder {
       bigTable = `${bigTable} LEFT JOIN ${refTable} AS ${refTableAlias} ON ${curColumnName} = ${linkColumnName}`
       const refFields = await link.getRefFields()
       for (const refViceField of refFields.map((field) => field.modelForClient())) {
-        if (refViceField.extrasData.bigText) {
+        if (!accessFullText && refViceField.extrasData.bigText) {
           continue
         }
         const refViceColumn = GeneralDataHelper.calculateDataKey(refViceField, link)

@@ -19,7 +19,7 @@ describe('Test ModelDataHandler', () => {
     const dataModel = await _DataModel.prepareWithUid('demo')
     const dataHandler = new ModelDataHandler(dataModel)
 
-    const searcher = await dataHandler.dataSearcher()
+    const searcher = await dataHandler.dataSearcherWithoutFields()
     searcher.setLimitInfo(0, 5)
     const items = (await searcher.queryList()) as any[]
     await dataHandler.transferItemsValueNaturalLanguage(items)
@@ -30,7 +30,7 @@ describe('Test ModelDataHandler', () => {
   it(`Test describeDataItems`, async () => {
     const dataModel = await _DataModel.prepareWithUid('demo')
     const dataHandler = new ModelDataHandler(dataModel)
-    const searcher = await dataHandler.dataSearcher()
+    const searcher = await dataHandler.dataSearcherWithoutFields()
     searcher.setLimitInfo(0, 5)
     const items = (await searcher.queryList()) as any[]
     const descriptionList = await dataHandler.describeDataItems(items)

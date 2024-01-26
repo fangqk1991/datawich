@@ -105,7 +105,7 @@ export class DataModelHandler {
     const dataModel = this._dataModel
     assert.ok(!dataModel.isRetained, '该模型是系统预留模型，不可删除')
     {
-      const searcher = await new ModelDataHandler(dataModel).dataSearcher()
+      const searcher = await new ModelDataHandler(dataModel).dataSearcherWithoutFields()
       assert.ok((await searcher.queryCount()) === 0, '该模型已有数据存在，不可删除')
     }
   }
