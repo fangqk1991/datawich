@@ -3,15 +3,14 @@ import { SearchBuilder } from '@fangcha/tools/lib/database'
 import { SQLSearcher } from 'fc-sql'
 import assert from '@fangcha/assert'
 import { _ModelField } from '../models/extensions/_ModelField'
-import { FieldType, GeneralDataHelper } from '@fangcha/datawich-service'
+import { FieldHelper, FieldType, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { _FieldLink } from '../models/extensions/_FieldLink'
-import { FieldHelper } from '@fangcha/datawich-service'
 import { FilterCondition, FilterSymbol, FilterSymbolDescriptor } from '@fangcha/logic'
 
 interface SearchableField {
   tableColumnName: string
-  field: _ModelField
+  field: ModelFieldModel
 }
 
 interface SearchOptions extends FilterOptions {
@@ -20,8 +19,8 @@ interface SearchOptions extends FilterOptions {
 
 export class WideSearcherBuilder {
   mainModel!: _DataModel
-  mainFields!: _ModelField[]
-  mainFieldMap!: { [p: string]: _ModelField }
+  mainFields!: ModelFieldModel[]
+  mainFieldMap!: { [p: string]: ModelFieldModel }
   fieldLinks!: _FieldLink[]
   filterOptions!: SearchOptions
   userColumnNames: string[]
@@ -37,7 +36,7 @@ export class WideSearcherBuilder {
   }
 
   public setMainFields(fields: _ModelField[], fieldLinks: _FieldLink[]) {
-    this.mainFields = fields
+    this.mainFields = fields.map((field) => field.modelForClient())
     this.fieldLinks = fieldLinks
     this.mainFieldMap = this.mainFields.reduce((result, cur) => {
       result[cur.fieldKey] = cur
@@ -57,7 +56,7 @@ export class WideSearcherBuilder {
     const filterMapper: {
       [p: string]: {
         columnName: string
-        field: _ModelField
+        field: ModelFieldModel
       }
     } = {}
     const mainTableName = dataModel.sqlTableName()
@@ -91,7 +90,7 @@ export class WideSearcherBuilder {
       const curColumnName = `${dataModel.sqlTableName()}.${link.fieldKey}`
       bigTable = `${bigTable} LEFT JOIN ${refTable} AS ${refTableAlias} ON ${curColumnName} = ${linkColumnName}`
       const refFields = await link.getRefFields()
-      for (const refViceField of refFields) {
+      for (const refViceField of refFields.map((field) => field.modelForClient())) {
         const refViceColumn = GeneralDataHelper.calculateDataKey(refViceField, link)
         const leftColumnName = `${refTableAlias}.${refViceField.fieldKey}`
         columns.push(`${leftColumnName} AS \`${refViceColumn}\``)

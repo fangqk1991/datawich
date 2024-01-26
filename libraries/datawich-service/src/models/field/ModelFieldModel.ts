@@ -37,6 +37,7 @@ export interface ModelFieldExtrasData {
   floatBits?: number
   visibleLogic?: LogicExpression
   requiredLogic?: LogicExpression
+  bigText?: boolean
 }
 
 export interface ModelFieldParams {
