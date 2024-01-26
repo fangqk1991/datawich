@@ -262,9 +262,10 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                   {!!field.searchable && <Tag color={'geekblue'}>可搜索</Tag>}
                   {field.extrasData.numberFormat === NumberFormat.Percent && <Tag color={'warning'}>Percent</Tag>}
                   {!!field.extrasData.readonly && <Tag color={'warning'}>Readonly</Tag>}
-                  {!!field.extrasData.matchRegex && <Tag color={'danger'}>{field.extrasData.matchRegex}</Tag>}
+                  {!!field.extrasData.matchRegex && <Tag color={'red'}>{field.extrasData.matchRegex}</Tag>}
+                  {!!field.extrasData.bigText && <Tag color={'red'}>超长文本</Tag>}
                   {!!field.extrasData.visibleLogic && (
-                    <Tag color={'danger'} onClick={() => TextPreviewDialog.previewData(field.extrasData.visibleLogic)}>
+                    <Tag color={'red'} onClick={() => TextPreviewDialog.previewData(field.extrasData.visibleLogic)}>
                       visibleLogic
                     </Tag>
                   )}

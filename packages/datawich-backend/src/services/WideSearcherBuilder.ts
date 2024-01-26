@@ -68,6 +68,9 @@ export class WideSearcherBuilder {
     const userColumnNames: string[] = []
     const searchableFields: SearchableField[] = []
     for (const field of this.mainFields) {
+      if (field.extrasData.bigText) {
+        continue
+      }
       const leftColumnName = `${mainTableName}.${field.fieldKey}`
       columns.push(`${leftColumnName} AS \`${field.fieldKey}\``)
       const filterKey = GeneralDataHelper.calculateFilterKey(field)
@@ -91,6 +94,9 @@ export class WideSearcherBuilder {
       bigTable = `${bigTable} LEFT JOIN ${refTable} AS ${refTableAlias} ON ${curColumnName} = ${linkColumnName}`
       const refFields = await link.getRefFields()
       for (const refViceField of refFields.map((field) => field.modelForClient())) {
+        if (refViceField.extrasData.bigText) {
+          continue
+        }
         const refViceColumn = GeneralDataHelper.calculateDataKey(refViceField, link)
         const leftColumnName = `${refTableAlias}.${refViceField.fieldKey}`
         columns.push(`${leftColumnName} AS \`${refViceColumn}\``)

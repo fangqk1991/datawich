@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
-import { Form } from 'antd'
+import { Form, Space, Tooltip } from 'antd'
 import { ProForm, ProFormDependency, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-components'
 import {
   FieldType,
@@ -12,6 +12,7 @@ import {
 } from '@fangcha/datawich-service'
 import { NumBoolDescriptor } from '@fangcha/tools'
 import { TagsFieldExtension } from '../data-model/TagsFieldExtension'
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 interface Props extends DialogProps {
   field?: ModelFieldModel
@@ -93,6 +94,37 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
                           options: options,
                         })
                       }
+                    />
+                  </>
+                )
+              } else if (
+                fieldType === FieldType.JSON ||
+                fieldType === FieldType.MultipleLinesText ||
+                fieldType === FieldType.RichText
+              ) {
+                return (
+                  <>
+                    <ProFormRadio.Group
+                      name={['extrasData', 'bigText']}
+                      label={
+                        <div>
+                          <span>超长文本</span>{' '}
+                          <Tooltip title={'超长文本字段内容不会在列表数据返回中携带，请求单条数据时会携带'}>
+                            <InfoCircleOutlined />
+                          </Tooltip>
+                        </div>
+                      }
+                      options={[
+                        {
+                          label: '是',
+                          value: true,
+                        },
+                        {
+                          label: '否',
+                          value: false,
+                        },
+                      ]}
+                      radioType='button'
                     />
                   </>
                 )
