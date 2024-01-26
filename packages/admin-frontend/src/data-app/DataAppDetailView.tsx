@@ -25,7 +25,7 @@ import {
   DataFilterPanel,
   ModelPanelProvider,
   useDataModel,
-  useMainFields
+  useMainFields,
 } from '@fangcha/datawich-react'
 
 export const DataAppDetailView: React.FC = () => {
@@ -125,7 +125,7 @@ export const DataAppDetailView: React.FC = () => {
       <DataDisplayTable
         mainFields={mainFields}
         loadData={async (params) => {
-          const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGetV2, modelKey))
+          const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGet, modelKey))
           request.setQueryParams(params)
           return request.quickSend()
         }}
@@ -139,21 +139,24 @@ export const DataAppDetailView: React.FC = () => {
                   {/*<a style={{ color: '#28a745' }}>复制</a>*/}
                   <a
                     onClick={() => {
-                      const inputData = FieldHelper.cleanDataByModelFields(item, mainFields)
-                      const dialog = new GeneralDataDialog({
-                        mainFields: mainFields,
-                        modelKey: modelKey,
-                        data: inputData,
-                      })
-                      dialog.title = '修改数据记录'
-                      dialog.show(async (params) => {
-                        const request = MyRequest(
-                          new CommonAPI(DataAppApis.DataAppRecordUpdate, modelKey, item._data_id)
-                        )
-                        request.setBodyData(params)
-                        await request.execute()
-                        message.success('修改成功')
-                        forceUpdate()
+                      const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordGet, modelKey, item._data_id))
+                      request.quickSend().then((record) => {
+                        const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
+                        const dialog = new GeneralDataDialog({
+                          mainFields: mainFields,
+                          modelKey: modelKey,
+                          data: inputData,
+                        })
+                        dialog.title = '修改数据记录'
+                        dialog.show(async (params) => {
+                          const request = MyRequest(
+                            new CommonAPI(DataAppApis.DataAppRecordUpdate, modelKey, item._data_id)
+                          )
+                          request.setBodyData(params)
+                          await request.execute()
+                          message.success('修改成功')
+                          forceUpdate()
+                        })
                       })
                     }}
                   >

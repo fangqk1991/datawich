@@ -57,6 +57,11 @@ export const DataAppApis = {
     route: '/api/v1/data-app/:modelKey/records-imported-callback',
     description: '应用数据导入回调',
   },
+  DataAppRecordGet: {
+    method: 'GET',
+    route: '/api/v1/data-app/:modelKey/record/:dataId',
+    description: '更新数据记录',
+  },
   DataAppRecordUpdate: {
     method: 'PUT',
     route: '/api/v1/data-app/:modelKey/record/:dataId',

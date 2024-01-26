@@ -160,6 +160,13 @@ factory.prepare(DataAppApis.DataAppRecordPut, async (ctx) => {
 //   })
 // })
 
+factory.prepare(DataAppApis.DataAppRecordGet, async (ctx) => {
+  await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
+    const dataHandler = new ModelDataHandler(dataModel)
+    ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
+  })
+})
+
 factory.prepare(DataAppApis.DataAppRecordUpdate, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
     const session = ctx.session as FangchaSession
@@ -189,7 +196,6 @@ factory.prepare(DataAppApis.DataAppRecordDelete, async (ctx) => {
 factory.prepare(DataAppApis.DataAppRecordInfosGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo) => {
     ctx.body = await new ModelDataHandler(dataInfo.dataModel).makeReadableInfosForClient(dataInfo)
-    ctx.status = 200
   })
 })
 
@@ -198,7 +204,6 @@ factory.prepare(DataAppApis.DataAppExcelDemoDownload, async (ctx) => {
     const filename = `${dataModel.modelKey}-demo.xlsx`
     ctx.set('Content-disposition', `attachment; filename=${filename}`)
     ctx.body = await new DataImportHandler(dataModel).exportDemoExcel()
-    ctx.status = 200
   })
 })
 
@@ -207,7 +212,6 @@ factory.prepare(DataAppApis.DataAppPendingListGet, async (ctx) => {
     const resource = (await _OSSResource.findWithUid(ctx.params.resourceId))!
     assert.ok(!!resource, 'Resource Not Found')
     ctx.body = await new DataImportHandler(dataModel).extractRecordsFromResource(resource)
-    ctx.status = 200
   })
 })
 
