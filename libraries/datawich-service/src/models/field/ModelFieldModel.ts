@@ -68,7 +68,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   fieldDisplayTmpl: string
   groupName: string
   groupFields: ModelFieldModel[]
-  useEnumSelector: boolean
   keyAlias: string
 }
 

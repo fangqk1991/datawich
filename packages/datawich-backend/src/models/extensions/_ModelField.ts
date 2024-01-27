@@ -6,7 +6,8 @@ import { _FieldLink } from './_FieldLink'
 import { _FieldEnumMetadata } from './_FieldEnumMetadata'
 import {
   checkFieldHasOptions,
-  FieldActionParams, FieldHelper,
+  FieldActionParams,
+  FieldHelper,
   FieldType,
   FieldTypeDescriptor,
   GeneralDataFormatter,
@@ -65,8 +66,8 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
           assert.ok(!!option['restraintValueMap'], 'option.restraintValueMap 有误')
         })
       }
-      if (params.useEnumSelector !== undefined) {
-        assert.ok([true, false].includes(params.useEnumSelector), 'useEnumSelector 参数有误')
+      if (params.extrasData && params.extrasData.useEnumSelector !== undefined) {
+        assert.ok([true, false].includes(params.extrasData.useEnumSelector), 'useEnumSelector 参数有误')
       }
     } else if (params.fieldType === FieldType.MultiEnum) {
       assert.ok(Array.isArray(params.options), '标签项有误')

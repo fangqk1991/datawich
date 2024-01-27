@@ -187,7 +187,6 @@ export default class ModelFieldDialog extends CustomDialog {
     star: 0,
     options: [],
     searchable: 0,
-    useEnumSelector: false,
     isHidden: 0,
     isSystem: 0,
     keyAlias: 0,
@@ -205,6 +204,7 @@ export default class ModelFieldDialog extends CustomDialog {
         [I18nCode.en]: '',
         [I18nCode.zhHans]: '',
       },
+      useEnumSelector: false,
     } as ModelFieldExtrasData,
   }
 

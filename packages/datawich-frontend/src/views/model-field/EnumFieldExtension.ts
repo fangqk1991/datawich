@@ -24,7 +24,7 @@ interface RestraintInfo {
         </el-select>
       </el-form-item>
       <el-form-item label="快速编辑">
-        <el-radio-group v-model="data.useEnumSelector">
+        <el-radio-group v-model="data.extrasData.useEnumSelector">
           <el-radio-button :key="true" :label="true">是</el-radio-button>
           <el-radio-button :key="false" :label="false">否</el-radio-button>
         </el-radio-group>

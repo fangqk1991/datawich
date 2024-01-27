@@ -231,9 +231,6 @@ export class _DataModel extends __DataModel {
         })
         extras.constraintKey = params.constraintKey
       }
-      if (extras.useEnumSelector !== undefined) {
-        extras.useEnumSelector = params.useEnumSelector
-      }
       extras.options = params.options
     } else if (field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime) {
     } else if (field.fieldType === FieldType.SingleLineText) {
@@ -617,9 +614,6 @@ export class _DataModel extends __DataModel {
     }
     if (params.referenceInline !== undefined) {
       extras.referenceInline = params.referenceInline
-    }
-    if (params.useEnumSelector !== undefined) {
-      extras.useEnumSelector = params.useEnumSelector
     }
     if (params.keyAlias !== undefined) {
       extras.keyAlias = params.keyAlias

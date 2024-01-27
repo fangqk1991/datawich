@@ -9,7 +9,6 @@ import {
   ModelFieldModel,
   Raw_ModelField,
 } from '../models'
-import { I18nCode } from '@fangcha/tools'
 import { _TinyDatawich } from './_TinyDatawich'
 import { GeneralDataHelper } from './GeneralDataHelper'
 
@@ -108,7 +107,6 @@ export class FieldMaker {
         return result
       }, {})
       result.searchable = rawData.fieldType === FieldType.SingleLineText && extrasData.searchable ? 1 : 0
-      result.useEnumSelector = extrasData.useEnumSelector || false
       result.referenceCheckedInfos = extrasData.referenceCheckedInfos || []
       result.referenceInline = extrasData.referenceInline || 0
       result.constraintKey = extrasData.constraintKey
