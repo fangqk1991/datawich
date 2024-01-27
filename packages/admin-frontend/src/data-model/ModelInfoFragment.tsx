@@ -12,6 +12,7 @@ import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
 import { DataModelDialog } from './DataModelDialog'
 import { ModelPanelsCard } from './ModelPanelsCard'
 import { useNavigate } from 'react-router-dom'
+import * as moment from 'moment'
 
 export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInfoChanged }) => {
   const navigate = useNavigate()
@@ -139,8 +140,12 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
             共 <b>{summaryInfo.count}</b> 条记录
           </Space>
         </Descriptions.Item>
-        <Descriptions.Item label='创建时间'>{dataModel.createTime}</Descriptions.Item>
-        <Descriptions.Item label='更新时间'>{dataModel.updateTime}</Descriptions.Item>
+        <Descriptions.Item label='创建时间'>
+          {moment(dataModel.createTime).format('YYYY-MM-DD HH:mm:ss')}
+        </Descriptions.Item>
+        <Descriptions.Item label='更新时间'>
+          {moment(dataModel.updateTime).format('YYYY-MM-DD HH:mm:ss')}
+        </Descriptions.Item>
         <Descriptions.Item label='应用地址'>
           <RouterLink route={DatawichAdminPages.DataAppDetailRoute} params={[dataModel.modelKey]}>
             点击查看
