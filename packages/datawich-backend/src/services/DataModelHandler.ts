@@ -36,7 +36,6 @@ export class DataModelHandler {
       modelFields: fields.map((item) => item.fc_pureModel() as Raw_ModelField),
       fieldLinks: links.map((item) => item.fc_pureModel() as Raw_FieldLink),
       fieldIndexes: indexes.map((item) => item.fc_pureModel() as ModelFieldModel),
-      fieldGroups: [],
     }
   }
 
@@ -56,9 +55,6 @@ export class DataModelHandler {
       item.modelKey = dataModel.modelKey
     })
     metadata.fieldIndexes.forEach((item) => {
-      item.modelKey = dataModel.modelKey
-    })
-    metadata.fieldGroups.forEach((item) => {
       item.modelKey = dataModel.modelKey
     })
 

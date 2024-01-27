@@ -73,7 +73,6 @@ factory.prepare(DataModelApis.DataModelImport, async (ctx) => {
   const params = ctx.request.body as ModelFullMetadata
   params.fieldLinks = params.fieldLinks || []
   params.fieldIndexes = params.fieldIndexes || []
-  params.fieldGroups = params.fieldGroups || []
   params.modelFields = params.modelFields || []
   assert.ok(params.systemVersion === _DatawichService.version, `当前系统只支持 ${_DatawichService.version} 版本的数据`)
   assert.ok(!!params.modelKey, `modelKey 信息缺失`)

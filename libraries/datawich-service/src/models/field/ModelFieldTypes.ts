@@ -5,16 +5,6 @@ export interface FieldActionParams {
   content: string
 }
 
-export interface FieldGroupModel {
-  modelKey: string
-  groupKey: string
-  name: string
-  displayMode: string
-  displayTmpl: string
-  createTime: string
-  updateTime: string
-}
-
 export interface FieldIndexModel {
   modelKey: string
   fieldKey: string

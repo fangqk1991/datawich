@@ -675,9 +675,6 @@ export class _DataModel extends __DataModel {
     params.fieldIndexes.forEach((item) => {
       item.modelKey = params.modelKey
     })
-    params.fieldGroups.forEach((item) => {
-      item.modelKey = params.modelKey
-    })
     const dataModel = new this()
     await dataModel.buildModel(params.dataModel)
     for (const fieldParams of params.modelFields) {

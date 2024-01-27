@@ -136,7 +136,7 @@ export class FieldHelper {
       ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
       ...displayItems.filter((item) => !checkedMap[item.filterKey]),
     ]
-    return FieldHelper.makeDisplayFields(displayItems)
+    return displayItems
   }
 
   public static expandAllFields(mainFields: ModelFieldModel[]) {
@@ -150,33 +150,6 @@ export class FieldHelper {
       })
     }
     return items
-  }
-
-  public static makeDisplayFields(fields: ModelFieldModel[]) {
-    const groupFieldMap: { [p: string]: ModelFieldModel } = {}
-    const displayFields: ModelFieldModel[] = []
-    for (const field of fields) {
-      if (!field.groupKey) {
-        displayFields.push(field)
-        continue
-      }
-      if (!groupFieldMap[field.groupKey]) {
-        const groupField = {
-          modelKey: field.groupKey,
-          fieldKey: '',
-          name: field.groupName,
-          fieldType: FieldType.Group,
-          fieldDisplayMode: field.fieldDisplayMode,
-          fieldDisplayTmpl: field.fieldDisplayTmpl,
-          groupName: field.groupName,
-          groupFields: [],
-        } as Partial<ModelFieldModel>
-        groupFieldMap[field.groupKey] = groupField as ModelFieldModel
-        displayFields.push(groupField as ModelFieldModel)
-      }
-      groupFieldMap[field.groupKey].groupFields!.push(field)
-    }
-    return displayFields
   }
 
   public static cleanDataByModelFields(data: any, modelFields: Raw_ModelField[] = []) {

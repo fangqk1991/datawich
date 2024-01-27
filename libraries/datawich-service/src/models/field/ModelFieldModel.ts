@@ -65,7 +65,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   refFieldLinks: FieldLinkModel[]
   fieldDisplayMode: string
   fieldDisplayTmpl: string
-  groupName: string
   groupFields: ModelFieldModel[]
 }
 
