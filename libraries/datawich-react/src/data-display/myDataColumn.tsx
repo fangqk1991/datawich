@@ -24,14 +24,14 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
 
   const getOptionsForEnumField = (data?: any) => {
     let options = field.options || []
-    if (field.constraintKey) {
+    if (field.extrasData.constraintKey) {
       const constraintKey = data
         ? GeneralDataHelper.calculateDataKey({
-            fieldKey: field.constraintKey,
+            fieldKey: field.extrasData.constraintKey,
             modelKey: field.modelKey,
           })
         : GeneralDataHelper.calculateFilterKey({
-            fieldKey: field.constraintKey,
+            fieldKey: field.extrasData.constraintKey,
             modelKey: field.modelKey,
           })
       const constraintValue = data ? data[constraintKey] : filterOptions[constraintKey]

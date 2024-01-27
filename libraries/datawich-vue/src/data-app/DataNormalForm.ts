@@ -224,8 +224,8 @@ export class DataNormalForm extends ViewController {
 
   optionsForEnumField(field: ModelFieldModel) {
     let options = field.options
-    if (field.constraintKey) {
-      const constraintValue = this.myData[field.constraintKey] || ''
+    if (field.extrasData.constraintKey) {
+      const constraintValue = this.myData[field.extrasData.constraintKey] || ''
       options = options.filter((option) => {
         const restraintValueMap = option['restraintValueMap'] || {}
         return !!restraintValueMap[constraintValue]

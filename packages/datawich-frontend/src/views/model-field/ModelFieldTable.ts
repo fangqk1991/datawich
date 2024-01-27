@@ -64,7 +64,7 @@ import { LogicExpressionHelper } from '@fangcha/logic'
       <el-table-column prop="fieldType" label="字段类型" min-width="140px">
         <template slot-scope="scope">
           {{ scope.row.fieldType | describe_model_field_type }}
-          <template v-if="scope.row.constraintKey"> [父级字段: {{ scope.row.constraintKey }}] </template>
+          <template v-if="scope.row.extrasData.constraintKey"> [父级字段: {{ scope.row.extrasData.constraintKey }}] </template>
         </template>
       </el-table-column>
       <el-table-column prop="required" label="是否隐藏" width="90px">

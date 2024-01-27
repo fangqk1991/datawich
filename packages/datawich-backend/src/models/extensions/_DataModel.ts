@@ -222,14 +222,14 @@ export class _DataModel extends __DataModel {
     if ([FieldType.MultiEnum].includes(field.fieldType as any)) {
       extras.options = params.options
     } else if ([FieldType.TextEnum].includes(field.fieldType as any)) {
-      if (params.constraintKey) {
-        const constraintField = await _ModelField.findModelField(this.modelKey, params.constraintKey)
+      if (params.extrasData.constraintKey) {
+        const constraintField = await _ModelField.findModelField(this.modelKey, params.extrasData.constraintKey)
         assert.ok(!!constraintField, '约束字段不存在')
         assert.ok([FieldType.TextEnum].includes(constraintField.fieldType as any), '约束字段应为枚举类型')
         params.options.forEach((option) => {
           assert.ok(!!option['restraintValueMap'], 'option.restraintValueMap 有误')
         })
-        extras.constraintKey = params.constraintKey
+        extras.constraintKey = params.extrasData.constraintKey
       }
       extras.options = params.options
     } else if (field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime) {
@@ -580,7 +580,7 @@ export class _DataModel extends __DataModel {
         return data
       })
       if (field.fieldType === FieldType.TextEnum) {
-        extras['constraintKey'] = params.constraintKey || ''
+        extras['constraintKey'] = params.extrasData.constraintKey || ''
         // TODO: 暂时取消 options 的判断
         // const database = this.dbSpec().database
         // const model = new DataModel()

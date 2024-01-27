@@ -14,7 +14,7 @@ interface RestraintInfo {
   template: `
     <div class="my-theme">
       <el-form-item label="约束字段" :required="false">
-        <el-select v-model="data.constraintKey" :disabled="readonly" clearable @change="onRestraintFieldChanged">
+        <el-select v-model="data.extrasData.constraintKey" :disabled="readonly" clearable @change="onRestraintFieldChanged">
           <el-option
             v-for="option in restraintInfo.potentialParentFields"
             :key="option.fieldKey"
@@ -60,7 +60,7 @@ interface RestraintInfo {
               <el-input v-model="scope.row.label" size="small" :disabled="readonly" />
             </template>
           </el-table-column>
-          <el-table-column v-if="data.constraintKey" label="作用域">
+          <el-table-column v-if="data.extrasData.constraintKey" label="作用域">
             <template slot-scope="scope">
               <el-checkbox
                 v-for="option of restraintInfo.pickedField.options"
@@ -116,7 +116,7 @@ export default class EnumFieldExtension extends EnumFieldExtensionBase {
 
   async onRestraintFieldChanged() {
     const field = this.restraintInfo.potentialParentFields.find((field) => {
-      return field.fieldKey === this.data.constraintKey
+      return field.fieldKey === this.data.extrasData.constraintKey
     })
     if (field) {
       this.restraintInfo.pickedField = field

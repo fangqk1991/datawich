@@ -169,7 +169,6 @@ export default class ModelFieldDialog extends CustomDialog {
   forBind = false
   copingFieldKey = ''
   data: ModelFieldModel | any = {
-    constraintKey: '',
     fieldKey: '',
     name: '',
     required: 0,

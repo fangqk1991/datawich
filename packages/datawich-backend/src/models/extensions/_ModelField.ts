@@ -60,7 +60,7 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
         assert.ok(!!option.value && typeof option.value === 'string', '枚举值必须为字符串')
         assert.ok(!!option.label, '枚举名称不能为空')
       })
-      if (params.constraintKey) {
+      if (params.extrasData.constraintKey) {
         params.options.forEach((option) => {
           assert.ok(!!option['restraintValueMap'], 'option.restraintValueMap 有误')
         })

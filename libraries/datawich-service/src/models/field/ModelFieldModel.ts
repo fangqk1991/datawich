@@ -55,8 +55,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   value2LabelMap: { [p: string]: string }
   isUnique: number
   extrasData: ModelFieldExtrasData
-  referenceCheckedInfos: ReferenceCheckedInfo[]
-  constraintKey: string
   filterKey: string
   dataKey: string
   refFieldLinks: FieldLinkModel[]

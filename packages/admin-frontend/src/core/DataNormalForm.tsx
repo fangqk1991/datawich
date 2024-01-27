@@ -166,10 +166,10 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                     return <ProFormTextArea disabled={!editable} />
                   case FieldType.TextEnum: {
                     const optionsForEnumField = (() => {
-                      if (!field.constraintKey) {
+                      if (!field.extrasData.constraintKey) {
                         return field.options
                       }
-                      const constraintValue = myData[field.constraintKey] || ''
+                      const constraintValue = myData[field.extrasData.constraintKey] || ''
                       return field.options.filter((option) => {
                         const restraintValueMap = option['restraintValueMap'] || {}
                         return !!restraintValueMap[constraintValue]
