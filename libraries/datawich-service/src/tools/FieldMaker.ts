@@ -107,8 +107,6 @@ export class FieldMaker {
         return result
       }, {})
       result.extrasData.searchable = rawData.fieldType === FieldType.SingleLineText && extrasData.searchable
-      result.referenceCheckedInfos = extrasData.referenceCheckedInfos || []
-      result.referenceInline = extrasData.referenceInline || 0
       result.constraintKey = extrasData.constraintKey
       result.filterKey = GeneralDataHelper.calculateFilterKey(result)
       result.dataKey = GeneralDataHelper.calculateDataKey(result)

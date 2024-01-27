@@ -11,7 +11,6 @@ import {
   FieldType,
   FieldTypeDescriptor,
   GeneralDataFormatter,
-  LinkMapperInfo,
   ModelFieldModel,
   Raw_ModelField,
 } from '@fangcha/datawich-service'
@@ -125,22 +124,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
       }, {})
     }
     return {}
-  }
-
-  public referenceCheckedInfos(): LinkMapperInfo[] {
-    const data = this.extrasData()
-    return data['referenceCheckedInfos'] || []
-  }
-
-  public referenceCheckedMap() {
-    const referenceCheckedInfos = this.referenceCheckedInfos()
-    const checkedMap: { [p: string]: LinkMapperInfo } = {}
-    for (const info of referenceCheckedInfos) {
-      if (info.checked) {
-        checkedMap[info.fieldKey] = info
-      }
-    }
-    return checkedMap
   }
 
   public dateRange() {
@@ -283,41 +266,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     const columnSpec = FieldHelper.getFieldTypeDatabaseSpec(this as any)
     const tableHandler = this.dbSpec().database.tableHandler(this.sqlTableName())
     await tableHandler.changeColumn(this.fieldKey, columnSpec)
-  }
-
-  public async getRefFields() {
-    const refModel = await this.getReferenceModel()
-    if (refModel) {
-      const checkedMap = this.referenceCheckedMap()
-      const fields = await refModel.getVisibleFields()
-      return fields.filter((field) => !!checkedMap[field.fieldKey])
-    }
-    return []
-  }
-
-  public async getReferenceLink(transaction?: Transaction) {
-    const searcher = new _FieldLink().fc_searcher()
-    searcher.processor().addConditionKV('model_key', this.modelKey)
-    searcher.processor().addConditionKV('field_key', this.fieldKey)
-    searcher.processor().addConditionKV('is_foreign_key', 1)
-    if (transaction) {
-      searcher.processor().transaction = transaction
-    }
-    return searcher.queryOne()
-  }
-
-  public async getReferenceModel(transaction?: Transaction) {
-    const link = await this.getReferenceLink(transaction)
-    if (link) {
-      return _DataModel.findModel(link.refModel)
-    }
-  }
-
-  public async getReferenceField(transaction?: Transaction) {
-    const link = await this.getReferenceLink(transaction)
-    if (link) {
-      return _ModelField.findModelField(link.refModel, link.refField, transaction)
-    }
   }
 
   public async updateActions(actions: FieldActionParams[]) {

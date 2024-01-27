@@ -26,8 +26,6 @@ export interface ModelFieldExtrasData {
   dateRange: DateRange
   searchable: boolean
   useEnumSelector: boolean
-  referenceCheckedInfos: ReferenceCheckedInfo[]
-  referenceInline: number
   constraintKey: string
   actions: FieldActionParams[]
   nameI18n: I18nTextData
@@ -57,15 +55,11 @@ export interface ModelFieldModel extends Raw_ModelField {
   value2LabelMap: { [p: string]: string }
   isUnique: number
   extrasData: ModelFieldExtrasData
-  referenceInline: number
   referenceCheckedInfos: ReferenceCheckedInfo[]
   constraintKey: string
   filterKey: string
   dataKey: string
   refFieldLinks: FieldLinkModel[]
-  fieldDisplayMode: string
-  fieldDisplayTmpl: string
-  groupFields: ModelFieldModel[]
 }
 
 export interface DescribableField {

@@ -182,8 +182,6 @@ export default class ModelFieldDialog extends CustomDialog {
     options: [],
     isHidden: 0,
     isSystem: 0,
-    referenceKey: '',
-    referenceCheckedInfos: [],
     extrasData: {
       keyAlias: '',
       searchable: false,

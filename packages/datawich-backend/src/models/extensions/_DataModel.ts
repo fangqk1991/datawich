@@ -605,12 +605,6 @@ export class _DataModel extends __DataModel {
       }
       extras.options = options
     }
-    if (params.referenceCheckedInfos !== undefined) {
-      extras.referenceCheckedInfos = params.referenceCheckedInfos
-    }
-    if (params.referenceInline !== undefined) {
-      extras.referenceInline = params.referenceInline
-    }
 
     const database = this.dbSpec().database
     const runner = database.createTransactionRunner()
