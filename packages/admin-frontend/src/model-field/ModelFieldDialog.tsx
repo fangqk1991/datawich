@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
-import { Form, Space, Tooltip } from 'antd'
+import { Form, Tooltip } from 'antd'
 import { ProForm, ProFormDependency, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-components'
 import {
   FieldType,
@@ -114,6 +114,26 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
                           </Tooltip>
                         </div>
                       }
+                      options={[
+                        {
+                          label: '是',
+                          value: true,
+                        },
+                        {
+                          label: '否',
+                          value: false,
+                        },
+                      ]}
+                      radioType='button'
+                    />
+                  </>
+                )
+              } else if (fieldType === FieldType.StringList) {
+                return (
+                  <>
+                    <ProFormRadio.Group
+                      name={['extrasData', 'useRawTextEditor']}
+                      label={'使用纯文本编辑器'}
                       options={[
                         {
                           label: '是',
