@@ -50,9 +50,9 @@ import { LogicExpressionHelper } from '@fangcha/logic'
       <el-table-column prop="fieldKey" label="字段 Key">
         <template slot-scope="scope">
           <span>{{ scope.row.fieldKey }}</span>
-          <template v-if="scope.row.keyAlias">
+          <template v-if="scope.row.extrasData.keyAlias">
             <br />
-            <span>别名: {{ scope.row.keyAlias }}</span>
+            <span>别名: {{ scope.row.extrasData.keyAlias }}</span>
           </template>
         </template>
       </el-table-column>

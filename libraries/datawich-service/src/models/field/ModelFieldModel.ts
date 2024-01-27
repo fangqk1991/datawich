@@ -68,12 +68,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   fieldDisplayTmpl: string
   groupName: string
   groupFields: ModelFieldModel[]
-  keyAlias: string
-}
-
-export interface ForAnalysisParams {
-  modelKey: string
-  checked: boolean
 }
 
 export interface DescribableField {

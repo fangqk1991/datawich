@@ -118,7 +118,7 @@ import { FieldHelper } from '@fangcha/datawich-service'
       </el-form>
       <el-form v-if="forEditing" class="my-mini-form mt-3" label-width="120px" size="mini">
         <el-form-item label="Key 别名">
-          <el-input v-model="data.keyAlias" type="text" style="width: 200px;"> </el-input>
+          <el-input v-model="data.extrasData.keyAlias" type="text" style="width: 200px;"> </el-input>
         </el-form-item>
         <el-form-item>
           <span slot="label">
@@ -189,10 +189,10 @@ export default class ModelFieldDialog extends CustomDialog {
     searchable: 0,
     isHidden: 0,
     isSystem: 0,
-    keyAlias: 0,
     referenceKey: '',
     referenceCheckedInfos: [],
     extrasData: {
+      keyAlias: '',
       readonly: false,
       matchRegex: '',
       numberFormat: NumberFormat.Normal,

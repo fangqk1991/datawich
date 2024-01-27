@@ -32,10 +32,6 @@ import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHe
           <el-form-item class="card-form-item" label="标识符">
             {{ dataModel.shortKey }}
           </el-form-item>
-          <el-form-item v-if="false" class="card-form-item" label="别名">
-            {{ dataModel.extrasData.keyAlias }} |
-            <a href="javascript:" @click="onEditKeyAlias">编辑</a>
-          </el-form-item>
           <el-form-item class="card-form-item" label="模型名称">
             <span>{{ dataModel.name }}</span>
             <el-tooltip v-if="dataModel.star" class="item" effect="dark" placement="bottom">
@@ -180,23 +176,6 @@ export class ModelInfoFragment extends ModelFragmentBase {
       request.setBodyData({
         extrasData: {
           dataInfoTmpl: dataInfoTmpl,
-        },
-      })
-      await request.execute()
-      this.$message.success('更新成功')
-      NotificationCenter.defaultCenter().postNotification(DatawichEventKeys.kOnDataModelNeedReload, this.modelKey)
-    })
-  }
-
-  onEditKeyAlias() {
-    const dialog = SimpleInputDialog.textInputDialog()
-    dialog.title = '编辑别名'
-    dialog.content = this.dataModel.extrasData.keyAlias
-    dialog.show(async (keyAlias) => {
-      const request = MyAxios(new CommonAPI(DataModelApis.DataModelUpdate, this.modelKey))
-      request.setBodyData({
-        extrasData: {
-          keyAlias: keyAlias,
         },
       })
       await request.execute()

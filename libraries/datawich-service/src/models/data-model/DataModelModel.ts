@@ -1,6 +1,5 @@
 export interface DataModelExtrasData {
   hideCreateButton: boolean
-  keyAlias: string
   dataInfoTmpl?: string
   broadcastEventData?: { [p in string]: boolean }
   defaultPanelId?: string

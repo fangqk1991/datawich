@@ -152,10 +152,10 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
             render: (item) => (
               <>
                 <span>{item.fieldKey}</span>
-                {item.keyAlias && (
+                {item.extrasData.keyAlias && (
                   <>
                     <br />
-                    <span>别名: {item.keyAlias}</span>
+                    <span>别名: {item.extrasData.keyAlias}</span>
                   </>
                 )}
               </>

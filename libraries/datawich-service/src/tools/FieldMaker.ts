@@ -39,8 +39,8 @@ export class FieldMaker {
         fieldInfo.options = fieldModel.options
         fieldInfo.value2LabelMap = fieldModel.value2LabelMap
       }
-      if (fieldModel.keyAlias) {
-        fieldInfo.keyAlias = fieldModel.keyAlias
+      if (fieldModel.extrasData.keyAlias) {
+        fieldInfo.keyAlias = fieldModel.extrasData.keyAlias
       }
       const fieldInfos: DescribableField[] = [fieldInfo]
 
@@ -110,7 +110,6 @@ export class FieldMaker {
       result.referenceCheckedInfos = extrasData.referenceCheckedInfos || []
       result.referenceInline = extrasData.referenceInline || 0
       result.constraintKey = extrasData.constraintKey
-      result.keyAlias = extrasData.keyAlias
       result.filterKey = GeneralDataHelper.calculateFilterKey(result)
       result.dataKey = GeneralDataHelper.calculateDataKey(result)
       // @ts-ignore

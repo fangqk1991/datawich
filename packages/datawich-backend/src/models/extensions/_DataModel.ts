@@ -353,7 +353,6 @@ export class _DataModel extends __DataModel {
     this.star = params.star || 0
     this.author = params.author
     const extras: Partial<DataModelExtrasData> = {
-      keyAlias: '',
       broadcastEventData: {
         [DataRecordEvent.Create]: true,
         [DataRecordEvent.Delete]: true,
@@ -614,9 +613,6 @@ export class _DataModel extends __DataModel {
     }
     if (params.referenceInline !== undefined) {
       extras.referenceInline = params.referenceInline
-    }
-    if (params.keyAlias !== undefined) {
-      extras.keyAlias = params.keyAlias
     }
 
     const database = this.dbSpec().database
