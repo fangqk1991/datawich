@@ -5,7 +5,6 @@ const _cols: string[] = [
   // prettier-ignore
   'model_key',
   'field_key',
-  'group_key',
   'name',
   'input_hint',
   'required',
@@ -28,7 +27,6 @@ const _insertableCols: string[] = [
   // prettier-ignore
   'model_key',
   'field_key',
-  'group_key',
   'name',
   'input_hint',
   'required',
@@ -47,7 +45,6 @@ const _insertableCols: string[] = [
 ]
 const _modifiableCols: string[] = [
   // prettier-ignore
-  'group_key',
   'name',
   'input_hint',
   'required',
@@ -82,10 +79,6 @@ export default class __ModelField extends FeedBase {
    * @description [varchar(63)] 字段键值，由用户自行指定；(model_key, field_key) 具备唯一性
    */
   public fieldKey!: string
-  /**
-   * @description [varchar(63)] 字段组键值
-   */
-  public groupKey!: string
   /**
    * @description [varchar(255)] 字段名称
    */
@@ -188,7 +181,6 @@ export default class __ModelField extends FeedBase {
 
   public fc_defaultInit() {
     // This function is invoked by constructor of FCModel
-    this.groupKey = ''
     this.name = ''
     this.inputHint = ''
     this.required = 0
@@ -210,7 +202,6 @@ export default class __ModelField extends FeedBase {
     return {
       modelKey: 'model_key',
       fieldKey: 'field_key',
-      groupKey: 'group_key',
       name: 'name',
       inputHint: 'input_hint',
       required: 'required',

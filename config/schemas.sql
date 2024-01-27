@@ -188,7 +188,6 @@ CREATE TABLE IF NOT EXISTS model_field
     model_key     varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，SQL 外键 -> data_model.model_key',
     FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE RESTRICT,
     field_key     varchar(63) COLLATE ascii_bin NOT NULL COMMENT '字段键值，由用户自行指定；(model_key, field_key) 具备唯一性',
-    group_key     varchar(63)                   NOT NULL DEFAULT '' COMMENT '字段组键值',
     name          varchar(255)                  NOT NULL DEFAULT '' COMMENT '字段名称',
     input_hint    text                          NOT NULL COMMENT '用户输入提示',
     required      tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为必填项',
