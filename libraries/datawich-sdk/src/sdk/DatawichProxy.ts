@@ -42,6 +42,11 @@ export class DatawichProxy extends BasicAuthProxy {
     return (await request.quickSend()) as T
   }
 
+  public async getRecordInfo2<T = any>(modelKey: string, dataId: string) {
+    const request = this.makeRequest(new CommonAPI(OpenDataAppApis.DataAppRecordGet, modelKey, dataId))
+    return (await request.quickSend()) as T
+  }
+
   public async checkRecordExists(modelKey: string, uniqueKey: string, value: string) {
     const request = this.makeRequest(new CommonAPI(OpenDataAppApis.ModelDataExistsCheck, modelKey, uniqueKey, value))
     const { result } = await request.quickSend<{ result: boolean }>()

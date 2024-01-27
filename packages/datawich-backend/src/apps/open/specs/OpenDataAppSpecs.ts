@@ -109,6 +109,15 @@ factory.prepare(OpenDataAppApis.DataAppRecordsBatchUpsert, async (ctx) => {
   })
 })
 
+factory.prepare(OpenDataAppApis.DataAppRecordGet, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    const dataInfo = (await ModelDataInfo.findDataInfo(dataModel, ctx.params.dataId))!
+    assert.ok(!!dataInfo, `数据[${ctx.params.dataId}]不存在`, 404)
+    const dataHandler = new ModelDataHandler(dataModel)
+    ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
+  })
+})
+
 factory.prepare(OpenDataAppApis.DataAppRecordUpdate, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const session = ctx.session as FangchaSession

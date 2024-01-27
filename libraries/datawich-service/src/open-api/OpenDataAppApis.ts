@@ -106,6 +106,11 @@ export const OpenDataAppApis = {
       },
     ] as SwaggerParameter[],
   },
+  DataAppRecordGet: {
+    method: 'GET',
+    route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
+    description: '获取应用数据记录',
+  },
   DataAppRecordUpdate: {
     method: 'PUT',
     route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
