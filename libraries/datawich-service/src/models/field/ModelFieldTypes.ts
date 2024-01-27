@@ -49,7 +49,6 @@ export const Keys_Raw_FieldLink = [
 export interface Raw_ModelField {
   modelKey: string
   fieldKey: string
-  groupKey: string
   name: string
   inputHint: string
   required: number
@@ -73,7 +72,6 @@ export const Keys_Raw_ModelField = [
   // prettier-ignore
   'modelKey',
   'fieldKey',
-  'groupKey',
   'name',
   'inputHint',
   'required',

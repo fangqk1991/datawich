@@ -205,9 +205,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     if (params.isHidden !== undefined) {
       this.isHidden = params.isHidden
     }
-    if (params.groupKey !== undefined) {
-      this.groupKey = params.groupKey
-    }
     if (params.star !== undefined) {
       this.star = params.star
     }
