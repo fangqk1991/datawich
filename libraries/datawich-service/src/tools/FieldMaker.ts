@@ -106,7 +106,7 @@ export class FieldMaker {
         result[cur.value] = cur.label
         return result
       }, {})
-      result.searchable = rawData.fieldType === FieldType.SingleLineText && extrasData.searchable ? 1 : 0
+      result.extrasData.searchable = rawData.fieldType === FieldType.SingleLineText && extrasData.searchable
       result.referenceCheckedInfos = extrasData.referenceCheckedInfos || []
       result.referenceInline = extrasData.referenceInline || 0
       result.constraintKey = extrasData.constraintKey

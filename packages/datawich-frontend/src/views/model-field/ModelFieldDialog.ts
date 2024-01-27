@@ -1,6 +1,7 @@
 import { Component, Watch } from 'vue-property-decorator'
 import { CustomDialog, CustomDialogView } from '@fangcha/vue'
 import {
+  FieldHelper,
   FieldType,
   FieldTypeDescriptor,
   ModelFieldExtrasData,
@@ -11,7 +12,6 @@ import {
 import EnumFieldExtension from './EnumFieldExtension'
 import TagsFieldExtension from './TagsFieldExtension'
 import { I18nCode } from '@fangcha/tools'
-import { FieldHelper } from '@fangcha/datawich-service'
 
 @Component({
   components: {
@@ -45,12 +45,6 @@ import { FieldHelper } from '@fangcha/datawich-service'
         </el-form-item>
         <el-form-item label="字段名称" :required="true">
           <el-input v-model="data.name" type="text" style="width: 200px;"> </el-input>
-        </el-form-item>
-        <el-form-item v-if="forEditing" label="字段名(en)">
-          <el-input v-model="data.extrasData.nameI18n[I18nCode.en]" type="text" style="width: 200px;" />
-        </el-form-item>
-        <el-form-item v-if="forEditing" label="字段名(zh-Hans)">
-          <el-input v-model="data.extrasData.nameI18n[I18nCode.zhHans]" type="text" style="width: 200px;" />
         </el-form-item>
         <el-form-item v-if="!forBind" label="是否必填" :required="true">
           <el-radio-group v-model="data.required">
@@ -102,9 +96,9 @@ import { FieldHelper } from '@fangcha/datawich-service'
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="canBeSearchable" label="可搜索" :required="true">
-          <el-radio-group v-model="data.searchable">
-            <el-radio-button :key="1" :label="1">是</el-radio-button>
-            <el-radio-button :key="0" :label="0">否</el-radio-button>
+          <el-radio-group v-model="data.extrasData.searchable">
+            <el-radio-button :key="true" :label="true">是</el-radio-button>
+            <el-radio-button :key="false" :label="false">否</el-radio-button>
           </el-radio-group>
           <el-tooltip class="item" effect="dark" placement="top">
             <span class="el-icon-question" />
@@ -186,13 +180,13 @@ export default class ModelFieldDialog extends CustomDialog {
     special: 0,
     star: 0,
     options: [],
-    searchable: 0,
     isHidden: 0,
     isSystem: 0,
     referenceKey: '',
     referenceCheckedInfos: [],
     extrasData: {
       keyAlias: '',
+      searchable: false,
       readonly: false,
       matchRegex: '',
       numberFormat: NumberFormat.Normal,
@@ -240,6 +234,8 @@ export default class ModelFieldDialog extends CustomDialog {
   get isTagsType() {
     return this.data.fieldType === FieldType.MultiEnum
   }
+
+  viewDidLoad() {}
 
   static createFieldDialog(data?: ModelFieldModel) {
     const dialog = new ModelFieldDialog()

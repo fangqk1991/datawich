@@ -24,7 +24,7 @@ export interface ReferenceCheckedInfo {
 export interface ModelFieldExtrasData {
   keyAlias: string
   dateRange: DateRange
-  searchable: number
+  searchable: boolean
   useEnumSelector: boolean
   referenceCheckedInfos: ReferenceCheckedInfo[]
   referenceInline: number
@@ -55,7 +55,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   ////
   options: { value: number | string; label: string }[]
   value2LabelMap: { [p: string]: string }
-  searchable: number
   isUnique: number
   extrasData: ModelFieldExtrasData
   referenceInline: number

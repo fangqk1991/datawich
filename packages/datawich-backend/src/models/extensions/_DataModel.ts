@@ -234,7 +234,7 @@ export class _DataModel extends __DataModel {
       extras.options = params.options
     } else if (field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime) {
     } else if (field.fieldType === FieldType.SingleLineText) {
-      extras.searchable = params.searchable || 0
+      extras.searchable = params.extrasData.searchable || false
     }
     field.extrasInfo = JSON.stringify(extras)
     assert.ok(!(await field.checkExistsInDB()), '模型中已存在该字段，不可重复创建')
@@ -604,9 +604,6 @@ export class _DataModel extends __DataModel {
         // })
       }
       extras.options = options
-    }
-    if (params.searchable !== undefined) {
-      extras.searchable = params.searchable
     }
     if (params.referenceCheckedInfos !== undefined) {
       extras.referenceCheckedInfos = params.referenceCheckedInfos

@@ -259,7 +259,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
               return (
                 <>
                   {!!field.isSystem && <Tag color={'geekblue'}>系统字段</Tag>}
-                  {!!field.searchable && <Tag color={'geekblue'}>可搜索</Tag>}
+                  {!!field.extrasData.searchable && <Tag color={'geekblue'}>可搜索</Tag>}
                   {field.extrasData.numberFormat === NumberFormat.Percent && <Tag color={'warning'}>Percent</Tag>}
                   {!!field.extrasData.readonly && <Tag color={'warning'}>Readonly</Tag>}
                   {!!field.extrasData.matchRegex && <Tag color={'red'}>{field.extrasData.matchRegex}</Tag>}

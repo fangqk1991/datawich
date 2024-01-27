@@ -109,7 +109,7 @@ import { LogicExpressionHelper } from '@fangcha/logic'
       <el-table-column label="特殊属性">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.isSystem" size="mini">系统字段</el-tag>
-          <el-tag v-if="scope.row.searchable" size="mini">可搜索</el-tag>
+          <el-tag v-if="scope.row.extrasData.searchable" size="mini">可搜索</el-tag>
           <el-tag v-if="scope.row.extrasData.useEnumSelector" size="mini">快速编辑</el-tag>
           <el-tag v-if="scope.row.extrasData.numberFormat === NumberFormat.Percent" size="mini" type="warning"
             >Percent</el-tag
