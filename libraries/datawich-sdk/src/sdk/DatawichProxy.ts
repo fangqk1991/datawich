@@ -53,6 +53,26 @@ export class DatawichProxy extends BasicAuthProxy {
     return result
   }
 
+  public async getAllRecords<T>(modelKey: string, options: FilterOptions = {}, pageSize = 10000): Promise<T[]> {
+    let items: T[] = []
+    let finished = false
+    let offset = 0
+    const length = pageSize
+    while (!finished) {
+      const pageData = await this.getPageResult<T>(modelKey, {
+        ...options,
+        _offset: offset,
+        _length: length,
+      })
+      if (pageData.items.length < length) {
+        finished = true
+      }
+      offset += length
+      items = items.concat(pageData.items)
+    }
+    return items
+  }
+
   public async getPageResult<T = any>(modelKey: string, params: FilterOptions = {}) {
     const request = this.makeRequest(new CommonAPI(OpenDataAppApis.DataAppRecordPageDataSearch, modelKey))
     request.setBodyData(params)
