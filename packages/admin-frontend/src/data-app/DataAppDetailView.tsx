@@ -136,7 +136,30 @@ export const DataAppDetailView: React.FC = () => {
             render: (item) => {
               return (
                 <Space>
-                  {/*<a style={{ color: '#28a745' }}>复制</a>*/}
+                  <a
+                    style={{ color: '#28a745' }}
+                    onClick={() => {
+                      const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordGet, modelKey, item._data_id))
+                      request.quickSend().then((record) => {
+                        const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
+                        const dialog = new GeneralDataDialog({
+                          mainFields: mainFields,
+                          modelKey: modelKey,
+                          data: inputData,
+                        })
+                        dialog.title = '创建数据记录'
+                        dialog.show(async (params) => {
+                          const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordCreate, modelKey))
+                          request.setBodyData(params)
+                          await request.execute()
+                          message.success('创建成功')
+                          forceUpdate()
+                        })
+                      })
+                    }}
+                  >
+                    复制
+                  </a>
                   <a
                     onClick={() => {
                       const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordGet, modelKey, item._data_id))
