@@ -113,10 +113,6 @@ export class FieldMaker {
       result.referenceInline = extrasData.referenceInline || 0
       result.constraintKey = extrasData.constraintKey
       result.keyAlias = extrasData.keyAlias
-      result.nameI18n = extrasData.nameI18n || {
-        [I18nCode.en]: rawData.name,
-        [I18nCode.zhHans]: rawData.name,
-      }
       result.filterKey = GeneralDataHelper.calculateFilterKey(result)
       result.dataKey = GeneralDataHelper.calculateDataKey(result)
       // @ts-ignore

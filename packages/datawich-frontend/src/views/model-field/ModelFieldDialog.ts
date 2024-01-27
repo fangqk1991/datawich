@@ -47,10 +47,10 @@ import { FieldHelper } from '@fangcha/datawich-service'
           <el-input v-model="data.name" type="text" style="width: 200px;"> </el-input>
         </el-form-item>
         <el-form-item v-if="forEditing" label="字段名(en)">
-          <el-input v-model="data.nameI18n[I18nCode.en]" type="text" style="width: 200px;" />
+          <el-input v-model="data.extrasData.nameI18n[I18nCode.en]" type="text" style="width: 200px;" />
         </el-form-item>
         <el-form-item v-if="forEditing" label="字段名(zh-Hans)">
-          <el-input v-model="data.nameI18n[I18nCode.zhHans]" type="text" style="width: 200px;" />
+          <el-input v-model="data.extrasData.nameI18n[I18nCode.zhHans]" type="text" style="width: 200px;" />
         </el-form-item>
         <el-form-item v-if="!forBind" label="是否必填" :required="true">
           <el-radio-group v-model="data.required">
@@ -193,10 +193,6 @@ export default class ModelFieldDialog extends CustomDialog {
     keyAlias: 0,
     referenceKey: '',
     referenceCheckedInfos: [],
-    nameI18n: {
-      [I18nCode.en]: '',
-      [I18nCode.zhHans]: '',
-    },
     extrasData: {
       readonly: false,
       matchRegex: '',
@@ -204,6 +200,10 @@ export default class ModelFieldDialog extends CustomDialog {
       dateRange: {
         floor: '',
         ceil: '',
+      },
+      nameI18n: {
+        [I18nCode.en]: '',
+        [I18nCode.zhHans]: '',
       },
     } as ModelFieldExtrasData,
   }

@@ -624,9 +624,6 @@ export class _DataModel extends __DataModel {
     if (params.keyAlias !== undefined) {
       extras.keyAlias = params.keyAlias
     }
-    if (params.nameI18n !== undefined) {
-      extras.nameI18n = params.nameI18n
-    }
 
     const database = this.dbSpec().database
     const runner = database.createTransactionRunner()

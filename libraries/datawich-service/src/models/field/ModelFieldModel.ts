@@ -70,7 +70,6 @@ export interface ModelFieldModel extends Raw_ModelField {
   groupFields: ModelFieldModel[]
   useEnumSelector: boolean
   keyAlias: string
-  nameI18n: I18nTextData
 }
 
 export interface ForAnalysisParams {

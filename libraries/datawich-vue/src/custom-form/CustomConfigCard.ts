@@ -19,14 +19,20 @@ import { MultiEnumContainer } from './MultiEnumContainer'
   template: `
     <ul class="my-0 pl-3">
       <li v-for="field of modelFields" :key="field.dataKey">
-        <b>{{ getFieldName(field) }}</b>:
+        <b>{{ getFieldName(field) }}</b
+        >:
         <multi-enum-container
-          v-else-if="field.fieldType === FieldType.MultiEnum" 
+          v-else-if="field.fieldType === FieldType.MultiEnum"
           :options="field.options"
           :value="configData[field.dataKey]"
         />
         <template v-else-if="field.fieldType === FieldType.Attachment">
-          <a v-if="fieldOssFileInfoMap[field.dataKey] && fieldOssFileInfoMap[field.dataKey].url" :href="fieldOssFileInfoMap[field.dataKey].url" target="_blank">点击查看</a>
+          <a
+            v-if="fieldOssFileInfoMap[field.dataKey] && fieldOssFileInfoMap[field.dataKey].url"
+            :href="fieldOssFileInfoMap[field.dataKey].url"
+            target="_blank"
+            >点击查看</a
+          >
         </template>
         <b v-else-if="field.fieldType === FieldType.TextEnum" class="text-danger">
           {{ field.value2LabelMap[configData[field.dataKey]] }}
@@ -47,7 +53,7 @@ export class CustomConfigCard extends ViewController {
   }
 
   getFieldName(field: ModelFieldModel) {
-    const nameI18n = field.nameI18n || {}
+    const nameI18n = field.extrasData.nameI18n || {}
     if (i18n.locale === 'en') {
       return nameI18n[I18nCode.en] || field.name
     }
