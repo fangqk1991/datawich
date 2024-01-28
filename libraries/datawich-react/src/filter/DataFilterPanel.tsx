@@ -21,6 +21,7 @@ import { useModelPanel } from './ModelPanelContext'
 interface Props {
   modelKey: string
   mainFields: ModelFieldModel[]
+  controlPanelCollapse?: boolean
 
   apis: {
     updateProfileInfo: ApiOptions
@@ -40,7 +41,7 @@ const trimQueryParams = (queryParams: {} = {}) => {
     }, {})
 }
 
-export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis }) => {
+export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, controlPanelCollapse }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [version, setVersion] = useState(0)
   const userInfo = useUserInfo()
@@ -136,9 +137,10 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis })
     <Collapse
       ghost
       size={'small'}
+      defaultActiveKey={!controlPanelCollapse ? 'ControlPanel' : undefined}
       items={[
         {
-          key: '1',
+          key: 'ControlPanel',
           label: <b>控制面板</b>,
           children: (
             <Space direction={'vertical'}>
