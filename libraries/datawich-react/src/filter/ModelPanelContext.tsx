@@ -68,6 +68,7 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, apis, dataModel 
       return
     }
     const request = MyRequest(new CommonAPI(apis.getPanelInfo, modelKey, queryParams.panelId))
+    request.setMute(true)
     request
       .quickSend<ModelPanelInfo>()
       .then((response) => {

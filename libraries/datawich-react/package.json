@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/datawich-react",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "main": "src/index.ts",
   "repository": "https://github.com/fangqk1991/datawich.git",
   "keywords": [
