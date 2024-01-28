@@ -8,4 +8,8 @@ export class OpenSession extends FangchaOpenSession {
     super(ctx)
     this.realUserId = this.headers['x-datawich-visitor'] || ''
   }
+
+  public realUserStr() {
+    return !!this.realUserId && this.realUserId != '-' ? this.realUserId : this.visitorId
+  }
 }

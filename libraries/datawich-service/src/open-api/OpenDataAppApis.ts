@@ -50,6 +50,9 @@ export const OpenDataAppApis = {
     description: '获取应用分页数据(支持复杂条件传递)',
     parameters: [...makeSwaggerBodyDataParameters(DataAppSwaggerModelData.Swagger_FilterParams)] as SwaggerParameter[],
   },
+  /**
+   * @deprecated
+   */
   DataAppRecordPageDataGetV2: {
     method: 'GET',
     route: '/api/data-app/v2/data-model/:modelKey/record',
@@ -71,12 +74,6 @@ export const OpenDataAppApis = {
         default: 100,
       },
     ] as SwaggerParameter[],
-  },
-  DataAppRecordPageDataSearchV2: {
-    method: 'POST',
-    route: '/api/data-app/v2/data-model/:modelKey/query',
-    description: '获取应用分页数据(支持复杂条件传递)',
-    parameters: [...makeSwaggerBodyDataParameters(DataAppSwaggerModelData.Swagger_FilterParams)] as SwaggerParameter[],
   },
   DataAppRecordCreate: {
     method: 'POST',

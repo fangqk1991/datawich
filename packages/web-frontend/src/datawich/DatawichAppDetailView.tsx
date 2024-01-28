@@ -62,7 +62,7 @@ export const DatawichAppDetailView: React.FC = () => {
       <DataDisplayTable
         mainFields={mainFields}
         loadData={async (params) => {
-          const request = MyRequest(new CommonAPI(SdkDatawichApis.DataAppRecordPageDataGetV2, modelKey))
+          const request = MyRequest(new CommonAPI(SdkDatawichApis.DataAppRecordPageDataGet, modelKey))
           request.setQueryParams(params)
           return request.quickSend()
         }}

@@ -4,8 +4,8 @@ import { AuthModelSpecHandler } from './AuthModelSpecHandler'
 import { _ModelField } from '../../../models/extensions/_ModelField'
 import { ModelDataHandler } from '../../../services/ModelDataHandler'
 import { ModelDataInfo } from '../../../services/ModelDataInfo'
-import { FangchaSession } from '@fangcha/session'
 import { FieldLinkModel, ModelFieldModel, OpenDataAppApis } from '@fangcha/datawich-service'
+import { OpenSession } from '../../../services/OpenSession'
 
 const factory = new SpecFactory('Data App', { skipAuth: true })
 
@@ -57,13 +57,6 @@ factory.prepare(OpenDataAppApis.DataAppRecordPageDataGet, async (ctx) => {
   })
 })
 
-factory.prepare(OpenDataAppApis.DataAppRecordPageDataSearchV2, async (ctx) => {
-  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
-    const options = { ...ctx.request.body }
-    ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
-  })
-})
-
 factory.prepare(OpenDataAppApis.DataAppRecordPageDataGetV2, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const options = { ...ctx.request.query }
@@ -72,38 +65,38 @@ factory.prepare(OpenDataAppApis.DataAppRecordPageDataGetV2, async (ctx) => {
 })
 
 factory.prepare(OpenDataAppApis.DataAppRecordCreate, async (ctx) => {
-  const session = ctx.session as FangchaSession
+  const session = ctx.session as OpenSession
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
     const customData = ctx.request.body
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.curUserStr())
+    dataHandler.setOperator(session.realUserStr())
     const dataInfo = await dataHandler.createData(customData)
     ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
 })
 
 factory.prepare(OpenDataAppApis.DataAppRecordForcePut, async (ctx) => {
-  const session = ctx.session as FangchaSession
+  const session = ctx.session as OpenSession
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
     assert.ok(!!dataModel.isDataModifiable, '此模型数据不支持修改')
     const customData = ctx.request.body
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.curUserStr())
+    dataHandler.setOperator(session.realUserStr())
     const dataInfo = await dataHandler.forcePutData(customData)
     ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
 })
 
 factory.prepare(OpenDataAppApis.DataAppRecordsBatchUpsert, async (ctx) => {
-  const session = ctx.session as FangchaSession
+  const session = ctx.session as OpenSession
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
     const dataList = ctx.request.body
     assert.ok(Array.isArray(dataList), '数据不合法，Body 应为 Array 类型')
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.curUserStr())
+    dataHandler.setOperator(session.realUserStr())
     await dataHandler.upsertMultipleData(dataList)
     ctx.status = 200
   })
@@ -120,13 +113,13 @@ factory.prepare(OpenDataAppApis.DataAppRecordGet, async (ctx) => {
 
 factory.prepare(OpenDataAppApis.DataAppRecordUpdate, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
-    const session = ctx.session as FangchaSession
+    const session = ctx.session as OpenSession
     assert.ok(!!dataModel.isDataModifiable, '此模型数据不支持修改')
     const dataInfo = (await ModelDataInfo.findDataInfo(dataModel, ctx.params.dataId))!
     assert.ok(!!dataInfo, `数据[${ctx.params.dataId}]不存在`, 404)
     const options = ctx.request.body
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.curUserStr())
+    dataHandler.setOperator(session.realUserStr())
     await dataHandler.modifyModelData(dataInfo, options)
     ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
