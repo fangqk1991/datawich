@@ -6,6 +6,6 @@ export class OpenSession extends FangchaOpenSession {
 
   public constructor(ctx: Context) {
     super(ctx)
-    this.realUserId = this.headers['x-datawich-visitor']
+    this.realUserId = this.headers['x-datawich-visitor'] || ''
   }
 }

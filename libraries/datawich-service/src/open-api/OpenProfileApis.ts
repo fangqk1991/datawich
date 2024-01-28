@@ -9,4 +9,9 @@ export const OpenProfileApis = {
     route: '/api/open/v1/event/:event/target/:target',
     description: '修改配置信息',
   },
+  FavorDataAppListGet: {
+    method: 'GET',
+    route: '/api/open/v1/favor-data-app',
+    description: '获取收藏的应用',
+  },
 }

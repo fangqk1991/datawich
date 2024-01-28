@@ -38,7 +38,7 @@ factory.prepare(DataAppApis.FavorDataAppListGet, async (ctx) => {
   const searcher = new _DataModel().fc_searcher({})
   searcher.processor().addConditionKeyInArray('model_key', favorModelKeys)
   const feeds = await searcher.queryFeeds()
-  ctx.body = feeds.map((feed) => feed.fc_pureModel())
+  ctx.body = feeds.map((feed) => feed.modelForClient())
 })
 
 factory.prepare(DataAppApis.DataAppRecordListGet, async (ctx) => {
