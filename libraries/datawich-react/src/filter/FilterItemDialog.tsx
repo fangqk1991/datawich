@@ -217,14 +217,7 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
                         if (curField.fieldType === FieldType.SingleLineText) {
                           return <ProFormText />
                         }
-                        return (
-                          <Checkbox.Group
-                            style={{
-                              display: 'inline-block',
-                            }}
-                            options={curField.options}
-                          />
-                        )
+                        return <ProFormCheckbox.Group options={curField.options} />
                       case TextSymbol.$between:
                         return (
                           <ProFormDateRangePicker
