@@ -57,13 +57,6 @@ factory.prepare(OpenDataAppApis.DataAppRecordPageDataGet, async (ctx) => {
   })
 })
 
-factory.prepare(OpenDataAppApis.DataAppRecordPageDataGetV2, async (ctx) => {
-  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
-    const options = { ...ctx.request.query }
-    ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
-  })
-})
-
 factory.prepare(OpenDataAppApis.DataAppRecordCreate, async (ctx) => {
   const session = ctx.session as OpenSession
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {

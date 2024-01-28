@@ -50,31 +50,6 @@ export const OpenDataAppApis = {
     description: '获取应用分页数据(支持复杂条件传递)',
     parameters: [...makeSwaggerBodyDataParameters(DataAppSwaggerModelData.Swagger_FilterParams)] as SwaggerParameter[],
   },
-  /**
-   * @deprecated
-   */
-  DataAppRecordPageDataGetV2: {
-    method: 'GET',
-    route: '/api/data-app/v2/data-model/:modelKey/record',
-    description: '获取应用分页数据',
-    detailInfo: `Query Parameters 中可传递筛选参数，格式示例: {modelKey}.{fieldKey1}={value1}&{modelKey}.{fieldKey2}={value2}`,
-    parameters: [
-      {
-        type: 'number',
-        name: '_offset',
-        in: 'query',
-        description: '数据偏移量',
-        default: 0,
-      },
-      {
-        type: 'number',
-        name: '_length',
-        in: 'query',
-        description: '数据长度，最大值 10000',
-        default: 100,
-      },
-    ] as SwaggerParameter[],
-  },
   DataAppRecordCreate: {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/record',
