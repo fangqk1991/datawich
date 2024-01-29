@@ -1,5 +1,6 @@
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'
+export * from './data-display/DataAppListView'
 export * from './filter/FilterItemDialog'
 export * from './filter/DataFilterItemView'
 export * from './filter/DataFilterPanel'

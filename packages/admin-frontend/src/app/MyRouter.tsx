@@ -2,9 +2,8 @@ import { createBrowserRouter } from 'react-router-dom'
 import React from 'react'
 import { MainLayout } from '../core/MainLayout'
 import { RouteErrorBoundary } from '@fangcha/react'
-import { DataAppListView } from '../data-app/DataAppListView'
+import { DataAppListView, FavorAppsProvider } from '@fangcha/datawich-react'
 import { DataAppDetailView } from '../data-app/DataAppDetailView'
-import { FavorAppsProvider } from '@fangcha/datawich-react'
 import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
 import { CommonProfileApis, DataAppApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
@@ -29,11 +28,21 @@ export const MyRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <DataAppListView />,
+        element: (
+          <DataAppListView
+            apis={{ getAppList: DataAppApis.DataAppListGet }}
+            appPage={(modelKey) => DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])}
+          />
+        ),
       },
       {
         path: DatawichAdminPages.AllDataAppsRoute,
-        element: <DataAppListView />,
+        element: (
+          <DataAppListView
+            apis={{ getAppList: DataAppApis.DataAppListGet }}
+            appPage={(modelKey) => DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])}
+          />
+        ),
       },
       {
         path: DatawichAdminPages.DataAppDetailRoute,
