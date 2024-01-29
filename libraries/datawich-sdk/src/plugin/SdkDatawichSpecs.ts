@@ -26,6 +26,7 @@ Object.values(SdkDatawichApis).forEach((api) => {
       request.setBodyData(ctx.request.body)
     }
     const session = ctx.session as FangchaSession
+    request.addHeader('x-web-sdk', '1')
     request.addHeader('x-datawich-visitor', session.curUserStr())
     ctx.body = await request.quickSend()
     ctx.status = 200

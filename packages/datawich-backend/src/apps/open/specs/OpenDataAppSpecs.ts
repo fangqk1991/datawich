@@ -63,7 +63,7 @@ factory.prepare(OpenDataAppApis.DataAppRecordCreate, async (ctx) => {
     assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
     const customData = ctx.request.body
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.realUserStr())
+    dataHandler.setOperator(session.curUserStr())
     const dataInfo = await dataHandler.createData(customData)
     ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
@@ -76,7 +76,7 @@ factory.prepare(OpenDataAppApis.DataAppRecordForcePut, async (ctx) => {
     assert.ok(!!dataModel.isDataModifiable, '此模型数据不支持修改')
     const customData = ctx.request.body
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.realUserStr())
+    dataHandler.setOperator(session.curUserStr())
     const dataInfo = await dataHandler.forcePutData(customData)
     ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
@@ -89,7 +89,7 @@ factory.prepare(OpenDataAppApis.DataAppRecordsBatchUpsert, async (ctx) => {
     const dataList = ctx.request.body
     assert.ok(Array.isArray(dataList), '数据不合法，Body 应为 Array 类型')
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.realUserStr())
+    dataHandler.setOperator(session.curUserStr())
     await dataHandler.upsertMultipleData(dataList)
     ctx.status = 200
   })
@@ -112,7 +112,7 @@ factory.prepare(OpenDataAppApis.DataAppRecordUpdate, async (ctx) => {
     assert.ok(!!dataInfo, `数据[${ctx.params.dataId}]不存在`, 404)
     const options = ctx.request.body
     const dataHandler = new ModelDataHandler(dataModel)
-    dataHandler.setOperator(session.realUserStr())
+    dataHandler.setOperator(session.curUserStr())
     await dataHandler.modifyModelData(dataInfo, options)
     ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
   })
