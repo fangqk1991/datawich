@@ -15,7 +15,7 @@ factory.prepare(OpenDataModelApis.ModelListGet, async (ctx) => {
     .processor()
     .addSpecialCondition(
       `EXISTS (SELECT model_authorization.model_key FROM model_authorization WHERE model_authorization.model_key = data_model.model_key AND model_authorization.appid = ?)`,
-      session.curUserStr()
+      session.visitorId
     )
   if (keywords) {
     searcher.processor().addSpecialCondition('model_key LIKE ?', `%${keywords}%`)

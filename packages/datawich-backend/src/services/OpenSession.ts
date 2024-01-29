@@ -15,6 +15,6 @@ export class OpenSession extends FangchaOpenSession {
     if (!this.webSDK) {
       return super.curUserStr()
     }
-    return !!this.realUserId && this.realUserId != '-' ? this.realUserId : this.visitorId
+    return !!this.realUserId && this.realUserId !== '-' ? this.realUserId : this.visitorId
   }
 }
