@@ -4,10 +4,10 @@ import { MainLayout } from '../core/MainLayout'
 import { RouteErrorBoundary } from '@fangcha/react'
 import { DataAppListView } from '../data-app/DataAppListView'
 import { DataAppDetailView } from '../data-app/DataAppDetailView'
-import { FavorAppsProvider } from '../core/FavorAppsContext'
+import { FavorAppsProvider } from '@fangcha/datawich-react'
 import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
-import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
+import { CommonProfileApis, DataAppApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { JobListView } from '@fangcha/job-react'
 import { ResourceTaskListView } from '@fangcha/oss-react'
 import { ModelClientListView } from '../model-client/ModelClientListView'
@@ -16,7 +16,12 @@ export const MyRouter = createBrowserRouter([
   {
     path: '/',
     element: (
-      <FavorAppsProvider>
+      <FavorAppsProvider
+        apis={{
+          getAppList: DataAppApis.FavorDataAppListGet,
+          updateProfileInfo: CommonProfileApis.ProfileUserInfoUpdate,
+        }}
+      >
         <MainLayout appName='Datawich 🍰' />
       </FavorAppsProvider>
     ),

@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { CommonProfileApis, DataAppApis } from '@web/datawich-common/admin-apis'
-import { DataModelModel } from '@fangcha/datawich-service'
+import { DataModelModel, ProfileEvent } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
-import { CommonAPI } from '@fangcha/app-request'
-import { ProfileEvent } from '@fangcha/datawich-service'
+import { ApiOptions, CommonAPI } from '@fangcha/app-request'
 
 interface Context {
   favorApps: DataModelModel[]
@@ -19,7 +17,12 @@ export const useFavorAppsCtx = () => {
   return useContext(FavorAppsContext)
 }
 
-export const FavorAppsProvider = ({ children }: React.ComponentProps<any>) => {
+export const FavorAppsProvider: React.FC<{
+  apis: {
+    getAppList: ApiOptions
+    updateProfileInfo: ApiOptions
+  }
+}> = ({ children, apis }: React.ComponentProps<any>) => {
   const [favorApps, setFavorApps] = useState<DataModelModel[]>([])
   const favorMap = favorApps.reduce((result, cur) => {
     result[cur.modelKey] = cur
@@ -27,7 +30,7 @@ export const FavorAppsProvider = ({ children }: React.ComponentProps<any>) => {
   }, {})
 
   const reloadFavorApps = () => {
-    const request = MyRequest(DataAppApis.FavorDataAppListGet)
+    const request = MyRequest(apis.getAppList)
     request.quickSend().then((response) => {
       if (Array.isArray(response)) {
         setFavorApps(response)
@@ -47,9 +50,7 @@ export const FavorAppsProvider = ({ children }: React.ComponentProps<any>) => {
         ? favorApps.filter((app) => app.modelKey !== modelKey).map((app) => app.modelKey)
         : [...favorApps.map((app) => app.modelKey), modelKey]
 
-      const request = MyRequest(
-        new CommonAPI(CommonProfileApis.ProfileUserInfoUpdate, ProfileEvent.UserModelSidebarApps, 'stuff')
-      )
+      const request = MyRequest(new CommonAPI(apis.updateProfileInfo, ProfileEvent.UserModelSidebarApps, 'stuff'))
       request.setBodyData({
         favorModelKeys: favorKeys,
       })

@@ -1,9 +1,9 @@
 import { AppstoreOutlined, DesktopOutlined, UserOutlined } from '@ant-design/icons'
 import { Route } from '@ant-design/pro-layout/es/typing'
 import { LS } from '../core/ReactI18n'
-import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import React from 'react'
+import { useFavorAppsCtx } from '@fangcha/datawich-react'
 
 export const useMenu = () => {
   const favorAppsCtx = useFavorAppsCtx()

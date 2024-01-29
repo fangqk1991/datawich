@@ -15,7 +15,6 @@ import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { ConfirmDialog, LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
-import { useFavorAppsCtx } from '../core/FavorAppsContext'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
@@ -25,6 +24,7 @@ import {
   DataFilterPanel,
   ModelPanelProvider,
   useDataModel,
+  useFavorAppsCtx,
   useMainFields,
 } from '@fangcha/datawich-react'
 
