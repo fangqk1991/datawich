@@ -1,8 +1,11 @@
 export * from './DatawichWebSDKConfig'
+
 export * from './app/SDK_MainLayout'
+export * from './app/SDK_DataAppListView'
+export * from './app/SDK_DataAppDetailView'
+
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'
-export * from './data-display/SDK_DataAppListView'
 export * from './filter/FilterItemDialog'
 export * from './filter/DataFilterItemView'
 export * from './filter/DataFilterPanel'

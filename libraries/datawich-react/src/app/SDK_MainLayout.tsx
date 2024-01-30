@@ -92,7 +92,7 @@ export const SDK_MainLayout: React.FC<Props> = ({ appName }) => {
                     key: item.modelKey,
                     label: item.name,
                     onClick: () => {
-                      navigate(DatawichWebSDKConfig.appPage(item.modelKey))
+                      navigate(DatawichWebSDKConfig.appDetailPage(item.modelKey))
                     },
                   })),
                 }}

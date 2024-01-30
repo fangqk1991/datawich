@@ -17,7 +17,7 @@ import {
 // ReactTheme.colorPrimary = 'rgb(221 115 164)'
 AuthSdkHelper.defaultRedirectUri = '/'
 
-DatawichWebSDKConfig.appPage = (modelKey) =>
+DatawichWebSDKConfig.appDetailPage = (modelKey) =>
   DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])
 
 DatawichWebSDKConfig.apis.AppListGet = DataAppApis.FavorDataAppListGet

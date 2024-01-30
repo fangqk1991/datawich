@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Card, Divider, Spin } from 'antd'
-import { DataModelModel } from '@fangcha/datawich-service'
+import { DataModelModel } from '@fangcha/datawich-service/lib'
 import { useNavigate } from 'react-router-dom'
 import { useFavorAppsCtx } from '../profile/FavorAppsContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
@@ -45,7 +45,7 @@ export const SDK_DataAppListView: React.FC = () => {
               }}
               key={dataApp.modelKey}
               onClick={() => {
-                navigate(DatawichWebSDKConfig.appPage(dataApp.modelKey))
+                navigate(DatawichWebSDKConfig.appDetailPage(dataApp.modelKey))
               }}
             >
               <b>

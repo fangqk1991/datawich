@@ -1,20 +1,28 @@
 import React from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Divider, Space, Spin } from 'antd'
-import { SdkDatawichApis } from '@fangcha/datawich-service'
+import { DataModelModel, ModelFieldModel, SdkDatawichApis } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
-import {
-  DataDisplayTable,
-  DataFilterPanel,
-  ModelPanelProvider,
-  useDataModel,
-  useMainFields,
-} from '@fangcha/datawich-react'
 import { RouterLink } from '@fangcha/react'
-import { DatawichWebPages } from '@web/datawich-common/web-apis'
+import { useMainFields } from '../hooks/useMainFields'
+import { useDataModel } from '../hooks/useDataModel'
+import { ModelPanelProvider } from '../filter/ModelPanelContext'
+import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
+import { DataFilterPanel } from '../filter/DataFilterPanel'
+import { DataDisplayTable } from '../data-display/DataDisplayTable'
 
-export const DatawichAppDetailView: React.FC = () => {
+interface Props {
+  extrasColumns?: (
+    dataModel: DataModelModel,
+    mainFields: ModelFieldModel[]
+  ) => {
+    title: React.ReactNode
+    render: (item: any, _: any, index: number) => React.ReactNode
+  }[]
+}
+
+export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
   const { modelKey = '' } = useParams()
 
   const dataModel = useDataModel()
@@ -29,7 +37,7 @@ export const DatawichAppDetailView: React.FC = () => {
       <Breadcrumb
         items={[
           {
-            title: <RouterLink route={DatawichWebPages.DatawichAppListRoute}>{'数据应用'}</RouterLink>,
+            title: <RouterLink route={DatawichWebSDKConfig.appListPage}>{'数据应用'}</RouterLink>,
           },
           {
             title: <Space>{dataModel.name}</Space>,
@@ -50,7 +58,7 @@ export const DatawichAppDetailView: React.FC = () => {
           request.setQueryParams(params)
           return request.quickSend()
         }}
-        extrasColumns={[]}
+        extrasColumns={props.extrasColumns ? props.extrasColumns(dataModel, mainFields) : []}
       />
     </ModelPanelProvider>
   )
