@@ -29,6 +29,26 @@ export class DataAppSpecHandler {
     return this._dataApp
   }
 
+  public async handle(handler: (dataApp: _DataModel) => Promise<void>) {
+    const dataApp = await this.prepareDataApp()
+    await handler(dataApp)
+  }
+
+  public async handleDataSearch(handler: (dataApp: _DataModel, options: {}) => Promise<void>) {
+    const dataModel = await this.prepareDataApp()
+    const ctx = this.ctx
+    const session = ctx.session as FangchaSession
+    const options = ctx.method === 'GET' ? ctx.request.query : ctx.request.body
+    options['relatedUser'] = session.curUserStr()
+    if (
+      dataModel.accessLevel !== AccessLevel.Public_Content &&
+      !(await new SessionChecker(ctx).checkModelPermission(dataModel, GeneralPermission.AccessOthersData))
+    ) {
+      options['lockedUser'] = session.curUserStr()
+    }
+    await handler(dataModel, options)
+  }
+
   private _dataInfo!: ModelDataInfo
   public async prepareDataInfo() {
     if (!this._dataInfo) {
@@ -53,26 +73,6 @@ export class DataAppSpecHandler {
       this._dataInfo = dataInfo
     }
     return this._dataInfo
-  }
-
-  public async handle(handler: (dataApp: _DataModel) => Promise<void>) {
-    const dataApp = await this.prepareDataApp()
-    await handler(dataApp)
-  }
-
-  public async handleDataSearch(handler: (dataApp: _DataModel, options: {}) => Promise<void>) {
-    const dataModel = await this.prepareDataApp()
-    const ctx = this.ctx
-    const session = ctx.session as FangchaSession
-    const options = ctx.method === 'GET' ? ctx.request.query : ctx.request.body
-    options['relatedUser'] = session.curUserStr()
-    if (
-      dataModel.accessLevel !== AccessLevel.Public_Content &&
-      !(await new SessionChecker(ctx).checkModelPermission(dataModel, GeneralPermission.AccessOthersData))
-    ) {
-      options['lockedUser'] = session.curUserStr()
-    }
-    await handler(dataModel, options)
   }
 
   public async handleDataInfo(handler: (dataInfo: ModelDataInfo, dataApp: _DataModel) => Promise<void>) {
