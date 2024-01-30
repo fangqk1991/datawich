@@ -6,14 +6,14 @@ import { useSessionConfig, useUserInfo } from '@fangcha/auth-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { WebAuthApis } from '@fangcha/sso-models'
 import { RouterLink } from '@fangcha/react'
-import { useFavorAppsCtx } from '../profile/FavorAppsContext'
+import { FavorAppsProvider, useFavorAppsCtx } from '../profile/FavorAppsContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
 interface Props {
   appName?: string
 }
 
-export const SDK_MainLayout: React.FC<Props> = ({ appName }) => {
+const MainLayout: React.FC<Props> = ({ appName }) => {
   const config = useSessionConfig()
   const userInfo = useUserInfo(true)
 
@@ -118,5 +118,13 @@ export const SDK_MainLayout: React.FC<Props> = ({ appName }) => {
         ]}
       />
     </ProLayout>
+  )
+}
+
+export const SDK_MainLayout: React.FC<Props> = (props) => {
+  return (
+    <FavorAppsProvider>
+      <MainLayout {...props} />
+    </FavorAppsProvider>
   )
 }
