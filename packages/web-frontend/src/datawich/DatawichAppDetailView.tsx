@@ -17,21 +17,15 @@ import { DatawichWebPages } from '@web/datawich-common/web-apis'
 export const DatawichAppDetailView: React.FC = () => {
   const { modelKey = '' } = useParams()
 
-  const dataModel = useDataModel(SdkDatawichApis.DataModelInfoGet)
-  const mainFields = useMainFields(SdkDatawichApis.ModelVisibleFieldListGet)
+  const dataModel = useDataModel()
+  const mainFields = useMainFields()
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
   }
 
   return (
-    <ModelPanelProvider
-      dataModel={dataModel}
-      apis={{
-        getProfileInfo: SdkDatawichApis.ProfileInfoGet,
-        getPanelInfo: SdkDatawichApis.ModelPanelGet,
-      }}
-    >
+    <ModelPanelProvider dataModel={dataModel}>
       <Breadcrumb
         items={[
           {
@@ -45,17 +39,7 @@ export const DatawichAppDetailView: React.FC = () => {
 
       <Divider style={{ margin: '12px 0' }} />
 
-      <DataFilterPanel
-        modelKey={modelKey}
-        mainFields={mainFields}
-        apis={{
-          updateProfileInfo: SdkDatawichApis.ProfileUserInfoUpdate,
-          createPanel: SdkDatawichApis.ModelPanelCreate,
-          updatePanel: SdkDatawichApis.ModelPanelUpdate,
-          deletePanel: SdkDatawichApis.ModelPanelDelete,
-          getPanelList: SdkDatawichApis.ModelPanelListGet,
-        }}
-      />
+      <DataFilterPanel modelKey={modelKey} mainFields={mainFields} />
 
       <Divider style={{ margin: '0 0 12px' }} />
 

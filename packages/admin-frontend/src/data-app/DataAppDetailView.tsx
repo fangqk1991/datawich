@@ -2,14 +2,7 @@ import React, { useReducer } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
-import {
-  CommonProfileApis,
-  DataAppApis,
-  DataModelApis,
-  DatawichAdminPages,
-  ModelFieldApis,
-  ModelPanelApis,
-} from '@web/datawich-common/admin-apis'
+import { DataAppApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { FieldHelper } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
@@ -31,8 +24,8 @@ import {
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
 
-  const dataModel = useDataModel(DataModelApis.DataModelInfoGet)
-  const mainFields = useMainFields(ModelFieldApis.DataModelVisibleFieldListGet)
+  const dataModel = useDataModel()
+  const mainFields = useMainFields()
 
   const { modelKey = '' } = useParams()
   const { queryParams } = useQueryParams<{
@@ -49,13 +42,7 @@ export const DataAppDetailView: React.FC = () => {
   }
 
   return (
-    <ModelPanelProvider
-      dataModel={dataModel}
-      apis={{
-        getProfileInfo: CommonProfileApis.ProfileInfoGet,
-        getPanelInfo: ModelPanelApis.ModelPanelGet,
-      }}
-    >
+    <ModelPanelProvider dataModel={dataModel}>
       <Breadcrumb
         items={[
           {
@@ -86,17 +73,7 @@ export const DataAppDetailView: React.FC = () => {
         </>
       )}
 
-      <DataFilterPanel
-        modelKey={modelKey}
-        mainFields={mainFields}
-        apis={{
-          updateProfileInfo: CommonProfileApis.ProfileUserInfoUpdate,
-          createPanel: ModelPanelApis.ModelPanelCreate,
-          updatePanel: ModelPanelApis.ModelPanelUpdate,
-          deletePanel: ModelPanelApis.ModelPanelDelete,
-          getPanelList: ModelPanelApis.ModelPanelListGet,
-        }}
-      />
+      <DataFilterPanel modelKey={modelKey} mainFields={mainFields} />
 
       <Divider style={{ margin: '0 0 12px' }} />
 

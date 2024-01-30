@@ -3,8 +3,9 @@ import { DataModelModel, FieldsDisplaySettings, ModelPanelInfo, ProfileEvent } f
 import { useParams } from 'react-router-dom'
 import { useQueryParams } from '@fangcha/react'
 import { MyRequest } from '@fangcha/auth-react'
-import { ApiOptions, CommonAPI } from '@fangcha/app-request'
+import { CommonAPI } from '@fangcha/app-request'
 import { Spin } from 'antd'
+import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
 interface Context {
   panelInfo: ModelPanelInfo | null | undefined
@@ -20,13 +21,9 @@ export const useModelPanel = (): Context => {
 
 interface Props extends React.ComponentProps<any> {
   dataModel: DataModelModel
-  apis: {
-    getProfileInfo: ApiOptions
-    getPanelInfo: ApiOptions
-  }
 }
 
-export const ModelPanelProvider: React.FC<Props> = ({ children, apis, dataModel }: Props) => {
+export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Props) => {
   const [version, setVersion] = useState(0)
 
   const { modelKey = '' } = useParams()
@@ -54,7 +51,9 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, apis, dataModel 
       return
     }
     if (!queryParams.panelId) {
-      const request = MyRequest(new CommonAPI(apis.getProfileInfo, ProfileEvent.UserModelDefaultPanel, modelKey))
+      const request = MyRequest(
+        new CommonAPI(DatawichWebSDKConfig.apis.ProfileInfoGet, ProfileEvent.UserModelDefaultPanel, modelKey)
+      )
       request.quickSend<{ panelId: string }>().then(({ panelId }) => {
         const usingPanelId = panelId || dataModel.extrasData.defaultPanelId
         if (usingPanelId) {
@@ -67,7 +66,8 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, apis, dataModel 
       })
       return
     }
-    const request = MyRequest(new CommonAPI(apis.getPanelInfo, modelKey, queryParams.panelId))
+
+    const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelInfoGet, modelKey, queryParams.panelId))
     request.setMute(true)
     request
       .quickSend<ModelPanelInfo>()

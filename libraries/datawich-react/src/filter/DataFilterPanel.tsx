@@ -12,24 +12,17 @@ import {
 import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
 import { Button, Checkbox, Collapse, Input, message, Space, Tag } from 'antd'
 import { MyRequest, useUserInfo } from '@fangcha/auth-react'
-import { ApiOptions, CommonAPI } from '@fangcha/app-request'
+import { CommonAPI } from '@fangcha/app-request'
 import { FilterItemDialog } from './FilterItemDialog'
 import { FieldsDisplaySettingDialog } from '../data-display/FieldsDisplaySettingDialog'
 import { DataFilterItemView } from './DataFilterItemView'
 import { useModelPanel } from './ModelPanelContext'
+import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
 interface Props {
   modelKey: string
   mainFields: ModelFieldModel[]
   controlPanelCollapse?: boolean
-
-  apis: {
-    updateProfileInfo: ApiOptions
-    createPanel: ApiOptions
-    updatePanel: ApiOptions
-    deletePanel: ApiOptions
-    getPanelList: ApiOptions
-  }
 }
 
 const trimQueryParams = (queryParams: {} = {}) => {
@@ -41,7 +34,7 @@ const trimQueryParams = (queryParams: {} = {}) => {
     }, {})
 }
 
-export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, controlPanelCollapse }) => {
+export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, controlPanelCollapse }) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [version, setVersion] = useState(0)
   const userInfo = useUserInfo()
@@ -115,7 +108,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, c
   }, [queryParams, panelInfo, fieldMapper])
 
   const { data: panelList, loading } = useLoadingData(async () => {
-    const request = MyRequest(new CommonAPI(apis.getPanelList, modelKey))
+    const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelListGet, modelKey))
     return request.quickSend<ModelPanelInfo[]>()
   }, [modelKey, version])
   const [hideOthers, setHideOthers] = useState(false)
@@ -164,7 +157,9 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, c
                               displaySettings: displaySettings,
                             },
                           }
-                          const request = MyRequest(new CommonAPI(apis.updatePanel, modelKey, panelInfo!.panelId))
+                          const request = MyRequest(
+                            new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelUpdate, modelKey, panelInfo!.panelId)
+                          )
                           request.setBodyData(params)
                           await request.quickSend<ModelPanelInfo>()
                           setQueryParams({
@@ -195,7 +190,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, c
                             displaySettings: displaySettings,
                           },
                         }
-                        const request = MyRequest(new CommonAPI(apis.createPanel, modelKey))
+                        const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelCreate, modelKey))
                         request.setBodyData(params)
                         const panel = await request.quickSend<ModelPanelInfo>()
                         setQueryParams({
@@ -213,7 +208,11 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, c
                     danger={true}
                     onClick={async () => {
                       const request = MyRequest(
-                        new CommonAPI(apis.updateProfileInfo, ProfileEvent.UserModelDefaultPanel, modelKey)
+                        new CommonAPI(
+                          DatawichWebSDKConfig.apis.ProfileInfoUpdate,
+                          ProfileEvent.UserModelDefaultPanel,
+                          modelKey
+                        )
                       )
                       request.setBodyData({
                         panelId: panelInfo ? panelInfo.panelId : '',
@@ -249,7 +248,9 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, c
                               content: `确定要删除面板 ${item.name} 吗`,
                             })
                             dialog.show(async () => {
-                              const request = MyRequest(new CommonAPI(apis.deletePanel, modelKey, item.panelId))
+                              const request = MyRequest(
+                                new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelDelete, modelKey, item.panelId)
+                              )
                               await request.quickSend<ModelPanelInfo>()
                               if (checked) {
                                 setQueryParams({})
@@ -312,7 +313,9 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, c
                             displaySettings: newDisplaySettings,
                           },
                         }
-                        const request = MyRequest(new CommonAPI(apis.updatePanel, modelKey, panelInfo.panelId))
+                        const request = MyRequest(
+                          new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelUpdate, modelKey, panelInfo.panelId)
+                        )
                         request.setBodyData(params)
                         await request.quickSend<ModelPanelInfo>()
                         setQueryParams({
@@ -335,7 +338,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, apis, c
                               displaySettings: newDisplaySettings,
                             },
                           }
-                          const request = MyRequest(new CommonAPI(apis.createPanel, modelKey))
+                          const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelCreate, modelKey))
                           request.setBodyData(params)
                           const panel = await request.quickSend<ModelPanelInfo>()
                           setQueryParams({
