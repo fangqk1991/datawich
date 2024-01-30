@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Dropdown, message } from 'antd'
+import { Descriptions, Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
-import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldHelper, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataRecordDialog } from './DataRecordDialog'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
-import { ConfirmDialog } from '@fangcha/react'
+import { ConfirmDialog, ReactPreviewDialog } from '@fangcha/react'
+import { MyDataCell } from '../data-display/MyDataCell'
 
 interface Props {
   modelKey: string
   mainFields: ModelFieldModel[]
+  displayFields: ModelFieldModel[]
   record: DataRecord
   onDataChanged?: () => void
 }
@@ -21,21 +23,76 @@ interface DataRecord {
   [p: string]: any
 }
 
-export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, record, onDataChanged }) => {
+interface DescriptionItem {
+  key: string
+  field: ModelFieldModel
+  superField?: ModelFieldModel
+  cell: React.ReactNode
+}
+
+export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, displayFields, record, onDataChanged }) => {
+  const loadRecordInfo = useCallback(() => {
+    const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordGet, modelKey, record._data_id))
+    return request.quickSend<DataRecord>()
+  }, [])
   return (
     <Dropdown
       menu={{
         items: [
+          {
+            key: 'view',
+            label: (
+              <a
+                style={{ color: '#1677ff' }}
+                onClick={() => {
+                  loadRecordInfo().then((record) => {
+                    const items: DescriptionItem[] = []
+                    for (const field of displayFields) {
+                      const dataKey = GeneralDataHelper.calculateDataKey(field)
+                      items.push({
+                        key: dataKey,
+                        field: field,
+                        cell: <MyDataCell field={field} data={record} />,
+                      })
+                      for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
+                        for (const refField of fieldLink.referenceFields) {
+                          const dataKey = GeneralDataHelper.calculateDataKey(refField, field)
+                          items.push({
+                            key: dataKey,
+                            field: refField,
+                            superField: field,
+                            cell: <MyDataCell field={refField} superField={field} data={record} />,
+                          })
+                        }
+                      }
+                    }
+                    const dialog = new ReactPreviewDialog({
+                      element: (
+                        <Descriptions size={'small'} bordered={true}>
+                          {items.map((item) => (
+                            <Descriptions.Item key={item.key} label={item.field.name}>
+                              {item.cell}
+                            </Descriptions.Item>
+                          ))}
+                        </Descriptions>
+                      ),
+                    })
+                    dialog.width = '95%' as any
+                    dialog.show()
+                  })
+                }}
+              >
+                查看
+              </a>
+            ),
+          },
           {
             key: 'copy',
             label: (
               <a
                 style={{ color: '#28a745' }}
                 onClick={() => {
-                  const request = MyRequest(
-                    new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordGet, modelKey, record._data_id)
-                  )
-                  request.quickSend().then((record) => {
+                  loadRecordInfo().then((record) => {
                     const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
                     const dialog = new DataRecordDialog({
                       mainFields: mainFields,
@@ -61,11 +118,9 @@ export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, record
             key: 'edit',
             label: (
               <a
+                style={{ color: '#1677ff' }}
                 onClick={() => {
-                  const request = MyRequest(
-                    new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordGet, modelKey, record._data_id)
-                  )
-                  request.quickSend().then((record) => {
+                  loadRecordInfo().then((record) => {
                     const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
                     const dialog = new DataRecordDialog({
                       mainFields: mainFields,

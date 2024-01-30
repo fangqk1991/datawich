@@ -106,7 +106,13 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
           fixed: 'right',
           align: 'center',
           render: (item) => (
-            <RecordActionCell modelKey={modelKey} mainFields={mainFields} record={item} onDataChanged={onDataChanged} />
+            <RecordActionCell
+              modelKey={modelKey}
+              mainFields={mainFields}
+              displayFields={displayFields}
+              record={item}
+              onDataChanged={onDataChanged}
+            />
           ),
         },
       ])}
