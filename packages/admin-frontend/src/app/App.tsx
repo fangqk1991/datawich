@@ -20,7 +20,8 @@ AuthSdkHelper.defaultRedirectUri = '/'
 DatawichWebSDKConfig.appDetailPage = (modelKey) =>
   DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])
 
-DatawichWebSDKConfig.apis.AppListGet = DataAppApis.FavorDataAppListGet
+DatawichWebSDKConfig.apis.AppListGet = DataAppApis.DataAppListGet
+DatawichWebSDKConfig.apis.FavorAppListGet = DataAppApis.FavorDataAppListGet
 
 DatawichWebSDKConfig.apis.ProfileInfoGet = CommonProfileApis.ProfileInfoGet
 DatawichWebSDKConfig.apis.ProfileInfoUpdate = CommonProfileApis.ProfileUserInfoUpdate

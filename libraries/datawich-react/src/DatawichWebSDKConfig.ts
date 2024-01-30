@@ -6,6 +6,7 @@ export const DatawichWebSDKConfig = {
   apis: {
     AppListGet: SdkDatawichApis.ModelListGet,
 
+    FavorAppListGet: SdkDatawichApis.FavorDataAppListGet,
     ProfileInfoGet: SdkDatawichApis.ProfileInfoGet,
     ProfileInfoUpdate: SdkDatawichApis.ProfileUserInfoUpdate,
 

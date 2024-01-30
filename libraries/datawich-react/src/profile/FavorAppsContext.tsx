@@ -26,7 +26,7 @@ export const FavorAppsProvider: React.FC<React.PropsWithChildren> = ({ children 
   }, {})
 
   const reloadFavorApps = () => {
-    const request = MyRequest(DatawichWebSDKConfig.apis.AppListGet)
+    const request = MyRequest(DatawichWebSDKConfig.apis.FavorAppListGet)
     request.quickSend().then((response) => {
       if (Array.isArray(response)) {
         setFavorApps(response)
