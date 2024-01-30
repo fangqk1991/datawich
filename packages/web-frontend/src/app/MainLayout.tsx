@@ -6,6 +6,7 @@ import { useSessionConfig, useUserInfo } from '@fangcha/auth-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { WebAuthApis } from '@fangcha/sso-models'
 import { RouterLink } from '@fangcha/react'
+import { DatawichWebSDKConfig, useFavorAppsCtx } from '@fangcha/datawich-react'
 
 interface Props {
   appName?: string
@@ -17,6 +18,7 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
 
   const location = useLocation()
   const navigate = useNavigate()
+  const favorAppsCtx = useFavorAppsCtx()
 
   return (
     <ProLayout
@@ -50,8 +52,12 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
               menu={{
                 items: [
                   {
+                    key: 'email',
+                    label: userInfo.email,
+                  },
+                  {
                     key: 'logout',
-                    label: 'Logout',
+                    label: '登出',
                     onClick: () => {
                       window.location.href = WebAuthApis.RedirectLogout.route
                     },
@@ -68,7 +74,7 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
                     userSelect: 'none',
                   }}
                 >
-                  {userInfo.email}
+                  {(userInfo.email || '').split('@')[0]}
                 </span>
               </div>
             </Dropdown>
@@ -77,7 +83,24 @@ export const MainLayout: React.FC<Props> = ({ appName }) => {
       }}
       // actionsRender 必须定义，否则会影响 avatarProps 的生效
       actionsRender={() => {
-        return []
+        return userInfo
+          ? [
+              <Dropdown
+                menu={{
+                  items: favorAppsCtx.favorApps.map((item) => ({
+                    key: item.modelKey,
+                    label: item.name,
+                    onClick: () => {
+                      navigate(DatawichWebSDKConfig.appPage(item.modelKey))
+                    },
+                  })),
+                }}
+                trigger={['click']}
+              >
+                <b>收藏夹 ⭐️</b>
+              </Dropdown>,
+            ]
+          : []
       }}
       menuItemRender={(item, dom) => <RouterLink route={item.path || '/'}>{dom}</RouterLink>}
     >

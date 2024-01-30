@@ -4,7 +4,7 @@ import { RouteErrorBoundary } from '@fangcha/react'
 import { DatawichWebPages } from '@web/datawich-common/web-apis'
 import { DatawichAppDetailView } from '../datawich/DatawichAppDetailView'
 import { MainLayout } from './MainLayout'
-import { DataAppListView, FavorAppsProvider } from '@fangcha/datawich-react'
+import { SDK_DataAppListView, FavorAppsProvider } from '@fangcha/datawich-react'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ export const MyRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <DataAppListView />,
+        element: <SDK_DataAppListView />,
       },
       {
         path: DatawichWebPages.DatawichAppDetailRoute,

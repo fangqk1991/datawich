@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { DataModelModel, ProfileEvent, SdkDatawichApis } from '@fangcha/datawich-service'
+import { DataModelModel, ProfileEvent } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
-import { ApiOptions, CommonAPI } from '@fangcha/app-request'
+import { CommonAPI } from '@fangcha/app-request'
+import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
 interface Context {
   favorApps: DataModelModel[]
@@ -17,15 +18,7 @@ export const useFavorAppsCtx = () => {
   return useContext(FavorAppsContext)
 }
 
-export const FavorAppsProvider: React.FC<
-  React.PropsWithChildren<{
-    api_AppListGet?: ApiOptions
-    api_ProfileInfoUpdate?: ApiOptions
-  }>
-> = ({ children, ...props }) => {
-  const api_AppListGet = props.api_AppListGet || SdkDatawichApis.ModelListGet
-  const api_ProfileInfoUpdate = props.api_ProfileInfoUpdate || SdkDatawichApis.ProfileUserInfoUpdate
-
+export const FavorAppsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [favorApps, setFavorApps] = useState<DataModelModel[]>([])
   const favorMap = favorApps.reduce((result, cur) => {
     result[cur.modelKey] = cur
@@ -33,7 +26,7 @@ export const FavorAppsProvider: React.FC<
   }, {})
 
   const reloadFavorApps = () => {
-    const request = MyRequest(api_AppListGet)
+    const request = MyRequest(DatawichWebSDKConfig.apis.AppListGet)
     request.quickSend().then((response) => {
       if (Array.isArray(response)) {
         setFavorApps(response)
@@ -53,7 +46,9 @@ export const FavorAppsProvider: React.FC<
         ? favorApps.filter((app) => app.modelKey !== modelKey).map((app) => app.modelKey)
         : [...favorApps.map((app) => app.modelKey), modelKey]
 
-      const request = MyRequest(new CommonAPI(api_ProfileInfoUpdate, ProfileEvent.UserModelSidebarApps, 'stuff'))
+      const request = MyRequest(
+        new CommonAPI(DatawichWebSDKConfig.apis.ProfileInfoUpdate, ProfileEvent.UserModelSidebarApps, 'stuff')
+      )
       request.setBodyData({
         favorModelKeys: favorKeys,
       })

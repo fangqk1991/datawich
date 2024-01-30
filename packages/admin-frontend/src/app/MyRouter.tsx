@@ -2,11 +2,11 @@ import { createBrowserRouter } from 'react-router-dom'
 import React from 'react'
 import { MainLayout } from '../core/MainLayout'
 import { RouteErrorBoundary } from '@fangcha/react'
-import { DataAppListView, FavorAppsProvider } from '@fangcha/datawich-react'
+import { FavorAppsProvider, SDK_DataAppListView } from '@fangcha/datawich-react'
 import { DataAppDetailView } from '../data-app/DataAppDetailView'
 import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
-import { CommonProfileApis, DataAppApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { JobListView } from '@fangcha/job-react'
 import { ResourceTaskListView } from '@fangcha/oss-react'
 import { ModelClientListView } from '../model-client/ModelClientListView'
@@ -15,10 +15,7 @@ export const MyRouter = createBrowserRouter([
   {
     path: '/',
     element: (
-      <FavorAppsProvider
-        api_AppListGet={DataAppApis.FavorDataAppListGet}
-        api_ProfileInfoUpdate={CommonProfileApis.ProfileUserInfoUpdate}
-      >
+      <FavorAppsProvider>
         <MainLayout appName='Datawich 🍰' />
       </FavorAppsProvider>
     ),
@@ -26,21 +23,11 @@ export const MyRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: (
-          <DataAppListView
-            api_AppListGet={DataAppApis.DataAppListGet}
-            appPage={(modelKey) => DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])}
-          />
-        ),
+        element: <SDK_DataAppListView />,
       },
       {
         path: DatawichAdminPages.AllDataAppsRoute,
-        element: (
-          <DataAppListView
-            api_AppListGet={DataAppApis.DataAppListGet}
-            appPage={(modelKey) => DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])}
-          />
-        ),
+        element: <SDK_DataAppListView />,
       },
       {
         path: DatawichAdminPages.DataAppDetailRoute,
