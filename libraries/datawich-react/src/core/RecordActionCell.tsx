@@ -45,29 +45,30 @@ export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, displa
               <a
                 style={{ color: '#1677ff' }}
                 onClick={() => {
-                  loadRecordInfo().then((record) => {
-                    const items: DescriptionItem[] = []
-                    for (const field of displayFields) {
-                      const dataKey = GeneralDataHelper.calculateDataKey(field)
-                      items.push({
-                        key: dataKey,
-                        field: field,
-                        cell: <MyDataCell field={field} data={record} />,
-                      })
-                      for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
-                        for (const refField of fieldLink.referenceFields) {
-                          const dataKey = GeneralDataHelper.calculateDataKey(refField, field)
-                          items.push({
-                            key: dataKey,
-                            field: refField,
-                            superField: field,
-                            cell: <MyDataCell field={refField} superField={field} data={record} />,
-                          })
+                  const dialog = new ReactPreviewDialog({
+                    loadElement: async () => {
+                      const record = await loadRecordInfo()
+                      const items: DescriptionItem[] = []
+                      for (const field of displayFields) {
+                        const dataKey = GeneralDataHelper.calculateDataKey(field)
+                        items.push({
+                          key: dataKey,
+                          field: field,
+                          cell: <MyDataCell field={field} data={record} />,
+                        })
+                        for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
+                          for (const refField of fieldLink.referenceFields) {
+                            const dataKey = GeneralDataHelper.calculateDataKey(refField, field)
+                            items.push({
+                              key: dataKey,
+                              field: refField,
+                              superField: field,
+                              cell: <MyDataCell field={refField} superField={field} data={record} />,
+                            })
+                          }
                         }
                       }
-                    }
-                    const dialog = new ReactPreviewDialog({
-                      element: (
+                      return (
                         <Descriptions size={'small'} bordered={true}>
                           {items.map((item) => (
                             <Descriptions.Item key={item.key} label={item.field.name}>
@@ -75,11 +76,11 @@ export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, displa
                             </Descriptions.Item>
                           ))}
                         </Descriptions>
-                      ),
-                    })
-                    dialog.width = '95%' as any
-                    dialog.show()
+                      )
+                    },
                   })
+                  dialog.width = '95%'
+                  dialog.show()
                 }}
               >
                 查看
@@ -92,21 +93,21 @@ export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, displa
               <a
                 style={{ color: '#28a745' }}
                 onClick={() => {
-                  loadRecordInfo().then((record) => {
-                    const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
-                    const dialog = new DataRecordDialog({
-                      mainFields: mainFields,
-                      modelKey: modelKey,
-                      data: inputData,
-                    })
-                    dialog.title = '创建数据记录'
-                    dialog.show(async (params) => {
-                      const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordCreate, modelKey))
-                      request.setBodyData(params)
-                      await request.execute()
-                      message.success('创建成功')
-                      onDataChanged && onDataChanged()
-                    })
+                  const dialog = new DataRecordDialog({
+                    mainFields: mainFields,
+                    modelKey: modelKey,
+                  })
+                  dialog.title = '创建数据记录'
+                  dialog.loadData = async () => {
+                    const record = await loadRecordInfo()
+                    dialog.props.data = FieldHelper.cleanDataByModelFields(record, mainFields)
+                  }
+                  dialog.show(async (params) => {
+                    const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordCreate, modelKey))
+                    request.setBodyData(params)
+                    await request.execute()
+                    message.success('创建成功')
+                    onDataChanged && onDataChanged()
                   })
                 }}
               >
@@ -120,23 +121,23 @@ export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, displa
               <a
                 style={{ color: '#1677ff' }}
                 onClick={() => {
-                  loadRecordInfo().then((record) => {
-                    const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
-                    const dialog = new DataRecordDialog({
-                      mainFields: mainFields,
-                      modelKey: modelKey,
-                      data: inputData,
-                    })
-                    dialog.title = '修改数据记录'
-                    dialog.show(async (params) => {
-                      const request = MyRequest(
-                        new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordUpdate, modelKey, record._data_id)
-                      )
-                      request.setBodyData(params)
-                      await request.execute()
-                      message.success('修改成功')
-                      onDataChanged && onDataChanged()
-                    })
+                  const dialog = new DataRecordDialog({
+                    mainFields: mainFields,
+                    modelKey: modelKey,
+                  })
+                  dialog.title = '修改数据记录'
+                  dialog.loadData = async () => {
+                    const record = await loadRecordInfo()
+                    dialog.props.data = FieldHelper.cleanDataByModelFields(record, mainFields)
+                  }
+                  dialog.show(async (params) => {
+                    const request = MyRequest(
+                      new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordUpdate, modelKey, record._data_id)
+                    )
+                    request.setBodyData(params)
+                    await request.execute()
+                    message.success('修改成功')
+                    onDataChanged && onDataChanged()
                   })
                 }}
               >
