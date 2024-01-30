@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/datawich-react",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "main": "src/index.ts",
   "repository": "https://github.com/fangqk1991/datawich.git",
   "keywords": [
@@ -10,5 +10,8 @@
   "license": "MIT",
   "files": [
     "src/*"
-  ]
+  ],
+  "dependencies": {
+    "react-quill": "^2.0.0"
+  }
 }
