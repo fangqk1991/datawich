@@ -95,6 +95,9 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
                   ),
               })
             }
+            if (isMobile) {
+              columns.forEach((column) => (column['fixed'] = undefined))
+            }
             return columns
           })
           .reduce((result, cur) => {
