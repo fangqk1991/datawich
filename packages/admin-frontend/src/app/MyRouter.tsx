@@ -16,10 +16,8 @@ export const MyRouter = createBrowserRouter([
     path: '/',
     element: (
       <FavorAppsProvider
-        apis={{
-          getAppList: DataAppApis.FavorDataAppListGet,
-          updateProfileInfo: CommonProfileApis.ProfileUserInfoUpdate,
-        }}
+        api_AppListGet={DataAppApis.FavorDataAppListGet}
+        api_ProfileInfoUpdate={CommonProfileApis.ProfileUserInfoUpdate}
       >
         <MainLayout appName='Datawich 🍰' />
       </FavorAppsProvider>
@@ -30,7 +28,7 @@ export const MyRouter = createBrowserRouter([
         path: '/',
         element: (
           <DataAppListView
-            apis={{ getAppList: DataAppApis.DataAppListGet }}
+            api_AppListGet={DataAppApis.DataAppListGet}
             appPage={(modelKey) => DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])}
           />
         ),
@@ -39,7 +37,7 @@ export const MyRouter = createBrowserRouter([
         path: DatawichAdminPages.AllDataAppsRoute,
         element: (
           <DataAppListView
-            apis={{ getAppList: DataAppApis.DataAppListGet }}
+            api_AppListGet={DataAppApis.DataAppListGet}
             appPage={(modelKey) => DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])}
           />
         ),

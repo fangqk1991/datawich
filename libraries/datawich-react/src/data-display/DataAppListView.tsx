@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Card, Divider, Spin } from 'antd'
-import { DataModelModel } from '@fangcha/datawich-service'
+import { DataModelModel, SdkDatawichApis, SdkDatawichPages } from '@fangcha/datawich-service'
 import { useNavigate } from 'react-router-dom'
 import { useFavorAppsCtx } from '../profile/FavorAppsContext'
 import { ApiOptions } from '@fangcha/app-request'
 
 interface Props {
-  apis: {
-    getAppList: ApiOptions
-  }
-  appPage: (modelKey: string) => string
+  appPage?: (modelKey: string) => string
+  api_AppListGet?: ApiOptions
 }
 
-export const DataAppListView: React.FC<Props> = ({ apis, appPage }) => {
+export const DataAppListView: React.FC<Props> = ({ api_AppListGet, appPage }) => {
+  api_AppListGet = api_AppListGet || SdkDatawichApis.ModelListGet
+
   const [appList, setAppList] = useState<DataModelModel[]>()
   const navigate = useNavigate()
   const favorAppsCtx = useFavorAppsCtx()
 
   useEffect(() => {
-    MyRequest(apis.getAppList)
+    MyRequest(api_AppListGet)
       .quickSend()
       .then((response) => {
         setAppList(response)
@@ -52,7 +52,11 @@ export const DataAppListView: React.FC<Props> = ({ apis, appPage }) => {
               }}
               key={dataApp.modelKey}
               onClick={() => {
-                navigate(appPage(dataApp.modelKey))
+                navigate(
+                  appPage
+                    ? appPage(dataApp.modelKey)
+                    : SdkDatawichPages.buildRoute(SdkDatawichPages.WebAppDetailRoute, [dataApp.modelKey])
+                )
               }}
             >
               <b>
