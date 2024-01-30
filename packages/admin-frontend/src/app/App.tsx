@@ -26,7 +26,7 @@ DatawichWebSDKConfig.apis.ProfileInfoGet = CommonProfileApis.ProfileInfoGet
 DatawichWebSDKConfig.apis.ProfileInfoUpdate = CommonProfileApis.ProfileUserInfoUpdate
 
 DatawichWebSDKConfig.apis.ModelPanelListGet = ModelPanelApis.ModelPanelListGet
-DatawichWebSDKConfig.apis.ModelPanelInfoGet = ModelPanelApis.ModelPanelGet
+DatawichWebSDKConfig.apis.ModelPanelInfoGet = ModelPanelApis.ModelPanelInfoGet
 DatawichWebSDKConfig.apis.ModelPanelCreate = ModelPanelApis.ModelPanelCreate
 DatawichWebSDKConfig.apis.ModelPanelUpdate = ModelPanelApis.ModelPanelUpdate
 DatawichWebSDKConfig.apis.ModelPanelDelete = ModelPanelApis.ModelPanelDelete

@@ -27,7 +27,7 @@ factory.prepare(ModelPanelApis.ModelPanelCreate, async (ctx) => {
   })
 })
 
-factory.prepare(ModelPanelApis.ModelPanelGet, async (ctx) => {
+factory.prepare(ModelPanelApis.ModelPanelInfoGet, async (ctx) => {
   await new DataModelSpecHandler(ctx).handleModelPanel(async (panel, dataModel) => {
     await new SessionChecker(ctx).assertModelAccessible(dataModel)
     ctx.body = panel.modelForClient()

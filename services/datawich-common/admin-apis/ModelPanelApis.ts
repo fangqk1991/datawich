@@ -9,7 +9,7 @@ export const ModelPanelApis = {
     route: '/api/v1/model/:modelKey/panel',
     description: '创建模型面板',
   },
-  ModelPanelGet: {
+  ModelPanelInfoGet: {
     method: 'GET',
     route: '/api/v1/model/:modelKey/panel/:panelId',
     description: '获取模型面板信息',

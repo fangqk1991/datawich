@@ -10,7 +10,7 @@ export const DatawichWebSDKConfig = {
     ProfileInfoUpdate: SdkDatawichApis.ProfileUserInfoUpdate,
 
     ModelPanelListGet: SdkDatawichApis.ModelPanelListGet,
-    ModelPanelInfoGet: SdkDatawichApis.ModelPanelGet,
+    ModelPanelInfoGet: SdkDatawichApis.ModelPanelInfoGet,
     ModelPanelCreate: SdkDatawichApis.ModelPanelCreate,
     ModelPanelUpdate: SdkDatawichApis.ModelPanelUpdate,
     ModelPanelDelete: SdkDatawichApis.ModelPanelDelete,

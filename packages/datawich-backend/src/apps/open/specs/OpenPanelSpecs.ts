@@ -25,7 +25,7 @@ factory.prepare(OpenPanelApis.ModelPanelCreate, async (ctx) => {
   })
 })
 
-factory.prepare(OpenPanelApis.ModelPanelGet, async (ctx) => {
+factory.prepare(OpenPanelApis.ModelPanelInfoGet, async (ctx) => {
   await new DataModelSpecHandler(ctx).handleModelPanel(async (panel) => {
     ctx.body = panel.modelForClient()
   })
