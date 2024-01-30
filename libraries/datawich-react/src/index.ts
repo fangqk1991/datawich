@@ -1,4 +1,5 @@
 export * from './DatawichWebSDKConfig'
+export * from './app/SDK_MainLayout'
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'
 export * from './data-display/SDK_DataAppListView'
