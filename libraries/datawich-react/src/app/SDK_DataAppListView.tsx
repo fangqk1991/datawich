@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Card, Divider, Spin } from 'antd'
-import { DataModelModel } from '@fangcha/datawich-service/lib'
+import { DataModelModel } from '@fangcha/datawich-service'
 import { useNavigate } from 'react-router-dom'
 import { useFavorAppsCtx } from '../profile/FavorAppsContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
