@@ -35,6 +35,11 @@ DatawichWebSDKConfig.apis.ModelPanelDelete = ModelPanelApis.ModelPanelDelete
 DatawichWebSDKConfig.apis.DataModelInfoGet = DataModelApis.DataModelInfoGet
 DatawichWebSDKConfig.apis.ModelVisibleFieldListGet = ModelFieldApis.DataModelVisibleFieldListGet
 
+DatawichWebSDKConfig.apis.DataAppRecordCreate = DataAppApis.DataAppRecordCreate
+DatawichWebSDKConfig.apis.DataAppRecordGet = DataAppApis.DataAppRecordGet
+DatawichWebSDKConfig.apis.DataAppRecordUpdate = DataAppApis.DataAppRecordUpdate
+DatawichWebSDKConfig.apis.DataAppRecordDelete = DataAppApis.DataAppRecordDelete
+
 export const App: React.FC = () => {
   const config = useSessionConfig() as any
 

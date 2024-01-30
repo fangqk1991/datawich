@@ -4,6 +4,7 @@ import { TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { myDataColumn } from './myDataColumn'
 import { useModelPanel } from '../filter/ModelPanelContext'
+import { RecordActionCell } from '../core/RecordActionCell'
 
 interface DataRecord {
   rid: number
@@ -24,15 +25,17 @@ const trimParams = (params: {}) => {
 }
 
 interface Props {
+  modelKey: string
   mainFields: ModelFieldModel[]
   loadData: (params: {}) => Promise<PageResult<DataRecord>>
   extrasColumns?: {
     title: React.ReactNode
     render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
   }[]
+  onDataChanged?: () => void
 }
 
-export const DataDisplayTable: React.FC<Props> = ({ mainFields, extrasColumns, loadData }) => {
+export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extrasColumns, loadData, onDataChanged }) => {
   const { queryParams, updateQueryParams } = useQueryParams<{
     keywords: string
     panelId: string
@@ -98,6 +101,14 @@ export const DataDisplayTable: React.FC<Props> = ({ mainFields, extrasColumns, l
             return result
           }, []) as any[]),
         ...(extrasColumns || []),
+        {
+          title: '操作',
+          fixed: 'right',
+          align: 'center',
+          render: (item) => (
+            <RecordActionCell modelKey={modelKey} mainFields={mainFields} record={item} onDataChanged={onDataChanged} />
+          ),
+        },
       ])}
       // defaultSettings={{
       //   pageSize: Number(queryParams.pageSize) || 10,

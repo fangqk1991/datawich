@@ -4,7 +4,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataAppApis } from '@web/datawich-common/admin-apis'
 import { Button, message } from 'antd'
-import { GeneralDataDialog } from './GeneralDataDialog'
+import { DataRecordDialog } from '@fangcha/datawich-react'
 
 interface Props {
   modelKey: string
@@ -17,7 +17,7 @@ export const DataCreateButton: React.FC<Props> = ({ modelKey, fields, onImportDo
     <Button
       type={'primary'}
       onClick={() => {
-        const dialog = new GeneralDataDialog({
+        const dialog = new DataRecordDialog({
           mainFields: fields,
           modelKey: modelKey,
         })

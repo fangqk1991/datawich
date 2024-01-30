@@ -1,3 +1,4 @@
+import { Api } from '@fangcha/swagger'
 export const DataAppApis = {
   DataAppListGet: {
     method: 'GET',
@@ -41,7 +42,7 @@ export const DataAppApis = {
     method: 'POST',
     route: '/api/v1/data-app/:modelKey/record',
     description: '新建应用数据',
-  },
+  } as Api,
   DataAppRecordPut: {
     method: 'PUT',
     route: '/api/v1/data-app/:modelKey/record',

@@ -18,5 +18,10 @@ export const DatawichWebSDKConfig = {
 
     DataModelInfoGet: SdkDatawichApis.DataModelInfoGet,
     ModelVisibleFieldListGet: SdkDatawichApis.ModelVisibleFieldListGet,
+
+    DataAppRecordCreate: SdkDatawichApis.DataAppRecordCreate,
+    DataAppRecordGet: SdkDatawichApis.DataAppRecordGet,
+    DataAppRecordUpdate: SdkDatawichApis.DataAppRecordUpdate,
+    DataAppRecordDelete: SdkDatawichApis.DataAppRecordDelete,
   },
 }

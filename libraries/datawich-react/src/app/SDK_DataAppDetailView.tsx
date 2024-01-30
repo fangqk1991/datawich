@@ -52,6 +52,7 @@ export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
       <Divider style={{ margin: '0 0 12px' }} />
 
       <DataDisplayTable
+        modelKey={modelKey}
         mainFields={mainFields}
         loadData={async (params) => {
           const request = MyRequest(new CommonAPI(SdkDatawichApis.DataAppRecordPageDataGet, modelKey))

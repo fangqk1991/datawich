@@ -1,17 +1,15 @@
 import React, { useReducer } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
+import { Breadcrumb, Button, Card, Divider, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import { DataAppApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
-import { FieldHelper } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
-import { ConfirmDialog, LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
+import { LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
 import { DataImportButton } from './DataImportButton'
 import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
-import { GeneralDataDialog } from './GeneralDataDialog'
 import {
   DataDisplayTable,
   DataFilterPanel,
@@ -100,91 +98,14 @@ export const DataAppDetailView: React.FC = () => {
       {/*<Divider style={{ margin: '12px 0' }} />*/}
 
       <DataDisplayTable
+        modelKey={modelKey}
         mainFields={mainFields}
         loadData={async (params) => {
           const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGet, modelKey))
           request.setQueryParams(params)
           return request.quickSend()
         }}
-        extrasColumns={[
-          {
-            title: '操作',
-            // fixed: 'right',
-            render: (item) => {
-              return (
-                <Space>
-                  <a
-                    style={{ color: '#28a745' }}
-                    onClick={() => {
-                      const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordGet, modelKey, item._data_id))
-                      request.quickSend().then((record) => {
-                        const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
-                        const dialog = new GeneralDataDialog({
-                          mainFields: mainFields,
-                          modelKey: modelKey,
-                          data: inputData,
-                        })
-                        dialog.title = '创建数据记录'
-                        dialog.show(async (params) => {
-                          const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordCreate, modelKey))
-                          request.setBodyData(params)
-                          await request.execute()
-                          message.success('创建成功')
-                          forceUpdate()
-                        })
-                      })
-                    }}
-                  >
-                    复制
-                  </a>
-                  <a
-                    onClick={() => {
-                      const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordGet, modelKey, item._data_id))
-                      request.quickSend().then((record) => {
-                        const inputData = FieldHelper.cleanDataByModelFields(record, mainFields)
-                        const dialog = new GeneralDataDialog({
-                          mainFields: mainFields,
-                          modelKey: modelKey,
-                          data: inputData,
-                        })
-                        dialog.title = '修改数据记录'
-                        dialog.show(async (params) => {
-                          const request = MyRequest(
-                            new CommonAPI(DataAppApis.DataAppRecordUpdate, modelKey, item._data_id)
-                          )
-                          request.setBodyData(params)
-                          await request.execute()
-                          message.success('修改成功')
-                          forceUpdate()
-                        })
-                      })
-                    }}
-                  >
-                    编辑
-                  </a>
-                  <a
-                    style={{ color: '#dc3545' }}
-                    onClick={async () => {
-                      const dialog = new ConfirmDialog({
-                        content: '是否删除本记录？',
-                      })
-                      dialog.show(async () => {
-                        const request = MyRequest(
-                          new CommonAPI(DataAppApis.DataAppRecordDelete, modelKey, item._data_id)
-                        )
-                        await request.execute()
-                        message.success('删除成功')
-                        forceUpdate()
-                      })
-                    }}
-                  >
-                    删除
-                  </a>
-                </Space>
-              )
-            },
-          },
-        ]}
+        extrasColumns={[]}
       />
     </ModelPanelProvider>
   )

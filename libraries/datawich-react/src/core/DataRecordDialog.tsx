@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
 import { ModelFieldModel } from '@fangcha/datawich-service'
-import { DataNormalForm } from '../core/DataNormalForm'
+import { DataNormalForm } from './DataNormalForm'
 
 interface Props extends DialogProps {
   mainFields: ModelFieldModel[]
@@ -9,7 +9,7 @@ interface Props extends DialogProps {
   data?: any
 }
 
-export class GeneralDataDialog extends ReactDialog<Props> {
+export class DataRecordDialog extends ReactDialog<Props> {
   width = '80%'
   title = '数据记录'
 

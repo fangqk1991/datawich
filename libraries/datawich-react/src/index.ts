@@ -4,6 +4,9 @@ export * from './app/SDK_MainLayout'
 export * from './app/SDK_DataAppListView'
 export * from './app/SDK_DataAppDetailView'
 
+export * from './core/RecordActionCell'
+export * from './core/DataRecordDialog'
+
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'
 export * from './filter/FilterItemDialog'

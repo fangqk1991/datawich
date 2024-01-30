@@ -1,4 +1,4 @@
-import { buildSwaggerSchema, makeSwaggerBodyDataParameters, SwaggerParameter } from '@fangcha/swagger'
+import { Api, buildSwaggerSchema, makeSwaggerBodyDataParameters, SwaggerParameter } from '@fangcha/swagger'
 import { DataAppSwaggerModelData } from '../models'
 
 const dataPostInfoStr = [
@@ -63,7 +63,7 @@ export const OpenDataAppApis = {
         schema: buildSwaggerSchema({ fieldKey1: 'fieldValue1', fieldKey2: 'fieldValue2' }),
       },
     ] as SwaggerParameter[],
-  },
+  } as Api,
   DataAppRecordForcePut: {
     method: 'PUT',
     route: '/api/data-app/v1/data-model/:modelKey/record',
@@ -77,12 +77,12 @@ export const OpenDataAppApis = {
         schema: buildSwaggerSchema({ fieldKey1: 'fieldValue1', fieldKey2: 'fieldValue2' }),
       },
     ] as SwaggerParameter[],
-  },
+  } as Api,
   DataAppRecordGet: {
     method: 'GET',
     route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
     description: '获取应用数据记录',
-  },
+  } as Api,
   DataAppRecordUpdate: {
     method: 'PUT',
     route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
@@ -96,12 +96,12 @@ export const OpenDataAppApis = {
         schema: buildSwaggerSchema({ fieldKey1: 'fieldValue1', fieldKey2: 'fieldValue2' }),
       },
     ] as SwaggerParameter[],
-  },
+  } as Api,
   DataAppRecordDelete: {
     method: 'DELETE',
     route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
     description: '删除应用数据记录',
-  },
+  } as Api,
   DataAppRecordsBatchUpsert: {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/batch-upsert',
