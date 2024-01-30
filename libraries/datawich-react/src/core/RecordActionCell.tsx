@@ -15,6 +15,11 @@ interface Props {
   displayFields: ModelFieldModel[]
   record: DataRecord
   onDataChanged?: () => void
+
+  extrasColumns?: {
+    title: React.ReactNode
+    render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
+  }[]
 }
 
 interface DataRecord {
@@ -30,7 +35,14 @@ interface DescriptionItem {
   cell: React.ReactNode
 }
 
-export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, displayFields, record, onDataChanged }) => {
+export const RecordActionCell: React.FC<Props> = ({
+  modelKey,
+  mainFields,
+  displayFields,
+  extrasColumns,
+  record,
+  onDataChanged,
+}) => {
   const loadRecordInfo = useCallback(() => {
     const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordGet, modelKey, record._data_id))
     return request.quickSend<DataRecord>()
@@ -68,11 +80,18 @@ export const RecordActionCell: React.FC<Props> = ({ modelKey, mainFields, displa
                           }
                         }
                       }
+
+                      const columns = extrasColumns || []
                       return (
                         <Descriptions size={'small'} bordered={true}>
                           {items.map((item) => (
                             <Descriptions.Item key={item.key} label={item.field.name}>
                               {item.cell}
+                            </Descriptions.Item>
+                          ))}
+                          {columns.map((column, index) => (
+                            <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
+                              {column.render(record, record, 0)}
                             </Descriptions.Item>
                           ))}
                         </Descriptions>

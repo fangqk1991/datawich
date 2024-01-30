@@ -16,7 +16,19 @@ export const MyRouter = createBrowserRouter([
       },
       {
         path: SdkDatawichPages.WebAppDetailRoute,
-        element: <SDK_DataAppDetailView />,
+        element: (
+          <SDK_DataAppDetailView
+            extrasColumns={
+              [
+                // {
+                //   title: 'test',
+                //   fixed: 'right',
+                //   render: () => <b>!!!</b>,
+                // },
+              ]
+            }
+          />
+        ),
       },
       {
         path: '*',

@@ -56,6 +56,7 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
     () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
     [mainFields, displaySettings]
   )
+  const isMobile = window.innerWidth < 768
 
   return (
     <TableView
@@ -100,7 +101,12 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
             result.push(...cur)
             return result
           }, []) as any[]),
-        ...(extrasColumns || []),
+        ...(extrasColumns || []).map((column) => {
+          if (isMobile) {
+            column['fixed'] = undefined
+          }
+          return column
+        }),
         {
           title: '操作',
           fixed: 'right',
@@ -110,6 +116,7 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
               modelKey={modelKey}
               mainFields={mainFields}
               displayFields={displayFields}
+              extrasColumns={extrasColumns}
               record={item}
               onDataChanged={onDataChanged}
             />
