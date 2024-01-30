@@ -106,6 +106,7 @@ export const DataAppDetailView: React.FC = () => {
           return request.quickSend()
         }}
         extrasColumns={[]}
+        onDataChanged={forceUpdate}
       />
     </ModelPanelProvider>
   )

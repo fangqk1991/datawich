@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Divider, Space, Spin } from 'antd'
 import { SdkDatawichApis } from '@fangcha/datawich-service'
@@ -20,6 +20,7 @@ interface Props {
 }
 
 export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
   const { modelKey = '' } = useParams()
 
   const dataModel = useDataModel()
@@ -57,6 +58,7 @@ export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
           return request.quickSend()
         }}
         extrasColumns={props.extrasColumns || []}
+        onDataChanged={forceUpdate}
       />
     </ModelPanelProvider>
   )
