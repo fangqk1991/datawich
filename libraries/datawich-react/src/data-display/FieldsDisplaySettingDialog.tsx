@@ -55,7 +55,7 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplay
       }, [allFields])
 
       const checkedFieldOptions = useMemo(() => {
-        return checkedList.map((filterKey) => optionsMap[filterKey]).filter((item) => !!item)
+        return checkedList.filter((filterKey) => !!optionsMap[filterKey]).map((filterKey) => optionsMap[filterKey])
       }, [checkedList])
 
       const uncheckedFieldOptions = useMemo(() => {
@@ -105,13 +105,15 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplay
           />
           <h4 style={{ margin: '12px 0 4px' }}>调整顺序</h4>
           <DraggableOptionsPanel
-            options={checkedList.map((filterKey) => {
-              const field = fieldsMap[filterKey]
-              return {
-                value: field.filterKey,
-                label: `${field.name} (${FieldTypeDescriptor.describe(field.fieldType)})`,
-              }
-            })}
+            options={checkedList
+              .filter((filterKey) => !!fieldsMap[filterKey])
+              .map((filterKey) => {
+                const field = fieldsMap[filterKey]
+                return {
+                  value: field.filterKey,
+                  label: `${field.name} (${FieldTypeDescriptor.describe(field.fieldType)})`,
+                }
+              })}
             onChange={(newOptions) => {
               setCheckedList(newOptions.map((item) => item.value as string))
             }}
