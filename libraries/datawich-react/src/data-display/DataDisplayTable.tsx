@@ -68,6 +68,7 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
         size: 'small',
         bordered: true,
       }}
+      showTotal={true}
       columns={TableViewColumn.makeColumns<DataRecord>([
         ...(displayFields
           .map((field) => {
