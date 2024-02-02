@@ -13,8 +13,8 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplay
 
   public rawComponent(): React.FC<Props> {
     return (props) => {
-      const displayFields = useMemo(
-        () => FieldHelper.extractDisplayFields(props.mainFields, props.displaySettings),
+      const displayItems = useMemo(
+        () => FieldHelper.flattenDisplayItems(props.mainFields, props.displaySettings, true),
         [props.mainFields, props.displaySettings]
       )
       const allFields = useMemo(() => FieldHelper.expandAllFields(props.mainFields), [props.mainFields])
@@ -22,7 +22,7 @@ export class FieldsDisplaySettingDialog extends ReactDialog<Props, FieldsDisplay
       const [checkedList, setCheckedList] = useState(() =>
         props.displaySettings.checkedList.length > 0
           ? props.displaySettings.checkedList
-          : displayFields.map((item) => item.filterKey)
+          : displayItems.map((item) => item.field.filterKey)
       )
       const [fixedList, setFixedList] = useState(() => props.displaySettings.fixedList)
 

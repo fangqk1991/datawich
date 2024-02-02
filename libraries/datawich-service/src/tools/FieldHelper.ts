@@ -145,7 +145,11 @@ export class FieldHelper {
     return displayItems
   }
 
-  public static flattenDisplayItems(mainFields: ModelFieldModel[], displaySettings: FieldsDisplaySettings) {
+  public static flattenDisplayItems(
+    mainFields: ModelFieldModel[],
+    displaySettings: FieldsDisplaySettings,
+    withoutOutlineLink = false
+  ) {
     const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
       result[cur] = true
       return result
@@ -157,6 +161,9 @@ export class FieldHelper {
         isHidden: displaySettings.hiddenFieldsMap[field.filterKey],
       })
       for (const fieldLink of field.refFieldLinks) {
+        if (withoutOutlineLink && !fieldLink.isInline) {
+          continue
+        }
         fieldLink.referenceFields.forEach((refField) => {
           items.push({
             field: refField,
