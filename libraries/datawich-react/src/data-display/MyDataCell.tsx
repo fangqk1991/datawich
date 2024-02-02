@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Image, Tag } from 'antd'
-import { MyRichTextPanel, MyTagsPanel, TextPreviewDialog } from '@fangcha/react'
+import { MyRichTextPanel, MyTagsPanel, PercentSpan, TextPreviewDialog } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
 import { OssFileInfo } from '@fangcha/oss-models'
@@ -33,14 +33,7 @@ export const MyDataCell: React.FC<Props> = (props) => {
             }
             const realValue = value || 0
             if (field.extrasData.numberFormat === NumberFormat.Percent) {
-              const valueText = `${(realValue * 100).toFixed(2)}%`
-              if (realValue > 0) {
-                return <b style={{ color: '#28a745' }}>{valueText}</b>
-              } else if (realValue < 0) {
-                return <b style={{ color: '#dc3545' }}>{valueText}</b>
-              } else {
-                return <b>{valueText}</b>
-              }
+              return <PercentSpan value={value || 0} />
             } else if (field.extrasData.numberFormat === NumberFormat.Format) {
               const prefix = realValue < 0 ? '-' : ''
               let val = Math.abs(realValue)
