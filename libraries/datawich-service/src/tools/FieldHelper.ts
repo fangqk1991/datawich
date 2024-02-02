@@ -2,6 +2,12 @@ import { addSlashes, SelectOption } from '@fangcha/tools'
 import { DescribableField, FieldsDisplaySettings, FieldType, ModelFieldModel, Raw_ModelField } from '../models'
 import { GeneralDataHelper } from './GeneralDataHelper'
 
+export interface FieldDisplayItem {
+  field: ModelFieldModel
+  superField?: ModelFieldModel
+  isHidden: boolean
+}
+
 export class FieldHelper {
   public static getFieldTypeDatabaseSpec(field: ModelFieldModel, beIndex = false) {
     const commentText = addSlashes(field.name)
@@ -135,6 +141,38 @@ export class FieldHelper {
     displayItems = [
       ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
       ...displayItems.filter((item) => !checkedMap[item.filterKey]),
+    ]
+    return displayItems
+  }
+
+  public static flattenDisplayItems(mainFields: ModelFieldModel[], displaySettings: FieldsDisplaySettings) {
+    const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
+      result[cur] = true
+      return result
+    }, {})
+    const items: FieldDisplayItem[] = []
+    for (const field of mainFields) {
+      items.push({
+        field: field,
+        isHidden: displaySettings.hiddenFieldsMap[field.filterKey],
+      })
+      for (const fieldLink of field.refFieldLinks) {
+        fieldLink.referenceFields.forEach((refField) => {
+          items.push({
+            field: refField,
+            superField: field,
+            isHidden: !fieldLink.isInline || displaySettings.hiddenFieldsMap[field.filterKey],
+          })
+        })
+      }
+    }
+    const fieldMap = items.reduce((result, cur) => {
+      result[cur.field.filterKey] = cur
+      return result
+    }, {})
+    const displayItems: FieldDisplayItem[] = [
+      ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
+      ...items.filter((item) => !checkedMap[item.field.filterKey]),
     ]
     return displayItems
   }

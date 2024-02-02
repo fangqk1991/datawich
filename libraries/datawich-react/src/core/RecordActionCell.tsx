@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Descriptions, Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
-import { FieldHelper, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldDisplayItem, FieldHelper, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataRecordDialog } from './DataRecordDialog'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
@@ -12,7 +12,7 @@ import { MyDataCell } from '../data-display/MyDataCell'
 interface Props {
   modelKey: string
   mainFields: ModelFieldModel[]
-  displayFields: ModelFieldModel[]
+  displayItems: FieldDisplayItem[]
   record: DataRecord
   onDataChanged?: () => void
 
@@ -38,7 +38,7 @@ interface DescriptionItem {
 export const RecordActionCell: React.FC<Props> = ({
   modelKey,
   mainFields,
-  displayFields,
+  displayItems,
   extrasColumns,
   record,
   onDataChanged,
@@ -60,35 +60,19 @@ export const RecordActionCell: React.FC<Props> = ({
                   const dialog = new ReactPreviewDialog({
                     loadElement: async () => {
                       const record = await loadRecordInfo()
-                      const items: DescriptionItem[] = []
-                      for (const field of displayFields) {
-                        const dataKey = GeneralDataHelper.calculateDataKey(field)
-                        items.push({
-                          key: dataKey,
-                          field: field,
-                          cell: <MyDataCell field={field} data={record} />,
-                        })
-                        for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
-                          for (const refField of fieldLink.referenceFields) {
-                            const dataKey = GeneralDataHelper.calculateDataKey(refField, field)
-                            items.push({
-                              key: dataKey,
-                              field: refField,
-                              superField: field,
-                              cell: <MyDataCell field={refField} superField={field} data={record} />,
-                            })
-                          }
-                        }
-                      }
-
                       const columns = extrasColumns || []
                       return (
                         <Descriptions size={'small'} bordered={true}>
-                          {items.map((item) => (
-                            <Descriptions.Item key={item.key} label={item.field.name}>
-                              {item.cell}
-                            </Descriptions.Item>
-                          ))}
+                          {displayItems
+                            .filter((item) => !item.isHidden)
+                            .map((item) => {
+                              const dataKey = GeneralDataHelper.calculateDataKey(item.field, item.superField)
+                              return (
+                                <Descriptions.Item key={dataKey} label={item.field.name}>
+                                  <MyDataCell field={item.field} superField={item.superField} data={record} />
+                                </Descriptions.Item>
+                              )
+                            })}
                           {columns.map((column, index) => (
                             <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
                               {column.render(record, record, 0)}

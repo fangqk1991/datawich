@@ -52,10 +52,11 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
     }, {})
   }, [displaySettings])
 
-  const displayFields = useMemo(
-    () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
+  const displayItems = useMemo(
+    () => FieldHelper.flattenDisplayItems(mainFields, displaySettings),
     [mainFields, displaySettings]
   )
+
   const isMobile = window.innerWidth < 768
 
   return (
@@ -70,41 +71,17 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
       }}
       showTotal={true}
       columns={TableViewColumn.makeColumns<DataRecord>([
-        ...(displayFields
-          .map((field) => {
-            const columns = [
-              myDataColumn({
-                field: field,
-                filterOptions: queryParams,
-                onFilterChange: (params) => updateQueryParams(params),
-                fixedColumn: fixedColumnMap[field.filterKey],
-              }),
-            ]
-            for (const fieldLink of field.refFieldLinks.filter((item) => item.isInline)) {
-              columns.push({
-                title: `${field.name} 关联`,
-                children: fieldLink.referenceFields
-                  .filter((refField) => !displaySettings.hiddenFieldsMap[refField.filterKey])
-                  .map((refField) =>
-                    myDataColumn({
-                      field: refField,
-                      superField: field,
-                      filterOptions: queryParams,
-                      onFilterChange: (params) => updateQueryParams(params),
-                      fixedColumn: fixedColumnMap[refField.filterKey],
-                    })
-                  ),
-              })
-            }
-            if (isMobile) {
-              columns.forEach((column) => (column['fixed'] = undefined))
-            }
-            return columns
-          })
-          .reduce((result, cur) => {
-            result.push(...cur)
-            return result
-          }, []) as any[]),
+        ...(displayItems
+          .filter((item) => !item.isHidden)
+          .map((item) => {
+            return myDataColumn({
+              field: item.field,
+              superField: item.superField,
+              filterOptions: queryParams,
+              onFilterChange: (params) => updateQueryParams(params),
+              fixedColumn: isMobile ? undefined : fixedColumnMap[item.field.filterKey],
+            })
+          }) as any[]),
         ...(extrasColumns || []).map((column) => {
           if (isMobile) {
             column['fixed'] = undefined
@@ -119,7 +96,7 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
             <RecordActionCell
               modelKey={modelKey}
               mainFields={mainFields}
-              displayFields={displayFields}
+              displayItems={displayItems}
               extrasColumns={extrasColumns}
               record={item}
               onDataChanged={onDataChanged}
