@@ -168,7 +168,7 @@ export class FieldHelper {
           items.push({
             field: refField,
             superField: field,
-            isHidden: !fieldLink.isInline || displaySettings.hiddenFieldsMap[field.filterKey],
+            isHidden: !fieldLink.isInline || displaySettings.hiddenFieldsMap[refField.filterKey],
           })
         })
       }

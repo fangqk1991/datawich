@@ -42,17 +42,17 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, control
   const panelCtx = useModelPanel()
   const { displaySettings, panelInfo, reloadPanelInfo } = panelCtx
 
-  const displayFields = useMemo(
-    () => FieldHelper.extractDisplayFields(mainFields, displaySettings),
+  const displayItems = useMemo(
+    () => FieldHelper.flattenDisplayItems(mainFields, displaySettings),
     [mainFields, displaySettings]
   )
 
   const fieldMapper = useMemo(() => {
-    return mainFields.reduce((result, cur) => {
-      result[cur.filterKey] = cur
+    return displayItems.reduce((result, cur) => {
+      result[cur.field.filterKey] = cur.field
       return result
     }, {} as { [p: string]: ModelFieldModel })
-  }, [mainFields])
+  }, [displayItems])
 
   const [keywords, setKeywords] = useState('')
   useEffect(() => {
@@ -271,7 +271,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, control
                 <a
                   onClick={() => {
                     const dialog = new FilterItemDialog({
-                      displayFields: displayFields,
+                      displayItems: displayItems,
                     })
                     dialog.show((params) => {
                       updateQueryParams({
@@ -392,7 +392,7 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, control
                   <DataFilterItemView
                     key={item.key}
                     filterItem={item}
-                    fields={displayFields}
+                    displayItems={displayItems}
                     onFilterItemChanged={(options) => updateQueryParams(options)}
                   />
                 ))}

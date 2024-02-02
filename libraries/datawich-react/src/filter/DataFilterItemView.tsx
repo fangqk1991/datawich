@@ -1,17 +1,17 @@
 import React from 'react'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
-import { FieldFilterItem, FieldType, ModelFieldModel, ModelPanelTools } from '@fangcha/datawich-service'
+import { FieldDisplayItem, FieldFilterItem, FieldType, ModelPanelTools, } from '@fangcha/datawich-service'
 import { Checkbox, Tag } from 'antd'
 import { FilterItemDialog } from './FilterItemDialog'
 
 interface Props {
   filterItem: FieldFilterItem
-  fields: ModelFieldModel[]
+  displayItems: FieldDisplayItem[]
   onFilterItemChanged: (options: {}) => void
 }
 
-export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilterItemChanged }) => {
+export const DataFilterItemView: React.FC<Props> = ({ filterItem, displayItems, onFilterItemChanged }) => {
   const describeValue = (val: string | string[]): any => {
     if ([TextSymbol.$isTrue, TextSymbol.$isNull, TextSymbol.$isNotNull].includes(filterItem.symbol)) {
       return ''
@@ -86,7 +86,7 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, fields, onFilt
           onClick={() => {
             const dialog = new FilterItemDialog({
               filterItem: filterItem,
-              displayFields: fields,
+              displayItems: displayItems,
             })
             dialog.show((params) => {
               onFilterItemChanged({

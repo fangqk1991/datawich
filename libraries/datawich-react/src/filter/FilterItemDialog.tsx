@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
-import { Checkbox, Form } from 'antd'
+import { Form } from 'antd'
 import {
   ProForm,
   ProFormCheckbox,
@@ -11,17 +11,17 @@ import {
   ProFormText,
 } from '@ant-design/pro-components'
 import {
+  FieldDisplayItem,
   FieldFilterItem,
   FieldFilterParams,
   FieldType,
-  ModelFieldModel,
   ModelPanelTools,
 } from '@fangcha/datawich-service'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
 import * as dayjs from 'dayjs'
 
 interface Props extends DialogProps {
-  displayFields: ModelFieldModel[]
+  displayItems: FieldDisplayItem[]
   filterItem?: FieldFilterItem
 }
 
@@ -30,7 +30,7 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
 
   public rawComponent(): React.FC<Props> {
     return (props) => {
-      const displayFields = [...props.displayFields]
+      const displayFields = [...props.displayItems.map((item) => item.field)]
       if (props.filterItem && !displayFields.find((item) => props.filterItem!.field === item)) {
         displayFields.push(props.filterItem.field)
       }
