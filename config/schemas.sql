@@ -210,23 +210,6 @@ CREATE TABLE IF NOT EXISTS model_field
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS field_enum_metadata
-(
-    _rid         BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `model_key`  varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，SQL 外键 -> model_field.model_key',
-    `field_key`  varchar(63) COLLATE ascii_bin NOT NULL COMMENT '字段键值，SQL 外键 -> model_field.field_key',
-    FOREIGN KEY (model_key, field_key) REFERENCES model_field (model_key, field_key) ON DELETE CASCADE,
-    `value_type` enum ('INT','STRING')                  DEFAULT NULL COMMENT '枚举值类型',
-    `value`      varchar(127)                  NOT NULL DEFAULT '' COMMENT '枚举值',
-    `label`      varchar(127)                  NOT NULL DEFAULT '' COMMENT '枚举名称',
-    create_time  TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    UNIQUE (`model_key`, `field_key`, `value`),
-    INDEX (`model_key`, `field_key`),
-    INDEX (`value`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS field_index
 (
     _rid        BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,

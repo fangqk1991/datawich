@@ -3,7 +3,6 @@ import assert from '@fangcha/assert'
 import { Transaction } from 'fc-sql'
 import { _DataModel } from './_DataModel'
 import { _FieldLink } from './_FieldLink'
-import { _FieldEnumMetadata } from './_FieldEnumMetadata'
 import {
   checkFieldHasOptions,
   FieldActionParams,
@@ -230,27 +229,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     searcher.processor().addConditionKV('field_key', this.fieldKey)
     searcher.processor().addConditionKV('model_key', this.modelKey)
     return searcher.queryAllFeeds()
-  }
-
-  public async rebuildEnumOptions(transaction?: Transaction) {
-    if (this.fieldType === FieldType.TextEnum || this.fieldType === FieldType.MultiEnum) {
-      const database = this.dbSpec().database
-      await database.update(
-        `DELETE FROM field_enum_metadata WHERE model_key = ? AND field_key = ?`,
-        [this.modelKey, this.fieldKey],
-        transaction
-      )
-      const options = this.options()
-      for (const option of options) {
-        const metadata = new _FieldEnumMetadata()
-        metadata.modelKey = this.modelKey
-        metadata.fieldKey = this.fieldKey
-        metadata.valueType = 'STRING'
-        metadata.value = option.value
-        metadata.label = option.label
-        await metadata.strongAddToDB(transaction)
-      }
-    }
   }
 
   public async addColumnToDB() {

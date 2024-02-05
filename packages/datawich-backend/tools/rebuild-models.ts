@@ -29,15 +29,6 @@ const generalDataSchemas: DBModelSchema[] = [
     modifiableBlackList: ['model_key', 'field_key', 'create_time'],
   },
   {
-    tableName: 'field_enum_metadata',
-    outputFile: `${__dirname}/../src/models/auto-build/__FieldEnumMetadata.ts`,
-    extFile: `${__dirname}/../src/models/extensions/_FieldEnumMetadata.ts`,
-    primaryKey: ['model_key', 'field_key', 'value'],
-    reloadOnAdded: true,
-    reloadOnUpdated: true,
-    modifiableBlackList: ['model_key', 'field_key', 'value', 'create_time'],
-  },
-  {
     tableName: 'field_index',
     outputFile: `${__dirname}/../src/models/auto-build/__FieldIndex.ts`,
     extFile: `${__dirname}/../src/models/extensions/_FieldIndex.ts`,

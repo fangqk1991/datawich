@@ -11,8 +11,10 @@ import { GeneralModelSpaces, GroupSpace } from '@fangcha/general-group'
 import {
   DataModelExtrasData,
   DataModelModel,
-  DataModelParams, FieldHelper,
+  DataModelParams,
+  FieldHelper,
   FieldType,
+  FieldTypeDescriptor,
   ModelFieldModel,
   ModelFullMetadata,
 } from '@fangcha/datawich-service'
@@ -252,7 +254,6 @@ export class _DataModel extends __DataModel {
       const runner = database.createTransactionRunner()
       await runner.commit(async (transaction) => {
         await field.addToDB(transaction)
-        await field.rebuildEnumOptions(transaction)
         await this.increaseVersion(transaction)
 
         await field.addColumnToDB()
@@ -558,7 +559,22 @@ export class _DataModel extends __DataModel {
   public async cloneFieldData(fromField: _ModelField, toField: _ModelField) {
     const database = this.dbSpec().database
     const sql = `UPDATE ${this.sqlTableName()} SET \`${toField.fieldKey}\` = \`${fromField.fieldKey}\``
-    await database.update(sql, [])
+    await database.execute(sql)
+  }
+
+  public async modifyFieldField(field: _ModelField, fieldType: FieldType) {
+    assert.ok(FieldTypeDescriptor.checkValueValid(fieldType), '字段类型有误')
+    if (field.fieldType === fieldType) {
+      return
+    }
+
+    // const database = this.dbSpec().database
+    // const runner = database.createTransactionRunner()
+    // await runner.commit(async (transaction) => {
+    //   await field.updateFeed(params, extras, transaction)
+    //   await field.rebuildEnumOptions(transaction)
+    //   await this.increaseVersion(transaction)
+    // })
   }
 
   public async modifyField(field: _ModelField, params: ModelFieldModel) {
@@ -610,7 +626,6 @@ export class _DataModel extends __DataModel {
     const runner = database.createTransactionRunner()
     await runner.commit(async (transaction) => {
       await field.updateFeed(params, extras, transaction)
-      await field.rebuildEnumOptions(transaction)
       await this.increaseVersion(transaction)
     })
   }
