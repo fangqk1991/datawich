@@ -71,6 +71,11 @@ export const ModelFieldApis = {
     route: '/api/v1/general-data/:modelKey/field/:fieldKey',
     description: '修改字段信息',
   },
+  DataModelFieldTypeUpdate: {
+    method: 'PUT',
+    route: '/api/v1/general-data/:modelKey/field/:fieldKey/fieldType',
+    description: '修改字段类型',
+  },
   DataModelFieldHiddenUpdate: {
     method: 'PUT',
     route: '/api/v1/general-data/:modelKey/field/:fieldKey/hidden',

@@ -562,19 +562,33 @@ export class _DataModel extends __DataModel {
     await database.execute(sql)
   }
 
-  public async modifyFieldField(field: _ModelField, fieldType: FieldType) {
+  public async modifyFieldType(field: _ModelField, fieldType: FieldType) {
     assert.ok(FieldTypeDescriptor.checkValueValid(fieldType), '字段类型有误')
     if (field.fieldType === fieldType) {
       return
     }
 
-    // const database = this.dbSpec().database
-    // const runner = database.createTransactionRunner()
-    // await runner.commit(async (transaction) => {
-    //   await field.updateFeed(params, extras, transaction)
-    //   await field.rebuildEnumOptions(transaction)
-    //   await this.increaseVersion(transaction)
-    // })
+    const database = this.dbSpec().database
+    try {
+      const runner = database.createTransactionRunner()
+      await runner.commit(async (transaction) => {
+        field.fc_edit()
+        field.fieldType = fieldType
+        await field.updateToDB(transaction)
+
+        await this.increaseVersion(transaction)
+        await field.changeColumnToDB()
+      })
+    } catch (e) {
+      logger.error(e)
+      // SQL 表结构表更不会随事务回滚，因此需要在外键添加失败时，将已添加的表字段删除
+      if ((e as any).original?.errno === 1452) {
+        const tableHandler = database.tableHandler(this.sqlTableName())
+        await tableHandler.dropColumn(field.fieldKey)
+        assert.ok(false, '外键添加失败，因为本键默认值在关联模型中找不到对应的条目')
+      }
+      throw e
+    }
   }
 
   public async modifyField(field: _ModelField, params: ModelFieldModel) {

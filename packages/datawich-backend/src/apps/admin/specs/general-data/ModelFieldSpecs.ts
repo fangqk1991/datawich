@@ -141,6 +141,16 @@ factory.prepare(ModelFieldApis.DataModelFieldUpdate, async (ctx) => {
   })
 })
 
+factory.prepare(ModelFieldApis.DataModelFieldTypeUpdate, async (ctx) => {
+  await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
+    const { fieldType } = ctx.request.body
+    await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)
+    assert.ok(!modelField.isSystem, '本接口不能修改系统字段')
+    await dataModel.modifyFieldType(modelField, fieldType)
+    ctx.body = modelField.modelForClient()
+  })
+})
+
 factory.prepare(ModelFieldApis.DataModelFieldHiddenUpdate, async (ctx) => {
   await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
     const { isHidden } = ctx.request.body

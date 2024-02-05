@@ -4,17 +4,23 @@ import {
   DraggableOptionsDialog,
   FlexibleFormDialog,
   JsonEditorDialog,
+  SimplePickerDialog,
   TableView,
   TableViewColumn,
   TextPreviewDialog,
 } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/admin-apis'
-import { FieldIndexModel, FieldTypeDescriptor, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
+import {
+  FieldHelper,
+  FieldIndexModel,
+  FieldTypeDescriptor,
+  ModelFieldModel,
+  NumberFormat,
+} from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
-import { Button, Divider, message, Space, Switch, Tag } from 'antd'
+import { Button, message, Space, Switch, Tag } from 'antd'
 import { ModelFieldDialog } from './ModelFieldDialog'
-import { FieldHelper } from '@fangcha/datawich-service'
 import { ProFormText } from '@ant-design/pro-components'
 import { FieldActionsCell } from './FieldActionsCell'
 
@@ -167,7 +173,29 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           },
           {
             title: '字段类型',
-            render: (item) => <>{FieldTypeDescriptor.describe(item.fieldType)}</>,
+            render: (item) => (
+              <a
+                onClick={() => {
+                  const dialog = new SimplePickerDialog({
+                    title: '修改字段类型',
+                    curValue: item.fieldType,
+                    options: FieldTypeDescriptor.options(),
+                  })
+                  dialog.show(async (fieldType) => {
+                    const request = MyRequest(
+                      new CommonAPI(ModelFieldApis.DataModelFieldTypeUpdate, item.modelKey, item.fieldKey)
+                    )
+                    request.setBodyData({ fieldType: fieldType })
+                    request.execute().then(() => {
+                      message.success('修改成功')
+                      setVersion(version + 1)
+                    })
+                  })
+                }}
+              >
+                {FieldTypeDescriptor.describe(item.fieldType)}
+              </a>
+            ),
           },
           {
             title: '是否隐藏',
