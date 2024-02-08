@@ -39,8 +39,6 @@ export class FieldHelper {
         return `DATE NULL COMMENT '${commentText}'`
       case FieldType.Datetime:
         return `TIMESTAMP NULL COMMENT '${commentText}'`
-      case FieldType.ReadonlyText:
-        return `VARCHAR(1023) NOT NULL DEFAULT '' COMMENT '${commentText}'`
       case FieldType.Attachment:
         return `TEXT COMMENT '${commentText}'`
       case FieldType.User:
@@ -102,12 +100,7 @@ export class FieldHelper {
   }
 
   public static checkSearchableField(code: FieldType) {
-    return [
-      FieldType.SingleLineText,
-      FieldType.MultipleLinesText,
-      FieldType.StringList,
-      FieldType.ReadonlyText,
-    ].includes(code)
+    return [FieldType.SingleLineText, FieldType.MultipleLinesText, FieldType.StringList].includes(code)
   }
 
   public static checkExactSearchableField(code: FieldType) {

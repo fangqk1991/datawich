@@ -94,8 +94,6 @@ export const MyDataCell: React.FC<Props> = (props) => {
             break
           case FieldType.Datetime:
             return value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : ''
-          case FieldType.ReadonlyText:
-            break
           case FieldType.Attachment:
             const info = props.data[GeneralDataHelper.entityKey(field.dataKey)] as OssFileInfo
             if (!info) {
@@ -118,12 +116,6 @@ export const MyDataCell: React.FC<Props> = (props) => {
               </a>
             )
           case FieldType.User:
-            break
-          case FieldType.Group:
-            break
-          case FieldType.Template:
-            break
-          case FieldType.Dummy:
             break
         }
         return <>{value}</>

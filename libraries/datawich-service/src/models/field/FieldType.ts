@@ -14,13 +14,8 @@ export enum FieldType {
   MultiEnum = 'MultiEnum',
   Date = 'Date',
   Datetime = 'Datetime',
-  ReadonlyText = 'ReadonlyText',
   Attachment = 'Attachment',
   User = 'User',
-  // Group 仅临时作用于展示阶段，实际不会存储此类型字段
-  Group = 'Group',
-  Template = 'Template',
-  Dummy = 'Dummy',
 }
 
 const values = [
@@ -65,8 +60,6 @@ const describe = (code: FieldType) => {
       return 'Date Type'
     case FieldType.Datetime:
       return 'Datetime Type'
-    case FieldType.ReadonlyText:
-      return 'Readonly Text'
     case FieldType.Attachment:
       return 'Attachment'
     case FieldType.User:

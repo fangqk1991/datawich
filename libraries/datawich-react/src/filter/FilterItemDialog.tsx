@@ -88,7 +88,6 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           case FieldType.StringList:
           case FieldType.Link:
           case FieldType.RichText:
-          case FieldType.ReadonlyText:
             values = [
               TextSymbol.$eq,
               TextSymbol.$ne,
@@ -112,12 +111,6 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
           case FieldType.Attachment:
             break
           case FieldType.User:
-            break
-          case FieldType.Group:
-            break
-          case FieldType.Template:
-            break
-          case FieldType.Dummy:
             break
         }
         return values.map((item) => ({

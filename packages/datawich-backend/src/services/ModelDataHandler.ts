@@ -368,7 +368,7 @@ export class ModelDataHandler {
       descriptionFields.unshift({
         fieldKey: 'author',
         dataKey: 'author',
-        fieldType: FieldType.Dummy,
+        fieldType: FieldType.SingleLineText,
         name: '创建者邮箱',
       })
     }
@@ -377,7 +377,7 @@ export class ModelDataHandler {
     fields.push({
       fieldKey: '_data_id',
       dataKey: '_data_id',
-      fieldType: FieldType.Dummy,
+      fieldType: FieldType.SingleLineText,
       name: '流水号',
     })
     fields.push(...descriptionFields)
@@ -385,7 +385,7 @@ export class ModelDataHandler {
       fieldKey: '_ignore',
       dataKey: '_ignore',
       name: '1',
-      fieldType: FieldType.Dummy,
+      fieldType: FieldType.Integer,
     })
 
     const columnKeys = fields.map((field) => field.dataKey)
@@ -413,7 +413,7 @@ export class ModelDataHandler {
       descriptionFields.unshift({
         fieldKey: 'author',
         dataKey: 'author',
-        fieldType: FieldType.Dummy,
+        fieldType: FieldType.SingleLineText,
         name: '创建者邮箱',
       })
     }
@@ -422,14 +422,14 @@ export class ModelDataHandler {
     fields.push({
       fieldKey: '_data_id',
       dataKey: '_data_id',
-      fieldType: FieldType.Dummy,
+      fieldType: FieldType.SingleLineText,
       name: '流水号',
     })
     fields.push(...descriptionFields)
     fields.push({
       fieldKey: '_ignore',
       dataKey: '_ignore',
-      fieldType: FieldType.Dummy,
+      fieldType: FieldType.Integer,
       name: '1',
     })
 
@@ -473,7 +473,7 @@ export class ModelDataHandler {
       descriptionFields.unshift({
         fieldKey: 'author',
         dataKey: 'author',
-        fieldType: FieldType.Dummy,
+        fieldType: FieldType.SingleLineText,
         name: '创建者邮箱',
       })
     }
@@ -482,7 +482,7 @@ export class ModelDataHandler {
     fields.push({
       fieldKey: '_data_id',
       dataKey: '_data_id',
-      fieldType: FieldType.Dummy,
+      fieldType: FieldType.SingleLineText,
       name: '流水号',
     })
     fields.push(...descriptionFields)
