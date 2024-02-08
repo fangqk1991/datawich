@@ -10,6 +10,7 @@ export enum FieldType {
   StringList = 'StringList',
   Link = 'Link',
   RichText = 'RichText',
+  CodeText = 'CodeText',
   TextEnum = 'TextEnum',
   MultiEnum = 'MultiEnum',
   Date = 'Date',
@@ -26,6 +27,7 @@ const values = [
   FieldType.Link,
   FieldType.JSON,
   FieldType.StringList,
+  FieldType.CodeText,
   FieldType.RichText,
   FieldType.TextEnum,
   FieldType.MultiEnum,
@@ -50,6 +52,8 @@ const describe = (code: FieldType) => {
       return 'JSON Text'
     case FieldType.StringList:
       return 'String List'
+    case FieldType.CodeText:
+      return 'Code Text'
     case FieldType.RichText:
       return 'Rich Text'
     case FieldType.TextEnum:
@@ -88,6 +92,10 @@ const FieldTypeI18N = {
   'Multiple Lines Text': {
     en: `Multiple Lines Text`,
     zh: `多行文本`,
+  },
+  'Code Text': {
+    en: `Code`,
+    zh: `代码`,
   },
   'Rich Text': {
     en: `Rich Text`,

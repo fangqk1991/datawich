@@ -12,6 +12,7 @@
     "src/*"
   ],
   "dependencies": {
-    "react-quill": "^2.0.0"
+    "react-quill": "^2.0.0",
+    "@monaco-editor/react": "^4.6.0"
   }
 }

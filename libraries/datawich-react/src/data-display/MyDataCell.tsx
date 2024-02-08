@@ -2,11 +2,12 @@ import React, { useMemo } from 'react'
 import { FieldType, GeneralDataHelper, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Image, Tag } from 'antd'
-import { MyRichTextPanel, MyTagsPanel, PercentSpan, TextPreviewDialog } from '@fangcha/react'
+import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
 import { DataColumnExtension } from './DataColumnExtension'
 import { MultiEnumContainer } from './MultiEnumContainer'
 import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
+import { CodeEditor } from '../core/CodeEditor'
 
 interface Props {
   field: ModelFieldModel
@@ -60,6 +61,23 @@ export const MyDataCell: React.FC<Props> = (props) => {
             break
           case FieldType.MultipleLinesText:
             return <pre>{value}</pre>
+          case FieldType.CodeText:
+            if (value && value !== '{}') {
+              return (
+                <a
+                  onClick={() => {
+                    const dialog = new ReactPreviewDialog({
+                      element: <CodeEditor height={'800px'} value={value} options={{ readOnly: true }} />,
+                    })
+                    dialog.width = '90%'
+                    dialog.show()
+                  }}
+                >
+                  点击查看
+                </a>
+              )
+            }
+            break
           case FieldType.JSON:
             if (value && value !== '{}') {
               return <a onClick={() => TextPreviewDialog.previewData(value)}>点击查看</a>

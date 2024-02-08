@@ -33,6 +33,7 @@ export class GeneralDataChecker {
           field.fieldType === FieldType.SingleLineText ||
           field.fieldType === FieldType.MultipleLinesText ||
           field.fieldType === FieldType.RichText ||
+          field.fieldType === FieldType.CodeText ||
           field.fieldType === FieldType.Link ||
           field.fieldType === FieldType.JSON ||
           field.fieldType === FieldType.StringList ||

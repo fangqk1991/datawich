@@ -100,6 +100,7 @@ export class ModelFieldDialog extends ReactDialog<Props, ModelFieldParams> {
               } else if (
                 fieldType === FieldType.JSON ||
                 fieldType === FieldType.MultipleLinesText ||
+                fieldType === FieldType.CodeText ||
                 fieldType === FieldType.RichText
               ) {
                 return (

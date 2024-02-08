@@ -17,6 +17,7 @@ import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OssFileInfo } from '@fangcha/oss-models'
 import { OssUploadDialog } from '@fangcha/oss-react'
+import { CodeEditor } from './CodeEditor'
 
 interface Props {
   allFields: ModelFieldModel[]
@@ -208,6 +209,8 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                     return <ProFormSelect mode='tags' />
                   case FieldType.RichText:
                     return <RichTextEditor />
+                  case FieldType.CodeText:
+                    return <CodeEditor />
                   case FieldType.Attachment:
                     const entityKey = GeneralDataHelper.entityKey(field.dataKey)
                     const ossFileInfo = myData[entityKey] as OssFileInfo

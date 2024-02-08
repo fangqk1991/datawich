@@ -30,6 +30,7 @@ export class FieldHelper {
       case FieldType.MultipleLinesText:
       case FieldType.JSON:
       case FieldType.RichText:
+      case FieldType.CodeText:
         return `MEDIUMTEXT COMMENT '${commentText}'`
       case FieldType.TextEnum:
         return `VARCHAR(127) NULL COMMENT '${commentText}'`
@@ -112,9 +113,14 @@ export class FieldHelper {
   }
 
   public static checkSpecialField(code: FieldType) {
-    return [FieldType.RichText, FieldType.Attachment, FieldType.JSON, FieldType.StringList, FieldType.Link].includes(
-      code
-    )
+    return [
+      FieldType.RichText,
+      FieldType.CodeText,
+      FieldType.Attachment,
+      FieldType.JSON,
+      FieldType.StringList,
+      FieldType.Link,
+    ].includes(code)
   }
 
   public static checkIndexAbleField(code: FieldType | any) {
