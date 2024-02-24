@@ -19,7 +19,6 @@ export const DataCreateButton: React.FC<Props> = ({ modelKey, fields, onImportDo
       onClick={() => {
         const dialog = new DataRecordDialog({
           mainFields: fields,
-          modelKey: modelKey,
         })
         dialog.title = '新建数据记录'
         dialog.show(async (params) => {

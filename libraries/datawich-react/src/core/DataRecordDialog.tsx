@@ -5,7 +5,6 @@ import { DataNormalForm } from './DataNormalForm'
 
 interface Props extends DialogProps {
   mainFields: ModelFieldModel[]
-  modelKey: string
   data?: any
 }
 

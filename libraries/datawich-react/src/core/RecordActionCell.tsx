@@ -98,7 +98,6 @@ export const RecordActionCell: React.FC<Props> = ({
                 onClick={() => {
                   const dialog = new DataRecordDialog({
                     mainFields: mainFields,
-                    modelKey: modelKey,
                   })
                   dialog.title = '创建数据记录'
                   dialog.loadData = async () => {
@@ -126,7 +125,6 @@ export const RecordActionCell: React.FC<Props> = ({
                 onClick={() => {
                   const dialog = new DataRecordDialog({
                     mainFields: mainFields,
-                    modelKey: modelKey,
                   })
                   dialog.title = '修改数据记录'
                   dialog.loadData = async () => {
