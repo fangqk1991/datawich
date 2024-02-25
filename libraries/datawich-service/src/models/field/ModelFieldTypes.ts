@@ -61,7 +61,6 @@ export interface Raw_ModelField {
   isSystem: number
   isHidden: number
   isDeleted: number
-  star: number
   createTime: string
   updateTime: string
 }
@@ -82,7 +81,6 @@ export const Keys_Raw_ModelField = [
   'isSystem',
   'isHidden',
   'isDeleted',
-  'star',
   'createTime',
   'updateTime',
 ]

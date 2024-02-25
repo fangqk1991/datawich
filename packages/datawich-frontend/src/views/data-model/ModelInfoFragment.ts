@@ -34,10 +34,6 @@ import { getRouterToDataApp, getRouterToModel } from '../../services/ModelDataHe
           </el-form-item>
           <el-form-item class="card-form-item" label="模型名称">
             <span>{{ dataModel.name }}</span>
-            <el-tooltip v-if="dataModel.star" class="item" effect="dark" placement="bottom">
-              <span class="el-icon-star-on theme-color" />
-              <div slot="content">该模型被用于数据分析</div>
-            </el-tooltip>
           </el-form-item>
           <el-form-item class="card-form-item" label="模型描述">
             <div v-if="dataModel.description" class="bordered-content">

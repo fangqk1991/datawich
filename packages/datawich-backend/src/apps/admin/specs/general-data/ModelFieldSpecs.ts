@@ -120,7 +120,6 @@ factory.prepare(ModelFieldApis.DataSystemModelFieldUpdate, async (ctx) => {
   await new DataModelSpecHandler(ctx).handleField(async (modelField, dataModel) => {
     const params = ctx.request.body
     const options = {
-      star: params.star,
       name: params.name,
     }
     await new SessionChecker(ctx).assertModelAccessible(dataModel, GeneralPermission.ManageModel)

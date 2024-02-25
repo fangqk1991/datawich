@@ -36,7 +36,6 @@ describe('Test DataModel', () => {
         required: 1,
         fieldType: FieldType.SingleLineText,
         isUnique: 0,
-        star: 0,
       } as any)
       const columns = await tableHandler.getColumns()
       const lastColumn = columns.pop()!
@@ -51,7 +50,6 @@ describe('Test DataModel', () => {
         required: 1,
         fieldType: FieldType.TextEnum,
         isUnique: 0,
-        star: 0,
         options: [
           { label: '春', value: `1` },
           { label: '夏', value: `2` },

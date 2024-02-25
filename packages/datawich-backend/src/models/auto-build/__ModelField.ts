@@ -17,7 +17,6 @@ const _cols: string[] = [
   'is_system',
   'is_hidden',
   'is_deleted',
-  'star',
   'create_time',
   'update_time',
 ]
@@ -37,7 +36,6 @@ const _insertableCols: string[] = [
   'is_system',
   'is_hidden',
   'is_deleted',
-  'star',
 ]
 const _modifiableCols: string[] = [
   // prettier-ignore
@@ -53,7 +51,6 @@ const _modifiableCols: string[] = [
   'is_system',
   'is_hidden',
   'is_deleted',
-  'star',
 ]
 
 const dbOptions = {
@@ -122,10 +119,6 @@ export default class __ModelField extends FeedBase {
    */
   public isDeleted!: number
   /**
-   * @description [tinyint] 是否被分析师关注
-   */
-  public star!: number
-  /**
    * @description [timestamp] 创建时间
    */
   public createTime!: string
@@ -179,7 +172,6 @@ export default class __ModelField extends FeedBase {
     this.isSystem = 0
     this.isHidden = 0
     this.isDeleted = 0
-    this.star = 0
   }
 
   public fc_propertyMapper() {
@@ -198,7 +190,6 @@ export default class __ModelField extends FeedBase {
       isSystem: 'is_system',
       isHidden: 'is_hidden',
       isDeleted: 'is_deleted',
-      star: 'star',
       createTime: 'create_time',
       updateTime: 'update_time',
     }

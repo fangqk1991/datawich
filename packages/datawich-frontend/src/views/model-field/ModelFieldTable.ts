@@ -341,14 +341,11 @@ export class ModelFieldTable extends ViewController {
       const dialog = ModelFieldDialog.editFieldDialog(feed)
       dialog.modelKey = this.modelKey
       dialog.show(async (params: ModelFieldModel) => {
-        const handler = async () => {
-          const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldUpdate, feed.modelKey, feed.fieldKey))
-          request.setBodyData(params)
-          await request.execute()
-          this.$message.success('修改成功')
-          this.reloadData()
-        }
-        await this.safeHandle(handler, !!params.star)
+        const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldUpdate, feed.modelKey, feed.fieldKey))
+        request.setBodyData(params)
+        await request.execute()
+        this.$message.success('修改成功')
+        this.reloadData()
       })
     }
   }
@@ -358,14 +355,11 @@ export class ModelFieldTable extends ViewController {
     dialog.title = '删除字段'
     dialog.content = `确定要删除 "${feed.name}" 吗？`
     dialog.show(async () => {
-      const handler = async () => {
-        const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldDelete, feed.modelKey, feed.fieldKey))
-        await request.execute()
-        this.$message.success('删除成功')
-        this.reloadData()
-        NotificationCenter.defaultCenter().postNotification(DatawichEventKeys.kOnModelFieldsUpdated, this.modelKey)
-      }
-      await this.safeHandle(handler, !!feed.star)
+      const request = MyAxios(new CommonAPI(ModelFieldApis.DataModelFieldDelete, feed.modelKey, feed.fieldKey))
+      await request.execute()
+      this.$message.success('删除成功')
+      this.reloadData()
+      NotificationCenter.defaultCenter().postNotification(DatawichEventKeys.kOnModelFieldsUpdated, this.modelKey)
     })
   }
 

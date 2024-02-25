@@ -22,7 +22,6 @@ const _cols: string[] = [
   'use_email',
   'is_broadcast',
   'is_deleted',
-  'star',
   'wechatbot_key',
   'author',
   'default_member_level',
@@ -53,7 +52,6 @@ const _insertableCols: string[] = [
   'use_email',
   'is_broadcast',
   'is_deleted',
-  'star',
   'wechatbot_key',
   'author',
   'default_member_level',
@@ -80,7 +78,6 @@ const _modifiableCols: string[] = [
   'use_email',
   'is_broadcast',
   'is_deleted',
-  'star',
   'wechatbot_key',
   'default_member_level',
   'sample_date',
@@ -174,10 +171,6 @@ export default class __DataModel extends FeedBase {
    */
   public isDeleted!: number
   /**
-   * @description [tinyint] 是否被分析师关注
-   */
-  public star!: number
-  /**
    * @description [varchar(255)] 微信机器人接口地址
    */
   public wechatbotKey!: string
@@ -261,7 +254,6 @@ export default class __DataModel extends FeedBase {
     this.useEmail = 0
     this.isBroadcast = 0
     this.isDeleted = 0
-    this.star = 0
     this.wechatbotKey = ''
     this.author = ''
     this.defaultMemberLevel = 1
@@ -291,7 +283,6 @@ export default class __DataModel extends FeedBase {
       useEmail: 'use_email',
       isBroadcast: 'is_broadcast',
       isDeleted: 'is_deleted',
-      star: 'star',
       wechatbotKey: 'wechatbot_key',
       author: 'author',
       defaultMemberLevel: 'default_member_level',

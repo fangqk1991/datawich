@@ -30,7 +30,6 @@ export class DataModelDialog extends ReactDialog<Props, DataModelParams> {
                 remarks: '',
                 isOnline: 1,
                 isLibrary: 0,
-                star: 0,
               } as DataModelParams)
           )
         )

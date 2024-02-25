@@ -49,9 +49,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     if (params.useDefault !== undefined) {
       assert.ok([0, 1].includes(params.useDefault), 'useDefault 参数有误')
     }
-    if (params.star !== undefined) {
-      assert.ok([0, 1].includes(params.star), 'star 参数有误')
-    }
     if (params.fieldType === FieldType.TextEnum) {
       assert.ok(Array.isArray(params.options), '枚举项有误')
       assert.ok(params.options.length > 0, '至少要有 1 个枚举项')
@@ -200,9 +197,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     }
     if (params.isHidden !== undefined) {
       this.isHidden = params.isHidden
-    }
-    if (params.star !== undefined) {
-      this.star = params.star
     }
     this.extrasInfo = JSON.stringify(Object.assign(this.extrasData(), extras))
     return this.updateToDB(transaction)

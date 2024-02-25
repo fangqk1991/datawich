@@ -41,7 +41,6 @@ export interface DataModelModel extends DataModelParams {
   useEmail: number
   isBroadcast: number
   isDeleted: number
-  star: number
   wechatbotKey: string
   author: string
   defaultMemberLevel: number

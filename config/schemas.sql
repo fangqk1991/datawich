@@ -167,7 +167,6 @@ CREATE TABLE IF NOT EXISTS data_model
     use_email            tinyint                       NOT NULL DEFAULT '0' COMMENT '是否发送邮件通知',
     is_broadcast         tinyint                       NOT NULL DEFAULT '0' COMMENT '数据变更时是否广播',
     is_deleted           tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已被删除',
-    star                 tinyint                       NOT NULL DEFAULT '0' COMMENT '是否被分析师关注',
     wechatbot_key        varchar(255)                  NOT NULL DEFAULT '' COMMENT '微信机器人接口地址',
     author               varchar(255)                  NOT NULL DEFAULT '' COMMENT '创建者邮箱',
     default_member_level int                           NOT NULL DEFAULT '1' COMMENT '默认成员级别: 新建成员时会将此值赋值给 model_member.member_level',
@@ -200,8 +199,6 @@ CREATE TABLE IF NOT EXISTS model_field
     is_system     tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为系统保留字段',
     is_hidden     tinyint                       NOT NULL DEFAULT '0' COMMENT '是否隐藏',
     is_deleted    tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已被删除',
-    for_broadcast tinyint                       NOT NULL DEFAULT '0' COMMENT '字段数据变更时是否广播',
-    star          tinyint                       NOT NULL DEFAULT '0' COMMENT '是否被分析师关注',
     create_time   TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time   TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE (model_key, field_key)

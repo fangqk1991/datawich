@@ -80,7 +80,6 @@ export class DataModelDialog extends TypicalDialog {
     remarks: '',
     isOnline: 1,
     isLibrary: 0,
-    star: 0,
   }
   forEditing = false
 

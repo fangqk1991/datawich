@@ -23,7 +23,6 @@ export default class SystemFieldDialog extends TypicalDialog {
   data: ModelFieldModel | any = {
     fieldKey: '',
     name: '',
-    star: 0,
   }
 
   constructor() {

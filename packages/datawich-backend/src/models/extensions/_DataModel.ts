@@ -206,7 +206,6 @@ export class _DataModel extends __DataModel {
     field.required = params.required || 0
     field.useDefault = params.useDefault || 0
     field.defaultValue = params.defaultValue || ''
-    field.star = 0
     field.fieldType = params.fieldType
     field.isSystem = 0
     field.remarks = params.remarks || ''
@@ -345,7 +344,6 @@ export class _DataModel extends __DataModel {
     this.isOnline = params.isOnline
     this.accessLevel = params.accessLevel || AccessLevel.Protected
     this.isLibrary = params.isLibrary || 0
-    this.star = params.star || 0
     this.author = params.author
     const extras: Partial<DataModelExtrasData> = {
       broadcastEventData: {
@@ -655,7 +653,6 @@ export class _DataModel extends __DataModel {
   }
 
   public async updateFeed(options: Partial<DataModelModel>) {
-    delete options.star
     delete options.extrasInfo
     // TODO: 暂不支持对 shortKey 的修改
     delete options.shortKey
