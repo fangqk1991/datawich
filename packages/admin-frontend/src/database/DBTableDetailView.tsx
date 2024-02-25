@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Divider } from 'antd'
+import { Divider, Space, Tag } from 'antd'
 import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable } from '@fangcha/datawich-service'
-import { LoadingView } from '@fangcha/react'
+import { DBTable, DBTableField, FieldTypeDescriptor } from '@fangcha/datawich-service'
+import { LoadingView, TableView, TableViewColumn } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 
 export const DBTableDetailView: React.FC = () => {
@@ -25,19 +25,49 @@ export const DBTableDetailView: React.FC = () => {
     <div>
       <h3>{tableSchema.tableName}</h3>
       <Divider />
-      <Card>
-        {tableSchema.fields.map((field) => (
-          <Card.Grid
-            style={{
-              cursor: 'pointer',
-              padding: '16px',
-            }}
-            key={field.fieldKey}
-          >
-            {field.fieldKey} - {field.fieldType}
-          </Card.Grid>
-        ))}
-      </Card>
+
+      <TableView
+        rowKey={(item: DBTableField) => {
+          return `${item.fieldKey}`
+        }}
+        reactiveQuery={true}
+        tableProps={{
+          size: 'small',
+          bordered: true,
+        }}
+        columns={TableViewColumn.makeColumns<DBTableField>([
+          {
+            title: '字段 Key',
+            render: (item) => item.fieldKey,
+          },
+          {
+            title: '字段名称',
+            render: (item) => item.name,
+          },
+          {
+            title: '字段类型',
+            render: (item) => FieldTypeDescriptor.describe(item.fieldType),
+          },
+          {
+            title: '属性',
+            render: (item) => (
+              <Space>
+                {item.nullable && <Tag color={'warning'}>可为空</Tag>}
+                {!item.insertable && <Tag color={'error'}>不可插入</Tag>}
+                {!item.modifiable && <Tag color={'error'}>不可修改</Tag>}
+              </Space>
+            ),
+          },
+          {
+            title: '默认值',
+            render: (item) => item.defaultValue,
+          },
+        ])}
+        hidePagination={true}
+        loadOnePageItems={async () => {
+          return tableSchema!.fields
+        }}
+      />
     </div>
   )
 }
