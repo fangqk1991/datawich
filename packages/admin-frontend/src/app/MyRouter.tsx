@@ -10,6 +10,7 @@ import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { JobListView } from '@fangcha/job-react'
 import { ResourceTaskListView } from '@fangcha/oss-react'
 import { ModelClientListView } from '../model-client/ModelClientListView'
+import { DBTableListView } from '../database/DBTableListView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: DatawichAdminPages.ClientListRoute,
         element: <ModelClientListView />,
+      },
+      {
+        path: DatawichAdminPages.DatabaseTableListRoute,
+        element: <DBTableListView />,
       },
       {
         path: '*',

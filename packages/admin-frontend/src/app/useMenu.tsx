@@ -4,9 +4,11 @@ import { LS } from '../core/ReactI18n'
 import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import React from 'react'
 import { useFavorAppsCtx } from '@fangcha/datawich-react'
+import { useUserInfo } from '@fangcha/auth-react'
 
 export const useMenu = () => {
   const favorAppsCtx = useFavorAppsCtx()
+  const userInfo = useUserInfo()
 
   const myMenu: Route = {
     path: '/',
@@ -39,11 +41,15 @@ export const useMenu = () => {
             path: DatawichAdminPages.ClientListRoute,
             name: LS('[i18n] API Clients'),
           },
-          // ...(visitorCtx.userInfo.isAdmin
+          {
+            path: DatawichAdminPages.DatabaseTableListRoute,
+            name: 'Databases',
+          },
+          // ...(userInfo.isAdmin
           //   ? [
           //       {
-          //         path: DatawichPages.JobListRoute,
-          //         name: LS('[i18n] Task List'),
+          //         path: DatawichAdminPages.DatabaseTableListRoute,
+          //         name: 'Databases',
           //       },
           //     ]
           //   : []),

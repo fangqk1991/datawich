@@ -13,6 +13,7 @@ import { loggerForDev } from '@fangcha/logger'
 import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
 import { JobWebPlugin } from '@fangcha/job-sdk'
 import { MyJobServer } from '../services/MyJobServer'
+import { DatabaseDocItem } from './admin/specs/database'
 
 _SessionApp.setPermissionProtocol({
   checkUserIsAdmin: (email) => {
@@ -35,6 +36,7 @@ const app = new WebApp({
   wecomBotKey: DatawichConfig.wecomBotKey,
   mainDocItems: [
     ...DatawichSwaggerDocItems,
+    DatabaseDocItem,
     {
       name: 'Data App Extras',
       pageURL: '/api-docs/v1/data-app-extras',

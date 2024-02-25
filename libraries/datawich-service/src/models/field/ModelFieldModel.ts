@@ -37,7 +37,17 @@ export interface ModelFieldParams {
   extrasData?: Partial<ModelFieldExtrasData>
 }
 
-export interface ModelFieldModel extends Raw_ModelField {
+export interface CoreField {
+  fieldKey: string
+  fieldType: FieldType
+  name: string
+  extrasData: ModelFieldExtrasData
+  required: number
+  options?: SelectOption[]
+  value2LabelMap?: { [p: string]: string }
+}
+
+export interface ModelFieldModel extends CoreField, Raw_ModelField {
   fieldType: FieldType
   ////
   options: SelectOption[]

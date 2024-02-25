@@ -10,6 +10,8 @@ export class DatawichAdminPages {
 
   public static ClientListRoute = '/v1/model-client'
 
+  public static DatabaseTableListRoute = '/v0/database/datawich/table'
+
   public static JobListRoute = '/v1/job'
   public static ResourceTaskListRoute = '/oss-sdk/v1/resource-task'
 

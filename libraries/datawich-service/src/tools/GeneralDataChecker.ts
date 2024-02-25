@@ -1,4 +1,4 @@
-import { FieldType, ModelFieldModel } from '../models'
+import { CoreField, FieldType } from '../models'
 import * as moment from 'moment'
 import { JsonChecker } from '@fangcha/tools'
 import { GeneralDataHelper } from './GeneralDataHelper'
@@ -12,7 +12,7 @@ interface OssFileInfo {
 }
 
 export class GeneralDataChecker {
-  public static calcSimpleInvalidMap(params: any, fields: ModelFieldModel[], curDataId = '') {
+  public static calcSimpleInvalidMap(params: any, fields: CoreField[], curDataId = '') {
     const errorMap: { [p: string]: string } = {}
     for (const field of fields) {
       if (field.fieldType === FieldType.Integer || field.fieldType === FieldType.Float) {
@@ -87,7 +87,13 @@ export class GeneralDataChecker {
             break
           }
           case FieldType.TextEnum: {
-            const value2LabelMap = field.value2LabelMap
+            if (!field.value2LabelMap) {
+              field.value2LabelMap = (field.options || []).reduce((result: any, cur: any) => {
+                result[cur.value] = cur.label
+                return result
+              }, {})
+            }
+            const value2LabelMap = field.value2LabelMap!
             if (value !== '' && !(value in value2LabelMap)) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
@@ -96,7 +102,13 @@ export class GeneralDataChecker {
             break
           }
           case FieldType.MultiEnum: {
-            const value2LabelMap = field.value2LabelMap
+            if (!field.value2LabelMap) {
+              field.value2LabelMap = (field.options || []).reduce((result: any, cur: any) => {
+                result[cur.value] = cur.label
+                return result
+              }, {})
+            }
+            const value2LabelMap = field.value2LabelMap!
             if (GeneralDataHelper.extractMultiEnumItems(value).find((key) => value2LabelMap[key] === undefined)) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)

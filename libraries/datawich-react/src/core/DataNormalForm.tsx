@@ -12,7 +12,7 @@ import {
 } from '@ant-design/pro-components'
 import { Form, message, Tooltip } from 'antd'
 import { RichTextEditor } from '@fangcha/react/rich-text'
-import { FieldType, GeneralDataChecker, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { CoreField, FieldType, GeneralDataChecker, GeneralDataHelper } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OssFileInfo } from '@fangcha/oss-models'
@@ -20,7 +20,7 @@ import { OssUploadDialog } from '@fangcha/oss-react'
 import { CodeEditor } from './CodeEditor'
 
 interface Props {
-  allFields: ModelFieldModel[]
+  allFields: CoreField[]
   readonly?: boolean
   forceEditing?: boolean
   // field: ModelFieldModel
@@ -168,10 +168,10 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                   case FieldType.TextEnum: {
                     const optionsForEnumField = (() => {
                       if (!field.extrasData.constraintKey) {
-                        return field.options
+                        return field.options!
                       }
                       const constraintValue = myData[field.extrasData.constraintKey] || ''
-                      return field.options.filter((option) => {
+                      return (field.options || []).filter((option) => {
                         const restraintValueMap = option['restraintValueMap'] || {}
                         return !!restraintValueMap[constraintValue]
                       })
@@ -212,7 +212,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                   case FieldType.CodeText:
                     return <CodeEditor />
                   case FieldType.Attachment:
-                    const entityKey = GeneralDataHelper.entityKey(field.dataKey)
+                    const entityKey = GeneralDataHelper.entityKey(field.fieldKey)
                     const ossFileInfo = myData[entityKey] as OssFileInfo
                     const uploadFile = () => {
                       OssUploadDialog.uploadFile(async (resource) => {
