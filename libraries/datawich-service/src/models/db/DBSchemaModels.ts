@@ -9,6 +9,7 @@ export interface DBTableField {
   fieldKey: string
   fieldType: FieldType
   name: string
+  remarks: string
   nullable: boolean
   insertable: boolean
   modifiable: boolean

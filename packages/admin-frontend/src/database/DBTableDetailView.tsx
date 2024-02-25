@@ -29,7 +29,18 @@ export const DBTableDetailView: React.FC = () => {
       <Divider />
 
       <Space>
-        <Button onClick={() => ReactPreviewDialog.preview(<TableFieldsTable table={tableSchema} />)}>字段描述</Button>
+        <Button
+          onClick={() => {
+            const dialog = new ReactPreviewDialog({
+              element: <TableFieldsTable table={tableSchema} />,
+            })
+            dialog.width = '90%'
+            dialog.title = tableName
+            dialog.show()
+          }}
+        >
+          字段描述
+        </Button>
       </Space>
 
       <Divider />

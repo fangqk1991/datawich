@@ -20,7 +20,8 @@ export class DBSchemaHelper {
     const field: DBTableField = {
       fieldKey: column.Field,
       fieldType: FieldType.SingleLineText,
-      name: column.Comment || column.Field,
+      name: column.Field,
+      remarks: column.Comment || '',
       nullable: column.Null === 'YES',
       insertable: true,
       modifiable: true,

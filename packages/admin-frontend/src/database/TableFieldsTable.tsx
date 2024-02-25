@@ -18,10 +18,6 @@ export const TableFieldsTable: React.FC<Props> = ({ table }) => {
           render: (item) => item.fieldKey,
         },
         {
-          title: '字段名称',
-          render: (item) => item.name,
-        },
-        {
           title: '字段类型',
           render: (item) => FieldTypeDescriptor.describe(item.fieldType),
         },
@@ -38,6 +34,10 @@ export const TableFieldsTable: React.FC<Props> = ({ table }) => {
         {
           title: '默认值',
           render: (item) => item.defaultValue,
+        },
+        {
+          title: '备注',
+          render: (item) => item.remarks,
         },
       ])}
       dataSource={table.fields}
