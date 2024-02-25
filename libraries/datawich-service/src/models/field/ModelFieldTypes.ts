@@ -50,7 +50,6 @@ export interface Raw_ModelField {
   modelKey: string
   fieldKey: string
   name: string
-  inputHint: string
   required: number
   useDefault: number
   defaultValue: string
@@ -62,7 +61,6 @@ export interface Raw_ModelField {
   isSystem: number
   isHidden: number
   isDeleted: number
-  forBroadcast: number
   star: number
   createTime: string
   updateTime: string
@@ -73,7 +71,6 @@ export const Keys_Raw_ModelField = [
   'modelKey',
   'fieldKey',
   'name',
-  'inputHint',
   'required',
   'useDefault',
   'defaultValue',
@@ -85,7 +82,6 @@ export const Keys_Raw_ModelField = [
   'isSystem',
   'isHidden',
   'isDeleted',
-  'forBroadcast',
   'star',
   'createTime',
   'updateTime',

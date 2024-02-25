@@ -33,7 +33,6 @@ export class RawTableHandler extends DBTableHandler {
       fieldParams.star = 0
       fieldParams.isSystem = 0
       fieldParams.remarks = column.Comment || ''
-      fieldParams.inputHint = ''
       fieldParams.extrasInfo = JSON.stringify({})
       // fieldParams.required = column.Null === 'NO' ? 1 : 0
       fieldParams.required = 0

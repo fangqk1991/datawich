@@ -189,9 +189,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     if (params.name !== undefined) {
       this.name = params.name
     }
-    if (params.inputHint !== undefined) {
-      this.inputHint = params.inputHint
-    }
     if (params.required !== undefined) {
       this.required = params.required
     }
@@ -206,9 +203,6 @@ export class _ModelField extends __ModelField implements Raw_ModelField {
     }
     if (params.star !== undefined) {
       this.star = params.star
-    }
-    if (params.forBroadcast !== undefined) {
-      this.forBroadcast = params.forBroadcast
     }
     this.extrasInfo = JSON.stringify(Object.assign(this.extrasData(), extras))
     return this.updateToDB(transaction)

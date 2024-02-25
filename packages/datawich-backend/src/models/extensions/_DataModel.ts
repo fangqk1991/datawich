@@ -86,11 +86,6 @@ export class _DataModel extends __DataModel {
     return fields.filter((field) => field.isSystem)
   }
 
-  public async getBroadcastFields() {
-    const fields = await this.getFields()
-    return fields.filter((field) => field.forBroadcast)
-  }
-
   public async getFieldLinks() {
     if (!this._fieldLinks) {
       const searcher = new _FieldLink().fc_searcher()
@@ -215,7 +210,6 @@ export class _DataModel extends __DataModel {
     field.fieldType = params.fieldType
     field.isSystem = 0
     field.remarks = params.remarks || ''
-    field.inputHint = params.inputHint || ''
 
     const extras: any = {}
     if (params.extrasData && typeof params.extrasData === 'object') {

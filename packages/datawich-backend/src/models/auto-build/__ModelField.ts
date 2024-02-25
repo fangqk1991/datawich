@@ -6,7 +6,6 @@ const _cols: string[] = [
   'model_key',
   'field_key',
   'name',
-  'input_hint',
   'required',
   'use_default',
   'default_value',
@@ -18,7 +17,6 @@ const _cols: string[] = [
   'is_system',
   'is_hidden',
   'is_deleted',
-  'for_broadcast',
   'star',
   'create_time',
   'update_time',
@@ -28,7 +26,6 @@ const _insertableCols: string[] = [
   'model_key',
   'field_key',
   'name',
-  'input_hint',
   'required',
   'use_default',
   'default_value',
@@ -40,13 +37,11 @@ const _insertableCols: string[] = [
   'is_system',
   'is_hidden',
   'is_deleted',
-  'for_broadcast',
   'star',
 ]
 const _modifiableCols: string[] = [
   // prettier-ignore
   'name',
-  'input_hint',
   'required',
   'use_default',
   'default_value',
@@ -58,7 +53,6 @@ const _modifiableCols: string[] = [
   'is_system',
   'is_hidden',
   'is_deleted',
-  'for_broadcast',
   'star',
 ]
 
@@ -83,10 +77,6 @@ export default class __ModelField extends FeedBase {
    * @description [varchar(255)] 字段名称
    */
   public name!: string
-  /**
-   * @description [text] 用户输入提示
-   */
-  public inputHint!: string
   /**
    * @description [tinyint] 是否为必填项
    */
@@ -131,10 +121,6 @@ export default class __ModelField extends FeedBase {
    * @description [tinyint] 是否已被删除
    */
   public isDeleted!: number
-  /**
-   * @description [tinyint] 字段数据变更时是否广播
-   */
-  public forBroadcast!: number
   /**
    * @description [tinyint] 是否被分析师关注
    */
@@ -182,7 +168,6 @@ export default class __ModelField extends FeedBase {
   public fc_defaultInit() {
     // This function is invoked by constructor of FCModel
     this.name = ''
-    this.inputHint = ''
     this.required = 0
     this.useDefault = 0
     this.defaultValue = ''
@@ -194,7 +179,6 @@ export default class __ModelField extends FeedBase {
     this.isSystem = 0
     this.isHidden = 0
     this.isDeleted = 0
-    this.forBroadcast = 0
     this.star = 0
   }
 
@@ -203,7 +187,6 @@ export default class __ModelField extends FeedBase {
       modelKey: 'model_key',
       fieldKey: 'field_key',
       name: 'name',
-      inputHint: 'input_hint',
       required: 'required',
       useDefault: 'use_default',
       defaultValue: 'default_value',
@@ -215,7 +198,6 @@ export default class __ModelField extends FeedBase {
       isSystem: 'is_system',
       isHidden: 'is_hidden',
       isDeleted: 'is_deleted',
-      forBroadcast: 'for_broadcast',
       star: 'star',
       createTime: 'create_time',
       updateTime: 'update_time',

@@ -189,7 +189,6 @@ CREATE TABLE IF NOT EXISTS model_field
     FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE RESTRICT,
     field_key     varchar(63) COLLATE ascii_bin NOT NULL COMMENT '字段键值，由用户自行指定；(model_key, field_key) 具备唯一性',
     name          varchar(255)                  NOT NULL DEFAULT '' COMMENT '字段名称',
-    input_hint    text                          NOT NULL COMMENT '用户输入提示',
     required      tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为必填项',
     use_default   tinyint                       NOT NULL DEFAULT '0' COMMENT '是否自动填充默认值',
     default_value varchar(255)                  NOT NULL DEFAULT '' COMMENT '默认值',
