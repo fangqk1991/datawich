@@ -17,7 +17,7 @@ factory.prepare(DatabaseApis.DBTableListGet, async (ctx) => {
 })
 
 factory.prepare(DatabaseApis.TableSchemaGet, async (ctx) => {
-  const tableName = ctx.params.modelKey
+  const tableName = ctx.params.tableName
   ctx.body = await DBSchemaHelper.getTableSchema(MyDatabase.datawichDB, tableName)
 })
 

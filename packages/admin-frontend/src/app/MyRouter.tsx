@@ -11,6 +11,7 @@ import { JobListView } from '@fangcha/job-react'
 import { ResourceTaskListView } from '@fangcha/oss-react'
 import { ModelClientListView } from '../model-client/ModelClientListView'
 import { DBTableListView } from '../database/DBTableListView'
+import { DBTableDetailView } from '../database/DBTableDetailView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: DatawichAdminPages.DatabaseTableListRoute,
         element: <DBTableListView />,
+      },
+      {
+        path: DatawichAdminPages.DatabaseTableDetailRoute,
+        element: <DBTableDetailView />,
       },
       {
         path: '*',
