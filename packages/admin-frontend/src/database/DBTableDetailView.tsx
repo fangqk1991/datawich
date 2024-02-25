@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Divider, Space, Tag } from 'antd'
+import { Button, Divider, Space } from 'antd'
 import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, DBTableField, FieldTypeDescriptor } from '@fangcha/datawich-service'
-import { LoadingView, TableView, TableViewColumn } from '@fangcha/react'
+import { DBTable } from '@fangcha/datawich-service'
+import { LoadingView, ReactPreviewDialog } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
+import { TableFieldsTable } from './TableFieldsTable'
 
 export const DBTableDetailView: React.FC = () => {
   const { tableName = '' } = useParams()
@@ -24,50 +25,14 @@ export const DBTableDetailView: React.FC = () => {
   return (
     <div>
       <h3>{tableSchema.tableName}</h3>
+
       <Divider />
 
-      <TableView
-        rowKey={(item: DBTableField) => {
-          return `${item.fieldKey}`
-        }}
-        reactiveQuery={true}
-        tableProps={{
-          size: 'small',
-          bordered: true,
-        }}
-        columns={TableViewColumn.makeColumns<DBTableField>([
-          {
-            title: '字段 Key',
-            render: (item) => item.fieldKey,
-          },
-          {
-            title: '字段名称',
-            render: (item) => item.name,
-          },
-          {
-            title: '字段类型',
-            render: (item) => FieldTypeDescriptor.describe(item.fieldType),
-          },
-          {
-            title: '属性',
-            render: (item) => (
-              <Space>
-                {item.nullable && <Tag color={'warning'}>可为空</Tag>}
-                {!item.insertable && <Tag color={'error'}>不可插入</Tag>}
-                {!item.modifiable && <Tag color={'error'}>不可修改</Tag>}
-              </Space>
-            ),
-          },
-          {
-            title: '默认值',
-            render: (item) => item.defaultValue,
-          },
-        ])}
-        hidePagination={true}
-        loadOnePageItems={async () => {
-          return tableSchema!.fields
-        }}
-      />
+      <Space>
+        <Button onClick={() => ReactPreviewDialog.preview(<TableFieldsTable table={tableSchema} />)}>字段描述</Button>
+      </Space>
+
+      <Divider />
     </div>
   )
 }
