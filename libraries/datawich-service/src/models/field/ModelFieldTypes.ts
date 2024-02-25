@@ -30,7 +30,6 @@ export interface Raw_FieldLink {
 }
 
 export const Keys_Raw_FieldLink = [
-  // prettier-ignore
   'linkId',
   'modelKey',
   'fieldKey',
@@ -65,7 +64,6 @@ export interface Raw_ModelField {
 }
 
 export const Keys_Raw_ModelField = [
-  // prettier-ignore
   'modelKey',
   'fieldKey',
   'name',

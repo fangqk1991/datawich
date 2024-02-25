@@ -10,17 +10,6 @@ export interface DateRange {
   ceil: string
 }
 
-export interface ActionInfo {
-  event: string
-  content: string
-}
-
-export interface ReferenceCheckedInfo {
-  fieldKey: string
-  mappingName: string
-  checked: boolean
-}
-
 export interface ModelFieldExtrasData {
   keyAlias: string
   dateRange: DateRange
@@ -51,7 +40,7 @@ export interface ModelFieldParams {
 export interface ModelFieldModel extends Raw_ModelField {
   fieldType: FieldType
   ////
-  options: { value: number | string; label: string }[]
+  options: SelectOption[]
   value2LabelMap: { [p: string]: string }
   isUnique: number
   extrasData: ModelFieldExtrasData
