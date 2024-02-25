@@ -56,7 +56,6 @@ export interface Raw_ModelField {
   fieldType: string
   extrasInfo: string
   remarks: string
-  special: number
   weight: number
   isSystem: number
   isHidden: number
@@ -76,7 +75,6 @@ export const Keys_Raw_ModelField = [
   'fieldType',
   'extrasInfo',
   'remarks',
-  'special',
   'weight',
   'isSystem',
   'isHidden',

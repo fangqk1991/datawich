@@ -176,7 +176,6 @@ export default class ModelFieldDialog extends CustomDialog {
     defaultValue: '',
     fieldType: '',
     remarks: '',
-    special: 0,
     options: [],
     isHidden: 0,
     isSystem: 0,

@@ -12,7 +12,6 @@ const _cols: string[] = [
   'field_type',
   'extras_info',
   'remarks',
-  'special',
   'weight',
   'is_system',
   'is_hidden',
@@ -31,7 +30,6 @@ const _insertableCols: string[] = [
   'field_type',
   'extras_info',
   'remarks',
-  'special',
   'weight',
   'is_system',
   'is_hidden',
@@ -46,7 +44,6 @@ const _modifiableCols: string[] = [
   'field_type',
   'extras_info',
   'remarks',
-  'special',
   'weight',
   'is_system',
   'is_hidden',
@@ -98,10 +95,6 @@ export default class __ModelField extends FeedBase {
    * @description [varchar(255)] 备注
    */
   public remarks!: string
-  /**
-   * @description [tinyint] 是否为特殊字段
-   */
-  public special!: number
   /**
    * @description [int] 权重，用于排序
    */
@@ -167,7 +160,6 @@ export default class __ModelField extends FeedBase {
     this.fieldType = ''
     this.extrasInfo = ''
     this.remarks = ''
-    this.special = 0
     this.weight = 0
     this.isSystem = 0
     this.isHidden = 0
@@ -185,7 +177,6 @@ export default class __ModelField extends FeedBase {
       fieldType: 'field_type',
       extrasInfo: 'extras_info',
       remarks: 'remarks',
-      special: 'special',
       weight: 'weight',
       isSystem: 'is_system',
       isHidden: 'is_hidden',

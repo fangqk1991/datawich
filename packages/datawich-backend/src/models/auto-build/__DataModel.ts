@@ -19,7 +19,6 @@ const _cols: string[] = [
   'is_custom',
   'is_library',
   'is_locked',
-  'use_email',
   'is_deleted',
   'author',
   'sample_date',
@@ -46,7 +45,6 @@ const _insertableCols: string[] = [
   'is_custom',
   'is_library',
   'is_locked',
-  'use_email',
   'is_deleted',
   'author',
   'sample_date',
@@ -69,7 +67,6 @@ const _modifiableCols: string[] = [
   'is_custom',
   'is_library',
   'is_locked',
-  'use_email',
   'is_deleted',
   'sample_date',
   'tags',
@@ -150,10 +147,6 @@ export default class __DataModel extends FeedBase {
    */
   public isLocked!: number
   /**
-   * @description [tinyint] 是否发送邮件通知
-   */
-  public useEmail!: number
-  /**
    * @description [tinyint] 是否已被删除
    */
   public isDeleted!: number
@@ -230,7 +223,6 @@ export default class __DataModel extends FeedBase {
     this.isCustom = 0
     this.isLibrary = 0
     this.isLocked = 0
-    this.useEmail = 0
     this.isDeleted = 0
     this.author = ''
     this.sampleDate = '1970-01-01'
@@ -256,7 +248,6 @@ export default class __DataModel extends FeedBase {
       isCustom: 'is_custom',
       isLibrary: 'is_library',
       isLocked: 'is_locked',
-      useEmail: 'use_email',
       isDeleted: 'is_deleted',
       author: 'author',
       sampleDate: 'sample_date',

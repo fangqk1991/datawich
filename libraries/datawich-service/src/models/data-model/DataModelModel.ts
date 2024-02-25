@@ -38,7 +38,6 @@ export interface DataModelModel extends DataModelParams {
   isCustom: number
   isLibrary: number
   isLocked: number
-  useEmail: number
   isDeleted: number
   author: string
   sampleDate: string
