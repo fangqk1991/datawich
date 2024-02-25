@@ -20,11 +20,8 @@ const _cols: string[] = [
   'is_library',
   'is_locked',
   'use_email',
-  'is_broadcast',
   'is_deleted',
-  'wechatbot_key',
   'author',
-  'default_member_level',
   'sample_date',
   'tags',
   'extras_info',
@@ -50,11 +47,8 @@ const _insertableCols: string[] = [
   'is_library',
   'is_locked',
   'use_email',
-  'is_broadcast',
   'is_deleted',
-  'wechatbot_key',
   'author',
-  'default_member_level',
   'sample_date',
   'tags',
   'extras_info',
@@ -76,10 +70,7 @@ const _modifiableCols: string[] = [
   'is_library',
   'is_locked',
   'use_email',
-  'is_broadcast',
   'is_deleted',
-  'wechatbot_key',
-  'default_member_level',
   'sample_date',
   'tags',
   'extras_info',
@@ -163,25 +154,13 @@ export default class __DataModel extends FeedBase {
    */
   public useEmail!: number
   /**
-   * @description [tinyint] 数据变更时是否广播
-   */
-  public isBroadcast!: number
-  /**
    * @description [tinyint] 是否已被删除
    */
   public isDeleted!: number
   /**
-   * @description [varchar(255)] 微信机器人接口地址
-   */
-  public wechatbotKey!: string
-  /**
    * @description [varchar(255)] 创建者邮箱
    */
   public author!: string
-  /**
-   * @description [int] 默认成员级别: 新建成员时会将此值赋值给 model_member.member_level
-   */
-  public defaultMemberLevel!: number
   /**
    * @description [date] 采样日期，目前主要用于数据源模型
    */
@@ -252,11 +231,8 @@ export default class __DataModel extends FeedBase {
     this.isLibrary = 0
     this.isLocked = 0
     this.useEmail = 0
-    this.isBroadcast = 0
     this.isDeleted = 0
-    this.wechatbotKey = ''
     this.author = ''
-    this.defaultMemberLevel = 1
     this.sampleDate = '1970-01-01'
     this.tags = ''
     this.extrasInfo = ''
@@ -281,11 +257,8 @@ export default class __DataModel extends FeedBase {
       isLibrary: 'is_library',
       isLocked: 'is_locked',
       useEmail: 'use_email',
-      isBroadcast: 'is_broadcast',
       isDeleted: 'is_deleted',
-      wechatbotKey: 'wechatbot_key',
       author: 'author',
-      defaultMemberLevel: 'default_member_level',
       sampleDate: 'sample_date',
       tags: 'tags',
       extrasInfo: 'extras_info',
