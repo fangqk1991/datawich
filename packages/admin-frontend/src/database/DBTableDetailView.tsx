@@ -60,6 +60,8 @@ export const DBTableDetailView: React.FC = () => {
         ])}
         defaultSettings={{
           pageSize: 15,
+          sortKey: '_rid',
+          sortDirection: 'descend',
         }}
         loadData={async (retainParams) => {
           const request = MyRequest(new CommonAPI(DatabaseApis.RecordPageDataGet, tableName))
