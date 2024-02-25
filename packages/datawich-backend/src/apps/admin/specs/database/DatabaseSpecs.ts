@@ -2,7 +2,7 @@ import { SpecFactory } from '@fangcha/router'
 import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { FangchaSession } from '@fangcha/session'
 import { MyDatabase } from '../../../../services/MyDatabase'
-import { DBSchemaHelper } from '@fangcha/datawich-sdk'
+import { DBSchemaHelper, TableDataHandler } from '@fangcha/datawich-sdk'
 
 const factory = new SpecFactory('Database')
 
@@ -19,6 +19,12 @@ factory.prepare(DatabaseApis.DBTableListGet, async (ctx) => {
 factory.prepare(DatabaseApis.TableSchemaGet, async (ctx) => {
   const tableName = ctx.params.tableName
   ctx.body = await DBSchemaHelper.getTableSchema(MyDatabase.datawichDB, tableName)
+})
+
+factory.prepare(DatabaseApis.RecordPageDataGet, async (ctx) => {
+  const tableName = ctx.params.tableName
+  const table = await DBSchemaHelper.getTableSchema(MyDatabase.datawichDB, tableName)
+  ctx.body = await new TableDataHandler(MyDatabase.datawichDB, table).getPageResult(ctx.request.query)
 })
 
 export const DatabaseSpecs = factory.buildSpecs()

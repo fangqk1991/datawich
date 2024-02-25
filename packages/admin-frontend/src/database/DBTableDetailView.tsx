@@ -4,7 +4,7 @@ import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DBTable } from '@fangcha/datawich-service'
-import { LoadingView, ReactPreviewDialog } from '@fangcha/react'
+import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
 
@@ -44,6 +44,29 @@ export const DBTableDetailView: React.FC = () => {
       </Space>
 
       <Divider />
+
+      <TableView
+        rowKey={'_rid'}
+        reactiveQuery={true}
+        tableProps={{
+          size: 'small',
+          bordered: true,
+        }}
+        columns={TableViewColumn.makeColumns<any>([
+          ...tableSchema.fields.map((field) => ({
+            title: field.name,
+            render: (data: any) => data[field.fieldKey],
+          })),
+        ])}
+        defaultSettings={{
+          pageSize: 15,
+        }}
+        loadData={async (retainParams) => {
+          const request = MyRequest(new CommonAPI(DatabaseApis.RecordPageDataGet, tableName))
+          request.setQueryParams(retainParams)
+          return request.quickSend()
+        }}
+      />
     </div>
   )
 }
