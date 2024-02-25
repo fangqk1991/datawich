@@ -45,6 +45,7 @@ export interface CoreField {
   required: number
   options?: SelectOption[]
   value2LabelMap?: { [p: string]: string }
+  defaultValue?: string
 }
 
 export interface ModelFieldModel extends CoreField, Raw_ModelField {
@@ -57,6 +58,7 @@ export interface ModelFieldModel extends CoreField, Raw_ModelField {
   filterKey: string
   dataKey: string
   refFieldLinks: FieldLinkModel[]
+  defaultValue: string
 }
 
 export interface DescribableField {

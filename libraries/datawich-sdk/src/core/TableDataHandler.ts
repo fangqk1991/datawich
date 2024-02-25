@@ -1,6 +1,6 @@
 import { FilterOptions, SearcherTools } from 'fc-feed'
 import { PageResult } from '@fangcha/tools'
-import { FCDatabase } from 'fc-sql'
+import { FCDatabase, SQLAdder } from 'fc-sql'
 import { DBTable, DBTableField, DBTypicalRecord, FieldType } from '@fangcha/datawich-service'
 
 export class TableDataHandler<T = DBTypicalRecord> {
@@ -62,30 +62,23 @@ export class TableDataHandler<T = DBTypicalRecord> {
     return (await searcher.querySingle()) as T
   }
 
-  // public async createRecord(options: Partial<SchemaDataInfo>) {
-  //   const author = options.author || ''
-  //   options = DataFieldHelper.purifyData(this.fieldItems, options)
-  //   const dataId = makeUUID()
-  //   const adder = new SQLAdder(this.table.dbSpec().database)
-  //   adder.setTable(this.table.sqlTableName())
-  //   adder.insertKV('data_id', dataId)
-  //   adder.insertKV('author', author)
-  //   adder.insertKV('update_author', author)
-  //   if (flags.withoutAudit) {
-  //     for (const key of Object.keys(options)) {
-  //       adder.insertKV(key, options[key])
-  //     }
-  //     adder.insertKV('data_status', DataStatus.Normal)
-  //     adder.insertKV('draft_data_str', null)
-  //   } else {
-  //     adder.insertKV('data_status', DataStatus.Creating)
-  //     adder.insertKV('draft_data_str', JSON.stringify(options))
-  //   }
-  //   await adder.execute()
-  //
-  //   return await this.getDataRecord(dataId)
-  // }
-  //
+  public async createRecord(options: Partial<DBTypicalRecord>) {
+    const author = options.author || ''
+    author
+    const fieldMapper = this.fieldMapper()
+    // options = DataFieldHelper.purifyData(this.fieldItems, options)
+    const adder = new SQLAdder(this.database)
+    adder.setTable(this.table.tableName)
+    // adder.insertKV('data_id', dataId)
+    // adder.insertKV('author', author)
+    // adder.insertKV('update_author', author)
+
+    for (const key of Object.keys(options).filter((key) => !!fieldMapper[key])) {
+      adder.insertKV(key, options[key])
+    }
+    await adder.execute()
+  }
+
   // public async updateDataRecord(dataInfo: SchemaDataInfo, options: {}, flags: M_OperatorParams) {
   //   assert.ok(dataInfo.data_status !== DataStatus.Deleting, `数据当前处于待删除状态，不可修改`)
   //   options = DataFieldHelper.purifyData(this.fieldItems, options)

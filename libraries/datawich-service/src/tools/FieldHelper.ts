@@ -1,5 +1,5 @@
 import { addSlashes, SelectOption } from '@fangcha/tools'
-import { DescribableField, FieldsDisplaySettings, FieldType, ModelFieldModel } from '../models'
+import { CoreField, DescribableField, FieldsDisplaySettings, FieldType, ModelFieldModel } from '../models'
 import { GeneralDataHelper } from './GeneralDataHelper'
 
 export interface FieldDisplayItem {
@@ -196,10 +196,7 @@ export class FieldHelper {
     return items
   }
 
-  public static cleanDataByModelFields(
-    data: any,
-    modelFields: { fieldKey: string; fieldType: FieldType; required: number }[] = []
-  ) {
+  public static cleanDataByModelFields(data: any, modelFields: CoreField[] = []) {
     const realData: any = {}
     modelFields.forEach((field) => {
       for (const key of [field.fieldKey, GeneralDataHelper.entityKey(field.fieldKey)]) {

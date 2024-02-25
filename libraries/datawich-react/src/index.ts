@@ -6,6 +6,8 @@ export * from './app/SDK_DataAppDetailView'
 
 export * from './core/RecordActionCell'
 export * from './core/DataRecordDialog'
+export * from './core/DataNormalForm'
+export * from './core/DBTableRecordDialog'
 
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'
