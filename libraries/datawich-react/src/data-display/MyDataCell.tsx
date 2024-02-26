@@ -12,8 +12,6 @@ import { CodeEditor } from '../core/CodeEditor'
 interface Props {
   field: ModelFieldModel
   superField?: ModelFieldModel
-  filterOptions?: any
-  tagCheckedMap?: any
   data: any
 }
 
