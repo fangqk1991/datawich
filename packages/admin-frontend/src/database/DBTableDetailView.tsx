@@ -7,7 +7,7 @@ import { CoreField, DBTable } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
-import { DBTableRecordDialog } from '@fangcha/datawich-react'
+import { CommonDataCell, DBTableRecordDialog } from '@fangcha/datawich-react'
 
 export const DBTableDetailView: React.FC = () => {
   const { tableName = '' } = useParams()
@@ -91,9 +91,9 @@ export const DBTableDetailView: React.FC = () => {
           bordered: true,
         }}
         columns={TableViewColumn.makeColumns<any>([
-          ...tableSchema.fields.map((field) => ({
+          ...fields.map((field) => ({
             title: field.name,
-            render: (data: any) => data[field.fieldKey],
+            render: (data: any) => <CommonDataCell field={field} data={data} />,
           })),
         ])}
         defaultSettings={{

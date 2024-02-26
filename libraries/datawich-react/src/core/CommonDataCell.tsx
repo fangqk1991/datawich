@@ -5,7 +5,7 @@ import { Image, Tag } from 'antd'
 import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
 import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
-import { CodeEditor } from '../core/CodeEditor'
+import { CodeEditor } from './CodeEditor'
 
 interface Props {
   field: CoreField
