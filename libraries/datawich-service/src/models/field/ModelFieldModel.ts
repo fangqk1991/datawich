@@ -46,6 +46,8 @@ export interface CoreField {
   options?: SelectOption[]
   value2LabelMap?: { [p: string]: string }
   defaultValue?: string
+
+  dataKey?: string
 }
 
 export interface ModelFieldModel extends CoreField, Raw_ModelField {

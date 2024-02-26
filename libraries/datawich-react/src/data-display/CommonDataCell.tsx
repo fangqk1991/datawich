@@ -9,14 +9,13 @@ import { CodeEditor } from '../core/CodeEditor'
 
 interface Props {
   field: CoreField
-  dataKey: string
   data: any
   extension?: React.ReactNode
 }
 
 export const CommonDataCell: React.FC<Props> = (props) => {
   const field = props.field
-  const dataKey = props.dataKey
+  const dataKey = field.dataKey || field.fieldKey
   if (!field.value2LabelMap) {
     field.value2LabelMap = (field.options || []).reduce((result: any, cur: any) => {
       result[cur.value] = cur.label

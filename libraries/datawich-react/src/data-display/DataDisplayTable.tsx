@@ -76,7 +76,6 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
           .map((item) => {
             return myDataColumn({
               field: item.field,
-              superField: item.superField,
               filterOptions: queryParams,
               onFilterChange: (params) => updateQueryParams(params),
               fixedColumn: isMobile ? undefined : fixedColumnMap[item.field.filterKey],

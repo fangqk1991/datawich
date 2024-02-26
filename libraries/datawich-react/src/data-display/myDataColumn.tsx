@@ -7,7 +7,6 @@ import * as moment from 'moment'
 
 interface Props {
   field: ModelFieldModel
-  superField?: ModelFieldModel
   filterOptions?: {}
   onFilterChange?: (params: {}) => void
   fixedColumn?: boolean
@@ -15,7 +14,6 @@ interface Props {
 
 export const myDataColumn = (props: Props): ColumnType<any> => {
   const field = props.field
-  const superField = props.superField
   const filterOptions = props.filterOptions || {}
   const filterKey = field.filterKey
   const filtered = !!Object.keys(filterOptions).find(
@@ -70,7 +68,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
       )
       break
   }
-  const dataKey = GeneralDataHelper.calculateDataKey(field, superField)
+  const dataKey = field.dataKey
 
   return {
     className:
@@ -78,7 +76,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
         ? 'bg-highlight'
         : '',
     title: <div>{header}</div>,
-    render: (item: any) => <MyDataCell field={field} superField={superField} data={item} />,
+    render: (item: any) => <MyDataCell field={field} data={item} />,
     key: filterKey,
     fixed: props.fixedColumn ? 'left' : undefined,
     sortOrder: filterOptions['sortKey'] === filterKey ? filterOptions['sortDirection'] : undefined,

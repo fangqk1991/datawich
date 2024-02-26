@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Descriptions, Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
-import { FieldDisplayItem, FieldHelper, GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldDisplayItem, FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataRecordDialog } from './DataRecordDialog'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
@@ -66,10 +66,9 @@ export const RecordActionCell: React.FC<Props> = ({
                           {displayItems
                             .filter((item) => !item.isHidden)
                             .map((item) => {
-                              const dataKey = GeneralDataHelper.calculateDataKey(item.field, item.superField)
                               return (
-                                <Descriptions.Item key={dataKey} label={item.field.name}>
-                                  <MyDataCell field={item.field} superField={item.superField} data={record} />
+                                <Descriptions.Item key={item.field.dataKey} label={item.field.name}>
+                                  <MyDataCell field={item.field} data={record} />
                                 </Descriptions.Item>
                               )
                             })}

@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import React from 'react'
+import { ModelFieldModel } from '@fangcha/datawich-service'
 import { InfoCircleOutlined, LinkOutlined } from '@ant-design/icons'
 import { InformationDialog } from '@fangcha/react'
 import { Tag } from 'antd'
@@ -8,14 +8,11 @@ import { MyDataCell } from './MyDataCell'
 
 interface Props {
   field: ModelFieldModel
-  superField?: ModelFieldModel
   data: any
 }
 
 export const DataColumnExtension: React.FC<Props> = (props) => {
-  const dataKey = useMemo(() => {
-    return GeneralDataHelper.calculateDataKey(props.field, props.superField)
-  }, [props.field, props.superField])
+  const dataKey = props.field.dataKey || props.field.fieldKey
 
   const actions = props.field.extrasData.actions || []
   const linkActions = actions.filter((action) => action.event === 'Link')
@@ -24,17 +21,13 @@ export const DataColumnExtension: React.FC<Props> = (props) => {
 
   return (
     <div>
-      {!props.superField && (
-        <>
-          {linkActions.map((action) => (
-            <a key={action.actionId} href={TemplateHelper.renderTmpl(action.content, props.data)} target='_blank'>
-              <Tag color={'red'}>
-                <LinkOutlined /> {action.title}
-              </Tag>
-            </a>
-          ))}
-        </>
-      )}
+      {linkActions.map((action) => (
+        <a key={action.actionId} href={TemplateHelper.renderTmpl(action.content, props.data)} target='_blank'>
+          <Tag color={'red'}>
+            <LinkOutlined /> {action.title}
+          </Tag>
+        </a>
+      ))}
       {!!props.data[dataKey] && (
         <>
           {outerLinks.map((link) => (
@@ -48,7 +41,7 @@ export const DataColumnExtension: React.FC<Props> = (props) => {
                   infos: link.referenceFields.map((field) => {
                     return {
                       label: field.name,
-                      render: () => <MyDataCell field={field} superField={props.field} data={props.data} />,
+                      render: () => <MyDataCell field={field} data={props.data} />,
                     }
                   }),
                 })
