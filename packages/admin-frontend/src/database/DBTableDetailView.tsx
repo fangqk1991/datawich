@@ -32,6 +32,7 @@ export const DBTableDetailView: React.FC = () => {
           fieldType: schemaField.fieldType,
           name: schemaField.name,
           required: schemaField.nullable ? 0 : 1,
+          options: schemaField.options,
           extrasData: {} as any,
         }
       })

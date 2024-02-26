@@ -43,6 +43,10 @@ export class DBSchemaHelper {
       field.fieldType = FieldType.Datetime
     } else if (column.Type.includes('text')) {
       field.fieldType = FieldType.MultipleLinesText
+    } else if (column.Type.startsWith('enum')) {
+      const items = [...column.Type.matchAll(/'(\w+)'/g)].map((item) => item[1])
+      field.fieldType = FieldType.TextEnum
+      field.options = items.map((val) => ({ label: val, value: val }))
     }
 
     if (
