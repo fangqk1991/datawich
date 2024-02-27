@@ -147,30 +147,30 @@ CREATE TABLE IF NOT EXISTS common_job
 
 CREATE TABLE IF NOT EXISTS data_model
 (
-    _rid                 BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    model_key            varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，由用户自行指定，具备唯一性',
-    model_type           varchar(127)                  NOT NULL DEFAULT 'NormalModel' COMMENT '模型类型: 枚举值见 ModelType 定义',
-    short_key            varchar(4)                             DEFAULT NULL COMMENT '模型 short_key 值，由用户自行指定，具备唯一性',
-    name                 varchar(127)                  NOT NULL DEFAULT '' COMMENT '模型名称',
-    description          text COMMENT '模型描述',
-    remarks              varchar(255)                  NOT NULL DEFAULT '' COMMENT '备注',
-    version              int                           NOT NULL DEFAULT '0' COMMENT '版本号',
-    access_level         varchar(32)                   NOT NULL DEFAULT 'Protected' COMMENT '可访问的级别: 枚举值见 AccessLevel 定义',
-    is_retained          tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为系统预留模型（不可删除）',
-    is_data_insertable   tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可插入',
-    is_data_modifiable   tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可修改',
-    is_data_deletable    tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可删除',
-    is_online            tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已上线',
-    is_custom            tinyint                       NOT NULL DEFAULT '0' COMMENT '是否自定义',
-    is_library           tinyint                       NOT NULL DEFAULT '0' COMMENT '是否可以作为子模型被其他模型引用',
-    is_locked            tinyint                       NOT NULL DEFAULT '0' COMMENT '是否锁定，被锁定的模型不可修改',
-    is_deleted           tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已被删除',
-    author               varchar(255)                  NOT NULL DEFAULT '' COMMENT '创建者邮箱',
-    sample_date          date                          NOT NULL DEFAULT '1970-01-01' COMMENT '采样日期，目前主要用于数据源模型',
-    tags                 text COMMENT '模型标签，如 GoodsBilling, GoodsPower',
-    extras_info          mediumtext COMMENT '附加信息，空 | JSON 字符串',
-    create_time          TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time          TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    _rid               BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    model_key          varchar(63) COLLATE ascii_bin NOT NULL COMMENT '模型键值，由用户自行指定，具备唯一性',
+    model_type         varchar(127)                  NOT NULL DEFAULT 'NormalModel' COMMENT '模型类型: 枚举值见 ModelType 定义',
+    short_key          varchar(4)                             DEFAULT NULL COMMENT '模型 short_key 值，由用户自行指定，具备唯一性',
+    name               varchar(127)                  NOT NULL DEFAULT '' COMMENT '模型名称',
+    description        text COMMENT '模型描述',
+    remarks            varchar(255)                  NOT NULL DEFAULT '' COMMENT '备注',
+    version            int                           NOT NULL DEFAULT '0' COMMENT '版本号',
+    access_level       varchar(32)                   NOT NULL DEFAULT 'Protected' COMMENT '可访问的级别: 枚举值见 AccessLevel 定义',
+    is_retained        tinyint                       NOT NULL DEFAULT '0' COMMENT '是否为系统预留模型（不可删除）',
+    is_data_insertable tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可插入',
+    is_data_modifiable tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可修改',
+    is_data_deletable  tinyint                       NOT NULL DEFAULT '1' COMMENT '数据是否可删除',
+    is_online          tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已上线',
+    is_custom          tinyint                       NOT NULL DEFAULT '0' COMMENT '是否自定义',
+    is_library         tinyint                       NOT NULL DEFAULT '0' COMMENT '是否可以作为子模型被其他模型引用',
+    is_locked          tinyint                       NOT NULL DEFAULT '0' COMMENT '是否锁定，被锁定的模型不可修改',
+    is_deleted         tinyint                       NOT NULL DEFAULT '0' COMMENT '是否已被删除',
+    author             varchar(255)                  NOT NULL DEFAULT '' COMMENT '创建者邮箱',
+    sample_date        date                          NOT NULL DEFAULT '1970-01-01' COMMENT '采样日期，目前主要用于数据源模型',
+    tags               text COMMENT '模型标签，如 GoodsBilling, GoodsPower',
+    extras_info        mediumtext COMMENT '附加信息，空 | JSON 字符串',
+    create_time        TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time        TIMESTAMP                     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE (model_key),
     UNIQUE (short_key)
 ) ENGINE = InnoDB
@@ -431,4 +431,20 @@ CREATE TABLE IF NOT EXISTS model_panel
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
+CREATE TABLE IF NOT EXISTS db_connection
+(
+    _rid            BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid             CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'UUID',
+    db_host         VARCHAR(255) COLLATE ascii_bin NOT NULL DEFAULT '127.0.0.1' COMMENT 'DB Host',
+    db_port         INT                            NOT NULL DEFAULT 3306 COMMENT 'DB Port',
+    db_name         VARCHAR(255)                   NOT NULL COMMENT 'DB Name',
+    username        VARCHAR(255)                   NOT NULL COMMENT 'username',
+    password        TEXT                           NOT NULL COMMENT 'password',
+    custom_data_str MEDIUMTEXT COMMENT '描述信息，空 | JSON 字符串',
+    created_at      TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at      TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE (uid)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 

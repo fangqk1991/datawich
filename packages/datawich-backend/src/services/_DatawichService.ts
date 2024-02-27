@@ -17,6 +17,7 @@ import { CommonGroup } from '../models/permission/CommonGroup'
 import { MemberPower } from '../models/permission/MemberPower'
 import { OSSService, OssServiceOptions } from '@fangcha/oss-service'
 import { _ModelPanel } from '../models/extensions/_ModelPanel'
+import { _DBConnection } from '../models/database/_DBConnection'
 
 interface Params {
   database: FCDatabase
@@ -59,6 +60,9 @@ class __DatawichService {
 
   private setDatabase(database: FCDatabase) {
     this.database = database
+
+    _DBConnection.setDatabase(database)
+
     _DataModel.setDatabase(database)
     _ModelField.setDatabase(database)
     _FieldIndex.setDatabase(database)

@@ -1,6 +1,32 @@
 import { Api } from '@fangcha/swagger'
 
 export const DatabaseApis = {
+  ConnectionListGet: {
+    method: 'GET',
+    route: '/api/v1/db',
+    description: '获取 DB 连接信息列表',
+  },
+  ConnectionCreate: {
+    method: 'POST',
+    route: '/api/v1/db',
+    description: '创建 DB 连接信息',
+  },
+  ConnectionInfoGet: {
+    method: 'GET',
+    route: '/api/v1/db/:uid',
+    description: '获取 DB 连接信息',
+  },
+  ConnectionUpdate: {
+    method: 'PUT',
+    route: '/api/v1/db/:uid',
+    description: '更新 DB 连接信息',
+  },
+  ConnectionDelete: {
+    method: 'DELETE',
+    route: '/api/v1/db/:uid',
+    description: '删除 DB 连接信息',
+  },
+
   DBTableListGet: {
     method: 'GET',
     route: '/api/v1/db/datawich/table',

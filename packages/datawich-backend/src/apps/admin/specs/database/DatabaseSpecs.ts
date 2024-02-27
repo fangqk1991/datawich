@@ -3,6 +3,9 @@ import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { FangchaSession } from '@fangcha/session'
 import { MyDatabase } from '../../../../services/MyDatabase'
 import { DBSchemaHelper, TableDataHandler } from '@fangcha/datawich-sdk'
+import { _DBConnection } from '../../../../models/database/_DBConnection'
+import { Context } from 'koa'
+import assert from '@fangcha/assert'
 
 const factory = new SpecFactory('Database')
 
@@ -10,6 +13,34 @@ factory.addPreHandler(async (ctx, next) => {
   const session = ctx.session as FangchaSession
   session.assertVisitorIsAdmin()
   await next()
+})
+
+const prepareConnection = async (ctx: Context) => {
+  const connection = await _DBConnection.findWithUid(ctx.params.uid)
+  assert.ok(!!connection, '_DBConnection Not Found')
+  return connection!
+}
+
+factory.prepare(DatabaseApis.ConnectionListGet, async (ctx) => {
+  const searcher = new _DBConnection().fc_searcher(ctx.request.query)
+  ctx.body = await searcher.queryJsonFeeds()
+})
+
+factory.prepare(DatabaseApis.ConnectionCreate, async (ctx) => {
+  const connection = await _DBConnection.generateConnection(ctx.request.body)
+  ctx.body = connection.modelForClient()
+})
+
+factory.prepare(DatabaseApis.ConnectionUpdate, async (ctx) => {
+  const connection = await prepareConnection(ctx)
+  await connection.updateInfos(ctx.request.body)
+  ctx.body = connection.modelForClient()
+})
+
+factory.prepare(DatabaseApis.ConnectionDelete, async (ctx) => {
+  const connection = await prepareConnection(ctx)
+  await connection.deleteFromDB()
+  ctx.status = 200
 })
 
 factory.prepare(DatabaseApis.DBTableListGet, async (ctx) => {

@@ -10,6 +10,7 @@ export class DatawichAdminPages {
 
   public static ClientListRoute = '/v1/model-client'
 
+  public static DatabaseConnectionListRoute = '/v0/database'
   public static DatabaseTableListRoute = '/v0/database/datawich/table'
   public static DatabaseTableDetailRoute = '/v0/database/datawich/table/:tableName'
 

@@ -1,6 +1,15 @@
 import { FieldType } from '../field/FieldType'
 import { SelectOption } from '@fangcha/tools'
 
+export interface DBConnection {
+  uid: string
+  dbHost: string
+  dbPort: number
+  dbName: string
+  username: string
+  password: string
+}
+
 export interface DBTable {
   tableName: string
   fields: DBTableField[]

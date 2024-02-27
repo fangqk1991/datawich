@@ -97,6 +97,13 @@ const generalDataSchemas: DBModelSchema[] = [
     reloadOnAdded: true,
     reloadOnUpdated: true,
   },
+  {
+    tableName: 'db_connection',
+    outputFile: `${__dirname}/../src/models/auto-build/__DBConnection.ts`,
+    extFile: `${__dirname}/../src/models/database/_DBConnection.ts`,
+    reloadOnAdded: true,
+    reloadOnUpdated: true,
+  },
 ]
 
 const main = async () => {

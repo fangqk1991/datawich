@@ -42,7 +42,7 @@ export const useMenu = () => {
             name: LS('[i18n] API Clients'),
           },
           {
-            path: DatawichAdminPages.DatabaseTableListRoute,
+            path: DatawichAdminPages.DatabaseConnectionListRoute,
             name: 'Databases',
           },
           // ...(userInfo.isAdmin

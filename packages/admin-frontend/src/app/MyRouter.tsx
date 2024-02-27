@@ -12,6 +12,7 @@ import { ResourceTaskListView } from '@fangcha/oss-react'
 import { ModelClientListView } from '../model-client/ModelClientListView'
 import { DBTableListView } from '../database/DBTableListView'
 import { DBTableDetailView } from '../database/DBTableDetailView'
+import { DBConnectionListView } from '../database/DBConnectionListView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: DatawichAdminPages.ClientListRoute,
         element: <ModelClientListView />,
+      },
+      {
+        path: DatawichAdminPages.DatabaseConnectionListRoute,
+        element: <DBConnectionListView />,
       },
       {
         path: DatawichAdminPages.DatabaseTableListRoute,
