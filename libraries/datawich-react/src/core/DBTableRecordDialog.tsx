@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
-import { CoreField, DBTable } from '@fangcha/datawich-service'
+import { DBTable, transferDBFieldToCore } from '@fangcha/datawich-service'
 import { DataNormalForm } from './DataNormalForm'
 
 interface Props extends DialogProps {
@@ -17,18 +17,7 @@ export class DBTableRecordDialog extends ReactDialog<Props> {
       const table = props.table
 
       const fields = useMemo(() => {
-        return table.fields
-          .filter((item) => item.insertable)
-          .map((schemaField): CoreField => {
-            return {
-              fieldKey: schemaField.fieldKey,
-              fieldType: schemaField.fieldType,
-              name: schemaField.name,
-              required: schemaField.nullable ? 0 : 1,
-              extrasData: {} as any,
-              defaultValue: schemaField.defaultValue,
-            }
-          })
+        return table.fields.filter((item) => item.insertable).map((item) => transferDBFieldToCore(item))
       }, [table])
 
       let data = props.data

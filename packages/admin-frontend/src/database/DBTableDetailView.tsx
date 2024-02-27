@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Divider, message, Space } from 'antd'
 import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { CoreField, DBTable } from '@fangcha/datawich-service'
+import { DBTable, transferDBFieldToCore } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
@@ -30,18 +30,7 @@ export const DBTableDetailView: React.FC = () => {
     if (!tableSchema) {
       return []
     }
-    return tableSchema.fields
-      .filter((item) => item.insertable)
-      .map((schemaField): CoreField => {
-        return {
-          fieldKey: schemaField.fieldKey,
-          fieldType: schemaField.fieldType,
-          name: schemaField.name,
-          required: schemaField.nullable ? 0 : 1,
-          options: schemaField.options,
-          extrasData: {} as any,
-        }
-      })
+    return tableSchema.fields.map((item) => transferDBFieldToCore(item))
   }, [tableSchema])
 
   if (!connection || !tableSchema) {

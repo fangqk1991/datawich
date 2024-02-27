@@ -1,5 +1,6 @@
 import { FieldType } from '../field/FieldType'
 import { SelectOption } from '@fangcha/tools'
+import { CoreField } from '../field/ModelFieldModel'
 
 export interface DBConnection {
   uid: string
@@ -38,4 +39,15 @@ export interface DBTypicalRecord {
   author: string
   created_at: string
   updated_at: string
+}
+
+export const transferDBFieldToCore = (schemaField: DBTableField): CoreField => {
+  return {
+    fieldKey: schemaField.fieldKey,
+    fieldType: schemaField.fieldType,
+    name: schemaField.name,
+    required: schemaField.nullable ? 0 : 1,
+    extrasData: {} as any,
+    defaultValue: schemaField.defaultValue,
+  }
 }
