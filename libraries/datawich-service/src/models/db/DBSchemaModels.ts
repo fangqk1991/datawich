@@ -11,7 +11,7 @@ export interface DBConnection {
 }
 
 export interface DBSchema extends DBConnection {
-  tables: string[]
+  tableIds: string[]
 }
 
 export interface DBTable {

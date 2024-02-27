@@ -41,13 +41,13 @@ export const DatabaseDetailView: React.FC = () => {
         <Descriptions.Item label='Port'>{dbSchema.dbPort}</Descriptions.Item>
         <Descriptions.Item label='DB Name'>{dbSchema.dbName}</Descriptions.Item>
         <Descriptions.Item label='User'>{dbSchema.username}</Descriptions.Item>
-        <Descriptions.Item label='Info'>{dbSchema.tables.length} tables</Descriptions.Item>
+        <Descriptions.Item label='Info'>{dbSchema.tableIds.length} tables</Descriptions.Item>
       </Descriptions>
 
       <Divider />
 
-      <Card size={'small'}>
-        {dbSchema.tables.map((table) => (
+      <Card title={'Tables'} size={'small'}>
+        {dbSchema.tableIds.map((tableId) => (
           <Card.Grid
             style={{
               cursor: 'pointer',
@@ -55,12 +55,12 @@ export const DatabaseDetailView: React.FC = () => {
             }}
             onClick={() => {
               navigate(
-                DatawichAdminPages.buildRoute(DatawichAdminPages.DatabaseTableDetailRoute, [connectionId, table])
+                DatawichAdminPages.buildRoute(DatawichAdminPages.DatabaseTableDetailRoute, [connectionId, tableId])
               )
             }}
-            key={table}
+            key={tableId}
           >
-            {table}
+            {tableId}
           </Card.Grid>
         ))}
       </Card>

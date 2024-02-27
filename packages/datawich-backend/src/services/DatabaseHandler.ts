@@ -70,7 +70,7 @@ export class DatabaseHandler {
     const database = this.database()
     return {
       ...this.connection.modelForClient(),
-      tables: await database.getTables(),
+      tableIds: await database.getTables(),
     }
   }
 
