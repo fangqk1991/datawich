@@ -6,6 +6,9 @@ import { DBSchemaHelper, TableDataHandler } from '@fangcha/datawich-sdk'
 import { _DBConnection } from '../../../../models/database/_DBConnection'
 import { Context } from 'koa'
 import assert from '@fangcha/assert'
+import { EncryptionBox } from '@fangcha/tools'
+import { DatawichConfig } from '../../../../DatawichConfig'
+import { DBConnection } from '@fangcha/datawich-service'
 
 const factory = new SpecFactory('Database')
 
@@ -21,13 +24,19 @@ const prepareConnection = async (ctx: Context) => {
   return connection!
 }
 
+const encryptionBox = new EncryptionBox(DatawichConfig.adminJwtSecret)
+
 factory.prepare(DatabaseApis.ConnectionListGet, async (ctx) => {
   const searcher = new _DBConnection().fc_searcher(ctx.request.query)
   ctx.body = await searcher.queryJsonFeeds()
 })
 
 factory.prepare(DatabaseApis.ConnectionCreate, async (ctx) => {
-  const connection = await _DBConnection.generateConnection(ctx.request.body)
+  const params = ctx.request.body as DBConnection
+  if (params.password) {
+    params.password = encryptionBox.encrypt(params.password)
+  }
+  const connection = await _DBConnection.generateConnection(params)
   ctx.body = connection.modelForClient()
 })
 

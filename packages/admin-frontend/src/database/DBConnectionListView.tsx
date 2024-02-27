@@ -3,8 +3,9 @@ import { Button, Divider, message, Space, Table } from 'antd'
 import { DBConnection } from '@fangcha/datawich-service'
 import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
-import { TableViewColumn } from '@fangcha/react'
+import { ConfirmDialog, TableViewColumn } from '@fangcha/react'
 import { makeDBConnectionDialog } from './makeDBConnectionDialog'
+import { CommonAPI } from '@fangcha/app-request'
 
 export const DBConnectionListView: React.FC = () => {
   const [connectionList, setConnectionList] = useState<DBConnection[]>([])
@@ -56,6 +57,47 @@ export const DBConnectionListView: React.FC = () => {
           {
             title: 'User',
             render: (item) => item.username,
+          },
+          {
+            title: '操作',
+            render: (item) => {
+              return (
+                <Space>
+                  <a
+                    type='primary'
+                    onClick={() => {
+                      const dialog = makeDBConnectionDialog(item)
+                      dialog.show(async (params) => {
+                        const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionUpdate, item.uid))
+                        request.setBodyData(params)
+                        await request.quickSend()
+                        message.success('更新成功')
+                        setVersion(version + 1)
+                      })
+                    }}
+                  >
+                    编辑
+                  </a>
+                  <a
+                    style={{ color: '#dc3545' }}
+                    onClick={async () => {
+                      const dialog = new ConfirmDialog({
+                        title: '删除连接',
+                        content: `确定要删除此连接吗？`,
+                      })
+                      dialog.show(async () => {
+                        const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionDelete, item.uid))
+                        await request.execute()
+                        message.success('删除成功')
+                        setVersion(version + 1)
+                      })
+                    }}
+                  >
+                    删除
+                  </a>
+                </Space>
+              )
+            },
           },
         ])}
         dataSource={connectionList}

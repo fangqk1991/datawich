@@ -39,7 +39,7 @@ export class _DBConnection extends __DBConnection {
       dbPort: this.dbPort,
       dbName: this.dbName,
       username: this.username,
-      password: this.password,
+      password: '',
     }
   }
 }
