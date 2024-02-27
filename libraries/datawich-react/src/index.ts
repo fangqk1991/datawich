@@ -9,6 +9,7 @@ export * from './core/DataRecordDialog'
 export * from './core/DataNormalForm'
 export * from './core/DBTableRecordDialog'
 export * from './core/CommonDataCell'
+export * from './core/commonDataColumn'
 
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'

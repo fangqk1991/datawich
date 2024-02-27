@@ -47,6 +47,7 @@ export interface CoreField {
   value2LabelMap?: { [p: string]: string }
   defaultValue?: string
 
+  filterKey?: string
   dataKey?: string
 }
 

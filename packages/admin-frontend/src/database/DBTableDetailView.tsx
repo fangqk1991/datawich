@@ -4,14 +4,17 @@ import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { CoreField, DBTable } from '@fangcha/datawich-service'
-import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn } from '@fangcha/react'
+import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
-import { CommonDataCell, DBTableRecordDialog } from '@fangcha/datawich-react'
+import { commonDataColumn, DBTableRecordDialog } from '@fangcha/datawich-react'
 
 export const DBTableDetailView: React.FC = () => {
   const { tableName = '' } = useParams()
 
+  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
+    [p: string]: any
+  }>()
   const [tableSchema, setTableSchema] = useState<DBTable>()
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
 
@@ -41,6 +44,7 @@ export const DBTableDetailView: React.FC = () => {
   if (!tableSchema) {
     return <LoadingView />
   }
+  const isMobile = window.innerWidth < 768
 
   return (
     <div>
@@ -80,6 +84,14 @@ export const DBTableDetailView: React.FC = () => {
         >
           添加数据
         </Button>
+
+        <Button
+          onClick={() => {
+            setQueryParams({})
+          }}
+        >
+          重置过滤器
+        </Button>
       </Space>
 
       <Divider />
@@ -92,10 +104,13 @@ export const DBTableDetailView: React.FC = () => {
           bordered: true,
         }}
         columns={TableViewColumn.makeColumns<any>([
-          ...fields.map((field) => ({
-            title: field.name,
-            render: (data: any) => <CommonDataCell field={field} data={data} />,
-          })),
+          ...fields.map((field): any =>
+            commonDataColumn({
+              field: field,
+              filterOptions: queryParams,
+              onFilterChange: (params) => updateQueryParams(params),
+            })
+          ),
         ])}
         defaultSettings={{
           pageSize: 15,
@@ -104,7 +119,10 @@ export const DBTableDetailView: React.FC = () => {
         }}
         loadData={async (retainParams) => {
           const request = MyRequest(new CommonAPI(DatabaseApis.RecordPageDataGet, tableName))
-          request.setQueryParams(retainParams)
+          request.setQueryParams({
+            ...retainParams,
+            ...queryParams,
+          })
           return request.quickSend()
         }}
       />

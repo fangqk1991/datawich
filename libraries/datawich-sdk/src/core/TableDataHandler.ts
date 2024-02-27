@@ -20,12 +20,13 @@ export class TableDataHandler<T = DBTypicalRecord> {
   }
 
   public getSearcher(options: FilterOptions = {}) {
+    const fieldKeys = this.table.fields.map((field) => field.fieldKey)
     const fields = this.table.fields
     const searcher = this.database.searcher()
     searcher.setTable(this.table.tableName)
-    searcher.setColumns(['*'])
+    searcher.setColumns(fieldKeys)
     SearcherTools.injectConditions(searcher, {
-      colsMapper: fields.map((item) => item.fieldKey),
+      colsMapper: fieldKeys,
       exactSearchCols: [],
       fuzzySearchCols: [],
       gbkCols: [],
