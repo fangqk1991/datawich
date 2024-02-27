@@ -96,6 +96,22 @@ export const DBConnectionListView: React.FC = () => {
                     编辑
                   </a>
                   <a
+                    className={'text-success'}
+                    onClick={async () => {
+                      const dialog = makeDBConnectionDialog(item)
+                      dialog.title = '创建连接信息'
+                      dialog.show(async (params) => {
+                        const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionCreate))
+                        request.setBodyData(params)
+                        await request.quickSend()
+                        message.success('创建成功')
+                        setVersion(version + 1)
+                      })
+                    }}
+                  >
+                    复制
+                  </a>
+                  <a
                     className={'text-danger'}
                     onClick={async () => {
                       const dialog = new ConfirmDialog({
