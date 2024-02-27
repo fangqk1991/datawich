@@ -64,8 +64,6 @@ export class TableDataHandler<T = DBTypicalRecord> {
   }
 
   public async createRecord(options: Partial<DBTypicalRecord>) {
-    const author = options.author || ''
-    author
     const fieldMapper = this.fieldMapper()
     // options = DataFieldHelper.purifyData(this.fieldItems, options)
     const adder = new SQLAdder(this.database)
@@ -74,7 +72,7 @@ export class TableDataHandler<T = DBTypicalRecord> {
     // adder.insertKV('author', author)
     // adder.insertKV('update_author', author)
 
-    for (const key of Object.keys(options).filter((key) => !!fieldMapper[key])) {
+    for (const key of Object.keys(options).filter((key) => !!fieldMapper[key] && fieldMapper[key].insertable)) {
       adder.insertKV(key, options[key])
     }
 

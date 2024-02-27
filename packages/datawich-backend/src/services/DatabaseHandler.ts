@@ -15,12 +15,6 @@ export class DatabaseHandler {
     this.connection = connection
   }
 
-  public static async makeHandler(uid: string) {
-    const connection = await _DBConnection.findWithUid(uid)
-    assert.ok(!!connection, '_DBConnection Not Found')
-    return new DatabaseHandler(connection!)
-  }
-
   public static async generateConnection(params: DBConnection) {
     assert.ok(!!params.dbName, 'dbName missing')
     assert.ok(!!params.username, 'username missing')
@@ -35,7 +29,7 @@ export class DatabaseHandler {
     return connection
   }
 
-  private database() {
+  public database() {
     return FCDatabase.instanceWithName(this.connection.uid).init(
       new DBOptionsBuilder({
         host: this.connection.dbHost,
