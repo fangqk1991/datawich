@@ -64,7 +64,16 @@ export const DBConnectionListView: React.FC = () => {
               return (
                 <Space>
                   <a
-                    type='primary'
+                    className={'text-success'}
+                    onClick={async () => {
+                      const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionPing, item.uid))
+                      await request.quickSend()
+                      message.success('连接测试成功')
+                    }}
+                  >
+                    Ping
+                  </a>
+                  <a
                     onClick={() => {
                       const dialog = makeDBConnectionDialog(item)
                       dialog.show(async (params) => {
@@ -79,7 +88,7 @@ export const DBConnectionListView: React.FC = () => {
                     编辑
                   </a>
                   <a
-                    style={{ color: '#dc3545' }}
+                    className={'text-danger'}
                     onClick={async () => {
                       const dialog = new ConfirmDialog({
                         title: '删除连接',

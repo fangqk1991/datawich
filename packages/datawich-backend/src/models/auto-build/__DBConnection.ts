@@ -9,7 +9,6 @@ const _cols: string[] = [
   'db_name',
   'username',
   'password',
-  'custom_data_str',
   'created_at',
   'updated_at',
 ]
@@ -21,7 +20,6 @@ const _insertableCols: string[] = [
   'db_name',
   'username',
   'password',
-  'custom_data_str',
 ]
 const _modifiableCols: string[] = [
   // prettier-ignore
@@ -30,7 +28,6 @@ const _modifiableCols: string[] = [
   'db_name',
   'username',
   'password',
-  'custom_data_str',
   'created_at',
 ]
 
@@ -67,10 +64,6 @@ export default class __DBConnection extends FeedBase {
    * @description [text] password
    */
   public password!: string
-  /**
-   * @description [mediumtext] 描述信息，空 | JSON 字符串
-   */
-  public customDataStr!: string
   /**
    * @description [timestamp] 创建时间
    */
@@ -116,7 +109,6 @@ export default class __DBConnection extends FeedBase {
     this.dbHost = '127.0.0.1'
     this.dbPort = 3306
     this.password = ''
-    this.customDataStr = ''
   }
 
   public fc_propertyMapper() {
@@ -127,7 +119,6 @@ export default class __DBConnection extends FeedBase {
       dbName: 'db_name',
       username: 'username',
       password: 'password',
-      customDataStr: 'custom_data_str',
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     }

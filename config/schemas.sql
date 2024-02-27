@@ -433,16 +433,15 @@ CREATE TABLE IF NOT EXISTS model_panel
 
 CREATE TABLE IF NOT EXISTS db_connection
 (
-    _rid            BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    uid             CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'UUID',
-    db_host         VARCHAR(255) COLLATE ascii_bin NOT NULL DEFAULT '127.0.0.1' COMMENT 'DB Host',
-    db_port         INT                            NOT NULL DEFAULT 3306 COMMENT 'DB Port',
-    db_name         VARCHAR(255)                   NOT NULL COMMENT 'DB Name',
-    username        VARCHAR(255)                   NOT NULL COMMENT 'username',
-    password        TEXT                           NOT NULL COMMENT 'password',
-    custom_data_str MEDIUMTEXT COMMENT '描述信息，空 | JSON 字符串',
-    created_at      TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at      TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    _rid       BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid        CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'UUID',
+    db_host    VARCHAR(255) COLLATE ascii_bin NOT NULL DEFAULT '127.0.0.1' COMMENT 'DB Host',
+    db_port    INT                            NOT NULL DEFAULT 3306 COMMENT 'DB Port',
+    db_name    VARCHAR(255)                   NOT NULL COMMENT 'DB Name',
+    username   VARCHAR(255)                   NOT NULL COMMENT 'username',
+    password   TEXT                           NOT NULL COMMENT 'password',
+    created_at TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE (uid)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

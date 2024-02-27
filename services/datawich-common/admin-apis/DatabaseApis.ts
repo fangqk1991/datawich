@@ -16,6 +16,11 @@ export const DatabaseApis = {
     route: '/api/v1/db/:uid',
     description: '获取 DB 连接信息',
   },
+  ConnectionPing: {
+    method: 'POST',
+    route: '/api/v1/db/:uid/ping',
+    description: 'Ping DB 连接信息',
+  },
   ConnectionUpdate: {
     method: 'PUT',
     route: '/api/v1/db/:uid',

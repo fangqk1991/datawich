@@ -22,12 +22,6 @@ export class _DBConnection extends __DBConnection {
     return connection
   }
 
-  public async updateInfos(options: DBConnection) {
-    this.fc_edit()
-    this.fc_generateWithModel(options)
-    await this.updateToDB()
-  }
-
   public toJSON() {
     return this.modelForClient()
   }
