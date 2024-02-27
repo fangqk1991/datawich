@@ -1,7 +1,6 @@
 import { SpecFactory } from '@fangcha/router'
 import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { FangchaSession } from '@fangcha/session'
-import { MyDatabase } from '../../../../services/MyDatabase'
 import { DBSchemaHelper, TableDataHandler } from '@fangcha/datawich-sdk'
 import { _DBConnection } from '../../../../models/database/_DBConnection'
 import { DatabaseHandler } from '../../../../services/DatabaseHandler'
@@ -25,43 +24,55 @@ factory.prepare(DatabaseApis.ConnectionCreate, async (ctx) => {
 })
 
 factory.prepare(DatabaseApis.ConnectionPing, async (ctx) => {
-  const handler = await DatabaseHandler.makeHandler(ctx.params.uid)
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
   await handler.ping()
   ctx.status = 200
 })
 
 factory.prepare(DatabaseApis.ConnectionUpdate, async (ctx) => {
-  const handler = await DatabaseHandler.makeHandler(ctx.params.uid)
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
   await handler.updateInfos(ctx.request.body)
   ctx.body = handler.connection.modelForClient()
 })
 
 factory.prepare(DatabaseApis.ConnectionDelete, async (ctx) => {
-  const handler = await DatabaseHandler.makeHandler(ctx.params.uid)
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
   await handler.connection.deleteFromDB()
   ctx.status = 200
 })
 
-factory.prepare(DatabaseApis.DBTableListGet, async (ctx) => {
-  ctx.body = await MyDatabase.datawichDB.getTables()
+factory.prepare(DatabaseApis.ConnectionInfoGet, async (ctx) => {
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
+  ctx.body = await handler.connection.modelForClient()
+})
+
+factory.prepare(DatabaseApis.DatabaseSchemaGet, async (ctx) => {
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
+  ctx.body = await handler.getSchemaInfo()
 })
 
 factory.prepare(DatabaseApis.TableSchemaGet, async (ctx) => {
-  const tableName = ctx.params.tableName
-  ctx.body = await DBSchemaHelper.getTableSchema(MyDatabase.datawichDB, tableName)
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
+  await handler.handle(async (database) => {
+    ctx.body = await DBSchemaHelper.getTableSchema(database, ctx.params.tableId)
+  })
 })
 
 factory.prepare(DatabaseApis.RecordPageDataGet, async (ctx) => {
-  const tableName = ctx.params.tableName
-  const table = await DBSchemaHelper.getTableSchema(MyDatabase.datawichDB, tableName)
-  ctx.body = await new TableDataHandler(MyDatabase.datawichDB, table).getPageResult(ctx.request.query)
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
+  await handler.handle(async (database) => {
+    const table = await DBSchemaHelper.getTableSchema(database, ctx.params.tableId)
+    ctx.body = await new TableDataHandler(database, table).getPageResult(ctx.request.query)
+  })
 })
 
 factory.prepare(DatabaseApis.RecordCreate, async (ctx) => {
-  const tableName = ctx.params.tableName
-  const table = await DBSchemaHelper.getTableSchema(MyDatabase.datawichDB, tableName)
-  await new TableDataHandler(MyDatabase.datawichDB, table).createRecord(ctx.request.body)
-  ctx.status = 200
+  const handler = await DatabaseHandler.makeHandler(ctx.params.connectionId)
+  await handler.handle(async (database) => {
+    const table = await DBSchemaHelper.getTableSchema(database, ctx.params.tableId)
+    await new TableDataHandler(database, table).createRecord(ctx.request.body)
+    ctx.status = 200
+  })
 })
 
 export const DatabaseSpecs = factory.buildSpecs()

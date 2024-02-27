@@ -23,7 +23,7 @@ export class TableDataHandler<T = DBTypicalRecord> {
     const fieldKeys = this.table.fields.map((field) => field.fieldKey)
     const fields = this.table.fields
     const searcher = this.database.searcher()
-    searcher.setTable(this.table.tableName)
+    searcher.setTable(this.table.tableId)
     searcher.setColumns(fieldKeys)
     SearcherTools.injectConditions(searcher, {
       colsMapper: fieldKeys,
@@ -69,7 +69,7 @@ export class TableDataHandler<T = DBTypicalRecord> {
     const fieldMapper = this.fieldMapper()
     // options = DataFieldHelper.purifyData(this.fieldItems, options)
     const adder = new SQLAdder(this.database)
-    adder.setTable(this.table.tableName)
+    adder.setTable(this.table.tableId)
     // adder.insertKV('data_id', dataId)
     // adder.insertKV('author', author)
     // adder.insertKV('update_author', author)

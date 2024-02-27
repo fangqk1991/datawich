@@ -10,7 +10,7 @@ export class DBSchemaHelper {
     const handler = new DBTableHandler(database, table)
     const columns = await handler.getColumns()
     const schema: DBTable = {
-      tableName: table,
+      tableId: table,
       fields: columns.map((item) => this.makeTableField(item, fieldsExtras[item.Field])),
     }
     return schema

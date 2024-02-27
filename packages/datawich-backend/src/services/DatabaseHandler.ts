@@ -1,5 +1,5 @@
 import { _DBConnection } from '../models/database/_DBConnection'
-import { DBConnection } from '@fangcha/datawich-service'
+import { DBConnection, DBSchema } from '@fangcha/datawich-service'
 import assert from '@fangcha/assert'
 import { EncryptionBox, makeUUID } from '@fangcha/tools'
 import { DatawichConfig } from '../DatawichConfig'
@@ -35,10 +35,8 @@ export class DatabaseHandler {
     return connection
   }
 
-  public database() {
-    // const database = FCDatabase.instanceWithName(this.connection.uid)
-    const database = new FCDatabase()
-    return database.init(
+  private database() {
+    return FCDatabase.instanceWithName(this.connection.uid).init(
       new DBOptionsBuilder({
         host: this.connection.dbHost,
         port: this.connection.dbPort,
@@ -51,7 +49,12 @@ export class DatabaseHandler {
   }
 
   public async ping() {
-    await this.database().ping()
+    delete this.database()['__curDatabase']().entity
+    try {
+      await this.database().ping()
+    } catch (e) {
+      throw e
+    }
   }
 
   public async updateInfos(options: DBConnection) {
@@ -61,5 +64,17 @@ export class DatabaseHandler {
     this.connection.fc_edit()
     this.connection.fc_generateWithModel(options)
     await this.connection.updateToDB()
+  }
+
+  public async getSchemaInfo(): Promise<DBSchema> {
+    const database = this.database()
+    return {
+      ...this.connection.modelForClient(),
+      tables: await database.getTables(),
+    }
+  }
+
+  public async handle(handler: (database: FCDatabase) => Promise<void>) {
+    await handler(this.database())
   }
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Divider, message, Space, Table } from 'antd'
 import { DBConnection } from '@fangcha/datawich-service'
-import { DatabaseApis } from '@web/datawich-common/admin-apis'
+import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
-import { ConfirmDialog, TableViewColumn } from '@fangcha/react'
+import { ConfirmDialog, RouterLink, TableViewColumn } from '@fangcha/react'
 import { makeDBConnectionDialog } from './makeDBConnectionDialog'
 import { CommonAPI } from '@fangcha/app-request'
 
@@ -18,7 +18,7 @@ export const DBConnectionListView: React.FC = () => {
 
   return (
     <div>
-      <h3>DB Connections</h3>
+      <h3>Connections</h3>
       <Divider />
       <Space>
         <Button
@@ -44,7 +44,11 @@ export const DBConnectionListView: React.FC = () => {
         columns={TableViewColumn.makeColumns<DBConnection>([
           {
             title: '#',
-            render: (item) => item.uid,
+            render: (item) => (
+              <RouterLink route={DatawichAdminPages.DatabaseDetailRoute} params={[item.uid]}>
+                {item.uid}
+              </RouterLink>
+            ),
           },
           {
             title: 'Host',
@@ -52,7 +56,11 @@ export const DBConnectionListView: React.FC = () => {
           },
           {
             title: 'DB',
-            render: (item) => item.dbName,
+            render: (item) => (
+              <RouterLink route={DatawichAdminPages.DatabaseDetailRoute} params={[item.uid]}>
+                {item.dbName}
+              </RouterLink>
+            ),
           },
           {
             title: 'User',

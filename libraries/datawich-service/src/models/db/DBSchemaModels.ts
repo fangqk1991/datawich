@@ -10,8 +10,12 @@ export interface DBConnection {
   password: string
 }
 
+export interface DBSchema extends DBConnection {
+  tables: string[]
+}
+
 export interface DBTable {
-  tableName: string
+  tableId: string
   fields: DBTableField[]
 }
 

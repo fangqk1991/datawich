@@ -10,7 +10,7 @@ import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { JobListView } from '@fangcha/job-react'
 import { ResourceTaskListView } from '@fangcha/oss-react'
 import { ModelClientListView } from '../model-client/ModelClientListView'
-import { DBTableListView } from '../database/DBTableListView'
+import { DatabaseDetailView } from '../database/DatabaseDetailView'
 import { DBTableDetailView } from '../database/DBTableDetailView'
 import { DBConnectionListView } from '../database/DBConnectionListView'
 
@@ -61,8 +61,8 @@ export const MyRouter = createBrowserRouter([
         element: <DBConnectionListView />,
       },
       {
-        path: DatawichAdminPages.DatabaseTableListRoute,
-        element: <DBTableListView />,
+        path: DatawichAdminPages.DatabaseDetailRoute,
+        element: <DatabaseDetailView />,
       },
       {
         path: DatawichAdminPages.DatabaseTableDetailRoute,
