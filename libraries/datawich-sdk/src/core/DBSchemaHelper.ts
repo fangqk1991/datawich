@@ -25,12 +25,18 @@ export class DBSchemaHelper {
       nullable: column.Null === 'YES',
       insertable: true,
       modifiable: true,
+      isUUID: false,
       defaultValue: column.Default,
     }
 
-    if (column.Extra.includes('auto_increment') || (column.Field === 'uid' && column.Type === 'char(32)')) {
+    if (column.Extra.includes('auto_increment')) {
       field.insertable = false
       field.modifiable = false
+    }
+    if (column.Field === 'uid' && column.Type === 'char(32)') {
+      field.insertable = false
+      field.modifiable = false
+      field.isUUID = true
     }
 
     if (column.Type.includes('int')) {

@@ -27,6 +27,7 @@ export interface DBTableField {
   nullable: boolean
   insertable: boolean
   modifiable: boolean
+  isUUID?: boolean
   defaultValue?: any
   options?: SelectOption[]
 }

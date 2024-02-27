@@ -1,5 +1,5 @@
 import { FilterOptions, SearcherTools } from 'fc-feed'
-import { PageResult } from '@fangcha/tools'
+import { makeUUID, PageResult } from '@fangcha/tools'
 import { FCDatabase, SQLAdder } from 'fc-sql'
 import { DBTable, DBTableField, DBTypicalRecord, FieldType } from '@fangcha/datawich-service'
 
@@ -77,6 +77,12 @@ export class TableDataHandler<T = DBTypicalRecord> {
     for (const key of Object.keys(options).filter((key) => !!fieldMapper[key])) {
       adder.insertKV(key, options[key])
     }
+
+    this.table.fields.forEach((field) => {
+      if (field.isUUID) {
+        adder.insertKV(field.fieldKey, makeUUID())
+      }
+    })
     await adder.execute()
   }
 

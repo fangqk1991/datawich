@@ -19,7 +19,12 @@ export const TableFieldsTable: React.FC<Props> = ({ table }) => {
         },
         {
           title: '字段类型',
-          render: (item) => FieldTypeDescriptor.describe(item.fieldType),
+          render: (item) => (
+            <Space>
+              {FieldTypeDescriptor.describe(item.fieldType)}
+              {item.isUUID && <Tag color={'success'}>UUID</Tag>}
+            </Space>
+          ),
         },
         {
           title: '属性',

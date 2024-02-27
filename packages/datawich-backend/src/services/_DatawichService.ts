@@ -18,6 +18,7 @@ import { MemberPower } from '../models/permission/MemberPower'
 import { OSSService, OssServiceOptions } from '@fangcha/oss-service'
 import { _ModelPanel } from '../models/extensions/_ModelPanel'
 import { _DBConnection } from '../models/database/_DBConnection'
+import { _DBTableExtras } from '../models/database/_DBTableExtras'
 
 interface Params {
   database: FCDatabase
@@ -62,6 +63,7 @@ class __DatawichService {
     this.database = database
 
     _DBConnection.setDatabase(database)
+    _DBTableExtras.setDatabase(database)
 
     _DataModel.setDatabase(database)
     _ModelField.setDatabase(database)
