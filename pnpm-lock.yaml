@@ -95,8 +95,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.48.0
-        version: 0.48.0
+        specifier: ^0.49.0
+        version: 0.49.0
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -104,8 +104,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       fc-sql:
-        specifier: ^0.42.0
-        version: 0.42.0
+        specifier: ^0.43.0
+        version: 0.43.0
       file-type:
         specifier: ^12.4.0
         version: 12.4.2
@@ -2295,7 +2295,7 @@ packages:
       '@fangcha/tools': 1.39.0
       '@types/ejs': 3.1.2
       ejs: 3.1.9
-      fc-sql: 0.42.0
+      fc-sql: 0.43.0
     transitivePeerDependencies:
       - ibm_db
       - mariadb
@@ -6398,12 +6398,12 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.48.0:
-    resolution: {integrity: sha512-LANLcTmf0h9lixtHzppqIAXsQS+D3pt4yesuEBWfPpQqZxfx44KcTYf6c1tIrH7tQsBOGO2DCXMaawJJWk3RIA==}
+  /fc-feed@0.49.0:
+    resolution: {integrity: sha512-qbPc24QIggws1v6qJmxWeDRrovLFgi/0/NeQdqyXkObbFCDNQ1U29CiAxVvg6yJaU2ELSSlAqLMbWvirG4Hiaw==}
     dependencies:
       '@fangcha/logic': 0.8.0
       fc-model: 0.6.0
-      fc-sql: 0.42.0
+      fc-sql: 0.43.0
     transitivePeerDependencies:
       - ibm_db
       - mariadb
@@ -6424,8 +6424,8 @@ packages:
     resolution: {integrity: sha512-PJlpsjAOCg0RUbekTuJZlyBArs1/hMQnan0LeGLP57+wYXClZ0WJ7J7XeCaCXlkO9NZI05pu+4Xl58DUsyQKeg==}
     dev: false
 
-  /fc-sql@0.42.0:
-    resolution: {integrity: sha512-rmvx4OcOLYlb2DYSDCbqRLQAC2L5gz78yfsq4hVBlpQrsmax2PSbpYtmDxL5b/0Zw92HFEjiPSaP6vcQQUrz9A==}
+  /fc-sql@0.43.0:
+    resolution: {integrity: sha512-f/cs+NJTClZcBtSEMmi2Rowjj0CKb4q2Le1441hl+maXko11XZzqZIb9lZ77sFVudXu8vntW8ph+maFyohiYmQ==}
     dependencies:
       moment: 2.29.4
       mysql2: 3.2.1
@@ -10908,7 +10908,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: false
 
   /send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
@@ -10982,7 +10981,7 @@ packages:
       mysql2: 3.2.1
       pg-connection-string: 2.5.0
       retry-as-promised: 7.0.4
-      semver: 7.4.0
+      semver: 7.5.4
       sequelize-pool: 7.1.0
       toposort-class: 1.0.1
       uuid: 8.3.2

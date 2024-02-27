@@ -17,6 +17,7 @@ export interface DBSchema extends DBConnection {
 
 export interface DBTable {
   tableId: string
+  primaryKey: string
   fields: DBTableField[]
 }
 
@@ -28,6 +29,7 @@ export interface DBTableField {
   nullable: boolean
   insertable: boolean
   modifiable: boolean
+  isPrimary?: boolean
   isUUID?: boolean
   defaultValue?: any
   options?: SelectOption[]

@@ -9,9 +9,17 @@ export class DBSchemaHelper {
   ) {
     const handler = new DBTableHandler(database, table)
     const columns = await handler.getColumns()
+    const indexes = await handler.getIndexes()
+    const primaryIndex = indexes.find((item) => item.indexKey === 'PRIMARY' && item.columns.length === 1)
     const schema: DBTable = {
       tableId: table,
-      fields: columns.map((item) => this.makeTableField(item, fieldsExtras[item.Field])),
+      primaryKey: primaryIndex ? primaryIndex.columns[0] : '',
+      fields: columns.map((item) =>
+        this.makeTableField(item, {
+          ...fieldsExtras[item.Field],
+          isPrimary: primaryIndex && primaryIndex.columns[0] === item.Field,
+        })
+      ),
     }
     return schema
   }
@@ -25,6 +33,7 @@ export class DBSchemaHelper {
       nullable: column.Null === 'YES',
       insertable: true,
       modifiable: true,
+      isPrimary: false,
       isUUID: false,
       defaultValue: column.Default,
     }

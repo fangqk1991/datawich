@@ -22,6 +22,7 @@ export const TableFieldsTable: React.FC<Props> = ({ table }) => {
           render: (item) => (
             <Space>
               {FieldTypeDescriptor.describe(item.fieldType)}
+              {item.isPrimary && <Tag color={'success'}>Primary</Tag>}
               {item.isUUID && <Tag color={'success'}>UUID</Tag>}
             </Space>
           ),
