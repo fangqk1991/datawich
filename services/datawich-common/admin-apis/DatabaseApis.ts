@@ -53,17 +53,17 @@ export const DatabaseApis = {
   } as Api,
   RecordInfoGet: {
     method: 'GET',
-    route: '/api/v1/db/:connectionId/table/:tableId/record/:uid',
+    route: '/api/v1/db/:connectionId/table/:tableId/record/:recordId',
     description: '获取数据记录',
   } as Api,
   RecordUpdate: {
     method: 'PUT',
-    route: '/api/v1/db/:connectionId/table/:tableId/record/:uid',
+    route: '/api/v1/db/:connectionId/table/:tableId/record/:recordId',
     description: '更新数据记录',
   } as Api,
   RecordDelete: {
     method: 'DELETE',
-    route: '/api/v1/db/:connectionId/table/:tableId/record/:uid',
+    route: '/api/v1/db/:connectionId/table/:tableId/record/:recordId',
     description: '删除数据记录',
   } as Api,
 }

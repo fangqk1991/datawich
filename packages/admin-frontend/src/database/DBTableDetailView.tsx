@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
 import { commonDataColumn, DBTableRecordDialog } from '@fangcha/datawich-react'
 import { useConnection } from './useConnection'
+import { DBRecordActionCell } from './DBRecordActionCell'
 
 export const DBTableDetailView: React.FC = () => {
   const { connectionId = '', tableId = '' } = useParams()
@@ -118,6 +119,19 @@ export const DBTableDetailView: React.FC = () => {
               onFilterChange: (params) => updateQueryParams(params),
             })
           ),
+          {
+            title: '操作',
+            fixed: 'right',
+            align: 'center',
+            render: (item) => (
+              <DBRecordActionCell
+                connection={connection}
+                table={tableSchema}
+                record={item}
+                onDataChanged={forceUpdate}
+              />
+            ),
+          },
         ])}
         defaultSettings={{
           pageSize: 15,

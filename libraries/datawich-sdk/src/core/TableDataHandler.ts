@@ -1,7 +1,8 @@
 import { FilterOptions, SearcherTools } from 'fc-feed'
 import { makeUUID, PageResult } from '@fangcha/tools'
-import { FCDatabase, SQLAdder } from 'fc-sql'
+import { FCDatabase, SQLAdder, SQLModifier, SQLRemover } from 'fc-sql'
 import { DBTable, DBTableField, DBTypicalRecord, FieldType } from '@fangcha/datawich-service'
+import assert from '@fangcha/assert'
 
 export class TableDataHandler<T = DBTypicalRecord> {
   public readonly database: FCDatabase
@@ -57,9 +58,10 @@ export class TableDataHandler<T = DBTypicalRecord> {
     return (await searcher.queryList()) as T[]
   }
 
-  public async getDataRecord(dataId: string) {
+  public async getDataRecord(recordId: string) {
+    assert.ok(!!this.table.primaryKey, 'PrimaryKey missing.')
     const searcher = this.getSearcher()
-    searcher.addConditionKV('uid', dataId)
+    searcher.addConditionKV(this.table.primaryKey, recordId)
     return (await searcher.querySingle()) as T
   }
 
@@ -84,42 +86,26 @@ export class TableDataHandler<T = DBTypicalRecord> {
     await adder.execute()
   }
 
-  // public async updateDataRecord(dataInfo: SchemaDataInfo, options: {}, flags: M_OperatorParams) {
-  //   assert.ok(dataInfo.data_status !== DataStatus.Deleting, `数据当前处于待删除状态，不可修改`)
-  //   options = DataFieldHelper.purifyData(this.fieldItems, options)
-  //   const keys = Object.keys(options)
-  //   assert.ok(keys.length > 0, '数据无修改')
-  //
-  //   const modifier = new SQLModifier(this.table.dbSpec().database)
-  //   modifier.setTable(this.table.sqlTableName())
-  //   modifier.addConditionKV('data_id', dataInfo.data_id)
-  //   modifier.updateKV('update_author', flags.author || '')
-  //   if (flags.withoutAudit) {
-  //     for (const key of keys) {
-  //       modifier.updateKV(key, options[key])
-  //     }
-  //     modifier.updateKV('data_status', DataStatus.Normal)
-  //     modifier.updateKV('draft_data_str', null)
-  //   } else {
-  //     modifier.updateKV('data_status', DataStatus.Updating)
-  //     modifier.updateKV('draft_data_str', JSON.stringify(options))
-  //   }
-  //   await modifier.execute()
-  //   return await this.getDataRecord(dataInfo.data_id)
-  // }
-  //
-  // public async deleteDataRecord(dataInfo: SchemaDataInfo, flags: M_OperatorParams) {
-  //   assert.ok(dataInfo.data_status !== DataStatus.Deleting, `数据当前处于待删除状态，不可修改`)
-  //   const dataStatus = flags.withoutAudit ? DataStatus.Deleted : DataStatus.Deleting
-  //   const modifier = new SQLModifier(this.table.dbSpec().database)
-  //   modifier.setTable(this.table.sqlTableName())
-  //   modifier.updateKV('data_status', dataStatus)
-  //   modifier.updateKV('update_author', flags.author || '')
-  //   modifier.addConditionKV('data_id', dataInfo.data_id)
-  //   await modifier.execute()
-  //   return dataStatus
-  // }
-  //
+  public async updateDataRecord(record: DBTypicalRecord, newOptions: Partial<DBTypicalRecord>) {
+    assert.ok(!!this.table.primaryKey, 'PrimaryKey missing.')
+    const fieldMapper = this.fieldMapper()
+    const modifier = new SQLModifier(this.database)
+    modifier.setTable(this.table.tableId)
+    modifier.addConditionKV(this.table.primaryKey, record[this.table.primaryKey])
+    for (const key of Object.keys(newOptions).filter((key) => !!fieldMapper[key] && fieldMapper[key].modifiable)) {
+      modifier.updateKV(key, newOptions[key])
+    }
+    await modifier.execute()
+  }
+
+  public async deleteDataRecord(record: DBTypicalRecord) {
+    assert.ok(!!this.table.primaryKey, 'PrimaryKey missing.')
+    const remover = new SQLRemover(this.database)
+    remover.setTable(this.table.tableId)
+    remover.addConditionKV(this.table.primaryKey, record[this.table.primaryKey])
+    await remover.execute()
+  }
+
   // private async _bulkUpsertRecords(records: SchemaDataInfo[], author: string, transaction?: Transaction) {
   //   const fieldItems = this.fieldItems
   //   const bulkAdder = new SQLBulkAdder(this.table.dbSpec().database)

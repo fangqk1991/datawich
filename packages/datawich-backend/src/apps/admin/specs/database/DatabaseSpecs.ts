@@ -78,4 +78,26 @@ factory.prepare(DatabaseApis.RecordCreate, async (ctx) => {
   })
 })
 
+factory.prepare(DatabaseApis.RecordInfoGet, async (ctx) => {
+  await new DatabaseSpecHandler(ctx).handleRecord(async (record) => {
+    ctx.body = record
+  })
+})
+
+factory.prepare(DatabaseApis.RecordUpdate, async (ctx) => {
+  await new DatabaseSpecHandler(ctx).handleRecord(async (record, table, connection) => {
+    const database = new DatabaseHandler(connection).database()
+    await new TableDataHandler(database, table).updateDataRecord(record, ctx.request.body)
+    ctx.status = 200
+  })
+})
+
+factory.prepare(DatabaseApis.RecordDelete, async (ctx) => {
+  await new DatabaseSpecHandler(ctx).handleRecord(async (record, table, connection) => {
+    const database = new DatabaseHandler(connection).database()
+    await new TableDataHandler(database, table).deleteDataRecord(record)
+    ctx.status = 200
+  })
+})
+
 export const DatabaseSpecs = factory.buildSpecs()

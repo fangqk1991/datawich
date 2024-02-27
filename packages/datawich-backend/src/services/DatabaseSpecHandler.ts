@@ -1,9 +1,9 @@
 import { _DBConnection } from '../models/database/_DBConnection'
 import assert from '@fangcha/assert'
 import { Context } from 'koa'
-import { DBTable } from '@fangcha/datawich-service'
+import { DBTable, DBTypicalRecord } from '@fangcha/datawich-service'
 import { DatabaseHandler } from './DatabaseHandler'
-import { DBSchemaHelper } from '@fangcha/datawich-sdk'
+import { DBSchemaHelper, TableDataHandler } from '@fangcha/datawich-sdk'
 
 export class DatabaseSpecHandler {
   public readonly ctx: Context
@@ -43,5 +43,17 @@ export class DatabaseSpecHandler {
     const connection = await this.prepareConnection()
     const table = await this.prepareTable()
     await handler(table, connection)
+  }
+
+  public async handleRecord(
+    handler: (record: DBTypicalRecord, table: DBTable, connection: _DBConnection) => Promise<void>
+  ) {
+    const connection = await this.prepareConnection()
+    const table = await this.prepareTable()
+    const database = new DatabaseHandler(connection).database()
+    const recordId = this.ctx.params.recordId
+    const record = await new TableDataHandler(database, table).getDataRecord(recordId)
+    assert.ok(!!record, `Record[${table.primaryKey} = ${recordId}] missing.`)
+    await handler(record, table, connection)
   }
 }
