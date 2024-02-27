@@ -1,24 +1,19 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
-import { Button, Divider, message, Space } from 'antd'
-import { DatabaseApis } from '@web/datawich-common/admin-apis'
+import { Breadcrumb, Button, Divider, message, Space } from 'antd'
+import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { CoreField, DBConnection, DBTable } from '@fangcha/datawich-service'
-import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { CoreField, DBTable } from '@fangcha/datawich-service'
+import { LoadingView, ReactPreviewDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
 import { commonDataColumn, DBTableRecordDialog } from '@fangcha/datawich-react'
+import { useConnection } from './useConnection'
 
 export const DBTableDetailView: React.FC = () => {
   const { connectionId = '', tableId = '' } = useParams()
 
-  const [connection, setConnection] = useState<DBConnection>()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionInfoGet, connectionId))
-    request.quickSend().then((response) => setConnection(response))
-  }, [connectionId])
+  const connection = useConnection()
 
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
     [p: string]: any
@@ -56,8 +51,23 @@ export const DBTableDetailView: React.FC = () => {
 
   return (
     <div>
-      <h3>{tableSchema.tableId}</h3>
-
+      <Breadcrumb
+        items={[
+          {
+            title: <RouterLink route={DatawichAdminPages.DatabaseConnectionListRoute}>Connections</RouterLink>,
+          },
+          {
+            title: (
+              <RouterLink route={DatawichAdminPages.DatabaseDetailRoute} params={[connectionId]}>
+                {connection.dbName}
+              </RouterLink>
+            ),
+          },
+          {
+            title: tableSchema.tableId,
+          },
+        ]}
+      />
       <Divider />
 
       <Space>
