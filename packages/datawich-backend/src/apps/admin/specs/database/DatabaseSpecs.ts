@@ -80,9 +80,10 @@ factory.prepare(DatabaseApis.RecordPageDataGet, async (ctx) => {
 })
 
 factory.prepare(DatabaseApis.RecordCreate, async (ctx) => {
+  const session = ctx.session as FangchaSession
   await new DatabaseSpecHandler(ctx).handleTable(async (table, connection) => {
     const database = new DatabaseHandler(connection).database()
-    await new TableDataHandler(database, table).createRecord(ctx.request.body)
+    await new TableDataHandler(database, table).createRecord(ctx.request.body, session.curUserStr())
     ctx.status = 200
   })
 })

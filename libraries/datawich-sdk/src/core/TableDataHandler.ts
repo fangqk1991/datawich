@@ -65,22 +65,19 @@ export class TableDataHandler<T = DBTypicalRecord> {
     return (await searcher.querySingle()) as T
   }
 
-  public async createRecord(options: Partial<DBTypicalRecord>) {
+  public async createRecord(options: Partial<DBTypicalRecord>, author: string) {
     const fieldMapper = this.fieldMapper()
-    // options = DataFieldHelper.purifyData(this.fieldItems, options)
     const adder = new SQLAdder(this.database)
     adder.setTable(this.table.tableId)
-    // adder.insertKV('data_id', dataId)
-    // adder.insertKV('author', author)
-    // adder.insertKV('update_author', author)
-
     for (const key of Object.keys(options).filter((key) => !!fieldMapper[key] && fieldMapper[key].insertable)) {
       adder.insertKV(key, options[key])
     }
-
     this.table.fields.forEach((field) => {
       if (field.isUUID) {
         adder.insertKV(field.fieldKey, makeUUID())
+      }
+      if (field.isAuthor) {
+        adder.insertKV(field.fieldKey, author || '')
       }
     })
     await adder.execute()

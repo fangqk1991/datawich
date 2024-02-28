@@ -45,6 +45,7 @@ export class DBSchemaHelper {
       modifiable: true,
       isPrimary: false,
       isUUID: false,
+      isAuthor: false,
       defaultValue: column.Default,
     }
 
@@ -56,6 +57,11 @@ export class DBSchemaHelper {
       field.insertable = false
       field.modifiable = false
       field.isUUID = true
+    }
+    if (column.Field === 'author') {
+      field.insertable = false
+      field.modifiable = false
+      field.isAuthor = true
     }
 
     if (column.Type.includes('int')) {

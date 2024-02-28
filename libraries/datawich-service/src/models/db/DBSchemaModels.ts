@@ -45,6 +45,7 @@ export interface DBTableField {
   modifiable: boolean
   isPrimary?: boolean
   isUUID?: boolean
+  isAuthor?: boolean
   defaultValue?: any
   options?: SelectOption[]
 }
