@@ -34,6 +34,7 @@ export const TableFieldsTable: React.FC<Props> = ({ connection, table, onDataCha
               {FieldTypeDescriptor.describe(item.fieldType)}
               {item.isPrimary && <Tag color={'success'}>Primary</Tag>}
               {item.isUUID && <Tag color={'success'}>UUID</Tag>}
+              {item.isAuthor && <Tag color={'success'}>Author</Tag>}
             </Space>
           ),
         },
