@@ -5,6 +5,7 @@ import { TableDataHandler } from '@fangcha/datawich-sdk'
 import { _DBConnection } from '../../../../models/database/_DBConnection'
 import { DatabaseHandler } from '../../../../services/DatabaseHandler'
 import { DatabaseSpecHandler } from '../../../../services/DatabaseSpecHandler'
+import { _DBTableExtras } from '../../../../models/database/_DBTableExtras'
 
 const factory = new SpecFactory('Database')
 
@@ -60,6 +61,14 @@ factory.prepare(DatabaseApis.DatabaseSchemaGet, async (ctx) => {
 factory.prepare(DatabaseApis.TableSchemaGet, async (ctx) => {
   await new DatabaseSpecHandler(ctx).handleTable(async (table) => {
     ctx.body = table
+  })
+})
+
+factory.prepare(DatabaseApis.TableSchemaUpdate, async (ctx) => {
+  await new DatabaseSpecHandler(ctx).handleTable(async (table, connection) => {
+    const extras = await _DBTableExtras.prepareExtras(connection.uid, table.tableId)
+    await extras.updateInfos(ctx.request.body)
+    ctx.body = extras.modelForClient()
   })
 })
 

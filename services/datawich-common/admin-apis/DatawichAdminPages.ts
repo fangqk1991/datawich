@@ -13,6 +13,7 @@ export class DatawichAdminPages {
   public static DatabaseConnectionListRoute = '/v0/database'
   public static DatabaseDetailRoute = '/v0/database/:connectionId'
   public static DatabaseTableDetailRoute = '/v0/database/:connectionId/table/:tableId'
+  public static DatabaseTableDataRoute = '/v0/database/:connectionId/table/:tableId/data'
 
   public static JobListRoute = '/v1/job'
   public static ResourceTaskListRoute = '/oss-sdk/v1/resource-task'

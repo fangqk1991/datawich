@@ -13,6 +13,7 @@ import { ModelClientListView } from '../model-client/ModelClientListView'
 import { DatabaseDetailView } from '../database/DatabaseDetailView'
 import { DBTableDetailView } from '../database/DBTableDetailView'
 import { DBConnectionListView } from '../database/DBConnectionListView'
+import { DBTableDataView } from '../database/DBTableDataView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: DatawichAdminPages.DatabaseTableDetailRoute,
         element: <DBTableDetailView />,
+      },
+      {
+        path: DatawichAdminPages.DatabaseTableDataRoute,
+        element: <DBTableDataView />,
       },
       {
         path: '*',

@@ -41,7 +41,7 @@ export const DatabaseDetailView: React.FC = () => {
         <Descriptions.Item label='Port'>{dbSchema.dbPort}</Descriptions.Item>
         <Descriptions.Item label='DB Name'>{dbSchema.dbName}</Descriptions.Item>
         <Descriptions.Item label='User'>{dbSchema.username}</Descriptions.Item>
-        <Descriptions.Item label='Info'>{dbSchema.tableIds.length} tables</Descriptions.Item>
+        <Descriptions.Item label='信息'>{dbSchema.tableIds.length} tables</Descriptions.Item>
       </Descriptions>
 
       <Divider />

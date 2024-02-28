@@ -8,17 +8,40 @@ export class _DBTableExtras extends __DBTableExtras {
     super()
   }
 
+  public static async prepareExtras(connectionId: string, tableId: string) {
+    assert.ok(!!connectionId, 'connectionId missing.')
+    assert.ok(!!tableId, 'tableId missing.')
+    const uid = md5([connectionId, tableId].join(','))
+    let feed = (await this.findWithUid(uid))!
+    if (feed) {
+      feed = new this()
+      feed.uid = uid
+      feed.connectionId = connectionId
+      feed.tableId = tableId
+      feed.name = tableId
+      feed.fieldsExtrasStr = JSON.stringify({})
+      await feed.addToDB()
+    }
+    return feed
+  }
+
   public static async updateExtras(params: DBTableExtras) {
     assert.ok(!!params.connectionId, 'connectionId missing.')
     assert.ok(!!params.tableId, 'tableId missing.')
-    const feed = new this()
-    feed.uid = md5([params.connectionId, params.tableId].join(','))
-    feed.connectionId = params.connectionId
-    feed.tableId = params.tableId
-    feed.name = params.name || params.tableId
-    feed.fieldsExtrasStr = JSON.stringify(params.fieldsExtras || {})
-    await feed.strongAddToDB()
+    const feed = await this.prepareExtras(params.connectionId, params.tableId)
+    await feed.updateInfos(params)
     return feed
+  }
+
+  public async updateInfos(params: Partial<DBTableExtras>) {
+    this.fc_edit()
+    if (params.name !== undefined) {
+      this.name = params.name
+    }
+    if (params.fieldsExtras !== undefined) {
+      this.fieldsExtrasStr = JSON.stringify(params.fieldsExtras)
+    }
+    await this.updateToDB()
   }
 
   public fieldsExtras() {
