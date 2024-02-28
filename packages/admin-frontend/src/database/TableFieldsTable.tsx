@@ -1,13 +1,19 @@
 import React from 'react'
-import { Space, Table, Tag } from 'antd'
-import { DBTable, DBTableField, FieldTypeDescriptor } from '@fangcha/datawich-service'
-import { TableViewColumn } from '@fangcha/react'
+import { message, Space, Table, Tag } from 'antd'
+import { DBConnection, DBTable, DBTableField, FieldTypeDescriptor } from '@fangcha/datawich-service'
+import { JsonEditorDialog, TableViewColumn } from '@fangcha/react'
+import { MyRequest } from '@fangcha/auth-react'
+import { CommonAPI } from '@fangcha/app-request'
+import { DatabaseApis } from '@web/datawich-common/admin-apis'
 
 interface Props {
+  connection: DBConnection
   table: DBTable
+  onDataChanged?: () => void
+  hideActions?: boolean
 }
 
-export const TableFieldsTable: React.FC<Props> = ({ table }) => {
+export const TableFieldsTable: React.FC<Props> = ({ connection, table, onDataChanged, hideActions }) => {
   return (
     <Table
       size={'small'}
@@ -16,6 +22,10 @@ export const TableFieldsTable: React.FC<Props> = ({ table }) => {
         {
           title: '字段 Key',
           render: (item) => item.fieldKey,
+        },
+        {
+          title: '名称',
+          render: (item) => item.name,
         },
         {
           title: '字段类型',
@@ -45,6 +55,41 @@ export const TableFieldsTable: React.FC<Props> = ({ table }) => {
           title: '备注',
           render: (item) => item.remarks,
         },
+        ...(hideActions
+          ? []
+          : [
+              {
+                title: '操作',
+                render: (item: DBTableField) => (
+                  <a
+                    onClick={() => {
+                      const dialog = JsonEditorDialog.dialogForEditing({
+                        ...item,
+                        fieldKey: undefined,
+                        isPrimary: undefined,
+                      })
+                      dialog.show(async (params: Partial<DBTableField>) => {
+                        const request = MyRequest(
+                          new CommonAPI(DatabaseApis.TableSchemaUpdate, connection.uid, table.tableId)
+                        )
+                        request.setBodyData({
+                          fieldsExtras: {
+                            ...table.fieldsExtras,
+                            [item.fieldKey]: params,
+                          },
+                        })
+                        await request.quickSend()
+                        message.success('更新成功')
+
+                        onDataChanged && onDataChanged()
+                      })
+                    }}
+                  >
+                    编辑
+                  </a>
+                ),
+              },
+            ]),
       ])}
       dataSource={table.fields}
       pagination={false}

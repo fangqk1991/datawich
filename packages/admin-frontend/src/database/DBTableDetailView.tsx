@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer, useState } from 'react'
-import { Breadcrumb, Descriptions, Divider, Space } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Breadcrumb, Descriptions, Divider, message, Space } from 'antd'
 import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
@@ -65,6 +65,7 @@ export const DBTableDetailView: React.FC = () => {
                   })
                   await request.quickSend()
                   setVersion(version + 1)
+                  message.success('更新成功')
                 })
               }}
             >
@@ -82,7 +83,7 @@ export const DBTableDetailView: React.FC = () => {
 
       <Divider />
 
-      <TableFieldsTable table={tableSchema} />
+      <TableFieldsTable connection={connection} table={tableSchema} onDataChanged={() => setVersion(version + 1)} />
     </div>
   )
 }

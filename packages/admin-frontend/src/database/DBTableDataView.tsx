@@ -71,7 +71,7 @@ export const DBTableDataView: React.FC = () => {
         <Button
           onClick={() => {
             const dialog = new ReactPreviewDialog({
-              element: <TableFieldsTable table={tableSchema} />,
+              element: <TableFieldsTable connection={connection} table={tableSchema} hideActions={true} />,
             })
             dialog.width = '90%'
             dialog.title = tableId

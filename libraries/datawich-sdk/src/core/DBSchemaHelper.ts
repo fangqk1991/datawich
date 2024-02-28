@@ -29,7 +29,7 @@ export class DBSchemaHelper {
         })
       ),
       name: extras.name || tableId,
-      fieldsExtras: extras.fieldsExtras,
+      fieldsExtras: fieldsExtras,
     }
     return schema
   }
