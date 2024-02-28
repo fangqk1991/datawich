@@ -449,15 +449,16 @@ CREATE TABLE IF NOT EXISTS db_connection
 
 CREATE TABLE IF NOT EXISTS db_table_extras
 (
-    _rid          BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    uid           CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'Table UID',
-    connection_id CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'Connection ID',
-    table_id      VARCHAR(255) COLLATE ascii_bin NOT NULL COMMENT 'Table ID',
-    name          VARCHAR(255)                   NOT NULL DEFAULT '' COMMENT 'Table Name',
-    fields_extras MEDIUMTEXT COMMENT '附加信息，空 | JSON 字符串',
-    created_at    TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at    TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    UNIQUE (uid)
+    _rid              BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid               CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'Table UID',
+    connection_id     CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'Connection ID',
+    table_id          VARCHAR(255) COLLATE ascii_bin NOT NULL COMMENT 'Table ID',
+    name              VARCHAR(255)                   NOT NULL DEFAULT '' COMMENT 'Table Name',
+    fields_extras_str MEDIUMTEXT COMMENT '附加信息，空 | JSON 字符串',
+    created_at        TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at        TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE (uid),
+    UNIQUE (connection_id, table_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;

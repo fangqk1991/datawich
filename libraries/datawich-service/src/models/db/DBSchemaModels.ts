@@ -11,6 +11,18 @@ export interface DBConnection {
   password: string
 }
 
+export interface DBTableFieldsExtras {
+  [fieldKey: string]: Partial<DBTableField>
+}
+
+export interface DBTableExtras {
+  uid: string
+  connectionId: string
+  tableId: string
+  name: string
+  fieldsExtras: DBTableFieldsExtras
+}
+
 export interface DBSchema extends DBConnection {
   tableIds: string[]
 }
@@ -19,6 +31,8 @@ export interface DBTable {
   tableId: string
   primaryKey: string
   fields: DBTableField[]
+  name: string
+  fieldsExtras: DBTableFieldsExtras
 }
 
 export interface DBTableField {

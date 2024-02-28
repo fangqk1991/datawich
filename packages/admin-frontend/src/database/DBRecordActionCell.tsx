@@ -30,7 +30,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connection, table, record,
             key: 'view',
             label: (
               <a
-                style={{ color: '#1677ff' }}
+                className={'text-info'}
                 onClick={() => {
                   const dialog = new ReactPreviewDialog({
                     loadElement: async () => {

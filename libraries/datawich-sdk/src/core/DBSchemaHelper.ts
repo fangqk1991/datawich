@@ -1,18 +1,26 @@
-import { DBTable, DBTableField, FieldType } from '@fangcha/datawich-service'
+import { DBTable, DBTableField, DBTableFieldsExtras, FieldType } from '@fangcha/datawich-service'
 import { DBColumn, DBTableHandler, FCDatabase } from 'fc-sql'
 
 export class DBSchemaHelper {
   public static async getTableSchema(
     database: FCDatabase,
-    table: string,
-    fieldsExtras: { [fieldKey: string]: Partial<DBTableField> } = {}
+    tableId: string,
+    extras?: {
+      name: string
+      fieldsExtras: DBTableFieldsExtras
+    }
   ) {
-    const handler = new DBTableHandler(database, table)
+    extras = extras || {
+      name: '',
+      fieldsExtras: {},
+    }
+    const fieldsExtras = extras.fieldsExtras || {}
+    const handler = new DBTableHandler(database, tableId)
     const columns = await handler.getColumns()
     const indexes = await handler.getIndexes()
     const primaryIndex = indexes.find((item) => item.indexKey === 'PRIMARY' && item.columns.length === 1)
     const schema: DBTable = {
-      tableId: table,
+      tableId: tableId,
       primaryKey: primaryIndex ? primaryIndex.columns[0] : '',
       fields: columns.map((item) =>
         this.makeTableField(item, {
@@ -20,6 +28,8 @@ export class DBSchemaHelper {
           isPrimary: primaryIndex && primaryIndex.columns[0] === item.Field,
         })
       ),
+      name: extras.name || tableId,
+      fieldsExtras: extras.fieldsExtras,
     }
     return schema
   }

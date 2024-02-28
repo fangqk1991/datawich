@@ -7,7 +7,7 @@ const _cols: string[] = [
   'connection_id',
   'table_id',
   'name',
-  'fields_extras',
+  'fields_extras_str',
   'created_at',
   'updated_at',
 ]
@@ -17,14 +17,14 @@ const _insertableCols: string[] = [
   'connection_id',
   'table_id',
   'name',
-  'fields_extras',
+  'fields_extras_str',
 ]
 const _modifiableCols: string[] = [
   // prettier-ignore
   'connection_id',
   'table_id',
   'name',
-  'fields_extras',
+  'fields_extras_str',
   'created_at',
 ]
 
@@ -56,7 +56,7 @@ export default class __DBTableExtras extends FeedBase {
   /**
    * @description [mediumtext] 附加信息，空 | JSON 字符串
    */
-  public fieldsExtras!: string
+  public fieldsExtrasStr!: string
   /**
    * @description [timestamp] 创建时间
    */
@@ -100,7 +100,7 @@ export default class __DBTableExtras extends FeedBase {
   public fc_defaultInit() {
     // This function is invoked by constructor of FCModel
     this.name = ''
-    this.fieldsExtras = ''
+    this.fieldsExtrasStr = ''
   }
 
   public fc_propertyMapper() {
@@ -109,7 +109,7 @@ export default class __DBTableExtras extends FeedBase {
       connectionId: 'connection_id',
       tableId: 'table_id',
       name: 'name',
-      fieldsExtras: 'fields_extras',
+      fieldsExtrasStr: 'fields_extras_str',
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     }
