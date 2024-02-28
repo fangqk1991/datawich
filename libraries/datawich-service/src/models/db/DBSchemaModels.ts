@@ -65,5 +65,10 @@ export const transferDBFieldToCore = (schemaField: DBTableField): CoreField => {
     required: schemaField.nullable ? 0 : 1,
     extrasData: {} as any,
     defaultValue: schemaField.defaultValue,
+    options: schemaField.options,
+    value2LabelMap: (schemaField.options || []).reduce((result: any, cur: any) => {
+      result[cur.value] = cur.label
+      return result
+    }, {}),
   }
 }

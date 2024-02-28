@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
-import { Breadcrumb, Button, Divider, message, Space } from 'antd'
+import { Breadcrumb, Button, Descriptions, Divider, message, Space } from 'antd'
 import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
@@ -101,6 +101,14 @@ export const DBTableDetailView: React.FC = () => {
           重置过滤器
         </Button>
       </Space>
+
+      <Divider />
+
+      <Descriptions title='基本信息'>
+        <Descriptions.Item label='表名'>{tableSchema.tableId}</Descriptions.Item>
+        <Descriptions.Item label='主键'>{tableSchema.primaryKey}</Descriptions.Item>
+        <Descriptions.Item label='别名'>{tableSchema.name}</Descriptions.Item>
+      </Descriptions>
 
       <Divider />
 

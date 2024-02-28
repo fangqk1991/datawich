@@ -16,7 +16,7 @@ interface Props {
 export const CommonDataCell: React.FC<Props> = (props) => {
   const field = props.field
   const dataKey = field.dataKey || field.fieldKey
-  if (!field.value2LabelMap) {
+  if ([FieldType.TextEnum, FieldType.MultiEnum].includes(field.fieldType) && !field.value2LabelMap) {
     field.value2LabelMap = (field.options || []).reduce((result: any, cur: any) => {
       result[cur.value] = cur.label
       return result

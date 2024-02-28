@@ -36,7 +36,7 @@ export const DatabaseDetailView: React.FC = () => {
       />
       <Divider />
 
-      <Descriptions title={'基本信息'}>
+      <Descriptions title='基本信息'>
         <Descriptions.Item label='Host'>{dbSchema.dbHost}</Descriptions.Item>
         <Descriptions.Item label='Port'>{dbSchema.dbPort}</Descriptions.Item>
         <Descriptions.Item label='DB Name'>{dbSchema.dbName}</Descriptions.Item>

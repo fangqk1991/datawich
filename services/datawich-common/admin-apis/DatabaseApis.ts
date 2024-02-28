@@ -41,6 +41,11 @@ export const DatabaseApis = {
     route: '/api/v1/db/:connectionId/table/:tableId/schema',
     description: '获取数据表 Schema',
   },
+  TableSchemaUpdate: {
+    method: 'PUT',
+    route: '/api/v1/db/:connectionId/table/:tableId/extras',
+    description: '更新数据表 Extras',
+  },
   RecordPageDataGet: {
     method: 'GET',
     route: '/api/v1/db/:connectionId/table/:tableId/record',
