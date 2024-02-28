@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer, useState } from 'react'
-import { Breadcrumb, Descriptions, Divider } from 'antd'
+import { Breadcrumb, Descriptions, Divider, Space } from 'antd'
 import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DBTable } from '@fangcha/datawich-service'
-import { LoadingView, RouterLink } from '@fangcha/react'
+import { LoadingView, RouterLink, SimpleInputDialog } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
 import { useConnection } from './useConnection'
@@ -15,12 +15,12 @@ export const DBTableDetailView: React.FC = () => {
   const connection = useConnection()
 
   const [tableSchema, setTableSchema] = useState<DBTable>()
-  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+  const [version, setVersion] = useState(0)
 
   useEffect(() => {
     const request = MyRequest(new CommonAPI(DatabaseApis.TableSchemaGet, connectionId, tableId))
     request.quickSend().then((response) => setTableSchema(response))
-  }, [])
+  }, [version])
 
   if (!connection || !tableSchema) {
     return <LoadingView />
@@ -50,7 +50,28 @@ export const DBTableDetailView: React.FC = () => {
       <Descriptions title='基本信息'>
         <Descriptions.Item label='表名'>{tableSchema.tableId}</Descriptions.Item>
         <Descriptions.Item label='主键'>{tableSchema.primaryKey}</Descriptions.Item>
-        <Descriptions.Item label='别名'>{tableSchema.name}</Descriptions.Item>
+        <Descriptions.Item label='别名'>
+          <Space>
+            {tableSchema.name} |
+            <a
+              onClick={() => {
+                const dialog = new SimpleInputDialog({
+                  curValue: tableSchema!.name,
+                })
+                dialog.show(async (name) => {
+                  const request = MyRequest(new CommonAPI(DatabaseApis.TableSchemaUpdate, connectionId, tableId))
+                  request.setBodyData({
+                    name: name,
+                  })
+                  await request.quickSend()
+                  setVersion(version + 1)
+                })
+              }}
+            >
+              编辑
+            </a>
+          </Space>
+        </Descriptions.Item>
         <Descriptions.Item label='信息'>{tableSchema.fields.length} fields</Descriptions.Item>
         <Descriptions.Item>
           <RouterLink route={DatawichAdminPages.DatabaseTableDataRoute} params={[connectionId, tableId]}>

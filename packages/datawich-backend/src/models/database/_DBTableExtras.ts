@@ -13,7 +13,7 @@ export class _DBTableExtras extends __DBTableExtras {
     assert.ok(!!tableId, 'tableId missing.')
     const uid = md5([connectionId, tableId].join(','))
     let feed = (await this.findWithUid(uid))!
-    if (feed) {
+    if (!feed) {
       feed = new this()
       feed.uid = uid
       feed.connectionId = connectionId
