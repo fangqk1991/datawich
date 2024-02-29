@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Divider, message, Space, Table } from 'antd'
-import { DBConnection } from '@fangcha/datawich-service'
-import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
+import { DBConnection, SdkDatabaseApis } from '@fangcha/datawich-service'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { ConfirmDialog, RouterLink, TableViewColumn } from '@fangcha/react'
 import { makeDBConnectionDialog } from './makeDBConnectionDialog'
@@ -12,7 +12,7 @@ export const DBConnectionListView: React.FC = () => {
   const [version, setVersion] = useState(0)
 
   useEffect(() => {
-    const request = MyRequest(DatabaseApis.ConnectionListGet)
+    const request = MyRequest(SdkDatabaseApis.ConnectionListGet)
     request.quickSend().then((response) => setConnectionList(response))
   }, [version])
 
@@ -26,7 +26,7 @@ export const DBConnectionListView: React.FC = () => {
           onClick={() => {
             const dialog = makeDBConnectionDialog()
             dialog.show(async (params) => {
-              const request = MyRequest(DatabaseApis.ConnectionCreate)
+              const request = MyRequest(SdkDatabaseApis.ConnectionCreate)
               request.setBodyData(params)
               await request.quickSend()
               message.success('创建成功')
@@ -74,7 +74,7 @@ export const DBConnectionListView: React.FC = () => {
                   <a
                     className={'text-success'}
                     onClick={async () => {
-                      const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionPing, item.uid))
+                      const request = MyRequest(new CommonAPI(SdkDatabaseApis.ConnectionPing, item.uid))
                       await request.quickSend()
                       message.success('连接测试成功')
                     }}
@@ -85,7 +85,7 @@ export const DBConnectionListView: React.FC = () => {
                     onClick={() => {
                       const dialog = makeDBConnectionDialog(item)
                       dialog.show(async (params) => {
-                        const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionUpdate, item.uid))
+                        const request = MyRequest(new CommonAPI(SdkDatabaseApis.ConnectionUpdate, item.uid))
                         request.setBodyData(params)
                         await request.quickSend()
                         message.success('更新成功')
@@ -101,7 +101,7 @@ export const DBConnectionListView: React.FC = () => {
                       const dialog = makeDBConnectionDialog(item)
                       dialog.title = '创建连接信息'
                       dialog.show(async (params) => {
-                        const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionCreate))
+                        const request = MyRequest(new CommonAPI(SdkDatabaseApis.ConnectionCreate))
                         request.setBodyData(params)
                         await request.quickSend()
                         message.success('创建成功')
@@ -119,7 +119,7 @@ export const DBConnectionListView: React.FC = () => {
                         content: `确定要删除此连接吗？`,
                       })
                       dialog.show(async () => {
-                        const request = MyRequest(new CommonAPI(DatabaseApis.ConnectionDelete, item.uid))
+                        const request = MyRequest(new CommonAPI(SdkDatabaseApis.ConnectionDelete, item.uid))
                         await request.execute()
                         message.success('删除成功')
                         setVersion(version + 1)

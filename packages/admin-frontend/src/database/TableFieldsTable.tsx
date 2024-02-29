@@ -1,19 +1,18 @@
 import React from 'react'
 import { message, Space, Table, Tag } from 'antd'
-import { DBConnection, DBTable, DBTableField, FieldTypeDescriptor } from '@fangcha/datawich-service'
+import { DBTable, DBTableField, FieldTypeDescriptor, SdkDatabaseApis } from '@fangcha/datawich-service'
 import { JsonEditorDialog, TableViewColumn } from '@fangcha/react'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DatabaseApis } from '@web/datawich-common/admin-apis'
 
 interface Props {
-  connection: DBConnection
+  connectionId: string
   table: DBTable
   onDataChanged?: () => void
   hideActions?: boolean
 }
 
-export const TableFieldsTable: React.FC<Props> = ({ connection, table, onDataChanged, hideActions }) => {
+export const TableFieldsTable: React.FC<Props> = ({ connectionId, table, onDataChanged, hideActions }) => {
   return (
     <Table
       size={'small'}
@@ -71,7 +70,7 @@ export const TableFieldsTable: React.FC<Props> = ({ connection, table, onDataCha
                       })
                       dialog.show(async (params: Partial<DBTableField>) => {
                         const request = MyRequest(
-                          new CommonAPI(DatabaseApis.TableSchemaUpdate, connection.uid, table.tableId)
+                          new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, table.tableId)
                         )
                         request.setBodyData({
                           fieldsExtras: {

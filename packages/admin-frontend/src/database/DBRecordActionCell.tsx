@@ -2,23 +2,28 @@ import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Descriptions, Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
-import { DBConnection, DBTable, DBTypicalRecord, transferDBFieldToCore } from '@fangcha/datawich-service'
+import {
+  DBConnection,
+  DBTable,
+  DBTypicalRecord,
+  SdkDatabaseApis,
+  transferDBFieldToCore
+} from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { ConfirmDialog, ReactPreviewDialog } from '@fangcha/react'
-import { DatabaseApis } from '@web/datawich-common/admin-apis'
 import { CommonDataCell, DBTableRecordDialog } from '@fangcha/datawich-react'
 
 interface Props {
-  connection: DBConnection
+  connectionId: string
   table: DBTable
   record: DBTypicalRecord
   onDataChanged?: () => void
 }
 
-export const DBRecordActionCell: React.FC<Props> = ({ connection, table, record, onDataChanged }) => {
+export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, record, onDataChanged }) => {
   const loadRecordInfo = useCallback(() => {
     const request = MyRequest(
-      new CommonAPI(DatabaseApis.RecordInfoGet, connection.uid, table.tableId, record[table.primaryKey])
+      new CommonAPI(SdkDatabaseApis.RecordInfoGet, connectionId, table.tableId, record[table.primaryKey])
     )
     return request.quickSend<DBTypicalRecord>()
   }, [])
@@ -71,7 +76,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connection, table, record,
                   }
                   dialog.title = '创建数据记录'
                   dialog.show(async (params) => {
-                    const request = MyRequest(new CommonAPI(DatabaseApis.RecordCreate, connection.uid, table.tableId))
+                    const request = MyRequest(new CommonAPI(SdkDatabaseApis.RecordCreate, connectionId, table.tableId))
                     request.setBodyData(params)
                     await request.execute()
                     message.success('创建成功')
@@ -98,7 +103,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connection, table, record,
                   dialog.title = '修改数据记录'
                   dialog.show(async (params) => {
                     const request = MyRequest(
-                      new CommonAPI(DatabaseApis.RecordUpdate, connection.uid, table.tableId, record[table.primaryKey])
+                      new CommonAPI(SdkDatabaseApis.RecordUpdate, connectionId, table.tableId, record[table.primaryKey])
                     )
                     request.setBodyData(params)
                     await request.execute()
@@ -122,7 +127,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connection, table, record,
                   })
                   dialog.show(async () => {
                     const request = MyRequest(
-                      new CommonAPI(DatabaseApis.RecordDelete, connection.uid, table.tableId, record[table.primaryKey])
+                      new CommonAPI(SdkDatabaseApis.RecordDelete, connectionId, table.tableId, record[table.primaryKey])
                     )
                     await request.execute()
                     message.success('删除成功')

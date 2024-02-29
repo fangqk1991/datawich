@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Card, Descriptions, Divider } from 'antd'
-import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBSchema } from '@fangcha/datawich-service'
+import { DBSchema, SdkDatabaseApis } from '@fangcha/datawich-service'
 import { LoadingView, RouterLink } from '@fangcha/react'
 
 export const DatabaseDetailView: React.FC = () => {
@@ -14,7 +14,7 @@ export const DatabaseDetailView: React.FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const request = MyRequest(new CommonAPI(DatabaseApis.DatabaseSchemaGet, connectionId))
+    const request = MyRequest(new CommonAPI(SdkDatabaseApis.DatabaseSchemaGet, connectionId))
     request.quickSend().then((response) => setDBSchema(response))
   }, [connectionId])
 

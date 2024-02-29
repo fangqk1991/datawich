@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Descriptions, Divider, message, Space } from 'antd'
-import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable } from '@fangcha/datawich-service'
+import { DBTable, SdkDatabaseApis } from '@fangcha/datawich-service'
 import { LoadingView, RouterLink, SimpleInputDialog } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
@@ -18,7 +18,7 @@ export const DBTableDetailView: React.FC = () => {
   const [version, setVersion] = useState(0)
 
   useEffect(() => {
-    const request = MyRequest(new CommonAPI(DatabaseApis.TableSchemaGet, connectionId, tableId))
+    const request = MyRequest(new CommonAPI(SdkDatabaseApis.TableSchemaGet, connectionId, tableId))
     request.quickSend().then((response) => setTableSchema(response))
   }, [version])
 
@@ -59,7 +59,7 @@ export const DBTableDetailView: React.FC = () => {
                   curValue: tableSchema!.name,
                 })
                 dialog.show(async (name) => {
-                  const request = MyRequest(new CommonAPI(DatabaseApis.TableSchemaUpdate, connectionId, tableId))
+                  const request = MyRequest(new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, tableId))
                   request.setBodyData({
                     name: name,
                   })
@@ -83,7 +83,7 @@ export const DBTableDetailView: React.FC = () => {
 
       <Divider />
 
-      <TableFieldsTable connection={connection} table={tableSchema} onDataChanged={() => setVersion(version + 1)} />
+      <TableFieldsTable connectionId={connectionId} table={tableSchema} onDataChanged={() => setVersion(version + 1)} />
     </div>
   )
 }

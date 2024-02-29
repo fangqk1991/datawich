@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { Breadcrumb, Button, Divider, message, Space } from 'antd'
-import { DatabaseApis, DatawichAdminPages } from '@web/datawich-common/admin-apis'
+import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, transferDBFieldToCore } from '@fangcha/datawich-service'
+import { DBTable, SdkDatabaseApis, transferDBFieldToCore } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { TableFieldsTable } from './TableFieldsTable'
@@ -23,7 +23,7 @@ export const DBTableDataView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
 
   useEffect(() => {
-    const request = MyRequest(new CommonAPI(DatabaseApis.TableSchemaGet, connectionId, tableId))
+    const request = MyRequest(new CommonAPI(SdkDatabaseApis.TableSchemaGet, connectionId, tableId))
     request.quickSend().then((response) => setTableSchema(response))
   }, [])
 
@@ -37,7 +37,6 @@ export const DBTableDataView: React.FC = () => {
   if (!connection || !tableSchema) {
     return <LoadingView />
   }
-  const isMobile = window.innerWidth < 768
 
   return (
     <div>
@@ -71,7 +70,7 @@ export const DBTableDataView: React.FC = () => {
         <Button
           onClick={() => {
             const dialog = new ReactPreviewDialog({
-              element: <TableFieldsTable connection={connection} table={tableSchema} hideActions={true} />,
+              element: <TableFieldsTable connectionId={connectionId} table={tableSchema} hideActions={true} />,
             })
             dialog.width = '90%'
             dialog.title = tableId
@@ -89,7 +88,7 @@ export const DBTableDataView: React.FC = () => {
             })
             dialog.title = '创建数据记录'
             dialog.show(async (params) => {
-              const request = MyRequest(new CommonAPI(DatabaseApis.RecordCreate, connectionId, tableId))
+              const request = MyRequest(new CommonAPI(SdkDatabaseApis.RecordCreate, connectionId, tableId))
               request.setBodyData(params)
               await request.execute()
               message.success('创建成功')
@@ -132,7 +131,7 @@ export const DBTableDataView: React.FC = () => {
             align: 'center',
             render: (item) => (
               <DBRecordActionCell
-                connection={connection}
+                connectionId={connectionId}
                 table={tableSchema}
                 record={item}
                 onDataChanged={forceUpdate}
@@ -146,7 +145,7 @@ export const DBTableDataView: React.FC = () => {
           sortDirection: 'descend',
         }}
         loadData={async (retainParams) => {
-          const request = MyRequest(new CommonAPI(DatabaseApis.RecordPageDataGet, connectionId, tableId))
+          const request = MyRequest(new CommonAPI(SdkDatabaseApis.RecordPageDataGet, connectionId, tableId))
           request.setQueryParams({
             ...retainParams,
             ...queryParams,
