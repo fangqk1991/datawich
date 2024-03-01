@@ -34,11 +34,6 @@ export const SdkDatabaseApis = {
     route: '/api/datawich-sdk/db/v1/connection/:connectionId/schema',
     description: '获取 DB 描述信息',
   },
-  TableSchemaGet: {
-    method: 'GET',
-    route: '/api/datawich-sdk/db/v1/connection/:connectionId/table/:tableId/schema',
-    description: '获取数据表 Schema',
-  },
   TableSchemaUpdate: {
     method: 'PUT',
     route: '/api/datawich-sdk/db/v1/connection/:connectionId/table/:tableId/extras',

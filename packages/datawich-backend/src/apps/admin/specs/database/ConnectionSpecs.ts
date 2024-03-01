@@ -58,12 +58,6 @@ factory.prepare(SdkDatabaseApis.DatabaseSchemaGet, async (ctx) => {
   })
 })
 
-factory.prepare(SdkDatabaseApis.TableSchemaGet, async (ctx) => {
-  await new DBConnectionSpecHandler(ctx).handleTable(async (table) => {
-    ctx.body = table
-  })
-})
-
 factory.prepare(SdkDatabaseApis.TableSchemaUpdate, async (ctx) => {
   await new DBConnectionSpecHandler(ctx).handleTable(async (table, connection) => {
     const extras = await _DBTableExtras.prepareExtras(connection.uid, table.tableId)

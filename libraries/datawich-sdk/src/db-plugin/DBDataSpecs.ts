@@ -11,6 +11,12 @@ factory.addPreHandler(async (ctx, next) => {
   await next()
 })
 
+factory.prepare(SdkDBDataApis.TableSchemaGet, async (ctx) => {
+  await new DBDataSpecHandler(ctx).handleTable(async (table) => {
+    ctx.body = table
+  })
+})
+
 factory.prepare(SdkDBDataApis.RecordPageDataGet, async (ctx) => {
   await new DBDataSpecHandler(ctx).handleTable(async (table, connection) => {
     const database = DBHandleSDK.getDatabase(connection)

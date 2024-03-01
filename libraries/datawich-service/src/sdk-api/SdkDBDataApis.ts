@@ -1,6 +1,11 @@
 import { Api } from '@fangcha/swagger'
 
 export const SdkDBDataApis = {
+  TableSchemaGet: {
+    method: 'GET',
+    route: '/api/datawich-sdk/db/v1/connection/:connectionId/table/:tableId/schema',
+    description: '获取数据表 Schema',
+  },
   RecordPageDataGet: {
     method: 'GET',
     route: '/api/datawich-sdk/db/v1/connection/:connectionId/table/:tableId/record',
