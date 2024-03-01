@@ -6,10 +6,8 @@ import { CommonAPI } from '@fangcha/app-request'
 import { DBTable, SdkDatabaseApis, transferDBFieldToCore } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, RouterLink, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
-import { TableFieldsTable } from './TableFieldsTable'
-import { commonDataColumn, DBTableRecordDialog } from '@fangcha/datawich-react'
+import { commonDataColumn, DBRecordActionCell, DBTableFieldsTable, DBTableRecordDialog } from '@fangcha/datawich-react'
 import { useConnection } from './useConnection'
-import { DBRecordActionCell } from './DBRecordActionCell'
 
 export const DBTableDataView: React.FC = () => {
   const { connectionId = '', tableId = '' } = useParams()
@@ -70,7 +68,7 @@ export const DBTableDataView: React.FC = () => {
         <Button
           onClick={() => {
             const dialog = new ReactPreviewDialog({
-              element: <TableFieldsTable connectionId={connectionId} table={tableSchema} hideActions={true} />,
+              element: <DBTableFieldsTable connectionId={connectionId} table={tableSchema} hideActions={true} />,
             })
             dialog.width = '90%'
             dialog.title = tableId

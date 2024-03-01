@@ -6,8 +6,8 @@ import { CommonAPI } from '@fangcha/app-request'
 import { DBTable, SdkDatabaseApis } from '@fangcha/datawich-service'
 import { LoadingView, RouterLink, SimpleInputDialog } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
-import { TableFieldsTable } from './TableFieldsTable'
 import { useConnection } from './useConnection'
+import { DBTableFieldsTable } from '@fangcha/datawich-react'
 
 export const DBTableDetailView: React.FC = () => {
   const { connectionId = '', tableId = '' } = useParams()
@@ -83,7 +83,11 @@ export const DBTableDetailView: React.FC = () => {
 
       <Divider />
 
-      <TableFieldsTable connectionId={connectionId} table={tableSchema} onDataChanged={() => setVersion(version + 1)} />
+      <DBTableFieldsTable
+        connectionId={connectionId}
+        table={tableSchema}
+        onDataChanged={() => setVersion(version + 1)}
+      />
     </div>
   )
 }

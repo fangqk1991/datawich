@@ -12,7 +12,7 @@ interface Props {
   hideActions?: boolean
 }
 
-export const TableFieldsTable: React.FC<Props> = ({ connectionId, table, onDataChanged, hideActions }) => {
+export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDataChanged, hideActions }) => {
   return (
     <Table
       size={'small'}

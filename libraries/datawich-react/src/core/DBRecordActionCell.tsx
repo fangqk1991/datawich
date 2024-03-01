@@ -11,7 +11,8 @@ import {
 } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { ConfirmDialog, ReactPreviewDialog } from '@fangcha/react'
-import { CommonDataCell, DBTableRecordDialog } from '@fangcha/datawich-react'
+import { DBTableRecordDialog } from './DBTableRecordDialog'
+import { CommonDataCell } from './CommonDataCell'
 
 interface Props {
   connectionId: string
