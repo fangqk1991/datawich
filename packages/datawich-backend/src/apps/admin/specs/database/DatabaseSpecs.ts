@@ -1,6 +1,5 @@
 import { SpecFactory } from '@fangcha/router'
 import { FangchaSession } from '@fangcha/session'
-import { TableDataHandler } from '@fangcha/datawich-sdk'
 import { _DBConnection } from '../../../../models/database/_DBConnection'
 import { DatabaseHandler } from '../../../../services/DatabaseHandler'
 import { DatabaseSpecHandler } from '../../../../services/DatabaseSpecHandler'
@@ -69,44 +68,6 @@ factory.prepare(SdkDatabaseApis.TableSchemaUpdate, async (ctx) => {
     const extras = await _DBTableExtras.prepareExtras(connection.uid, table.tableId)
     await extras.updateInfos(ctx.request.body)
     ctx.body = extras.modelForClient()
-  })
-})
-
-factory.prepare(SdkDatabaseApis.RecordPageDataGet, async (ctx) => {
-  await new DatabaseSpecHandler(ctx).handleTable(async (table, connection) => {
-    const database = new DatabaseHandler(connection).database()
-    ctx.body = await new TableDataHandler(database, table).getPageResult(ctx.request.query)
-  })
-})
-
-factory.prepare(SdkDatabaseApis.RecordCreate, async (ctx) => {
-  const session = ctx.session as FangchaSession
-  await new DatabaseSpecHandler(ctx).handleTable(async (table, connection) => {
-    const database = new DatabaseHandler(connection).database()
-    await new TableDataHandler(database, table).createRecord(ctx.request.body, session.curUserStr())
-    ctx.status = 200
-  })
-})
-
-factory.prepare(SdkDatabaseApis.RecordInfoGet, async (ctx) => {
-  await new DatabaseSpecHandler(ctx).handleRecord(async (record) => {
-    ctx.body = record
-  })
-})
-
-factory.prepare(SdkDatabaseApis.RecordUpdate, async (ctx) => {
-  await new DatabaseSpecHandler(ctx).handleRecord(async (record, table, connection) => {
-    const database = new DatabaseHandler(connection).database()
-    await new TableDataHandler(database, table).updateDataRecord(record, ctx.request.body)
-    ctx.status = 200
-  })
-})
-
-factory.prepare(SdkDatabaseApis.RecordDelete, async (ctx) => {
-  await new DatabaseSpecHandler(ctx).handleRecord(async (record, table, connection) => {
-    const database = new DatabaseHandler(connection).database()
-    await new TableDataHandler(database, table).deleteDataRecord(record)
-    ctx.status = 200
   })
 })
 

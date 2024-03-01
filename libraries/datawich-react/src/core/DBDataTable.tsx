@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useReducer, useState } from 'react'
+import React, { useMemo, useReducer } from 'react'
 import { Button, Divider, message, Space } from 'antd'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, SdkDatabaseApis, transferDBFieldToCore } from '@fangcha/datawich-service'
-import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { DBTable, SdkDatabaseApis, SdkDBDataApis, transferDBFieldToCore } from '@fangcha/datawich-service'
+import { ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { DBTableFieldsTable } from './DBTableFieldsTable'
 import { DBTableRecordDialog } from './DBTableRecordDialog'
 import { commonDataColumn } from './commonDataColumn'
@@ -11,37 +11,18 @@ import { DBRecordActionCell } from './DBRecordActionCell'
 
 interface Props {
   connectionId?: string
-  tableId?: string
-  table?: DBTable
+  table: DBTable
 }
 
 export const DBDataTable: React.FC<Props> = (props) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
     [p: string]: any
   }>()
-  const [tableSchema, setTableSchema] = useState<DBTable>(props.table as any)
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
-  const tableId = props.tableId || props.table?.tableId || ''
   const connectionId = props.connectionId || '-'
+  const tableSchema = props.table
 
-  useEffect(() => {
-    if (tableSchema) {
-      return
-    }
-    const request = MyRequest(new CommonAPI(SdkDatabaseApis.TableSchemaGet, connectionId, tableId))
-    request.quickSend().then((response) => setTableSchema(response))
-  }, [])
-
-  const fields = useMemo(() => {
-    if (!tableSchema) {
-      return []
-    }
-    return tableSchema.fields.map((item) => transferDBFieldToCore(item))
-  }, [tableSchema])
-
-  if (!tableSchema) {
-    return <LoadingView />
-  }
+  const fields = useMemo(() => tableSchema.fields.map((item) => transferDBFieldToCore(item)), [tableSchema])
 
   return (
     <div>
@@ -52,7 +33,7 @@ export const DBDataTable: React.FC<Props> = (props) => {
               element: <DBTableFieldsTable connectionId={connectionId} table={tableSchema} hideActions={true} />,
             })
             dialog.width = '90%'
-            dialog.title = tableId
+            dialog.title = tableSchema.name || tableSchema.tableId
             dialog.show()
           }}
         >
@@ -67,7 +48,7 @@ export const DBDataTable: React.FC<Props> = (props) => {
             })
             dialog.title = '创建数据记录'
             dialog.show(async (params) => {
-              const request = MyRequest(new CommonAPI(SdkDatabaseApis.RecordCreate, connectionId, tableId))
+              const request = MyRequest(new CommonAPI(SdkDBDataApis.RecordCreate, connectionId, tableSchema.tableId))
               request.setBodyData(params)
               await request.execute()
               message.success('创建成功')
@@ -124,7 +105,7 @@ export const DBDataTable: React.FC<Props> = (props) => {
           sortDirection: 'descend',
         }}
         loadData={async (retainParams) => {
-          const request = MyRequest(new CommonAPI(SdkDatabaseApis.RecordPageDataGet, connectionId, tableId))
+          const request = MyRequest(new CommonAPI(SdkDBDataApis.RecordPageDataGet, connectionId, tableSchema.tableId))
           request.setQueryParams({
             ...retainParams,
             ...queryParams,
