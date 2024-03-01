@@ -1,31 +1,51 @@
-import React, { useMemo, useReducer } from 'react'
+import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { Button, Divider, message, Space } from 'antd'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, SdkDatabaseApis, SdkDBDataApis, transferDBFieldToCore } from '@fangcha/datawich-service'
-import { ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { DBTable, SdkDBDataApis, transferDBFieldToCore } from '@fangcha/datawich-service'
+import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { DBTableFieldsTable } from './DBTableFieldsTable'
 import { DBTableRecordDialog } from './DBTableRecordDialog'
 import { commonDataColumn } from './commonDataColumn'
 import { DBRecordActionCell } from './DBRecordActionCell'
+import { useParams } from 'react-router-dom'
 
 interface Props {
   connectionId?: string
-  table: DBTable
+  table?: DBTable
+  tableId?: string
 }
 
-export const DBDataTable: React.FC<Props> = (props) => {
+export const DBDataTableView: React.FC<Props> = (props) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
     [p: string]: any
   }>()
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
   const connectionId = props.connectionId || '-'
-  const tableSchema = props.table
+  const { tableId } = useParams()
+
+  const [tableSchema, setTableSchema] = useState<DBTable>(props.table as any)
+
+  useEffect(() => {
+    if (tableSchema) {
+      return
+    }
+    const request = MyRequest(new CommonAPI(SdkDBDataApis.TableSchemaGet, connectionId, props.tableId || tableId!))
+    request.quickSend().then((response) => setTableSchema(response))
+  }, [])
 
   const fields = useMemo(() => tableSchema.fields.map((item) => transferDBFieldToCore(item)), [tableSchema])
 
+  if (!tableSchema) {
+    return <LoadingView />
+  }
+
   return (
     <div>
+      <h4>{tableSchema.name || tableSchema.tableId}</h4>
+
+      <Divider />
+
       <Space>
         <Button
           onClick={() => {

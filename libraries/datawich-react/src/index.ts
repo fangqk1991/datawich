@@ -12,7 +12,7 @@ export * from './core/CommonDataCell'
 export * from './core/commonDataColumn'
 export * from './core/DBRecordActionCell'
 export * from './core/DBTableFieldsTable'
-export * from './core/DBDataTable'
+export * from './core/DBDataTableView'
 export * from './core/useConnection'
 
 export * from './data-display/DataDisplayTable'
