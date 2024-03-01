@@ -1,9 +1,9 @@
 import { SpecFactory, SwaggerDocItem } from '@fangcha/router'
 import { SdkDatawichSpecs } from './SdkDatawichSpecs'
 import { AppPluginProtocol } from '@fangcha/backend-kit/lib/basic'
-import { DatawichService, DatawichServiceOptions } from '../sdk'
 import assert from '@fangcha/assert'
 import { DatawichSystemInfo, SdkDatawichApis2 } from '@fangcha/datawich-service'
+import { DatawichService, DatawichServiceOptions } from '../sdk'
 
 const factory = new SpecFactory('Datawich SDK 相关')
 factory.prepare(SdkDatawichApis2.SystemInfoGet, async (ctx) => {

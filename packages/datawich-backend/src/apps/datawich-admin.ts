@@ -14,6 +14,10 @@ import { SsoSdkPlugin } from '@fangcha/web-auth-sdk'
 import { JobWebPlugin } from '@fangcha/job-sdk'
 import { MyJobServer } from '../services/MyJobServer'
 import { DatabaseDocItem } from './admin/specs/database'
+import { DatabaseHandler, DBDataSdkPlugin, DBSchemaHelper } from '@fangcha/datawich-sdk'
+import { _DBConnection } from '../models/database/_DBConnection'
+import assert from '@fangcha/assert'
+import { _DBTableExtras } from '../models/database/_DBTableExtras'
 
 _SessionApp.setPermissionProtocol({
   checkUserIsAdmin: (email) => {
@@ -63,6 +67,25 @@ const app = new WebApp({
       jobServer: MyJobServer,
     }),
     DatawichOssPlugin,
+    DBDataSdkPlugin({
+      aesKey: DatawichConfig.adminJwtSecret,
+      getConnection: async function (connectionId) {
+        const connection = (await _DBConnection.findWithUid(connectionId))!
+        assert.ok(!!connection, '_DBConnection Not Found')
+        return connection.modelForClient(true)
+      },
+      getTable: async function (connection, tableId) {
+        const tableExtras = await _DBTableExtras.findOne({
+          connection_id: connection.uid,
+          table_id: tableId,
+        })
+        return await DBSchemaHelper.getTableSchema(
+          new DatabaseHandler(connection).database(),
+          tableId,
+          tableExtras ? tableExtras.modelForClient() : undefined
+        )
+      },
+    }),
   ],
   appDidLoad: async () => {
     _FangchaState.frontendConfig = DatawichConfig.frontendConfig

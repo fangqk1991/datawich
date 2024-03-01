@@ -1,9 +1,9 @@
 import { SpecFactory } from '@fangcha/router'
 import { FangchaSession } from '@fangcha/session'
 import { SdkDBDataApis } from '@fangcha/datawich-service'
-import { DatabaseHandler, DBDataSpecHandler, TableDataHandler } from '@fangcha/datawich-sdk'
+import { DatabaseHandler, DBDataSpecHandler, TableDataHandler } from '../core'
 
-const factory = new SpecFactory('Database')
+const factory = new SpecFactory('DB Data SDK')
 
 factory.addPreHandler(async (ctx, next) => {
   const session = ctx.session as FangchaSession

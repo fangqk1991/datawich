@@ -1,4 +1,4 @@
-import { DatawichProxy } from './DatawichProxy'
+import { DatawichProxy } from './index'
 import { AliyunOSS } from '@fangcha/ali-oss'
 import { BasicAuthConfig } from '@fangcha/tools'
 import { RequestFollower } from '@fangcha/app-request-extensions'

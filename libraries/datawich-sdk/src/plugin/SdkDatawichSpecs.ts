@@ -1,8 +1,8 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { FangchaSession } from '@fangcha/session'
-import { DatawichService } from '../sdk'
 import { SdkDatawichApis } from '@fangcha/datawich-service'
+import { DatawichService } from '../sdk'
 
 const datawichProxyForSession = (session: FangchaSession) => {
   assert.ok(!!DatawichService.proxy, 'proxy 未初始化', 500)

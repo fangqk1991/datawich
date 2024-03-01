@@ -1,24 +1,21 @@
-import { _DBConnection } from '../models/database/_DBConnection'
 import assert from '@fangcha/assert'
 import { Context } from 'koa'
-import { DBTable, DBTypicalRecord } from '@fangcha/datawich-service'
+import { DBConnection, DBTable, DBTypicalRecord } from '@fangcha/datawich-service'
+import { DBHandleSDK } from './DBHandleSDK'
 import { DatabaseHandler } from './DatabaseHandler'
-import { DBSchemaHelper, TableDataHandler } from '@fangcha/datawich-sdk'
-import { _DBTableExtras } from '../models/database/_DBTableExtras'
+import { TableDataHandler } from './TableDataHandler'
 
-export class DatabaseSpecHandler {
+export class DBDataSpecHandler {
   public readonly ctx: Context
 
-  public constructor(ctx: Context) {
+  constructor(ctx: Context) {
     this.ctx = ctx
   }
 
-  protected _connection!: _DBConnection
+  protected _connection!: DBConnection
   protected async prepareConnection() {
     if (!this._connection) {
-      const connection = await _DBConnection.findWithUid(this.ctx.params.connectionId)
-      assert.ok(!!connection, '_DBConnection Not Found')
-      this._connection = connection!
+      this._connection = await DBHandleSDK.options.getConnection(this.ctx.params.connectionId)
     }
     return this._connection
   }
@@ -28,32 +25,24 @@ export class DatabaseSpecHandler {
     if (!this._table) {
       const tableId = this.ctx.params.tableId
       const connection = await this.prepareConnection()
-      const tableExtras = await _DBTableExtras.findOne({
-        connection_id: connection.uid,
-        table_id: tableId,
-      })
-      this._table = await DBSchemaHelper.getTableSchema(
-        new DatabaseHandler(connection).database(),
-        tableId,
-        tableExtras ? tableExtras.modelForClient() : undefined
-      )
+      this._table = await DBHandleSDK.options.getTable(connection, tableId)
     }
     return this._table
   }
 
-  public async handle(handler: (connection: _DBConnection) => Promise<void>) {
+  public async handle(handler: (connection: DBConnection) => Promise<void>) {
     const connection = await this.prepareConnection()
     await handler(connection)
   }
 
-  public async handleTable(handler: (table: DBTable, connection: _DBConnection) => Promise<void>) {
+  public async handleTable(handler: (table: DBTable, connection: DBConnection) => Promise<void>) {
     const connection = await this.prepareConnection()
     const table = await this.prepareTable()
     await handler(table, connection)
   }
 
   public async handleRecord(
-    handler: (record: DBTypicalRecord, table: DBTable, connection: _DBConnection) => Promise<void>
+    handler: (record: DBTypicalRecord, table: DBTable, connection: DBConnection) => Promise<void>
   ) {
     const connection = await this.prepareConnection()
     const table = await this.prepareTable()
