@@ -9,6 +9,17 @@ export const useConnection = () => {
   const [connection, setConnection] = useState<DBConnection>()
 
   useEffect(() => {
+    if (!connectionId) {
+      setConnection({
+        uid: '-',
+        dbHost: '',
+        dbPort: 3306,
+        dbName: '',
+        username: '',
+        password: '',
+      })
+      return
+    }
     MyRequest(new CommonAPI(SdkDatabaseApis.ConnectionInfoGet, connectionId))
       .quickSend()
       .then((response) => {
