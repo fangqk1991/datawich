@@ -2,7 +2,6 @@ import assert from '@fangcha/assert'
 import { Context } from 'koa'
 import { DBConnection, DBTable, DBTypicalRecord } from '@fangcha/datawich-service'
 import { DBHandleSDK } from './DBHandleSDK'
-import { DatabaseHandler } from './DatabaseHandler'
 import { TableDataHandler } from './TableDataHandler'
 
 export class DBDataSpecHandler {
@@ -46,7 +45,7 @@ export class DBDataSpecHandler {
   ) {
     const connection = await this.prepareConnection()
     const table = await this.prepareTable()
-    const database = new DatabaseHandler(connection).database()
+    const database = DBHandleSDK.getDatabase(connection)
     const recordId = this.ctx.params.recordId
     const record = await new TableDataHandler(database, table).getDataRecord(recordId)
     assert.ok(!!record, `Record[${table.primaryKey} = ${recordId}] missing.`)

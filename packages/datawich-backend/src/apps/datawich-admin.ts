@@ -74,6 +74,9 @@ const app = new WebApp({
         assert.ok(!!connection, '_DBConnection Not Found')
         return connection.modelForClient(true)
       },
+      getDatabase: function (connection) {
+        return new DatabaseHandler(connection).database()
+      },
       getTable: async function (connection, tableId) {
         const tableExtras = await _DBTableExtras.findOne({
           connection_id: connection.uid,
