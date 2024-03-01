@@ -34,7 +34,7 @@ export const DBDataTableView: React.FC<Props> = (props) => {
     request.quickSend().then((response) => setTableSchema(response))
   }, [])
 
-  const fields = useMemo(() => tableSchema.fields.map((item) => transferDBFieldToCore(item)), [tableSchema])
+  const fields = useMemo(() => (tableSchema?.fields || []).map((item) => transferDBFieldToCore(item)), [tableSchema])
 
   if (!tableSchema) {
     return <LoadingView />
