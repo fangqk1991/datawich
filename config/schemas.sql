@@ -449,15 +449,16 @@ CREATE TABLE IF NOT EXISTS db_connection
 
 CREATE TABLE IF NOT EXISTS db_table_extras
 (
-    _rid              BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    uid               CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'Table UID',
-    connection_id     CHAR(32) COLLATE ascii_bin     NOT NULL COMMENT 'Connection ID',
-    table_id          VARCHAR(255) COLLATE ascii_bin NOT NULL COMMENT 'Table ID',
-    name              VARCHAR(255)                   NOT NULL DEFAULT '' COMMENT 'Table Name',
-    is_private        TINYINT                        NOT NULL DEFAULT 0 COMMENT '仅自己可见',
+    _rid              BIGINT UNSIGNED                                 NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid               CHAR(32) COLLATE ascii_bin                      NOT NULL COMMENT 'Table UID',
+    connection_id     CHAR(32) COLLATE ascii_bin                      NOT NULL COMMENT 'Connection ID',
+    table_id          VARCHAR(255) COLLATE ascii_bin                  NOT NULL COMMENT 'Table ID',
+    name              VARCHAR(255)                                    NOT NULL DEFAULT '' COMMENT 'Table Name',
+    is_private        TINYINT                                         NOT NULL DEFAULT 0 COMMENT '仅自己可见',
+    open_level        ENUM ('None', 'Private', 'Protected', 'Public') NOT NULL DEFAULT 'None' COMMENT '服务商',
     fields_extras_str MEDIUMTEXT COMMENT '附加信息，空 | JSON 字符串',
-    created_at        TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at        TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    created_at        TIMESTAMP                                       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at        TIMESTAMP                                       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE (uid),
     UNIQUE (connection_id, table_id)
 ) ENGINE = InnoDB

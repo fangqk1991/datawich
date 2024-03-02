@@ -4,6 +4,7 @@ export * from './general/DatawichSystemInfo'
 export * from './general/OperationLevel'
 export * from './general/ProfileEvent'
 
+export * from './db/OpenLevel'
 export * from './db/DBSchemaModels'
 
 export * from './field/FieldType'

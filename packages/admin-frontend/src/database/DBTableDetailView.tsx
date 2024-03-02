@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Descriptions, Divider, message, Space, Switch } from 'antd'
+import { Breadcrumb, Descriptions, Divider, message, Select, Space } from 'antd'
 import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, SdkDatabaseApis, SdkDBDataApis } from '@fangcha/datawich-service'
+import { DBTable, OpenLevelDescriptor, SdkDatabaseApis, SdkDBDataApis } from '@fangcha/datawich-service'
 import { LoadingView, RouterLink, SimpleInputDialog } from '@fangcha/react'
 import { useParams } from 'react-router-dom'
 import { DBTableFieldsTable, useConnection } from '@fangcha/datawich-react'
@@ -73,17 +73,21 @@ export const DBTableDetailView: React.FC = () => {
           </Space>
         </Descriptions.Item>
         <Descriptions.Item label='仅自己可见'>
-          <Switch
-            checked={tableSchema.isPrivate}
-            onChange={async (checked) => {
+          <Select
+            size={'small'}
+            style={{ width: '150px' }}
+            placeholder='Please select'
+            value={tableSchema.openLevel}
+            onChange={async (openLevel) => {
               const request = MyRequest(new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, tableId))
               request.setBodyData({
-                isPrivate: checked,
+                openLevel: openLevel,
               })
               await request.quickSend()
               setVersion(version + 1)
               message.success('更新成功')
             }}
+            options={OpenLevelDescriptor.options()}
           />
         </Descriptions.Item>
         <Descriptions.Item label='信息'>{tableSchema.fields.length} fields</Descriptions.Item>

@@ -1,9 +1,11 @@
 import __DBTableExtras from '../auto-build/__DBTableExtras'
-import { DBTableExtras, DBTableFieldsExtras } from '@fangcha/datawich-service'
+import { DBTableExtras, DBTableFieldsExtras, OpenLevel } from '@fangcha/datawich-service'
 import { md5 } from '@fangcha/tools'
 import assert from '@fangcha/assert'
 
 export class _DBTableExtras extends __DBTableExtras {
+  openLevel!: OpenLevel
+
   public constructor() {
     super()
   }
@@ -19,7 +21,7 @@ export class _DBTableExtras extends __DBTableExtras {
       feed.connectionId = connectionId
       feed.tableId = tableId
       feed.name = tableId
-      feed.isPrivate = 0
+      feed.openLevel = OpenLevel.None
       feed.fieldsExtrasStr = JSON.stringify({})
       await feed.addToDB()
     }
@@ -42,8 +44,8 @@ export class _DBTableExtras extends __DBTableExtras {
     if (params.fieldsExtras !== undefined) {
       this.fieldsExtrasStr = JSON.stringify(params.fieldsExtras)
     }
-    if (params.isPrivate !== undefined) {
-      this.isPrivate = params.isPrivate ? 1 : 0
+    if (params.openLevel !== undefined) {
+      this.openLevel = params.openLevel
     }
     await this.updateToDB()
   }
@@ -62,7 +64,7 @@ export class _DBTableExtras extends __DBTableExtras {
       connectionId: this.connectionId,
       tableId: this.tableId,
       name: this.name,
-      isPrivate: !!this.isPrivate,
+      openLevel: this.openLevel,
       fieldsExtras: this.fieldsExtras(),
     }
   }

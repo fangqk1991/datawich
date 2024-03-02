@@ -1,6 +1,7 @@
 import { FieldType } from '../field/FieldType'
 import { SelectOption } from '@fangcha/tools'
 import { CoreField } from '../field/ModelFieldModel'
+import { OpenLevel } from './OpenLevel'
 
 export interface DBConnection {
   uid: string
@@ -17,7 +18,7 @@ export interface DBTableFieldsExtras {
 
 export interface DBTableExtrasParams {
   name: string
-  isPrivate: boolean
+  openLevel: OpenLevel
   fieldsExtras: DBTableFieldsExtras
 }
 
@@ -36,7 +37,7 @@ export interface DBTable extends DBTableExtrasParams {
   primaryKey: string
   fields: DBTableField[]
   name: string
-  isPrivate: boolean
+  openLevel: OpenLevel
   fieldsExtras: DBTableFieldsExtras
 }
 
