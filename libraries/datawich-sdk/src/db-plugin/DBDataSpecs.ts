@@ -1,15 +1,10 @@
 import { SpecFactory } from '@fangcha/router'
 import { FangchaSession } from '@fangcha/session'
-import { SdkDBDataApis } from '@fangcha/datawich-service'
+import { OpenLevel, SdkDBDataApis } from '@fangcha/datawich-service'
 import { DBDataSpecHandler, DBHandleSDK, TableDataHandler } from '../core'
+import assert from '@fangcha/assert'
 
 const factory = new SpecFactory('DB Data SDK')
-
-factory.addPreHandler(async (ctx, next) => {
-  const session = ctx.session as FangchaSession
-  session.assertVisitorIsAdmin()
-  await next()
-})
 
 factory.prepare(SdkDBDataApis.TableSchemaGet, async (ctx) => {
   await new DBDataSpecHandler(ctx).handleTable(async (table) => {
@@ -20,7 +15,18 @@ factory.prepare(SdkDBDataApis.TableSchemaGet, async (ctx) => {
 factory.prepare(SdkDBDataApis.RecordPageDataGet, async (ctx) => {
   await new DBDataSpecHandler(ctx).handleTable(async (table, connection) => {
     const database = DBHandleSDK.getDatabase(connection)
-    ctx.body = await new TableDataHandler(database, table).getPageResult(ctx.request.query)
+    const options = ctx.request.query
+    const session = ctx.session as FangchaSession
+    const authorField = table.fields.find((field) => field.isAuthor)
+    if (!session.checkVisitorIsAdmin()) {
+      assert.ok(!!authorField, 'Only admin can access it.')
+      switch (table.openLevel) {
+        case OpenLevel.Private:
+          options[authorField!.fieldKey] = session.curUserStr()
+          break
+      }
+    }
+    ctx.body = await new TableDataHandler(database, table).getPageResult(options)
   })
 })
 

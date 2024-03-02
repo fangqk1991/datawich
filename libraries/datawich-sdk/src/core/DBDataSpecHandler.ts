@@ -1,8 +1,9 @@
 import assert from '@fangcha/assert'
 import { Context } from 'koa'
-import { DBConnection, DBTable, DBTypicalRecord } from '@fangcha/datawich-service'
+import { DBConnection, DBTable, DBTypicalRecord, OpenLevel } from '@fangcha/datawich-service'
 import { DBHandleSDK } from './DBHandleSDK'
 import { TableDataHandler } from './TableDataHandler'
+import { FangchaSession } from '@fangcha/session'
 
 export class DBDataSpecHandler {
   public readonly ctx: Context
@@ -25,6 +26,10 @@ export class DBDataSpecHandler {
       const tableId = this.ctx.params.tableId
       const connection = await this.prepareConnection()
       this._table = await DBHandleSDK.options.getTable(connection, tableId)
+      if (this._table.openLevel === OpenLevel.None) {
+        const session = this.ctx.session as FangchaSession
+        session.assertVisitorIsAdmin()
+      }
     }
     return this._table
   }
@@ -49,6 +54,29 @@ export class DBDataSpecHandler {
     const recordId = this.ctx.params.recordId
     const record = await new TableDataHandler(database, table).getDataRecord(recordId)
     assert.ok(!!record, `Record[${table.primaryKey} = ${recordId}] missing.`)
+
+    const session = this.ctx.session as FangchaSession
+    const authorField = table.fields.find((field) => field.isAuthor)
+    if (!session.checkVisitorIsAdmin()) {
+      if (this.ctx.method !== 'GET' && table.openLevel !== OpenLevel.Public) {
+        assert.ok(
+          !!authorField && record[authorField.fieldKey] === session.curUserStr(),
+          'Only the author can modify it.',
+          403
+        )
+      }
+      switch (table.openLevel) {
+        case OpenLevel.None:
+        case OpenLevel.Private:
+          assert.ok(
+            !!authorField && record[authorField.fieldKey] === session.curUserStr(),
+            'Only the author can access it.',
+            403
+          )
+          break
+      }
+    }
+
     await handler(record, table, connection)
   }
 }
