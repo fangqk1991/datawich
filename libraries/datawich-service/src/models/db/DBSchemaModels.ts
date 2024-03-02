@@ -15,23 +15,28 @@ export interface DBTableFieldsExtras {
   [fieldKey: string]: Partial<DBTableField>
 }
 
-export interface DBTableExtras {
+export interface DBTableExtrasParams {
+  name: string
+  isPrivate: boolean
+  fieldsExtras: DBTableFieldsExtras
+}
+
+export interface DBTableExtras extends DBTableExtrasParams {
   uid: string
   connectionId: string
   tableId: string
-  name: string
-  fieldsExtras: DBTableFieldsExtras
 }
 
 export interface DBSchema extends DBConnection {
   tableIds: string[]
 }
 
-export interface DBTable {
+export interface DBTable extends DBTableExtrasParams {
   tableId: string
   primaryKey: string
   fields: DBTableField[]
   name: string
+  isPrivate: boolean
   fieldsExtras: DBTableFieldsExtras
 }
 

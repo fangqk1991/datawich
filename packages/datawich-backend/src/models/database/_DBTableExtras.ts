@@ -58,6 +58,7 @@ export class _DBTableExtras extends __DBTableExtras {
       connectionId: this.connectionId,
       tableId: this.tableId,
       name: this.name,
+      isPrivate: false,
       fieldsExtras: this.fieldsExtras(),
     }
   }

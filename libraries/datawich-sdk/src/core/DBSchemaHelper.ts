@@ -1,17 +1,11 @@
-import { DBTable, DBTableField, DBTableFieldsExtras, FieldType } from '@fangcha/datawich-service'
+import { DBTable, DBTableExtrasParams, DBTableField, FieldType } from '@fangcha/datawich-service'
 import { DBColumn, DBTableHandler, FCDatabase } from 'fc-sql'
 
 export class DBSchemaHelper {
-  public static async getTableSchema(
-    database: FCDatabase,
-    tableId: string,
-    extras?: {
-      name: string
-      fieldsExtras: DBTableFieldsExtras
-    }
-  ) {
+  public static async getTableSchema(database: FCDatabase, tableId: string, extras?: DBTableExtrasParams) {
     extras = extras || {
       name: '',
+      isPrivate: false,
       fieldsExtras: {},
     }
     const fieldsExtras = extras.fieldsExtras || {}
@@ -29,6 +23,7 @@ export class DBSchemaHelper {
         })
       ),
       name: extras.name || tableId,
+      isPrivate: extras.isPrivate || false,
       fieldsExtras: fieldsExtras,
     }
     return schema
