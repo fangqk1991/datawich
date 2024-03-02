@@ -7,6 +7,7 @@ const _cols: string[] = [
   'connection_id',
   'table_id',
   'name',
+  'is_private',
   'fields_extras_str',
   'created_at',
   'updated_at',
@@ -17,6 +18,7 @@ const _insertableCols: string[] = [
   'connection_id',
   'table_id',
   'name',
+  'is_private',
   'fields_extras_str',
 ]
 const _modifiableCols: string[] = [
@@ -24,6 +26,7 @@ const _modifiableCols: string[] = [
   'connection_id',
   'table_id',
   'name',
+  'is_private',
   'fields_extras_str',
   'created_at',
 ]
@@ -53,6 +56,10 @@ export default class __DBTableExtras extends FeedBase {
    * @description [varchar(255)] Table Name
    */
   public name!: string
+  /**
+   * @description [tinyint] 仅自己可见
+   */
+  public isPrivate!: number
   /**
    * @description [mediumtext] 附加信息，空 | JSON 字符串
    */
@@ -100,6 +107,7 @@ export default class __DBTableExtras extends FeedBase {
   public fc_defaultInit() {
     // This function is invoked by constructor of FCModel
     this.name = ''
+    this.isPrivate = 0
     this.fieldsExtrasStr = ''
   }
 
@@ -109,6 +117,7 @@ export default class __DBTableExtras extends FeedBase {
       connectionId: 'connection_id',
       tableId: 'table_id',
       name: 'name',
+      isPrivate: 'is_private',
       fieldsExtrasStr: 'fields_extras_str',
       createdAt: 'created_at',
       updatedAt: 'updated_at',

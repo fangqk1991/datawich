@@ -4,7 +4,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DBTable, SdkDBDataApis, transferDBFieldToCore } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
-import { DBTableFieldsTable } from './DBTableFieldsTable'
+import { DBTableInfoView } from './DBTableInfoView'
 import { DBTableRecordDialog } from './DBTableRecordDialog'
 import { commonDataColumn } from './commonDataColumn'
 import { DBRecordActionCell } from './DBRecordActionCell'
@@ -50,14 +50,14 @@ export const DBDataTableView: React.FC<Props> = (props) => {
         <Button
           onClick={() => {
             const dialog = new ReactPreviewDialog({
-              element: <DBTableFieldsTable connectionId={connectionId} table={tableSchema} hideActions={true} />,
+              element: <DBTableInfoView connectionId={connectionId} table={tableSchema} />,
             })
             dialog.width = '90%'
             dialog.title = tableSchema.name || tableSchema.tableId
             dialog.show()
           }}
         >
-          字段描述
+          表描述
         </Button>
 
         <Button

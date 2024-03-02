@@ -19,6 +19,7 @@ export class _DBTableExtras extends __DBTableExtras {
       feed.connectionId = connectionId
       feed.tableId = tableId
       feed.name = tableId
+      feed.isPrivate = 0
       feed.fieldsExtrasStr = JSON.stringify({})
       await feed.addToDB()
     }
@@ -41,6 +42,9 @@ export class _DBTableExtras extends __DBTableExtras {
     if (params.fieldsExtras !== undefined) {
       this.fieldsExtrasStr = JSON.stringify(params.fieldsExtras)
     }
+    if (params.isPrivate !== undefined) {
+      this.isPrivate = params.isPrivate ? 1 : 0
+    }
     await this.updateToDB()
   }
 
@@ -58,7 +62,7 @@ export class _DBTableExtras extends __DBTableExtras {
       connectionId: this.connectionId,
       tableId: this.tableId,
       name: this.name,
-      isPrivate: false,
+      isPrivate: !!this.isPrivate,
       fieldsExtras: this.fieldsExtras(),
     }
   }

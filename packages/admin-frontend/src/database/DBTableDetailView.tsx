@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Descriptions, Divider, message, Space } from 'antd'
+import { Breadcrumb, Descriptions, Divider, message, Space, Switch } from 'antd'
 import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
@@ -71,6 +71,20 @@ export const DBTableDetailView: React.FC = () => {
               编辑
             </a>
           </Space>
+        </Descriptions.Item>
+        <Descriptions.Item label='仅自己可见'>
+          <Switch
+            checked={tableSchema.isPrivate}
+            onChange={async (checked) => {
+              const request = MyRequest(new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, tableId))
+              request.setBodyData({
+                isPrivate: checked,
+              })
+              await request.quickSend()
+              setVersion(version + 1)
+              message.success('更新成功')
+            }}
+          />
         </Descriptions.Item>
         <Descriptions.Item label='信息'>{tableSchema.fields.length} fields</Descriptions.Item>
         <Descriptions.Item>
