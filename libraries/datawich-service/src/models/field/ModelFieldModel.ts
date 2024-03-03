@@ -49,6 +49,7 @@ export interface CoreField {
 
   filterKey?: string
   dataKey?: string
+  hidden?: boolean
 }
 
 export interface ModelFieldModel extends CoreField, Raw_ModelField {

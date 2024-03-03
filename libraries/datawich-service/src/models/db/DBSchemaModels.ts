@@ -49,6 +49,7 @@ export interface DBTableField {
   nullable: boolean
   insertable: boolean
   modifiable: boolean
+  hidden?: boolean
   isPrimary?: boolean
   isUUID?: boolean
   isAuthor?: boolean
@@ -77,5 +78,6 @@ export const transferDBFieldToCore = (schemaField: DBTableField): CoreField => {
       result[cur.value] = cur.label
       return result
     }, {}),
+    hidden: schemaField.hidden,
   }
 }

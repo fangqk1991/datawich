@@ -38,6 +38,7 @@ export class DBSchemaHelper {
       nullable: column.Null === 'YES',
       insertable: true,
       modifiable: true,
+      hidden: false,
       isPrimary: false,
       isUUID: false,
       isAuthor: false,

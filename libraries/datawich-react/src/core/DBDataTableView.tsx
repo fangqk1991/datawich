@@ -103,27 +103,29 @@ export const DBDataTableView: React.FC<Props> = (props) => {
           },
         }}
         columns={TableViewColumn.makeColumns<any>([
-          ...fields.map((field): any =>
-            commonDataColumn({
-              field: field,
-              filterOptions: queryParams,
-              onFilterChange: (params) => updateQueryParams(params),
-              updateRecord: async (data, params) => {
-                const request = MyRequest(
-                  new CommonAPI(
-                    SdkDBDataApis.RecordUpdate,
-                    connectionId,
-                    tableSchema.tableId,
-                    data[tableSchema.primaryKey]
+          ...fields
+            .filter((field) => !field.hidden)
+            .map((field): any =>
+              commonDataColumn({
+                field: field,
+                filterOptions: queryParams,
+                onFilterChange: (params) => updateQueryParams(params),
+                updateRecord: async (data, params) => {
+                  const request = MyRequest(
+                    new CommonAPI(
+                      SdkDBDataApis.RecordUpdate,
+                      connectionId,
+                      tableSchema.tableId,
+                      data[tableSchema.primaryKey]
+                    )
                   )
-                )
-                request.setBodyData(params)
-                await request.execute()
-                message.success('修改成功')
-                forceUpdate()
-              },
-            })
-          ),
+                  request.setBodyData(params)
+                  await request.execute()
+                  message.success('修改成功')
+                  forceUpdate()
+                },
+              })
+            ),
           {
             title: '操作',
             fixed: 'right',

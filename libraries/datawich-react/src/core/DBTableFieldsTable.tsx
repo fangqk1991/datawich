@@ -20,7 +20,12 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
       columns={TableViewColumn.makeColumns<DBTableField>([
         {
           title: '字段 Key',
-          render: (item) => item.fieldKey,
+          render: (item) => (
+            <Space>
+              {item.fieldKey}
+              {item.hidden && <Tag>隐藏</Tag>}
+            </Space>
+          ),
         },
         {
           title: '名称',

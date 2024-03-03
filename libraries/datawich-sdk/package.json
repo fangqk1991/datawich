@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/datawich-sdk",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Datawich SDK.",
   "main": "src/index.ts",
   "publishConfig": {

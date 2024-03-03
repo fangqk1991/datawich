@@ -27,27 +27,29 @@ export const DBDataDescriptions: React.FC<Props> = ({ connectionId, table, recor
   }
   return (
     <Descriptions size={'small'} bordered={true}>
-      {table.fields.map((item) => {
-        const field = transferDBFieldToCore(item)
-        return (
-          <Descriptions.Item key={item.fieldKey} label={item.name}>
-            <CommonDataCell
-              field={field}
-              data={data}
-              updateRecord={async (data, params) => {
-                const request = MyRequest(
-                  new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, data[table.primaryKey])
-                )
-                request.setBodyData(params)
-                await request.execute()
-                message.success('修改成功')
-                setVersion(version + 1)
-                onDataChanged && onDataChanged()
-              }}
-            />
-          </Descriptions.Item>
-        )
-      })}
+      {table.fields
+        .filter((field) => !field.hidden)
+        .map((item) => {
+          const field = transferDBFieldToCore(item)
+          return (
+            <Descriptions.Item key={item.fieldKey} label={item.name}>
+              <CommonDataCell
+                field={field}
+                data={data}
+                updateRecord={async (data, params) => {
+                  const request = MyRequest(
+                    new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, data[table.primaryKey])
+                  )
+                  request.setBodyData(params)
+                  await request.execute()
+                  message.success('修改成功')
+                  setVersion(version + 1)
+                  onDataChanged && onDataChanged()
+                }}
+              />
+            </Descriptions.Item>
+          )
+        })}
     </Descriptions>
   )
 }
