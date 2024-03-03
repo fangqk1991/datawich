@@ -6,11 +6,13 @@ import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPrev
 import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
 import { CodeEditor } from './CodeEditor'
+import { CodeEditorDialog } from './CodeEditorDialog'
 
 interface Props {
   field: CoreField
   data: any
   extension?: React.ReactNode
+  onDataChanged?: (data: {}) => Promise<void>
 }
 
 export const CommonDataCell: React.FC<Props> = (props) => {
@@ -64,17 +66,42 @@ export const CommonDataCell: React.FC<Props> = (props) => {
           case FieldType.CodeText:
             if (value && value !== '{}') {
               return (
-                <a
-                  onClick={() => {
-                    const dialog = new ReactPreviewDialog({
-                      element: <CodeEditor height={'800px'} value={value} options={{ readOnly: true }} />,
-                    })
-                    dialog.width = '90%'
-                    dialog.show()
-                  }}
-                >
-                  点击查看
-                </a>
+                <>
+                  <a
+                    onClick={() => {
+                      const dialog = new ReactPreviewDialog({
+                        element: (
+                          <CodeEditor height={window.screen.height - 260} value={value} options={{ readOnly: true }} />
+                        ),
+                      })
+                      dialog.width = '90%'
+                      dialog.show()
+                    }}
+                  >
+                    查看
+                  </a>
+                  {props.onDataChanged && (
+                    <>
+                      <span> / </span>
+                      <a
+                        onClick={() => {
+                          const dialog = new CodeEditorDialog({
+                            curValue: value || '',
+                          })
+                          dialog.show(async (content) => {
+                            if (props.onDataChanged) {
+                              await props.onDataChanged({
+                                [dataKey]: content,
+                              })
+                            }
+                          })
+                        }}
+                      >
+                        编辑
+                      </a>
+                    </>
+                  )}
+                </>
               )
             }
             break

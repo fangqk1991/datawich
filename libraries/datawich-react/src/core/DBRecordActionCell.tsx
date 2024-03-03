@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Descriptions, Dropdown, message } from 'antd'
+import { Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
-import { DBTable, DBTypicalRecord, SdkDBDataApis, transferDBFieldToCore } from '@fangcha/datawich-service'
+import { DBTable, DBTypicalRecord, SdkDBDataApis } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { ConfirmDialog, ReactPreviewDialog } from '@fangcha/react'
 import { DBTableRecordDialog } from './DBTableRecordDialog'
-import { CommonDataCell } from './CommonDataCell'
+import { DBDataDescriptions } from './DBDataDescriptions'
 
 interface Props {
   connectionId: string
@@ -33,21 +33,26 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
                 className={'text-info'}
                 onClick={() => {
                   const dialog = new ReactPreviewDialog({
-                    loadElement: async () => {
-                      const record = await loadRecordInfo()
-                      return (
-                        <Descriptions size={'small'} bordered={true}>
-                          {table.fields.map((item) => {
-                            const field = transferDBFieldToCore(item)
-                            return (
-                              <Descriptions.Item key={item.fieldKey} label={item.name}>
-                                <CommonDataCell field={field} data={record} />
-                              </Descriptions.Item>
+                    element: (
+                      <DBDataDescriptions
+                        table={table}
+                        loadData={loadRecordInfo}
+                        updateData={async (params) => {
+                          const request = MyRequest(
+                            new CommonAPI(
+                              SdkDBDataApis.RecordUpdate,
+                              connectionId,
+                              table.tableId,
+                              record[table.primaryKey]
                             )
-                          })}
-                        </Descriptions>
-                      )
-                    },
+                          )
+                          request.setBodyData(params)
+                          await request.execute()
+                          message.success('修改成功')
+                          onDataChanged && onDataChanged()
+                        }}
+                      />
+                    ),
                   })
                   dialog.width = '95%'
                   dialog.show()

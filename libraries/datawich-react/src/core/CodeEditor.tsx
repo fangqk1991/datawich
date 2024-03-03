@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   padding-top: 8px;
 
   .monaco-editor {
-    min-height: 100px;
+    min-height: 250px;
   }
 `
 
