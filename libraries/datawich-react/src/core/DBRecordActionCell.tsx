@@ -22,6 +22,15 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
     )
     return request.quickSend<DBTypicalRecord>()
   }, [])
+  const updateRecordInfo = useCallback(async (params: {}) => {
+    const request = MyRequest(
+      new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, record[table.primaryKey])
+    )
+    request.setBodyData(params)
+    await request.execute()
+    message.success('修改成功')
+    onDataChanged && onDataChanged()
+  }, [])
   return (
     <Dropdown
       menu={{
@@ -34,24 +43,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
                 onClick={() => {
                   const dialog = new ReactPreviewDialog({
                     element: (
-                      <DBDataDescriptions
-                        table={table}
-                        loadData={loadRecordInfo}
-                        updateData={async (params) => {
-                          const request = MyRequest(
-                            new CommonAPI(
-                              SdkDBDataApis.RecordUpdate,
-                              connectionId,
-                              table.tableId,
-                              record[table.primaryKey]
-                            )
-                          )
-                          request.setBodyData(params)
-                          await request.execute()
-                          message.success('修改成功')
-                          onDataChanged && onDataChanged()
-                        }}
-                      />
+                      <DBDataDescriptions table={table} loadData={loadRecordInfo} updateData={updateRecordInfo} />
                     ),
                   })
                   dialog.width = '95%'
@@ -101,15 +93,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
                     dialog.props.data = await loadRecordInfo()
                   }
                   dialog.title = '修改数据记录'
-                  dialog.show(async (params) => {
-                    const request = MyRequest(
-                      new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, record[table.primaryKey])
-                    )
-                    request.setBodyData(params)
-                    await request.execute()
-                    message.success('修改成功')
-                    onDataChanged && onDataChanged()
-                  })
+                  dialog.show(updateRecordInfo)
                 }}
               >
                 编辑

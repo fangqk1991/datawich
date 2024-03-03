@@ -28,7 +28,7 @@ export const DBDataDescriptions: React.FC<Props> = ({ table, loadData, updateDat
             <CommonDataCell
               field={field}
               data={data}
-              onDataChanged={async (params) => {
+              onDataItemChanged={async (params) => {
                 if (updateData) {
                   await updateData(params)
                   setVersion(version + 1)

@@ -13,6 +13,7 @@ interface Props {
 
   render?: (item: any) => React.ReactNode
   getOptionsForEnumField?: () => SelectOption[]
+  onDataChanged?: (data: {}, params: {}) => Promise<void>
 }
 
 export const commonDataColumn = (props: Props): ColumnType<any> => {
@@ -55,7 +56,21 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
         ? 'bg-highlight'
         : '',
     title: <div>{header}</div>,
-    render: props.render || ((item: any) => <CommonDataCell field={field} data={item} />),
+    render:
+      props.render ||
+      ((item: any) => (
+        <CommonDataCell
+          field={field}
+          data={item}
+          onDataItemChanged={
+            props.onDataChanged
+              ? async (params) => {
+                  await props.onDataChanged!(item, params)
+                }
+              : undefined
+          }
+        />
+      )),
     key: filterKey,
     fixed: props.fixedColumn ? 'left' : undefined,
     sortOrder: filterOptions['sortKey'] === filterKey ? filterOptions['sortDirection'] : undefined,

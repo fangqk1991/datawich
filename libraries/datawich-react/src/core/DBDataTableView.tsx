@@ -103,6 +103,20 @@ export const DBDataTableView: React.FC<Props> = (props) => {
               field: field,
               filterOptions: queryParams,
               onFilterChange: (params) => updateQueryParams(params),
+              onDataChanged: async (record, params) => {
+                const request = MyRequest(
+                  new CommonAPI(
+                    SdkDBDataApis.RecordUpdate,
+                    connectionId,
+                    tableSchema.tableId,
+                    record[tableSchema.primaryKey]
+                  )
+                )
+                request.setBodyData(params)
+                await request.execute()
+                message.success('修改成功')
+                forceUpdate()
+              },
             })
           ),
           {
