@@ -5,6 +5,8 @@ import { PageResult } from '@fangcha/tools'
 import { myDataColumn } from './myDataColumn'
 import { useModelPanel } from '../filter/ModelPanelContext'
 import { RecordActionCell } from '../core/RecordActionCell'
+import { showDBDataDescriptions } from '../core/DBDataDescriptions'
+import { showRecordDescriptions } from '../core/RecordDescriptions'
 
 interface DataRecord {
   rid: number
@@ -68,6 +70,18 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
       tableProps={{
         size: 'small',
         bordered: true,
+        onRow: (record) => {
+          return {
+            onDoubleClick: () => {
+              showRecordDescriptions({
+                modelKey: modelKey,
+                displayItems: displayItems,
+                record: record,
+                extrasColumns: extrasColumns,
+              })
+            },
+          }
+        },
       }}
       showTotal={true}
       columns={TableViewColumn.makeColumns<DataRecord>([

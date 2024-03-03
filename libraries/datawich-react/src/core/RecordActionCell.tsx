@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Descriptions, Dropdown, message } from 'antd'
+import { Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
 import { FieldDisplayItem, FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataRecordDialog } from './DataRecordDialog'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
-import { ConfirmDialog, ReactPreviewDialog } from '@fangcha/react'
-import { MyDataCell } from '../data-display/MyDataCell'
+import { ConfirmDialog } from '@fangcha/react'
+import { showRecordDescriptions } from './RecordDescriptions'
 
 interface Props {
   modelKey: string
@@ -57,32 +57,12 @@ export const RecordActionCell: React.FC<Props> = ({
               <a
                 style={{ color: '#1677ff' }}
                 onClick={() => {
-                  const dialog = new ReactPreviewDialog({
-                    loadElement: async () => {
-                      const record = await loadRecordInfo()
-                      const columns = extrasColumns || []
-                      return (
-                        <Descriptions size={'small'} bordered={true}>
-                          {displayItems
-                            .filter((item) => !item.isHidden)
-                            .map((item) => {
-                              return (
-                                <Descriptions.Item key={item.field.dataKey} label={item.field.name}>
-                                  <MyDataCell field={item.field} data={record} />
-                                </Descriptions.Item>
-                              )
-                            })}
-                          {columns.map((column, index) => (
-                            <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
-                              {column.render(record, record, 0)}
-                            </Descriptions.Item>
-                          ))}
-                        </Descriptions>
-                      )
-                    },
+                  showRecordDescriptions({
+                    modelKey: modelKey,
+                    displayItems: displayItems,
+                    record: record,
+                    extrasColumns: extrasColumns,
                   })
-                  dialog.width = '95%'
-                  dialog.show()
                 }}
               >
                 查看
