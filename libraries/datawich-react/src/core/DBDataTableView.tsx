@@ -11,29 +11,21 @@ import { DBRecordActionCell } from './DBRecordActionCell'
 import { useParams } from 'react-router-dom'
 import { showDBDataDescriptions } from './DBDataDescriptions'
 
-interface Props {
-  connectionId?: string
-  table?: DBTable
-  tableId?: string
-}
+interface Props {}
 
 export const DBDataTableView: React.FC<Props> = (props) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
     [p: string]: any
   }>()
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
-  const connectionId = props.connectionId || '-'
-  const { tableId } = useParams()
+  const { connectionId = '-', tableId = '' } = useParams()
 
-  const [tableSchema, setTableSchema] = useState<DBTable>(props.table as any)
+  const [tableSchema, setTableSchema] = useState<DBTable>()
 
   useEffect(() => {
-    if (tableSchema) {
-      return
-    }
-    const request = MyRequest(new CommonAPI(SdkDBDataApis.TableSchemaGet, connectionId, props.tableId || tableId!))
+    const request = MyRequest(new CommonAPI(SdkDBDataApis.TableSchemaGet, connectionId, tableId))
     request.quickSend().then((response) => setTableSchema(response))
-  }, [])
+  }, [tableId])
 
   const fields = useMemo(() => (tableSchema?.fields || []).map((item) => transferDBFieldToCore(item)), [tableSchema])
 

@@ -51,7 +51,7 @@ export const DBTableDataView: React.FC = () => {
       />
       <Divider />
 
-      <DBDataTableView connectionId={connectionId} table={tableSchema} />
+      <DBDataTableView />
     </div>
   )
 }
