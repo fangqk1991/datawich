@@ -12,7 +12,7 @@ interface Props {
   field: CoreField
   data: any
   extension?: React.ReactNode
-  onDataItemChanged?: (params: {}) => Promise<void>
+  updateRecord?: (data: {}, params: {}) => Promise<void> | void
 }
 
 export const CommonDataCell: React.FC<Props> = (props) => {
@@ -80,7 +80,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                   >
                     查看
                   </a>
-                  {props.onDataItemChanged && (
+                  {props.updateRecord && (
                     <>
                       <span> / </span>
                       <a
@@ -89,11 +89,9 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                             curValue: value || '',
                           })
                           dialog.show(async (content) => {
-                            if (props.onDataItemChanged) {
-                              await props.onDataItemChanged({
-                                [dataKey]: content,
-                              })
-                            }
+                            await props.updateRecord!(props.data, {
+                              [dataKey]: content,
+                            })
                           })
                         }}
                       >

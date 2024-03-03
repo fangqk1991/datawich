@@ -4,9 +4,9 @@ import { Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
 import { DBTable, DBTypicalRecord, SdkDBDataApis } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
-import { ConfirmDialog, ReactPreviewDialog } from '@fangcha/react'
+import { ConfirmDialog } from '@fangcha/react'
 import { DBTableRecordDialog } from './DBTableRecordDialog'
-import { DBDataDescriptions } from './DBDataDescriptions'
+import { showDBDataDescriptions } from './DBDataDescriptions'
 
 interface Props {
   connectionId: string
@@ -41,13 +41,12 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
               <a
                 className={'text-info'}
                 onClick={() => {
-                  const dialog = new ReactPreviewDialog({
-                    element: (
-                      <DBDataDescriptions table={table} loadData={loadRecordInfo} updateData={updateRecordInfo} />
-                    ),
+                  showDBDataDescriptions({
+                    connectionId: connectionId,
+                    table: table,
+                    record: record,
+                    onDataChanged: onDataChanged,
                   })
-                  dialog.width = '95%'
-                  dialog.show()
                 }}
               >
                 查看

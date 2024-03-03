@@ -96,6 +96,18 @@ export const DBDataTableView: React.FC<Props> = (props) => {
         tableProps={{
           size: 'small',
           bordered: true,
+          // onRow: (record, rowIndex) => {
+          //   return {
+          //     onClick: (event) => {
+          //       showDBDataDescriptions({
+          //         connectionId: connectionId,
+          //         table: tableSchema,
+          //         record: record,
+          //         onDataChanged: forceUpdate,
+          //       })
+          //     },
+          //   }
+          // },
         }}
         columns={TableViewColumn.makeColumns<any>([
           ...fields.map((field): any =>
@@ -103,13 +115,13 @@ export const DBDataTableView: React.FC<Props> = (props) => {
               field: field,
               filterOptions: queryParams,
               onFilterChange: (params) => updateQueryParams(params),
-              onDataChanged: async (record, params) => {
+              updateRecord: async (data, params) => {
                 const request = MyRequest(
                   new CommonAPI(
                     SdkDBDataApis.RecordUpdate,
                     connectionId,
                     tableSchema.tableId,
-                    record[tableSchema.primaryKey]
+                    data[tableSchema.primaryKey]
                   )
                 )
                 request.setBodyData(params)

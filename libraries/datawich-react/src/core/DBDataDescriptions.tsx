@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { DBTable, DBTypicalRecord, transferDBFieldToCore } from '@fangcha/datawich-service'
-import { Descriptions } from 'antd'
+import { DBTable, DBTypicalRecord, SdkDBDataApis, transferDBFieldToCore } from '@fangcha/datawich-service'
+import { Descriptions, message } from 'antd'
 import { CommonDataCell } from './CommonDataCell'
-import { LoadingView } from '@fangcha/react'
+import { LoadingView, ReactPreviewDialog } from '@fangcha/react'
+import { MyRequest } from '@fangcha/auth-react'
+import { CommonAPI } from '@fangcha/app-request'
 
 interface Props {
+  connectionId: string
   table: DBTable
-  loadData: () => Promise<DBTypicalRecord>
-  updateData?: (data: {}) => Promise<void>
+  record: DBTypicalRecord
+  onDataChanged?: () => void
 }
 
-export const DBDataDescriptions: React.FC<Props> = ({ table, loadData, updateData }) => {
+export const DBDataDescriptions: React.FC<Props> = ({ connectionId, table, record, onDataChanged }) => {
   const [version, setVersion] = useState(0)
   const [data, setData] = useState<DBTypicalRecord>()
   useEffect(() => {
-    loadData().then((response) => setData(response))
-  }, [loadData, version])
+    const request = MyRequest(
+      new CommonAPI(SdkDBDataApis.RecordInfoGet, connectionId, table.tableId, record[table.primaryKey])
+    )
+    request.quickSend<DBTypicalRecord>().then((response) => setData(response))
+  }, [record, version])
   if (!data) {
     return <LoadingView />
   }
@@ -28,11 +34,15 @@ export const DBDataDescriptions: React.FC<Props> = ({ table, loadData, updateDat
             <CommonDataCell
               field={field}
               data={data}
-              onDataItemChanged={async (params) => {
-                if (updateData) {
-                  await updateData(params)
-                  setVersion(version + 1)
-                }
+              updateRecord={async (data, params) => {
+                const request = MyRequest(
+                  new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, data[table.primaryKey])
+                )
+                request.setBodyData(params)
+                await request.execute()
+                message.success('修改成功')
+                setVersion(version + 1)
+                onDataChanged && onDataChanged()
               }}
             />
           </Descriptions.Item>
@@ -40,4 +50,12 @@ export const DBDataDescriptions: React.FC<Props> = ({ table, loadData, updateDat
       })}
     </Descriptions>
   )
+}
+
+export const showDBDataDescriptions = (props: Props) => {
+  const dialog = new ReactPreviewDialog({
+    element: <DBDataDescriptions {...props} />,
+  })
+  dialog.width = '95%'
+  dialog.show()
 }
