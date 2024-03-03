@@ -71,7 +71,11 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                     onClick={() => {
                       const dialog = new ReactPreviewDialog({
                         element: (
-                          <CodeEditor height={window.screen.height - 260} value={value} options={{ readOnly: true }} />
+                          <CodeEditor
+                            height={Math.max(window.innerHeight - 260, 250)}
+                            value={value}
+                            options={{ readOnly: true }}
+                          />
                         ),
                       })
                       dialog.width = '90%'

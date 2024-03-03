@@ -29,7 +29,7 @@ export class CodeEditorDialog extends ReactDialog<Props, string> {
               margin: 0,
             }}
           >
-            <CodeEditor height={window.screen.height - 340} />
+            <CodeEditor height={Math.max(window.innerHeight - 340, 250)} />
           </ProForm.Item>
         </ProForm>
       )
