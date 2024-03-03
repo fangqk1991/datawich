@@ -9,6 +9,7 @@ import { DBTableRecordDialog } from './DBTableRecordDialog'
 import { commonDataColumn } from './commonDataColumn'
 import { DBRecordActionCell } from './DBRecordActionCell'
 import { useParams } from 'react-router-dom'
+import { showDBDataDescriptions } from './DBDataDescriptions'
 
 interface Props {
   connectionId?: string
@@ -96,18 +97,18 @@ export const DBDataTableView: React.FC<Props> = (props) => {
         tableProps={{
           size: 'small',
           bordered: true,
-          // onRow: (record, rowIndex) => {
-          //   return {
-          //     onClick: (event) => {
-          //       showDBDataDescriptions({
-          //         connectionId: connectionId,
-          //         table: tableSchema,
-          //         record: record,
-          //         onDataChanged: forceUpdate,
-          //       })
-          //     },
-          //   }
-          // },
+          onRow: (record) => {
+            return {
+              onDoubleClick: () => {
+                showDBDataDescriptions({
+                  connectionId: connectionId,
+                  table: tableSchema,
+                  record: record,
+                  onDataChanged: forceUpdate,
+                })
+              },
+            }
+          },
         }}
         columns={TableViewColumn.makeColumns<any>([
           ...fields.map((field): any =>

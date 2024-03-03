@@ -58,7 +58,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
             label: (
               <a
                 className={'text-success'}
-                onClick={() => {
+                onClick={(e) => {
                   const dialog = new DBTableRecordDialog({
                     table: table,
                   })
