@@ -9,6 +9,7 @@ interface Props extends DialogProps {}
 export class CodeEditorDialog extends ReactDialog<Props, string> {
   width = '95%'
   title = '编辑代码'
+  escDisabled = true
 
   public rawComponent(): React.FC<Props> {
     return (props) => {
