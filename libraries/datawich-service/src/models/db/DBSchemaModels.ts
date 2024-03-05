@@ -1,6 +1,6 @@
-import { FieldType, FieldTypeDescriptor } from '../field/FieldType'
-import { BoolOptions, SelectOption } from '@fangcha/tools'
-import { CoreField, TinyCoreField } from '../field/ModelFieldModel'
+import { FieldType } from '../field/FieldType'
+import { SelectOption } from '@fangcha/tools'
+import { CoreField } from '../field/ModelFieldModel'
 import { OpenLevel } from './OpenLevel'
 
 export interface DBConnection {
@@ -55,38 +55,6 @@ export interface DBTableField {
   isAuthor?: boolean
   defaultValue?: any
   options?: SelectOption[]
-}
-
-export interface FlexSchema {
-  name?: string
-  fields: TinyCoreField[]
-}
-
-export type FlexSchemaFieldMap = { [key in keyof DBTableField]: FieldType | Omit<TinyCoreField, 'fieldKey'> }
-
-const DBTableFieldMap: FlexSchemaFieldMap = {
-  fieldKey: { fieldType: FieldType.SingleLineText, name: '字段 Key', extrasData: { readonly: true } },
-  fieldType: { fieldType: FieldType.TextEnum, name: '字段类型', options: FieldTypeDescriptor.options() },
-  name: { fieldType: FieldType.SingleLineText, name: '名称' },
-  remarks: { fieldType: FieldType.SingleLineText, name: '备注' },
-  nullable: { fieldType: FieldType.TextEnum, options: BoolOptions },
-  insertable: { fieldType: FieldType.TextEnum, options: BoolOptions },
-  modifiable: { fieldType: FieldType.TextEnum, options: BoolOptions },
-}
-
-export const Schema_DBTableField: FlexSchema = {
-  name: '字段属性',
-  fields: Object.keys(DBTableFieldMap).map((fieldKey) => {
-    const props: TinyCoreField =
-      typeof DBTableFieldMap[fieldKey] === 'string'
-        ? {
-            fieldType: DBTableFieldMap[fieldKey],
-          }
-        : DBTableFieldMap[fieldKey]
-    props.fieldKey = fieldKey
-    props.name = props.name || fieldKey
-    return props
-  }),
 }
 
 export interface DBTypicalRecord {

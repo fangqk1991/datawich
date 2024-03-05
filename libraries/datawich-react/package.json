@@ -13,6 +13,7 @@
   ],
   "dependencies": {
     "react-quill": "^2.0.0",
+    "@fangcha/form-models": "workspace:*",
     "@fangcha/form-react": "workspace:*"
   }
 }

@@ -4,18 +4,22 @@ import * as moment from 'moment/moment'
 import { FormField, FormSchema, SchemaFormFieldsMap } from './FormSchemaModels'
 import { FormFieldType } from './FormFieldType'
 import { OssFileInfo } from '@fangcha/oss-models'
+import { FieldNumberType } from './FieldNumberType'
+import { FieldEnumType } from './FieldEnumType'
+import { FieldObjectType } from './FieldObjectType'
 
 export class FormSchemaHelper {
-  public static makeSchema(fieldsMap: SchemaFormFieldsMap, name: string = ''): FormSchema {
+  public static makeSchema<T extends {} = {}>(fieldsMap: SchemaFormFieldsMap<T>, name: string = ''): FormSchema {
     return {
       name: name,
       fields: Object.keys(fieldsMap).map((fieldKey) => {
-        const props: FormField =
+        const props = (
           typeof fieldsMap[fieldKey] === 'string'
             ? {
                 fieldType: fieldsMap[fieldKey],
               }
             : fieldsMap[fieldKey]
+        ) as FormField
         props.fieldKey = fieldKey
         props.name = props.name || fieldKey
         props.extrasData = props.extrasData || {}
@@ -65,7 +69,10 @@ export class FormSchemaHelper {
 
       const value = params[field.fieldKey]
       if (value !== undefined && value !== null) {
-        if (field.extrasData.enumType) {
+        if (
+          field.extrasData.enumType === FieldEnumType.Single ||
+          field.extrasData.enumType === FieldEnumType.Multiple
+        ) {
           if (!field.extrasData.value2LabelMap) {
             field.extrasData.value2LabelMap = (field.extrasData.options || []).reduce((result: any, cur: any) => {
               result[cur.value] = cur.label
@@ -73,13 +80,13 @@ export class FormSchemaHelper {
             }, {})
           }
           const value2LabelMap = field.extrasData.value2LabelMap!
-          if (field.extrasData.enumType === 'Single') {
+          if (field.extrasData.enumType === FieldEnumType.Single) {
             if (value !== '' && value2LabelMap[value] === undefined) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
                 .join(' | ')} }`
             }
-          } else if (field.extrasData.enumType === 'Multiple') {
+          } else if (field.extrasData.enumType === FieldEnumType.Multiple) {
             if (this.extractMultiEnumItems(value).find((key) => value2LabelMap[key] === undefined)) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
@@ -97,14 +104,17 @@ export class FormSchemaHelper {
             }
             break
           case FormFieldType.Number:
-            if (field.extrasData.numberType === 'Float') {
-              if (!/^(-?\d+)$|^(-?\d+\.\d+)$/.test(value)) {
-                errorMap[field.fieldKey] = `${field.name} 有误，请提交数字`
-              }
-            } else {
-              if (!/^-?\d+$/.test(value)) {
-                errorMap[field.fieldKey] = `${field.name} 有误，请提交整数`
-              }
+            switch (field.extrasData.numberType!) {
+              case FieldNumberType.Integer:
+                if (!/^-?\d+$/.test(value)) {
+                  errorMap[field.fieldKey] = `${field.name} 有误，请提交整数`
+                }
+                break
+              case FieldNumberType.Float:
+                if (!/^(-?\d+)$|^(-?\d+\.\d+)$/.test(value)) {
+                  errorMap[field.fieldKey] = `${field.name} 有误，请提交数字`
+                }
+                break
             }
             break
           case FormFieldType.Boolean:
@@ -119,34 +129,36 @@ export class FormSchemaHelper {
               errorMap[field.fieldKey] = `${field.name} 时间格式有误`
             }
             break
-          case FormFieldType.Null:
-            break
           case FormFieldType.Object:
-            if (field.extrasData.objectType === 'JSON') {
-              if (!JsonChecker.checkJSON(value)) {
-                errorMap[field.fieldKey] = `${field.name} 必须为标准 JSON 格式`
-              }
-            } else if (field.extrasData.objectType === 'StringList') {
-              if (!Array.isArray(value) || value.find((item) => !(typeof item === 'string')) !== undefined) {
-                errorMap[field.fieldKey] = `${field.name} 必须为标准 string[] 格式`
-              }
-            } else if (field.extrasData.objectType === 'Attachment') {
-              if (value) {
-                try {
-                  const data: OssFileInfo = JSON.parse(value)
-                  if (!data.ossKey) {
-                    errorMap[field.fieldKey] = `${field.name} 附件 ossKey 有误`
-                  }
-                  if (!data.mimeType) {
-                    errorMap[field.fieldKey] = `${field.name} 附件 mimeType 有误`
-                  }
-                  if (!data.size) {
-                    errorMap[field.fieldKey] = `${field.name} 附件 size 有误`
-                  }
-                } catch (e) {
-                  errorMap[field.fieldKey] = `${field.name} 附件数据有误`
+            switch (field.extrasData.objectType!) {
+              case FieldObjectType.JSON:
+                if (!JsonChecker.checkJSON(value)) {
+                  errorMap[field.fieldKey] = `${field.name} 必须为标准 JSON 格式`
                 }
-              }
+                break
+              case FieldObjectType.StringList:
+                if (!Array.isArray(value) || value.find((item) => !(typeof item === 'string')) !== undefined) {
+                  errorMap[field.fieldKey] = `${field.name} 必须为标准 string[] 格式`
+                }
+                break
+              case FieldObjectType.Attachment:
+                if (value) {
+                  try {
+                    const data: OssFileInfo = JSON.parse(value)
+                    if (!data.ossKey) {
+                      errorMap[field.fieldKey] = `${field.name} 附件 ossKey 有误`
+                    }
+                    if (!data.mimeType) {
+                      errorMap[field.fieldKey] = `${field.name} 附件 mimeType 有误`
+                    }
+                    if (!data.size) {
+                      errorMap[field.fieldKey] = `${field.name} 附件 size 有误`
+                    }
+                  } catch (e) {
+                    errorMap[field.fieldKey] = `${field.name} 附件数据有误`
+                  }
+                }
+                break
             }
             break
         }

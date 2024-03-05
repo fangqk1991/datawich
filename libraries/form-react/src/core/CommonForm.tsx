@@ -16,15 +16,15 @@ import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OssFileInfo } from '@fangcha/oss-models'
 import { OssUploadDialog } from '@fangcha/oss-react'
-import { FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
+import { FieldEnumType, FieldStringType, FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
 import { CodeEditor } from '../code-editor/CodeEditor'
 import { BoolOptions } from '@fangcha/tools'
 
 interface Props {
   allFields: FormField[]
-  readonly?: boolean
-  forceEditing?: boolean
   myData: any
+  forceReadonly?: boolean
+  forceEditing?: boolean
 }
 
 export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
@@ -38,7 +38,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
         }
       })
     props.allFields
-      .filter((field) => field.extrasData.enumType === 'Multiple')
+      .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
       .forEach((field) => {
         if (myData[field.fieldKey] && !Array.isArray(myData[field.fieldKey])) {
           myData[field.fieldKey] = (myData[field.fieldKey] as string)
@@ -79,7 +79,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
     exportResult: () => {
       const data = form.getFieldsValue()
       props.allFields
-        .filter((field) => field.extrasData.enumType === 'Multiple')
+        .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
         .forEach((field) => {
           if (Array.isArray(data[field.fieldKey])) {
             data[field.fieldKey] = data[field.fieldKey].join(',')
@@ -128,7 +128,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
           // const fieldName = nameI18n[code] || field.name
           const fieldName = field.name
           const editable = (() => {
-            if (props.readonly) {
+            if (props.forceReadonly) {
               return false
             }
             if (props.forceEditing) {
@@ -156,7 +156,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
               }}
             >
               {(() => {
-                if (field.extrasData.enumType === 'Single') {
+                if (field.extrasData.enumType === FieldEnumType.Single) {
                   const optionsForEnumField = (() => {
                     if (!field.extrasData.constraintKey) {
                       return field.extrasData.options!
@@ -180,14 +180,14 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
                       }}
                     />
                   )
-                } else if (field.extrasData.enumType === 'Multiple') {
+                } else if (field.extrasData.enumType === FieldEnumType.Multiple) {
                   return <ProFormCheckbox.Group options={field.extrasData.options} disabled={!editable} />
                 }
                 switch (field.fieldType) {
                   case FormFieldType.String:
-                    if (field.extrasData.stringType === 'RichText') {
+                    if (field.extrasData.stringType === FieldStringType.RichText) {
                       return <RichTextEditor />
-                    } else if (field.extrasData.stringType === 'CodeText') {
+                    } else if (field.extrasData.stringType === FieldStringType.CodeText) {
                       return <CodeEditor />
                     }
                     if (field.extrasData.multipleLines) {

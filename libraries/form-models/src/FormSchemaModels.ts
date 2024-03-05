@@ -1,16 +1,20 @@
 import { SelectOption } from '@fangcha/tools'
 import { FormFieldType } from './FormFieldType'
 import { LogicExpression } from '@fangcha/logic'
+import { FieldNumberType } from './FieldNumberType'
+import { FieldEnumType } from './FieldEnumType'
+import { FieldObjectType } from './FieldObjectType'
+import { FieldStringType } from './FieldStringType'
 
 export interface FormFieldExtrasData {
-  enumType: '' | 'Single' | 'Multiple'
+  enumType: FieldEnumType
   options: SelectOption[]
   value2LabelMap: { [p: string]: string }
 
-  numberType: '' | 'Integer' | 'Float'
-  objectType: '' | 'JSON' | 'StringList' | 'Attachment'
+  numberType: FieldNumberType
+  objectType: FieldObjectType
 
-  stringType: '' | 'Normal' | 'Link' | 'RichText' | 'CodeText'
+  stringType: FieldStringType
   multipleLines: boolean
 
   defaultValue: string
@@ -47,4 +51,4 @@ export interface FormSchema {
   fields: FormField[]
 }
 
-export type SchemaFormFieldsMap = { [key in keyof FormField]: FormFieldType | FormFieldParams }
+export type SchemaFormFieldsMap<T extends {} = {}> = { [p in keyof T]: FormFieldType | FormFieldParams }

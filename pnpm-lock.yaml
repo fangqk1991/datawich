@@ -278,6 +278,9 @@ importers:
 
   libraries/datawich-react:
     dependencies:
+      '@fangcha/form-models':
+        specifier: workspace:*
+        version: link:../form-models
       '@fangcha/form-react':
         specifier: workspace:*
         version: link:../form-react
