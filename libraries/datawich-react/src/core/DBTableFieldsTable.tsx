@@ -4,15 +4,8 @@ import { DBTable, DBTableField, FieldTypeDescriptor, SdkDatabaseApis } from '@fa
 import { TableViewColumn } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { MyRequest } from '@fangcha/auth-react'
-import { SchemaFormDialog } from '@fangcha/form-react'
-import {
-  FieldEnumType,
-  FieldObjectType,
-  FormField,
-  FormFieldExtrasData,
-  FormFieldType,
-  FormSchemaHelper,
-} from '@fangcha/form-models'
+import { CommonFormDialog } from '@fangcha/form-react'
+import { FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
 
 interface Props {
   connectionId: string
@@ -77,37 +70,23 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                 render: (item: DBTableField) => (
                   <a
                     onClick={() => {
-                      const dialog = new SchemaFormDialog({
+                      const fields = FormSchemaHelper.makeFormFields<DBTableField>({
+                        fieldKey: FormFieldType.String,
+                        fieldType: FormFieldType.String,
+                        name: FormFieldType.String,
+                        remarks: FormFieldType.String,
+                        nullable: FormFieldType.Boolean,
+                        insertable: FormFieldType.Boolean,
+                        modifiable: FormFieldType.Boolean,
+                        defaultValue: FormFieldType.String,
+                      })
+                      const dialog = new CommonFormDialog({
                         title: '字段属性',
-                        fields: FormSchemaHelper.makeFormFields<FormField>({
-                          fieldKey: {
-                            fieldType: FormFieldType.String,
-                            name: '字段 Key',
-                            extrasData: { readonly: true },
-                          },
-                          fieldType: {
-                            fieldType: FormFieldType.String,
-                            name: '字段类型',
-                            extrasData: {
-                              enumType: FieldEnumType.Single,
-                              options: FieldTypeDescriptor.options(),
-                            },
-                          },
-                          name: { fieldType: FormFieldType.String, name: '名称' },
-                          extrasData: {
-                            fieldType: FormFieldType.Object,
-                            extrasData: {
-                              objectType: FieldObjectType.Form,
-                              subFields: FormSchemaHelper.makeFormFields<Partial<FormFieldExtrasData>>({
-                                isRequired: { fieldType: FormFieldType.Boolean },
-                                defaultValue: { fieldType: FormFieldType.String, name: '默认值' },
-                              }),
-                            },
-                          },
-                        }),
-                        // data: item,
+                        fields: FormSchemaHelper.flattenFields(fields),
+                        data: item,
                       })
                       dialog.show(async (params) => {
+                        message.info(JSON.stringify(params))
                         const request = MyRequest(
                           new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, table.tableId)
                         )
@@ -117,7 +96,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             [item.fieldKey]: params,
                           },
                         })
-                        await request.quickSend()
+                        // await request.quickSend()
                         message.success('更新成功')
 
                         onDataChanged && onDataChanged()

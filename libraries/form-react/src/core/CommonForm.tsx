@@ -5,17 +5,29 @@ import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { FieldEnumType, FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
 import { CommonFormItem, UpdateData } from './CommonFormItem'
 
-interface Props {
-  allFields: FormField[]
-  myData: any
+export interface CommonFormProps {
+  fields: FormField[]
+  data: any
   forceReadonly?: boolean
   forceEditing?: boolean
 }
 
-export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
+export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => {
   const [myData, setData] = useState(() => {
-    const myData = JSON.parse(JSON.stringify(props.myData))
-    props.allFields
+    const myData = props.data
+      ? JSON.parse(JSON.stringify(props.data))
+      : (() => {
+          const data = {}
+          for (const field of props.fields.filter((item) => item.extrasData.defaultValue)) {
+            if (field.extrasData.fullKeys) {
+              FormSchemaHelper.setDeepValue(data, field.extrasData.fullKeys, field.extrasData.defaultValue)
+            } else {
+              data[field.fieldKey] = field.extrasData.defaultValue
+            }
+          }
+          return data
+        })()
+    props.fields
       .filter((field) => field.fieldType === FormFieldType.Date || field.fieldType === FormFieldType.Datetime)
       .forEach((field) => {
         const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -24,7 +36,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
           FormSchemaHelper.setDeepValue(myData, fullKeys, null)
         }
       })
-    props.allFields
+    props.fields
       .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
       .forEach((field) => {
         const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -46,12 +58,12 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
   const visibleFields = useMemo(() => {
     // TODO !!!
     const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
-    props.allFields.forEach((field) => {
+    props.fields.forEach((field) => {
       if (field.extrasData.visibleLogic) {
         visibleLogicMap[field.fieldKey] = field.extrasData.visibleLogic
       }
     })
-    return props.allFields
+    return props.fields
       .filter((field) => !field.extrasData.notVisible)
       .filter((field) => {
         if (visibleLogicMap[field.fieldKey]) {
@@ -59,7 +71,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
         }
         return true
       })
-  }, [props.allFields])
+  }, [props.fields])
 
   const [form] = Form.useForm<any>()
 
@@ -76,7 +88,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     exportResult: () => {
       const data = form.getFieldsValue()
-      props.allFields
+      props.fields
         .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
         .forEach((field) => {
           const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -85,7 +97,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
             FormSchemaHelper.setDeepValue(data, fullKeys, value.join(','))
           }
         })
-      props.allFields
+      props.fields
         .filter((field) => field.fieldType === FormFieldType.Date)
         .forEach((field) => {
           const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -96,7 +108,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
             FormSchemaHelper.setDeepValue(data, fullKeys, null)
           }
         })
-      props.allFields
+      props.fields
         .filter((field) => field.fieldType === FormFieldType.Datetime)
         .forEach((field) => {
           const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -110,7 +122,7 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
 
       const errorMap: { [p: string]: string } = FormSchemaHelper.calcSimpleInvalidMap(
         data,
-        props.allFields.filter((item) => !item.extrasData.readonly)
+        props.fields.filter((item) => !item.extrasData.readonly)
       )
       if (Object.keys(errorMap).length > 0) {
         const errorMsg = Object.keys(errorMap)
