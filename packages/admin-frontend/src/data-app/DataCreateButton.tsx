@@ -4,7 +4,6 @@ import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataAppApis } from '@web/datawich-common/admin-apis'
 import { Button, message } from 'antd'
-import { DataRecordDialog } from '@fangcha/datawich-react'
 import { CommonFormDialog } from '@fangcha/form-react'
 
 interface Props {
