@@ -1,0 +1,28 @@
+{
+  "name": "@fangcha/form-models",
+  "version": "0.1.0",
+  "description": "Form Models.",
+  "main": "src/index.ts",
+  "publishConfig": {
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts"
+  },
+  "repository": "https://github.com/fangqk1991/datawich.git",
+  "scripts": {
+    "test": "nyc mocha --exit",
+    "build": "rm -rf ./lib/ && tsc",
+    "prepublish": "pnpm build"
+  },
+  "keywords": [
+    "tools"
+  ],
+  "author": "fang <me@fangqk.com>",
+  "license": "MIT",
+  "files": [
+    "lib/*",
+    "src/*"
+  ],
+  "nyc": {
+    "sourceMap": false
+  }
+}

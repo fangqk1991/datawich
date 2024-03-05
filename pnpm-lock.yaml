@@ -295,6 +295,8 @@ importers:
 
   libraries/datawich-vue: {}
 
+  libraries/form-models: {}
+
   libraries/form-react:
     dependencies:
       '@monaco-editor/react':
