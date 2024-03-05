@@ -17,7 +17,7 @@ import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OssFileInfo } from '@fangcha/oss-models'
 import { OssUploadDialog } from '@fangcha/oss-react'
-import { CodeEditor } from './CodeEditor'
+import { CodeEditor } from '@fangcha/form-react'
 
 interface Props {
   allFields: CoreField[]

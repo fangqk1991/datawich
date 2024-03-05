@@ -1,6 +1,6 @@
 {
-  "name": "@fangcha/datawich-react",
-  "version": "0.27.0",
+  "name": "@fangcha/form-react",
+  "version": "0.1.0",
   "main": "src/index.ts",
   "repository": "https://github.com/fangqk1991/datawich.git",
   "keywords": [
@@ -13,6 +13,6 @@
   ],
   "dependencies": {
     "react-quill": "^2.0.0",
-    "@fangcha/form-react": "workspace:*"
+    "@monaco-editor/react": "^4.6.0"
   }
 }

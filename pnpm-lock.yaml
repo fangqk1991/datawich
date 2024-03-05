@@ -278,9 +278,9 @@ importers:
 
   libraries/datawich-react:
     dependencies:
-      '@monaco-editor/react':
-        specifier: ^4.6.0
-        version: 4.6.0(monaco-editor@0.46.0)(react-dom@18.2.0)(react@18.2.0)
+      '@fangcha/form-react':
+        specifier: workspace:*
+        version: link:../form-react
       react-quill:
         specifier: ^2.0.0
         version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
@@ -294,6 +294,15 @@ importers:
   libraries/datawich-service: {}
 
   libraries/datawich-vue: {}
+
+  libraries/form-react:
+    dependencies:
+      '@monaco-editor/react':
+        specifier: ^4.6.0
+        version: 4.6.0(monaco-editor@0.46.0)(react-dom@18.2.0)(react@18.2.0)
+      react-quill:
+        specifier: ^2.0.0
+        version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
 
   packages/admin-frontend:
     devDependencies:
