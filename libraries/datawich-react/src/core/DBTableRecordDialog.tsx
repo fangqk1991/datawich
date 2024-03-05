@@ -9,7 +9,7 @@ interface Props extends DialogProps {
 }
 
 export class DBTableRecordDialog extends ReactDialog<Props> {
-  width = '80%'
+  width = '95%'
   title = '数据记录'
 
   public rawComponent(): React.FC<Props> {

@@ -77,8 +77,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0(@fangcha/account-models@0.19.0)
       '@fangcha/tools':
-        specifier: ^1.39.0
-        version: 1.39.0
+        specifier: ^1.40.0
+        version: 1.40.0
       '@fangcha/web-auth-sdk':
         specifier: ^0.8.0
         version: 0.8.0(@fangcha/account-models@0.19.0)(@fangcha/account@0.33.0)(@fangcha/app-request-extensions@0.2.0)(@fangcha/app-request@1.8.0)(@fangcha/backend-kit@0.65.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.7.0)
@@ -2146,7 +2146,7 @@ packages:
     peerDependencies:
       '@fangcha/vue': '*'
     dependencies:
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
       '@fangcha/vue': 0.79.0
       notification-center-js: 0.2.0
     dev: true
@@ -2174,7 +2174,7 @@ packages:
       '@fangcha/app-error': 1.6.0
       '@fangcha/app-request': 1.8.0
       '@fangcha/logger': 0.5.0
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
       log4js: 6.9.1
     transitivePeerDependencies:
       - debug
@@ -2237,7 +2237,7 @@ packages:
       '@fangcha/app-request': 1.8.0
       '@fangcha/app-request-extensions': 0.2.0
       '@fangcha/assert': 1.2.0
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
       moment: 2.29.4
     transitivePeerDependencies:
       - debug
@@ -2292,7 +2292,7 @@ packages:
     resolution: {integrity: sha512-2wVPRrWE/DAanOROitEa0dM37yQ8XSG2+e23Qqs9N9TUNHeKzRplKEEvzTXXHA8Fs2YRWKlIu31fyQmVWaTcAw==}
     dependencies:
       '@fangcha/swagger': 0.1.1
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
       '@types/ejs': 3.1.2
       ejs: 3.1.9
       fc-sql: 0.43.0
@@ -2377,7 +2377,7 @@ packages:
   /@fangcha/resque@1.7.0:
     resolution: {integrity: sha512-NeXzBeKcz+BiBjcHvljsO4jRD9flOmtYk8z0IgSl5lGq7jRpce3HMRX53a3vTDCLWGZI/N5B2mcdRsKofYQijg==}
     dependencies:
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
       ioredis: 4.28.5
       moment: 2.29.4
       shelljs: 0.8.5
@@ -2394,7 +2394,7 @@ packages:
       '@fangcha/app-error': 1.6.0
       '@fangcha/backend-kit': 0.65.0
       '@fangcha/swagger': 0.1.1
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
       '@koa/router': 12.0.0
       '@types/jsonwebtoken': 9.0.1
       '@types/koa': 2.13.5
@@ -2414,7 +2414,7 @@ packages:
     dependencies:
       '@fangcha/backend-kit': 0.65.0
       '@fangcha/router': 0.31.0(@fangcha/backend-kit@0.65.0)
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2430,8 +2430,8 @@ packages:
   /@fangcha/swagger@0.1.1:
     resolution: {integrity: sha512-NOTpGTPvp2aLCD8EJ+cG/oCd17nl3nmsNV9leVSTq8/M+wNXiYbv21ftZSqHP7/pf9tA5gr9JghizkZI2z5Ing==}
 
-  /@fangcha/tools@1.39.0:
-    resolution: {integrity: sha512-7w6T7TpFGrs5lh1B9qyCv6L/KXh663p8XrUdgqRUwNj7tBFy4JsAgHWp9iO+J3YjuRB3LCddKXY5S1FxqocwVQ==}
+  /@fangcha/tools@1.40.0:
+    resolution: {integrity: sha512-KHrvvfj8lNmgti/LgH7/De1GLAKC1U4nJBOxOCpqCyy+GD7f7WhiPbZsJ4T/Vktl5MfXjk+hnelN+zA9M8Yv5g==}
     dependencies:
       moment: 2.29.4
       uuid: 9.0.0
@@ -3816,7 +3816,7 @@ packages:
     hasBin: true
     dependencies:
       '@fangcha/ali-oss': 1.4.0
-      '@fangcha/tools': 1.39.0
+      '@fangcha/tools': 1.40.0
       shelljs: 0.8.5
     transitivePeerDependencies:
       - supports-color

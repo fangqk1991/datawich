@@ -1,9 +1,16 @@
 import React from 'react'
 import { message, Space, Table, Tag } from 'antd'
-import { DBTable, DBTableField, FieldTypeDescriptor, SdkDatabaseApis } from '@fangcha/datawich-service'
-import { JsonEditorDialog, TableViewColumn } from '@fangcha/react'
-import { MyRequest } from '@fangcha/auth-react'
+import {
+  DBTable,
+  DBTableField,
+  FieldTypeDescriptor,
+  Schema_DBTableField,
+  SdkDatabaseApis,
+} from '@fangcha/datawich-service'
+import { TableViewColumn } from '@fangcha/react'
+import { SchemaFormDialog } from './SchemaFormDialog'
 import { CommonAPI } from '@fangcha/app-request'
+import { MyRequest } from '@fangcha/auth-react'
 
 interface Props {
   connectionId: string
@@ -68,12 +75,14 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                 render: (item: DBTableField) => (
                   <a
                     onClick={() => {
-                      const dialog = JsonEditorDialog.dialogForEditing({
-                        ...item,
-                        fieldKey: undefined,
-                        isPrimary: undefined,
+                      const dialog = new SchemaFormDialog({
+                        schema: Schema_DBTableField,
+                        data: {
+                          ...item,
+                          isPrimary: undefined,
+                        },
                       })
-                      dialog.show(async (params: Partial<DBTableField>) => {
+                      dialog.show(async (params) => {
                         const request = MyRequest(
                           new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, table.tableId)
                         )

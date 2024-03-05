@@ -23,8 +23,6 @@ interface Props {
   allFields: CoreField[]
   readonly?: boolean
   forceEditing?: boolean
-  // field: ModelFieldModel
-  // superField?: ModelFieldModel
   myData: any
 }
 
@@ -187,6 +185,7 @@ export const DataNormalForm: React.FC<Props> = forwardRef((props, ref) => {
                         disabled={!editable}
                         style={{
                           width: 'auto',
+                          minWidth: '200px',
                         }}
                       />
                     )

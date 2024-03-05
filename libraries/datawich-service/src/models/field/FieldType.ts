@@ -57,7 +57,7 @@ const describe = (code: FieldType) => {
     case FieldType.RichText:
       return 'Rich Text'
     case FieldType.TextEnum:
-      return 'Text Enumeration'
+      return 'Enumeration'
     case FieldType.MultiEnum:
       return 'Multi Enumeration'
     case FieldType.Date:
@@ -103,11 +103,7 @@ const FieldTypeI18N = {
   },
   Enumeration: {
     en: `Enumeration`,
-    zh: `枚举值`,
-  },
-  'Text Enumeration': {
-    en: `Text Enumeration`,
-    zh: `文本枚举`,
+    zh: `枚举`,
   },
   'Multi Enumeration': {
     en: `Multi Enumeration`,

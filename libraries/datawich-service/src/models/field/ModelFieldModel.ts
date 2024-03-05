@@ -37,11 +37,16 @@ export interface ModelFieldParams {
   extrasData?: Partial<ModelFieldExtrasData>
 }
 
+export interface TinyCoreField extends Partial<CoreField> {
+  fieldKey: string
+  fieldType: FieldType
+}
+
 export interface CoreField {
   fieldKey: string
   fieldType: FieldType
   name: string
-  extrasData: ModelFieldExtrasData
+  extrasData: Partial<ModelFieldExtrasData>
   required: number
   options?: SelectOption[]
   value2LabelMap?: { [p: string]: string }

@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@fangcha/datawich-service": "workspace:^",
-    "@fangcha/tools": "^1.39.0",
+    "@fangcha/tools": "^1.40.0",
     "@fangcha/ali-oss": "^1.4.0",
     "@fangcha/app-models": "^0.3.0",
     "@fangcha/app-request": "^1.8.0",

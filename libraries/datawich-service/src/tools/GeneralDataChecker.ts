@@ -94,7 +94,7 @@ export class GeneralDataChecker {
               }, {})
             }
             const value2LabelMap = field.value2LabelMap!
-            if (value !== '' && !(value in value2LabelMap)) {
+            if (value !== '' && value2LabelMap[value] === undefined) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
                 .join(' | ')} }`
