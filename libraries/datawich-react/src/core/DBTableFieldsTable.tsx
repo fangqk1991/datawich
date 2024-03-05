@@ -5,7 +5,14 @@ import { TableViewColumn } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { MyRequest } from '@fangcha/auth-react'
 import { SchemaFormDialog } from '@fangcha/form-react'
-import { FieldEnumType, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
+import {
+  FieldEnumType,
+  FieldObjectType,
+  FormField,
+  FormFieldExtrasData,
+  FormFieldType,
+  FormSchemaHelper,
+} from '@fangcha/form-models'
 
 interface Props {
   connectionId: string
@@ -13,30 +20,6 @@ interface Props {
   onDataChanged?: () => void
   hideActions?: boolean
 }
-
-const theFieldSchema = FormSchemaHelper.makeSchema<DBTableField>(
-  {
-    fieldKey: {
-      fieldType: FormFieldType.String,
-      name: '字段 Key',
-      extrasData: { readonly: true },
-    },
-    fieldType: {
-      fieldType: FormFieldType.String,
-      name: '字段类型',
-      extrasData: {
-        enumType: FieldEnumType.Single,
-        options: FieldTypeDescriptor.options(),
-      },
-    },
-    name: { fieldType: FormFieldType.String, name: '名称' },
-    remarks: { fieldType: FormFieldType.String, name: '备注' },
-    nullable: { fieldType: FormFieldType.Boolean },
-    insertable: { fieldType: FormFieldType.Boolean },
-    modifiable: { fieldType: FormFieldType.Boolean },
-  },
-  '字段属性'
-)
 
 export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDataChanged, hideActions }) => {
   return (
@@ -95,8 +78,34 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                   <a
                     onClick={() => {
                       const dialog = new SchemaFormDialog({
-                        schema: theFieldSchema,
-                        data: item,
+                        title: '字段属性',
+                        fields: FormSchemaHelper.makeFormFields<FormField>({
+                          fieldKey: {
+                            fieldType: FormFieldType.String,
+                            name: '字段 Key',
+                            extrasData: { readonly: true },
+                          },
+                          fieldType: {
+                            fieldType: FormFieldType.String,
+                            name: '字段类型',
+                            extrasData: {
+                              enumType: FieldEnumType.Single,
+                              options: FieldTypeDescriptor.options(),
+                            },
+                          },
+                          name: { fieldType: FormFieldType.String, name: '名称' },
+                          extrasData: {
+                            fieldType: FormFieldType.Object,
+                            extrasData: {
+                              objectType: FieldObjectType.Form,
+                              subFields: FormSchemaHelper.makeFormFields<Partial<FormFieldExtrasData>>({
+                                isRequired: { fieldType: FormFieldType.Boolean },
+                                defaultValue: { fieldType: FormFieldType.String, name: '默认值' },
+                              }),
+                            },
+                          },
+                        }),
+                        // data: item,
                       })
                       dialog.show(async (params) => {
                         const request = MyRequest(

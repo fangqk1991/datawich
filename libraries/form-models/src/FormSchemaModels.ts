@@ -33,6 +33,10 @@ export interface FormFieldExtrasData {
   visibleLogic: LogicExpression
   requiredLogic: LogicExpression
   matchRegex: string
+
+  subFields: FormField[]
+
+  fullKeys: string[]
 }
 
 export interface FormField {

@@ -1,7 +1,7 @@
 import { JsonChecker } from '@fangcha/tools'
 import { LogicExpressionHelper } from '@fangcha/logic'
 import * as moment from 'moment/moment'
-import { FormField, FormSchema, SchemaFormFieldsMap } from './FormSchemaModels'
+import { FormField, SchemaFormFieldsMap } from './FormSchemaModels'
 import { FormFieldType } from './FormFieldType'
 import { OssFileInfo } from '@fangcha/oss-models'
 import { FieldNumberType } from './FieldNumberType'
@@ -9,23 +9,31 @@ import { FieldEnumType } from './FieldEnumType'
 import { FieldObjectType } from './FieldObjectType'
 
 export class FormSchemaHelper {
-  public static makeSchema<T extends {} = {}>(fieldsMap: SchemaFormFieldsMap<T>, name: string = ''): FormSchema {
-    return {
-      name: name,
-      fields: Object.keys(fieldsMap).map((fieldKey) => {
-        const props = (
-          typeof fieldsMap[fieldKey] === 'string'
-            ? {
-                fieldType: fieldsMap[fieldKey],
-              }
-            : fieldsMap[fieldKey]
-        ) as FormField
-        props.fieldKey = fieldKey
-        props.name = props.name || fieldKey
-        props.extrasData = props.extrasData || {}
-        return props
-      }),
+  public static getDeepValue(data: any, keys: string[]): any {
+    if (keys.length === 0) {
+      return data
     }
+    if (!data || typeof data !== 'object') {
+      return undefined
+    }
+    const [curKey, ...nextKeys] = keys
+    return this.getDeepValue(data[curKey], nextKeys)
+  }
+
+  public static makeFormFields<T extends {} = {}>(fieldsMap: SchemaFormFieldsMap<T>): FormField[] {
+    return Object.keys(fieldsMap).map((fieldKey) => {
+      const props = (
+        typeof fieldsMap[fieldKey] === 'string'
+          ? {
+              fieldType: fieldsMap[fieldKey],
+            }
+          : fieldsMap[fieldKey]
+      ) as FormField
+      props.fieldKey = fieldKey
+      props.name = props.name || fieldKey
+      props.extrasData = props.extrasData || {}
+      return props
+    })
   }
 
   public static entityKey(dataKey: string) {
