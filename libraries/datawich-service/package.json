@@ -24,5 +24,8 @@
   ],
   "nyc": {
     "sourceMap": false
+  },
+  "devDependencies": {
+    "@fangcha/form-models": "workspace:^"
   }
 }

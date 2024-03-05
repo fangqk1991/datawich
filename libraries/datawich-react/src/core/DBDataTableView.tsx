@@ -2,14 +2,14 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { Button, Divider, message, Space } from 'antd'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, SdkDBDataApis, transferDBFieldToCore } from '@fangcha/datawich-service'
+import { DBTable, SdkDBDataApis, transferDBFieldToCore, transferDBFieldToFormField } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { DBTableInfoView } from './DBTableInfoView'
-import { DBTableRecordDialog } from './DBTableRecordDialog'
 import { commonDataColumn } from './commonDataColumn'
 import { DBRecordActionCell } from './DBRecordActionCell'
 import { useParams } from 'react-router-dom'
 import { showDBDataDescriptions } from './DBDataDescriptions'
+import { CommonFormDialog } from '@fangcha/form-react'
 
 interface Props {}
 
@@ -56,8 +56,8 @@ export const DBDataTableView: React.FC<Props> = (props) => {
         <Button
           type={'primary'}
           onClick={() => {
-            const dialog = new DBTableRecordDialog({
-              table: tableSchema,
+            const dialog = new CommonFormDialog({
+              fields: tableSchema.fields.map((field) => transferDBFieldToFormField(field)),
             })
             dialog.title = '创建数据记录'
             dialog.show(async (params) => {

@@ -7,7 +7,7 @@ import { CommonFormItem, UpdateData } from './CommonFormItem'
 
 export interface CommonFormProps {
   fields: FormField[]
-  data: any
+  data?: any
   forceReadonly?: boolean
   forceEditing?: boolean
 }
@@ -64,7 +64,15 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
       }
     })
     return props.fields
-      .filter((field) => !field.extrasData.notVisible)
+      .filter((field) => {
+        if (field.extrasData.notVisible) {
+          return false
+        }
+        if (field.extrasData.notInsertable) {
+          return false
+        }
+        return true
+      })
       .filter((field) => {
         if (visibleLogicMap[field.fieldKey]) {
           return LogicExpressionHelper.calcExpression(visibleLogicMap[field.fieldKey], myData)
@@ -88,7 +96,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
   useImperativeHandle(ref, () => ({
     exportResult: () => {
       const data = form.getFieldsValue()
-      props.fields
+      visibleFields
         .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
         .forEach((field) => {
           const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -97,7 +105,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
             FormSchemaHelper.setDeepValue(data, fullKeys, value.join(','))
           }
         })
-      props.fields
+      visibleFields
         .filter((field) => field.fieldType === FormFieldType.Date)
         .forEach((field) => {
           const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -108,7 +116,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
             FormSchemaHelper.setDeepValue(data, fullKeys, null)
           }
         })
-      props.fields
+      visibleFields
         .filter((field) => field.fieldType === FormFieldType.Datetime)
         .forEach((field) => {
           const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
@@ -122,7 +130,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
 
       const errorMap: { [p: string]: string } = FormSchemaHelper.calcSimpleInvalidMap(
         data,
-        props.fields.filter((item) => !item.extrasData.readonly)
+        visibleFields.filter((item) => !item.extrasData.readonly)
       )
       if (Object.keys(errorMap).length > 0) {
         const errorMsg = Object.keys(errorMap)

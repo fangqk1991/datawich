@@ -294,7 +294,11 @@ importers:
         specifier: workspace:^
         version: link:../datawich-service
 
-  libraries/datawich-service: {}
+  libraries/datawich-service:
+    devDependencies:
+      '@fangcha/form-models':
+        specifier: workspace:^
+        version: link:../form-models
 
   libraries/datawich-vue: {}
 
