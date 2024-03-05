@@ -20,6 +20,48 @@ export class FormSchemaHelper {
     return this.getDeepValue(data[curKey], nextKeys)
   }
 
+  public static setDeepValue(data: any, keys: string[], value: any) {
+    if (keys.length === 0) {
+      return
+    }
+    if (!data || typeof data !== 'object') {
+      return
+    }
+    const [curKey, ...nextKeys] = keys
+    if (nextKeys.length === 0) {
+      data[curKey] = value
+      return
+    }
+    this.setDeepValue(data[curKey], nextKeys, value)
+  }
+
+  public static fillFieldsFullKeys(fields: FormField[], parentKeys: string[] = []) {
+    fields.forEach((field) => {
+      field.extrasData = field.extrasData || {}
+      field.extrasData.fullKeys = [...parentKeys, field.fieldKey]
+      if (field.fieldType === FormFieldType.Object && field.extrasData.objectType === FieldObjectType.Form) {
+        field.extrasData.subFields = field.extrasData.subFields || []
+        this.fillFieldsFullKeys(field.extrasData.subFields, field.extrasData.fullKeys)
+      }
+    })
+  }
+
+  public static flattenFields(fields: FormField[]) {
+    this.fillFieldsFullKeys(fields)
+    const newFields: FormField[] = []
+    const searchTree = (fields: FormField[]) => {
+      fields.forEach((field) => {
+        if (field.fieldType === FormFieldType.Object && field.extrasData.objectType === FieldObjectType.Form) {
+          searchTree(field.extrasData.subFields || [])
+        } else {
+          newFields.push(field)
+        }
+      })
+    }
+    searchTree(fields)
+    return newFields
+  }
+
   public static makeFormFields<T extends {} = {}>(fieldsMap: SchemaFormFieldsMap<T>): FormField[] {
     return Object.keys(fieldsMap).map((fieldKey) => {
       const props = (

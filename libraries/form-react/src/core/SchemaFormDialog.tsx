@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { DialogProps, ReactDialog } from '@fangcha/react'
 import { CommonForm } from './CommonForm'
-import { FormField } from '@fangcha/form-models'
+import { FormField, FormSchemaHelper } from '@fangcha/form-models'
 
 interface Props extends DialogProps {
   fields: FormField[]
@@ -19,11 +19,16 @@ export class SchemaFormDialog extends ReactDialog<Props> {
   public rawComponent(): React.FC<Props> {
     return (props) => {
       const fields = props.fields
+
       let data = props.data
       if (!data) {
         data = {}
         for (const field of fields.filter((item) => item.extrasData.defaultValue)) {
-          data[field.fieldKey] = field.extrasData.defaultValue
+          if (field.extrasData.fullKeys) {
+            FormSchemaHelper.setDeepValue(data, field.extrasData.fullKeys, field.extrasData.defaultValue)
+          } else {
+            data[field.fieldKey] = field.extrasData.defaultValue
+          }
         }
       }
       const formRef = useRef({
