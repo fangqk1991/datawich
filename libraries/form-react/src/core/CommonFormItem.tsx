@@ -26,11 +26,13 @@ import {
 import { CodeEditor } from '../code-editor/CodeEditor'
 import { BoolOptions } from '@fangcha/tools'
 
+export type UpdateData = (kvList: { fullKeys: string[]; value: any }[]) => void
+
 interface Props {
   field: FormField
   myData: any
   editable: boolean
-  updateData: (options: any) => void
+  updateData: UpdateData
 }
 
 export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updateData }) => {
@@ -115,8 +117,9 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             if (field.extrasData.objectType === FieldObjectType.StringList) {
               return <ProFormSelect mode='tags' />
             } else if (field.extrasData.objectType === FieldObjectType.Attachment) {
-              const entityKey = FormSchemaHelper.entityKey(field.fieldKey)
-              const ossFileInfo = myData[entityKey] as OssFileInfo
+              const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
+              const entityKeys = FormSchemaHelper.entityKeys(fullKeys)
+              const ossFileInfo = FormSchemaHelper.getDeepValue(myData, entityKeys) as OssFileInfo
               const uploadFile = () => {
                 OssUploadDialog.uploadFile(async (resource) => {
                   const fileInfo: OssFileInfo = {
@@ -124,13 +127,19 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                     mimeType: resource.mimeType,
                     size: resource.size,
                   }
-                  updateData({
-                    [field.fieldKey]: JSON.stringify(fileInfo),
-                    [entityKey]: {
-                      ...fileInfo,
-                      url: resource.url,
+                  updateData([
+                    {
+                      fullKeys: fullKeys,
+                      value: JSON.stringify(fileInfo),
                     },
-                  })
+                    {
+                      fullKeys: entityKeys,
+                      value: {
+                        ...fileInfo,
+                        url: resource.url,
+                      },
+                    },
+                  ])
                 })
               }
               if (!ossFileInfo) {
@@ -155,10 +164,16 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                       <a
                         className={'text-danger'}
                         onClick={() => {
-                          updateData({
-                            [field.fieldKey]: '',
-                            [entityKey]: null,
-                          })
+                          updateData([
+                            {
+                              fullKeys: fullKeys,
+                              value: '',
+                            },
+                            {
+                              fullKeys: entityKeys,
+                              value: null,
+                            },
+                          ])
                         }}
                       >
                         移除

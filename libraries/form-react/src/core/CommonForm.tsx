@@ -3,7 +3,7 @@ import { ProForm } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
 import { FieldEnumType, FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
-import { CommonFormItem } from './CommonFormItem'
+import { CommonFormItem, UpdateData } from './CommonFormItem'
 
 interface Props {
   allFields: FormField[]
@@ -51,22 +51,26 @@ export const CommonForm: React.FC<Props> = forwardRef((props, ref) => {
         visibleLogicMap[field.fieldKey] = field.extrasData.visibleLogic
       }
     })
-    return props.allFields.filter((field) => {
-      if (visibleLogicMap[field.fieldKey]) {
-        return LogicExpressionHelper.calcExpression(visibleLogicMap[field.fieldKey], myData)
-      }
-      return true
-    })
+    return props.allFields
+      .filter((field) => !field.extrasData.notVisible)
+      .filter((field) => {
+        if (visibleLogicMap[field.fieldKey]) {
+          return LogicExpressionHelper.calcExpression(visibleLogicMap[field.fieldKey], myData)
+        }
+        return true
+      })
   }, [props.allFields])
 
   const [form] = Form.useForm<any>()
 
-  const updateData = (options: any) => {
+  const updateData: UpdateData = (kvList) => {
+    kvList.forEach((item) => {
+      FormSchemaHelper.setDeepValue(myData, item.fullKeys, item.value)
+      form.setFieldValue(item.fullKeys, item.value)
+    })
     setData({
       ...myData,
-      ...options,
     })
-    form.setFieldsValue(options)
   }
 
   useImperativeHandle(ref, () => ({

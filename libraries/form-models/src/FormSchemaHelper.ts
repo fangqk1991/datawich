@@ -78,6 +78,12 @@ export class FormSchemaHelper {
     })
   }
 
+  public static entityKeys(keys: string[]) {
+    keys = [...keys]
+    keys[keys.length - 1] = `${keys[keys.length - 1]}.$entity`
+    return keys
+  }
+
   public static entityKey(dataKey: string) {
     return `${dataKey}.$entity`
   }
