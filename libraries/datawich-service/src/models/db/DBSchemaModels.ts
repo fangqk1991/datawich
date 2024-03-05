@@ -1,6 +1,6 @@
 import { FieldType } from '../field/FieldType'
 import { SelectOption } from '@fangcha/tools'
-import { CoreField } from '../field/ModelFieldModel'
+import { CoreField, ModelFieldModel } from '../field/ModelFieldModel'
 import { OpenLevel } from './OpenLevel'
 import {
   FieldEnumType,
@@ -88,6 +88,79 @@ export const transferDBFieldToCore = (schemaField: DBTableField): CoreField => {
     }, {}),
     hidden: schemaField.hidden,
   }
+}
+
+export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
+  const commonField: FormField = {
+    fieldKey: schemaField.fieldKey,
+    fieldType: FormFieldType.String,
+    name: schemaField.name,
+    extrasData: {
+      isRequired: !!schemaField.required,
+      defaultValue: schemaField.useDefault ? schemaField.defaultValue : '',
+      options: schemaField.options,
+      notVisible: schemaField.hidden || !!schemaField.isHidden,
+      notInsertable: !!schemaField.isSystem,
+      notModifiable: !!schemaField.isSystem,
+      readonly: !!schemaField.isSystem,
+    },
+  }
+  switch (schemaField.fieldType) {
+    case FieldType.Integer:
+      commonField.fieldType = FormFieldType.Number
+      commonField.extrasData.numberType = FieldNumberType.Integer
+      break
+    case FieldType.Float:
+      commonField.fieldType = FormFieldType.Number
+      commonField.extrasData.numberType = FieldNumberType.Float
+      break
+    case FieldType.MultipleLinesText:
+      commonField.fieldType = FormFieldType.String
+      commonField.extrasData.multipleLines = true
+      break
+    case FieldType.JSON:
+      commonField.extrasData.multipleLines = true
+      commonField.fieldType = FormFieldType.Object
+      commonField.extrasData.objectType = FieldObjectType.JSON
+      break
+    case FieldType.StringList:
+      commonField.extrasData.multipleLines = true
+      commonField.fieldType = FormFieldType.Object
+      commonField.extrasData.objectType = FieldObjectType.StringList
+      break
+    case FieldType.Link:
+      commonField.extrasData.multipleLines = true
+      commonField.fieldType = FormFieldType.String
+      commonField.extrasData.stringType = FieldStringType.Link
+      break
+    case FieldType.RichText:
+      commonField.extrasData.multipleLines = true
+      commonField.fieldType = FormFieldType.String
+      commonField.extrasData.stringType = FieldStringType.RichText
+      break
+    case FieldType.CodeText:
+      commonField.extrasData.multipleLines = true
+      commonField.fieldType = FormFieldType.String
+      commonField.extrasData.stringType = FieldStringType.CodeText
+      break
+    case FieldType.TextEnum:
+      commonField.extrasData.enumType = FieldEnumType.Single
+      break
+    case FieldType.MultiEnum:
+      commonField.extrasData.enumType = FieldEnumType.Multiple
+      break
+    case FieldType.Date:
+      commonField.fieldType = FormFieldType.Date
+      break
+    case FieldType.Datetime:
+      commonField.fieldType = FormFieldType.Datetime
+      break
+    case FieldType.Attachment:
+      commonField.fieldType = FormFieldType.Object
+      commonField.extrasData.objectType = FieldObjectType.Attachment
+      break
+  }
+  return commonField
 }
 
 export const transferDBFieldToFormField = (schemaField: DBTableField) => {

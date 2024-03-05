@@ -5,8 +5,6 @@ export * from './app/SDK_DataAppListView'
 export * from './app/SDK_DataAppDetailView'
 
 export * from './core/RecordActionCell'
-export * from './core/DataRecordDialog'
-export * from './core/DataNormalForm'
 export * from './core/CommonDataCell'
 export * from './core/commonDataColumn'
 export * from './core/DBRecordActionCell'

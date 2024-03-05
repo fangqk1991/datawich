@@ -2,12 +2,17 @@ import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
-import { FieldDisplayItem, FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import {
+  FieldDisplayItem,
+  FieldHelper,
+  ModelFieldModel,
+  transferModelFieldToFormField,
+} from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
-import { DataRecordDialog } from './DataRecordDialog'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { ConfirmDialog } from '@fangcha/react'
 import { showRecordDescriptions } from './RecordDescriptions'
+import { CommonFormDialog } from '@fangcha/form-react'
 
 interface Props {
   modelKey: string
@@ -75,8 +80,8 @@ export const RecordActionCell: React.FC<Props> = ({
               <a
                 style={{ color: '#28a745' }}
                 onClick={() => {
-                  const dialog = new DataRecordDialog({
-                    mainFields: mainFields,
+                  const dialog = new CommonFormDialog({
+                    fields: mainFields.map((field) => transferModelFieldToFormField(field)),
                   })
                   dialog.title = '创建数据记录'
                   dialog.loadData = async () => {
@@ -102,8 +107,8 @@ export const RecordActionCell: React.FC<Props> = ({
               <a
                 style={{ color: '#1677ff' }}
                 onClick={() => {
-                  const dialog = new DataRecordDialog({
-                    mainFields: mainFields,
+                  const dialog = new CommonFormDialog({
+                    fields: mainFields.map((field) => transferModelFieldToFormField(field)),
                   })
                   dialog.title = '修改数据记录'
                   dialog.loadData = async () => {

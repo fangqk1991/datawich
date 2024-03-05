@@ -1,10 +1,11 @@
 import React from 'react'
-import { ModelFieldModel } from '@fangcha/datawich-service'
+import { ModelFieldModel, transferModelFieldToFormField } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataAppApis } from '@web/datawich-common/admin-apis'
 import { Button, message } from 'antd'
 import { DataRecordDialog } from '@fangcha/datawich-react'
+import { CommonFormDialog } from '@fangcha/form-react'
 
 interface Props {
   modelKey: string
@@ -17,8 +18,8 @@ export const DataCreateButton: React.FC<Props> = ({ modelKey, fields, onImportDo
     <Button
       type={'primary'}
       onClick={() => {
-        const dialog = new DataRecordDialog({
-          mainFields: fields,
+        const dialog = new CommonFormDialog({
+          fields: fields.map((field) => transferModelFieldToFormField(field)),
         })
         dialog.title = '新建数据记录'
         dialog.show(async (params) => {
