@@ -1,10 +1,16 @@
 import { SelectOption } from '@fangcha/tools'
 import { FormFieldType } from './FormFieldType'
+import { LogicExpression } from '@fangcha/logic'
 
 export interface FormFieldExtrasData {
-  isEnum: boolean
+  enumType: '' | 'Single' | 'Multiple'
   options: SelectOption[]
+  value2LabelMap: { [p: string]: string }
 
+  numberType: '' | 'Integer' | 'Float'
+  objectType: '' | 'JSON' | 'StringList' | 'Attachment'
+
+  stringType: '' | 'Normal' | 'Link' | 'RichText' | 'CodeText'
   multipleLines: boolean
 
   defaultValue: string
@@ -17,6 +23,12 @@ export interface FormFieldExtrasData {
   notModifiable: boolean
 
   notVisible: boolean
+
+  constraintKey: string
+
+  visibleLogic: LogicExpression
+  requiredLogic: LogicExpression
+  matchRegex: string
 }
 
 export interface FormField {
@@ -36,23 +48,3 @@ export interface FormSchema {
 }
 
 export type SchemaFormFieldsMap = { [key in keyof FormField]: FormFieldType | FormFieldParams }
-
-export class FormSchemaHelper {
-  public static makeSchema(fieldsMap: SchemaFormFieldsMap, name: string = ''): FormSchema {
-    return {
-      name: name,
-      fields: Object.keys(fieldsMap).map((fieldKey) => {
-        const props: FormField =
-          typeof fieldsMap[fieldKey] === 'string'
-            ? {
-                fieldType: fieldsMap[fieldKey],
-              }
-            : fieldsMap[fieldKey]
-        props.fieldKey = fieldKey
-        props.name = props.name || fieldKey
-        props.extrasData = props.extrasData || {}
-        return props
-      }),
-    }
-  }
-}

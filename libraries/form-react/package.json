@@ -12,6 +12,7 @@
     "src/*"
   ],
   "dependencies": {
+    "@fangcha/form-models": "workspace:*",
     "react-quill": "^2.0.0",
     "@monaco-editor/react": "^4.6.0"
   }

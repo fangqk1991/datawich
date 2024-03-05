@@ -4,7 +4,8 @@ export enum FormFieldType {
   String = 'String',
   Number = 'Number',
   Boolean = 'Boolean',
-  Null = 'Null',
+  Date = 'Date',
+  Datetime = 'Datetime',
   Object = 'Object',
 }
 
@@ -12,7 +13,8 @@ const values = [
   FormFieldType.String,
   FormFieldType.Number,
   FormFieldType.Boolean,
-  FormFieldType.Null,
+  FormFieldType.Date,
+  FormFieldType.Datetime,
   FormFieldType.Object,
 ]
 
@@ -33,9 +35,13 @@ const FormFieldTypeI18N = {
     en: `Boolean`,
     zh: `布尔值`,
   },
-  Null: {
-    en: `Null`,
-    zh: `空`,
+  Date: {
+    en: `Date`,
+    zh: `日期`,
+  },
+  Datetime: {
+    en: `Datetime`,
+    zh: `时间`,
   },
   Object: {
     en: `Object`,

@@ -299,6 +299,9 @@ importers:
 
   libraries/form-react:
     dependencies:
+      '@fangcha/form-models':
+        specifier: workspace:*
+        version: link:../form-models
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.6.0(monaco-editor@0.46.0)(react-dom@18.2.0)(react@18.2.0)
