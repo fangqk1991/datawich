@@ -54,7 +54,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
           )}
         </div>
       }
-      required={field.extrasData.isRequired}
+      required={field.isRequired}
       style={{
         margin: 0,
       }}

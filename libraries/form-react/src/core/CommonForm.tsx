@@ -18,33 +18,27 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
       ? JSON.parse(JSON.stringify(props.data))
       : (() => {
           const data = {}
-          for (const field of props.fields.filter((item) => item.extrasData.defaultValue)) {
-            if (field.extrasData.fullKeys) {
-              FormSchemaHelper.setDeepValue(data, field.extrasData.fullKeys, field.extrasData.defaultValue)
-            } else {
-              data[field.fieldKey] = field.extrasData.defaultValue
-            }
+          for (const field of props.fields.filter((item) => item.defaultValue)) {
+            FormSchemaHelper.setFieldValue(data, field, field.defaultValue)
           }
           return data
         })()
     props.fields
       .filter((field) => field.fieldType === FormFieldType.Date || field.fieldType === FormFieldType.Datetime)
       .forEach((field) => {
-        const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
-        const value = FormSchemaHelper.getDeepValue(myData, fullKeys)
+        const value = FormSchemaHelper.getFieldValue(myData, field)
         if (value !== undefined && !value) {
-          FormSchemaHelper.setDeepValue(myData, fullKeys, null)
+          FormSchemaHelper.setFieldValue(myData, field, null)
         }
       })
     props.fields
       .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
       .forEach((field) => {
-        const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
-        const value = FormSchemaHelper.getDeepValue(myData, fullKeys)
+        const value = FormSchemaHelper.getFieldValue(myData, field)
         if (value && !Array.isArray(value)) {
-          FormSchemaHelper.setDeepValue(
+          FormSchemaHelper.setFieldValue(
             myData,
-            fullKeys,
+            field,
             (value as string)
               .split(',')
               .map((item) => item.trim())
@@ -65,7 +59,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     })
     return props.fields
       .filter((field) => {
-        if (field.extrasData.notVisible) {
+        if (field.notVisible) {
           return false
         }
         if (field.extrasData.notInsertable) {
@@ -99,32 +93,29 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
       visibleFields
         .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
         .forEach((field) => {
-          const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
-          const value = FormSchemaHelper.getDeepValue(data, fullKeys)
+          const value = FormSchemaHelper.getFieldValue(data, field)
           if (Array.isArray(value)) {
-            FormSchemaHelper.setDeepValue(data, fullKeys, value.join(','))
+            FormSchemaHelper.setFieldValue(data, field, value.join(','))
           }
         })
       visibleFields
         .filter((field) => field.fieldType === FormFieldType.Date)
         .forEach((field) => {
-          const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
-          const value = FormSchemaHelper.getDeepValue(data, fullKeys)
+          const value = FormSchemaHelper.getFieldValue(data, field)
           if (value && value.format) {
-            FormSchemaHelper.setDeepValue(data, fullKeys, value.format('YYYY-MM-DD'))
+            FormSchemaHelper.setFieldValue(data, field, value.format('YYYY-MM-DD'))
           } else if (!value) {
-            FormSchemaHelper.setDeepValue(data, fullKeys, null)
+            FormSchemaHelper.setFieldValue(data, field, null)
           }
         })
       visibleFields
         .filter((field) => field.fieldType === FormFieldType.Datetime)
         .forEach((field) => {
-          const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
-          const value = FormSchemaHelper.getDeepValue(data, fullKeys)
+          const value = FormSchemaHelper.getFieldValue(data, field)
           if (value && value.format) {
-            FormSchemaHelper.setDeepValue(data, fullKeys, value.format())
+            FormSchemaHelper.setFieldValue(data, field, value.format())
           } else if (!value) {
-            FormSchemaHelper.setDeepValue(data, fullKeys, null)
+            FormSchemaHelper.setFieldValue(data, field, null)
           }
         })
 

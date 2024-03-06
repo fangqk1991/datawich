@@ -35,6 +35,16 @@ export class FormSchemaHelper {
     this.setDeepValue(data[curKey], nextKeys, value)
   }
 
+  public static getFieldValue(data: any, field: FormField) {
+    const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
+    return this.getDeepValue(data, fullKeys)
+  }
+
+  public static setFieldValue(data: any, field: FormField, value: any) {
+    const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
+    this.setDeepValue(data, fullKeys, value)
+  }
+
   public static fillFieldsFullKeys(fields: FormField[], parentKeys: string[] = []) {
     fields.forEach((field) => {
       field.extrasData = field.extrasData || {}
@@ -113,7 +123,7 @@ export class FormSchemaHelper {
           delete params[field.fieldKey]
         }
       }
-      let isRequired = field.extrasData.isRequired
+      let isRequired = field.isRequired
       if (field.extrasData.requiredLogic) {
         isRequired = LogicExpressionHelper.calcExpression(field.extrasData.requiredLogic, params)
       }

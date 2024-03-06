@@ -17,16 +17,11 @@ export interface FormFieldExtrasData {
   stringType: FieldStringType
   multipleLines: boolean
 
-  defaultValue: string
-
-  isRequired: boolean
-
   readonly: boolean
 
   notInsertable: boolean
   notModifiable: boolean
 
-  notVisible: boolean
 
   constraintKey: string
 
@@ -43,6 +38,9 @@ export interface FormField {
   fieldKey: string
   fieldType: FormFieldType
   name: string
+  isRequired?: boolean
+  notVisible?: boolean
+  defaultValue?: string
   extrasData: Partial<FormFieldExtrasData>
 }
 
