@@ -17,21 +17,11 @@ export interface FormFieldExtrasData {
   stringType: FieldStringType
   multipleLines: boolean
 
-  readonly: boolean
-
-  notInsertable: boolean
-  notModifiable: boolean
-
-
   constraintKey: string
 
   visibleLogic: LogicExpression
   requiredLogic: LogicExpression
   matchRegex: string
-
-  subFields: FormField[]
-
-  fullKeys: string[]
 }
 
 export interface FormField {
@@ -40,7 +30,12 @@ export interface FormField {
   name: string
   isRequired?: boolean
   notVisible?: boolean
+  notInsertable: boolean
+  notModifiable: boolean
   defaultValue?: string
+  readonly?: boolean
+  fullKeys?: string[]
+  subFields?: FormField[]
   extrasData: Partial<FormFieldExtrasData>
 }
 

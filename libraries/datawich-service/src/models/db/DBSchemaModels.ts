@@ -97,12 +97,12 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
     name: schemaField.name,
     isRequired: !!schemaField.required,
     notVisible: schemaField.hidden || !!schemaField.isHidden,
+    notInsertable: !!schemaField.isSystem,
+    notModifiable: !!schemaField.isSystem,
     defaultValue: schemaField.useDefault ? schemaField.defaultValue : '',
+    readonly: !!schemaField.isSystem,
     extrasData: {
       options: schemaField.options,
-      notInsertable: !!schemaField.isSystem,
-      notModifiable: !!schemaField.isSystem,
-      readonly: !!schemaField.isSystem,
     },
   }
   switch (schemaField.fieldType) {
@@ -170,11 +170,11 @@ export const transferDBFieldToFormField = (schemaField: DBTableField) => {
     name: schemaField.name,
     isRequired: !schemaField.nullable,
     notVisible: schemaField.hidden,
+    notInsertable: !schemaField.insertable,
+    notModifiable: !schemaField.modifiable,
     defaultValue: schemaField.defaultValue,
     extrasData: {
       options: schemaField.options,
-      notInsertable: !schemaField.insertable,
-      notModifiable: !schemaField.modifiable,
     },
   }
   switch (schemaField.fieldType) {

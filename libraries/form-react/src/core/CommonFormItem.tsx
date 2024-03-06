@@ -43,11 +43,11 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
 
   return (
     <ProForm.Item
-      name={field.extrasData.fullKeys || field.fieldKey}
+      name={field.fullKeys || field.fieldKey}
       label={
         <div>
           {fieldName}{' '}
-          {field.extrasData.readonly && (
+          {field.readonly && (
             <Tooltip title={'Readonly'}>
               <InfoCircleOutlined />
             </Tooltip>
@@ -117,7 +117,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             if (field.extrasData.objectType === FieldObjectType.StringList) {
               return <ProFormSelect mode='tags' />
             } else if (field.extrasData.objectType === FieldObjectType.Attachment) {
-              const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
+              const fullKeys = field.fullKeys || [field.fieldKey]
               const entityKeys = FormSchemaHelper.entityKeys(fullKeys)
               const ossFileInfo = FormSchemaHelper.getDeepValue(myData, entityKeys) as OssFileInfo
               const uploadFile = () => {

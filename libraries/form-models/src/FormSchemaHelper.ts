@@ -36,22 +36,22 @@ export class FormSchemaHelper {
   }
 
   public static getFieldValue(data: any, field: FormField) {
-    const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
+    const fullKeys = field.fullKeys || [field.fieldKey]
     return this.getDeepValue(data, fullKeys)
   }
 
   public static setFieldValue(data: any, field: FormField, value: any) {
-    const fullKeys = field.extrasData.fullKeys || [field.fieldKey]
+    const fullKeys = field.fullKeys || [field.fieldKey]
     this.setDeepValue(data, fullKeys, value)
   }
 
   public static fillFieldsFullKeys(fields: FormField[], parentKeys: string[] = []) {
     fields.forEach((field) => {
       field.extrasData = field.extrasData || {}
-      field.extrasData.fullKeys = [...parentKeys, field.fieldKey]
+      field.fullKeys = [...parentKeys, field.fieldKey]
       if (field.fieldType === FormFieldType.Object && field.extrasData.objectType === FieldObjectType.Form) {
-        field.extrasData.subFields = field.extrasData.subFields || []
-        this.fillFieldsFullKeys(field.extrasData.subFields, field.extrasData.fullKeys)
+        field.subFields = field.subFields || []
+        this.fillFieldsFullKeys(field.subFields, field.fullKeys)
       }
     })
   }
@@ -62,7 +62,7 @@ export class FormSchemaHelper {
     const searchTree = (fields: FormField[]) => {
       fields.forEach((field) => {
         if (field.fieldType === FormFieldType.Object && field.extrasData.objectType === FieldObjectType.Form) {
-          searchTree(field.extrasData.subFields || [])
+          searchTree(field.subFields || [])
         } else {
           newFields.push(field)
         }

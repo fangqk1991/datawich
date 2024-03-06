@@ -62,7 +62,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
         if (field.notVisible) {
           return false
         }
-        if (field.extrasData.notInsertable) {
+        if (field.notInsertable) {
           return false
         }
         return true
@@ -121,7 +121,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
 
       const errorMap: { [p: string]: string } = FormSchemaHelper.calcSimpleInvalidMap(
         data,
-        visibleFields.filter((item) => !item.extrasData.readonly)
+        visibleFields.filter((item) => !item.readonly)
       )
       if (Object.keys(errorMap).length > 0) {
         const errorMsg = Object.keys(errorMap)
@@ -145,11 +145,11 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
             if (props.forceEditing) {
               return true
             }
-            return !field.extrasData.readonly
+            return !field.readonly
           })()
           return (
             <CommonFormItem
-              key={field.extrasData.fullKeys ? field.extrasData.fullKeys.join('.') : field.fieldKey}
+              key={field.fullKeys ? field.fullKeys.join('.') : field.fieldKey}
               field={field}
               myData={myData}
               editable={editable}
