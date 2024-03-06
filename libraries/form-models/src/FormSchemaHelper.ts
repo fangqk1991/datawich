@@ -63,6 +63,13 @@ export class FormSchemaHelper {
   }
 
   public static makeFormFields<T extends {} = {}>(fieldsMap: SchemaFormFieldsMap<T>): FormField[] {
+    const makeWords = (key: string) => {
+      return key
+        .split(/[.\-_ ]+/g)
+        .map((item) => item.split(/(?=[A-Z]+)/).join(' '))
+        .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+        .join(' ')
+    }
     return Object.keys(fieldsMap).map((fieldKey) => {
       const props = (
         typeof fieldsMap[fieldKey] === 'string'
@@ -72,7 +79,7 @@ export class FormSchemaHelper {
           : fieldsMap[fieldKey]
       ) as FormField
       props.fieldKey = fieldKey
-      props.name = props.name || fieldKey
+      props.name = props.name || makeWords(fieldKey)
       props.extrasData = props.extrasData || {}
       return props
     })
