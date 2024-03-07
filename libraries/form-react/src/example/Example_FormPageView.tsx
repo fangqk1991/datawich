@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Col, Form, Input, Radio, Row } from 'antd'
 import { JsonPre } from '@fangcha/react'
 import { FieldEnumType, FormBuilder, FormFieldType, SchemaFormFieldsMap } from '@fangcha/form-models'
@@ -50,7 +50,7 @@ const demoTextMap = {
       ]
     }
   },
-  "multipleChoice": {
+  "multipleChoices": {
     "fieldType": "String",
     "extras": {
       "enumType": "Multiple",
@@ -81,6 +81,10 @@ export const Example_FormPageView: React.FC = () => {
     return FormBuilder.buildFields(fieldsMap || {})
   }, [schemaText])
 
+  const formRef = useRef({
+    getResult: () => null,
+  })
+
   return (
     <div>
       <Row style={{ height: '800px' }} gutter={20}>
@@ -100,7 +104,7 @@ export const Example_FormPageView: React.FC = () => {
         </Col>
         <Col span={8}>
           <h3>Form</h3>
-          <CommonForm fields={fields} />
+          <CommonForm ref={formRef} fields={fields} onChange={() => setData(formRef.current.getResult() as any)} />
         </Col>
         <Col span={8}>
           <h3>Data</h3>

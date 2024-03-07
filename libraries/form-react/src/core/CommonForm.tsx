@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
+import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useState } from 'react'
 import { ProForm } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
@@ -10,6 +10,7 @@ export interface CommonFormProps {
   data?: any
   forceReadonly?: boolean
   forceEditing?: boolean
+  onChange?: () => void
 }
 
 export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => {
@@ -87,38 +88,43 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     })
   }
 
-  useImperativeHandle(ref, () => ({
-    exportResult: () => {
-      const data = form.getFieldsValue()
-      visibleFields
-        .filter((field) => field.extras.enumType === FieldEnumType.Multiple)
-        .forEach((field) => {
-          const value = FormSchemaHelper.getFieldValue(data, field)
-          if (Array.isArray(value)) {
-            FormSchemaHelper.setFieldValue(data, field, value.join(','))
-          }
-        })
-      visibleFields
-        .filter((field) => field.fieldType === FormFieldType.Date)
-        .forEach((field) => {
-          const value = FormSchemaHelper.getFieldValue(data, field)
-          if (value && value.format) {
-            FormSchemaHelper.setFieldValue(data, field, value.format('YYYY-MM-DD'))
-          } else if (!value) {
-            FormSchemaHelper.setFieldValue(data, field, null)
-          }
-        })
-      visibleFields
-        .filter((field) => field.fieldType === FormFieldType.Datetime)
-        .forEach((field) => {
-          const value = FormSchemaHelper.getFieldValue(data, field)
-          if (value && value.format) {
-            FormSchemaHelper.setFieldValue(data, field, value.format())
-          } else if (!value) {
-            FormSchemaHelper.setFieldValue(data, field, null)
-          }
-        })
+  const getResult = useCallback(() => {
+    const data = form.getFieldsValue()
+    visibleFields
+      .filter((field) => field.extras.enumType === FieldEnumType.Multiple)
+      .forEach((field) => {
+        const value = FormSchemaHelper.getFieldValue(data, field)
+        if (Array.isArray(value)) {
+          FormSchemaHelper.setFieldValue(data, field, value.join(','))
+        }
+      })
+    visibleFields
+      .filter((field) => field.fieldType === FormFieldType.Date)
+      .forEach((field) => {
+        const value = FormSchemaHelper.getFieldValue(data, field)
+        if (value && value.format) {
+          FormSchemaHelper.setFieldValue(data, field, value.format('YYYY-MM-DD'))
+        } else if (!value) {
+          FormSchemaHelper.setFieldValue(data, field, null)
+        }
+      })
+    visibleFields
+      .filter((field) => field.fieldType === FormFieldType.Datetime)
+      .forEach((field) => {
+        const value = FormSchemaHelper.getFieldValue(data, field)
+        if (value && value.format) {
+          FormSchemaHelper.setFieldValue(data, field, value.format())
+        } else if (!value) {
+          FormSchemaHelper.setFieldValue(data, field, null)
+        }
+      })
+    return data
+  }, [])
 
+  useImperativeHandle(ref, () => ({
+    getResult: getResult,
+    exportResult: () => {
+      const data = getResult()
       const errorMap: { [p: string]: string } = new FormChecker(visibleFields).calcInvalidMap(data)
       if (Object.keys(errorMap).length > 0) {
         const errorMsg = Object.keys(errorMap)
@@ -133,7 +139,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
 
   return (
     <div>
-      <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false}>
+      <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false} onChange={props.onChange}>
         {visibleFields.map((field) => {
           const editable = (() => {
             if (props.forceReadonly) {
