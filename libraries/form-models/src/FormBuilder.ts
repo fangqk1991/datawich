@@ -37,11 +37,11 @@ export class FormBuilder {
         const field = (isForm ? { fieldType: FormFieldType.Object } : props) as FormField
         field.fieldKey = fieldKey
         field.name = this.makeFieldName(field)
-        field.extrasData = field.extrasData || {}
+        field.extras = field.extras || {}
         field.fullKeys = [...parentKeys, field.fieldKey]
         if (isForm) {
           field.fieldType = FormFieldType.Object
-          field.extrasData.objectType = FieldObjectType.Form
+          field.extras.objectType = FieldObjectType.Form
           field.subFields = this.buildFields(props, field.fullKeys)
         }
         return field

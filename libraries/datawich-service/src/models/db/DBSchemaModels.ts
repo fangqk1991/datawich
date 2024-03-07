@@ -101,53 +101,53 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
     notModifiable: !!schemaField.isSystem,
     defaultValue: schemaField.useDefault ? schemaField.defaultValue : '',
     readonly: !!schemaField.isSystem,
-    extrasData: {
+    extras: {
       options: schemaField.options,
     },
   }
   switch (schemaField.fieldType) {
     case FieldType.Integer:
       commonField.fieldType = FormFieldType.Number
-      commonField.extrasData.numberType = FieldNumberType.Integer
+      commonField.extras.numberType = FieldNumberType.Integer
       break
     case FieldType.Float:
       commonField.fieldType = FormFieldType.Number
-      commonField.extrasData.numberType = FieldNumberType.Float
+      commonField.extras.numberType = FieldNumberType.Float
       break
     case FieldType.MultipleLinesText:
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       break
     case FieldType.JSON:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.Object
-      commonField.extrasData.objectType = FieldObjectType.JSON
+      commonField.extras.objectType = FieldObjectType.JSON
       break
     case FieldType.StringList:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.Object
-      commonField.extrasData.objectType = FieldObjectType.StringList
+      commonField.extras.objectType = FieldObjectType.StringList
       break
     case FieldType.Link:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.stringType = FieldStringType.Link
+      commonField.extras.stringType = FieldStringType.Link
       break
     case FieldType.RichText:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.stringType = FieldStringType.RichText
+      commonField.extras.stringType = FieldStringType.RichText
       break
     case FieldType.CodeText:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.stringType = FieldStringType.CodeText
+      commonField.extras.stringType = FieldStringType.CodeText
       break
     case FieldType.TextEnum:
-      commonField.extrasData.enumType = FieldEnumType.Single
+      commonField.extras.enumType = FieldEnumType.Single
       break
     case FieldType.MultiEnum:
-      commonField.extrasData.enumType = FieldEnumType.Multiple
+      commonField.extras.enumType = FieldEnumType.Multiple
       break
     case FieldType.Date:
       commonField.fieldType = FormFieldType.Date
@@ -157,7 +157,7 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
       break
     case FieldType.Attachment:
       commonField.fieldType = FormFieldType.Object
-      commonField.extrasData.objectType = FieldObjectType.Attachment
+      commonField.extras.objectType = FieldObjectType.Attachment
       break
   }
   return commonField
@@ -173,53 +173,53 @@ export const transferDBFieldToFormField = (schemaField: DBTableField) => {
     notInsertable: !schemaField.insertable,
     notModifiable: !schemaField.modifiable,
     defaultValue: schemaField.defaultValue,
-    extrasData: {
+    extras: {
       options: schemaField.options,
     },
   }
   switch (schemaField.fieldType) {
     case FieldType.Integer:
       commonField.fieldType = FormFieldType.Number
-      commonField.extrasData.numberType = FieldNumberType.Integer
+      commonField.extras.numberType = FieldNumberType.Integer
       break
     case FieldType.Float:
       commonField.fieldType = FormFieldType.Number
-      commonField.extrasData.numberType = FieldNumberType.Float
+      commonField.extras.numberType = FieldNumberType.Float
       break
     case FieldType.MultipleLinesText:
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       break
     case FieldType.JSON:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.Object
-      commonField.extrasData.objectType = FieldObjectType.JSON
+      commonField.extras.objectType = FieldObjectType.JSON
       break
     case FieldType.StringList:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.Object
-      commonField.extrasData.objectType = FieldObjectType.StringList
+      commonField.extras.objectType = FieldObjectType.StringList
       break
     case FieldType.Link:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.stringType = FieldStringType.Link
+      commonField.extras.stringType = FieldStringType.Link
       break
     case FieldType.RichText:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.stringType = FieldStringType.RichText
+      commonField.extras.stringType = FieldStringType.RichText
       break
     case FieldType.CodeText:
-      commonField.extrasData.multipleLines = true
+      commonField.extras.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extrasData.stringType = FieldStringType.CodeText
+      commonField.extras.stringType = FieldStringType.CodeText
       break
     case FieldType.TextEnum:
-      commonField.extrasData.enumType = FieldEnumType.Single
+      commonField.extras.enumType = FieldEnumType.Single
       break
     case FieldType.MultiEnum:
-      commonField.extrasData.enumType = FieldEnumType.Multiple
+      commonField.extras.enumType = FieldEnumType.Multiple
       break
     case FieldType.Date:
       commonField.fieldType = FormFieldType.Date
@@ -229,7 +229,7 @@ export const transferDBFieldToFormField = (schemaField: DBTableField) => {
       break
     case FieldType.Attachment:
       commonField.fieldType = FormFieldType.Object
-      commonField.extrasData.objectType = FieldObjectType.Attachment
+      commonField.extras.objectType = FieldObjectType.Attachment
       break
   }
   return commonField

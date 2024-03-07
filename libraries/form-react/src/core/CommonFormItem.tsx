@@ -60,13 +60,13 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
       }}
     >
       {(() => {
-        if (field.extrasData.enumType === FieldEnumType.Single) {
+        if (field.extras.enumType === FieldEnumType.Single) {
           const optionsForEnumField = (() => {
-            if (!field.extrasData.constraintKey) {
-              return field.extrasData.options!
+            if (!field.extras.constraintKey) {
+              return field.extras.options!
             }
-            const constraintValue = myData[field.extrasData.constraintKey] || ''
-            return (field.extrasData.options || []).filter((option) => {
+            const constraintValue = myData[field.extras.constraintKey] || ''
+            return (field.extras.options || []).filter((option) => {
               const restraintValueMap = option['restraintValueMap'] || {}
               return !!restraintValueMap[constraintValue]
             })
@@ -84,17 +84,17 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               }}
             />
           )
-        } else if (field.extrasData.enumType === FieldEnumType.Multiple) {
-          return <ProFormCheckbox.Group options={field.extrasData.options} disabled={!editable} />
+        } else if (field.extras.enumType === FieldEnumType.Multiple) {
+          return <ProFormCheckbox.Group options={field.extras.options} disabled={!editable} />
         }
         switch (field.fieldType) {
           case FormFieldType.String:
-            if (field.extrasData.stringType === FieldStringType.RichText) {
+            if (field.extras.stringType === FieldStringType.RichText) {
               return <RichTextEditor />
-            } else if (field.extrasData.stringType === FieldStringType.CodeText) {
+            } else if (field.extras.stringType === FieldStringType.CodeText) {
               return <CodeEditor />
             }
-            if (field.extrasData.multipleLines) {
+            if (field.extras.multipleLines) {
               return <ProFormTextArea disabled={!editable} />
             }
             return <ProFormText disabled={!editable} />
@@ -114,9 +114,9 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
           case FormFieldType.Datetime:
             return <ProFormDateTimePicker />
           case FormFieldType.Object:
-            if (field.extrasData.objectType === FieldObjectType.StringList) {
+            if (field.extras.objectType === FieldObjectType.StringList) {
               return <ProFormSelect mode='tags' />
-            } else if (field.extrasData.objectType === FieldObjectType.Attachment) {
+            } else if (field.extras.objectType === FieldObjectType.Attachment) {
               const fullKeys = field.fullKeys || [field.fieldKey]
               const entityKeys = FormSchemaHelper.entityKeys(fullKeys)
               const ossFileInfo = FormSchemaHelper.getDeepValue(myData, entityKeys) as OssFileInfo

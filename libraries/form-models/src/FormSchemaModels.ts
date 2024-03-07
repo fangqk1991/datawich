@@ -37,7 +37,7 @@ export interface FormField {
   fullKeys?: string[]
   subFields?: FormField[]
   $isForm?: boolean
-  extrasData: Partial<FormFieldExtrasData>
+  extras: Partial<FormFieldExtrasData>
 }
 
 export interface FormFieldParams extends Partial<FormField> {

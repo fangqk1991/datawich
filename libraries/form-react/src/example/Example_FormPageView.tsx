@@ -12,7 +12,7 @@ const fieldsMap: SchemaFormFieldsMap = {
   datetimeItem: FormFieldType.Datetime,
   singleChoice: {
     fieldType: FormFieldType.String,
-    extrasData: {
+    extras: {
       enumType: FieldEnumType.Single,
       options: [
         { label: 'A', value: 'a' },
@@ -23,7 +23,7 @@ const fieldsMap: SchemaFormFieldsMap = {
   multipleChoice: {
     fieldType: FormFieldType.String,
     name: '多选',
-    extrasData: {
+    extras: {
       enumType: FieldEnumType.Multiple,
       options: [
         { label: 'A', value: 'a' },
@@ -42,7 +42,7 @@ const demoTextMap = {
   "datetimeItem": "Datetime",
   "singleChoice": {
     "fieldType": "String",
-    "extrasData": {
+    "extras": {
       "enumType": "Single",
       "options": [
         { "label": "A",  "value": "a" },
@@ -52,7 +52,7 @@ const demoTextMap = {
   },
   "multipleChoice": {
     "fieldType": "String",
-    "extrasData": {
+    "extras": {
       "enumType": "Multiple",
       "options": [
         { "label": "A",  "value": "a" },

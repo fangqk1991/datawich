@@ -32,7 +32,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
         }
       })
     props.fields
-      .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
+      .filter((field) => field.extras.enumType === FieldEnumType.Multiple)
       .forEach((field) => {
         const value = FormSchemaHelper.getFieldValue(myData, field)
         if (value && !Array.isArray(value)) {
@@ -53,8 +53,8 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     // TODO !!!
     const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
     props.fields.forEach((field) => {
-      if (field.extrasData.visibleLogic) {
-        visibleLogicMap[field.fieldKey] = field.extrasData.visibleLogic
+      if (field.extras.visibleLogic) {
+        visibleLogicMap[field.fieldKey] = field.extras.visibleLogic
       }
     })
     return props.fields
@@ -91,7 +91,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     exportResult: () => {
       const data = form.getFieldsValue()
       visibleFields
-        .filter((field) => field.extrasData.enumType === FieldEnumType.Multiple)
+        .filter((field) => field.extras.enumType === FieldEnumType.Multiple)
         .forEach((field) => {
           const value = FormSchemaHelper.getFieldValue(data, field)
           if (Array.isArray(value)) {
