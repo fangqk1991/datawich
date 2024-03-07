@@ -14,6 +14,7 @@ import { DatabaseDetailView } from '../database/DatabaseDetailView'
 import { DBTableDetailView } from '../database/DBTableDetailView'
 import { DBConnectionListView } from '../database/DBConnectionListView'
 import { DBTableDataView } from '../database/DBTableDataView'
+import { Example_FormPageView } from '@fangcha/form-react/src/example/Example_FormPageView'
 
 export const MyRouter = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ export const MyRouter = createBrowserRouter([
       {
         path: DatawichAdminPages.DatabaseTableDataRoute,
         element: <DBTableDataView />,
+      },
+      {
+        path: '/v0/example/form',
+        element: <Example_FormPageView />,
       },
       {
         path: '*',
