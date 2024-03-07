@@ -93,7 +93,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                       })
                       const dialog = new CommonFormDialog({
                         title: '字段属性',
-                        fields: FormSchemaHelper.flattenFields(fields),
+                        fields: fields,
                         data: item,
                       })
                       dialog.show(async (params) => {

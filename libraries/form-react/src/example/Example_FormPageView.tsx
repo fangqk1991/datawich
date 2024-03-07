@@ -93,6 +93,10 @@ export const Example_FormPageView: React.FC = () => {
                     datetimeItem: '2024-03-07T17:05:00+08:00',
                     singleChoice: 'b',
                     multipleChoices: 'a,b',
+                    subData: {
+                      key1: 1,
+                      key2: 2,
+                    },
                   },
                 })
                 dialog.show(async (params) => {
@@ -120,7 +124,7 @@ export const Example_FormPageView: React.FC = () => {
           <CommonForm
             ref={formRef}
             devMode={devMode}
-            fields={FormSchemaHelper.flattenFields(fields)}
+            fields={fields}
             onChange={() => setData(formRef.current.getResult() as any)}
           />
         </Col>

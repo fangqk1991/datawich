@@ -15,17 +15,18 @@ export interface CommonFormProps {
 }
 
 export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => {
+  const flattenedFields = useMemo(() => FormSchemaHelper.flattenFields(props.fields), [props.fields])
   const [myData, setData] = useState(() => {
     const myData = props.data
       ? JSON.parse(JSON.stringify(props.data))
       : (() => {
           const data = {}
-          for (const field of props.fields.filter((item) => item.defaultValue)) {
+          for (const field of flattenedFields.filter((item) => item.defaultValue)) {
             FormSchemaHelper.setFieldValue(data, field, field.defaultValue)
           }
           return data
         })()
-    props.fields
+    flattenedFields
       .filter((field) => field.fieldType === FormFieldType.Date || field.fieldType === FormFieldType.Datetime)
       .forEach((field) => {
         const value = FormSchemaHelper.getFieldValue(myData, field)
@@ -33,7 +34,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
           FormSchemaHelper.setFieldValue(myData, field, null)
         }
       })
-    props.fields
+    flattenedFields
       .filter((field) => field.extras.enumType === FieldEnumType.Multiple)
       .forEach((field) => {
         const value = FormSchemaHelper.getFieldValue(myData, field)
@@ -54,12 +55,12 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
   const visibleFields = useMemo(() => {
     // TODO !!!
     const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
-    props.fields.forEach((field) => {
+    flattenedFields.forEach((field) => {
       if (field.extras.visibleLogic) {
         visibleLogicMap[field.fieldKey] = field.extras.visibleLogic
       }
     })
-    return props.fields
+    return flattenedFields
       .filter((field) => {
         if (field.notVisible) {
           return false
@@ -75,7 +76,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
         }
         return true
       })
-  }, [props.fields])
+  }, [flattenedFields])
 
   const [form] = Form.useForm<any>()
 
