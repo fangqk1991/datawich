@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useState } from 'react'
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import { ProForm } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
@@ -16,13 +16,16 @@ export interface CommonFormProps {
 
 export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => {
   const flattenedFields = useMemo(() => FormSchemaHelper.flattenFields(props.fields), [props.fields])
-  const [myData, setData] = useState(() => {
+  const [myData, setData] = useState({})
+  const [form] = Form.useForm<any>()
+
+  useEffect(() => {
     const myData = props.data
       ? JSON.parse(JSON.stringify(props.data))
       : (() => {
           const data = {}
-          for (const field of flattenedFields.filter((item) => item.defaultValue)) {
-            FormSchemaHelper.setFieldValue(data, field, field.defaultValue)
+          for (const field of flattenedFields) {
+            FormSchemaHelper.setFieldValue(data, field, field.defaultValue !== undefined ? field.defaultValue : null)
           }
           return data
         })()
@@ -49,8 +52,10 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
           )
         }
       })
-    return myData
-  })
+    setData(myData)
+    form.setFieldsValue(myData)
+    props.onChange && props.onChange()
+  }, [flattenedFields, props.data])
 
   const visibleFields = useMemo(() => {
     // TODO !!!
@@ -77,8 +82,6 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
         return true
       })
   }, [flattenedFields])
-
-  const [form] = Form.useForm<any>()
 
   const updateData: UpdateData = (kvList) => {
     kvList.forEach((item) => {

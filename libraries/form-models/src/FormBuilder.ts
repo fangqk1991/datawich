@@ -1,6 +1,7 @@
 import { FormField, SchemaFormFieldsMap } from './FormSchemaModels'
 import { FormFieldType, FormFieldTypeDescriptor } from './FormFieldType'
 import { FieldObjectType } from './FieldObjectType'
+import * as moment from 'moment'
 
 export class FormBuilder {
   private static makeFieldName(field: FormField) {
@@ -12,6 +13,35 @@ export class FormBuilder {
         .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
         .join(' ')
     )
+  }
+
+  public static transferToFieldsMap(data: {}) {
+    const mapper: SchemaFormFieldsMap = {}
+    Object.keys(data).forEach((key) => {
+      const value = data[key]
+      const valType = typeof value
+      if (value && valType === 'object') {
+        mapper[key] = this.transferToFieldsMap(value)
+        return
+      }
+      let fieldType = FormFieldType.String
+      if (valType === 'boolean') {
+        fieldType = FormFieldType.Boolean
+      } else if (valType === 'number') {
+        fieldType = FormFieldType.Number
+      } else if (valType === 'string') {
+        if (value.match(/^\d{4}-\d{2}-\d{2}$/) && moment(value).isValid()) {
+          fieldType = FormFieldType.Date
+        } else if (value.match(/^\d{4}-\d{2}-\d{2}/) && moment(value).isValid()) {
+          fieldType = FormFieldType.Datetime
+        }
+      }
+      mapper[key] = {
+        fieldType: fieldType,
+        defaultValue: value,
+      }
+    })
+    return mapper
   }
 
   public static buildFields<T extends {} = {}>(

@@ -26,6 +26,9 @@ export class FormSchemaHelper {
       data[curKey] = value
       return
     }
+    if (data[curKey] === undefined) {
+      data[curKey] = {}
+    }
     this.setDeepValue(data[curKey], nextKeys, value)
   }
 

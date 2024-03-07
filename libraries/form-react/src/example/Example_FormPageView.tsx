@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Col, Form, Input, Radio, Row } from 'antd'
 import { JsonEditorDialog, JsonPre } from '@fangcha/react'
-import { FormBuilder, FormFieldType, FormSchemaHelper, SchemaFormFieldsMap } from '@fangcha/form-models'
+import { FormBuilder, FormFieldType, SchemaFormFieldsMap } from '@fangcha/form-models'
 import { CommonForm } from '../core/CommonForm'
 
 const fieldsMap: SchemaFormFieldsMap = {
@@ -27,6 +27,7 @@ const demoTextMap = {
   "singleChoice": {
     "fieldType": "String",
     "name": "单选",
+    "defaultValue": "a",
     "extras": {
       "enumType": "Single",
       "options": [
@@ -100,7 +101,7 @@ export const Example_FormPageView: React.FC = () => {
                   },
                 })
                 dialog.show(async (params) => {
-                  console.info(params)
+                  setSchemaText(JSON.stringify(FormBuilder.transferToFieldsMap(params), null, 2))
                 })
               }}
             >
