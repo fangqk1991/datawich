@@ -7,6 +7,7 @@ import { CommonFormItem, UpdateData } from './CommonFormItem'
 
 export interface CommonFormProps {
   fields: FormField[]
+  devMode?: boolean
   data?: any
   forceReadonly?: boolean
   forceEditing?: boolean
@@ -119,7 +120,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
         }
       })
     return data
-  }, [])
+  }, [visibleFields])
 
   useImperativeHandle(ref, () => ({
     getResult: getResult,
@@ -138,29 +139,28 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
   }))
 
   return (
-    <div>
-      <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false} onChange={props.onChange}>
-        {visibleFields.map((field) => {
-          const editable = (() => {
-            if (props.forceReadonly) {
-              return false
-            }
-            if (props.forceEditing) {
-              return true
-            }
-            return !field.readonly
-          })()
-          return (
-            <CommonFormItem
-              key={field.fullKeys ? field.fullKeys.join('.') : field.fieldKey}
-              field={field}
-              myData={myData}
-              editable={editable}
-              updateData={updateData}
-            />
-          )
-        })}
-      </ProForm>
-    </div>
+    <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false} onChange={props.onChange}>
+      {visibleFields.map((field) => {
+        const editable = (() => {
+          if (props.forceReadonly) {
+            return false
+          }
+          if (props.forceEditing) {
+            return true
+          }
+          return !field.readonly
+        })()
+        return (
+          <CommonFormItem
+            key={field.fullKeys ? field.fullKeys.join('.') : field.fieldKey}
+            field={field}
+            myData={myData}
+            editable={editable}
+            updateData={updateData}
+            devMode={props.devMode}
+          />
+        )
+      })}
+    </ProForm>
   )
 })

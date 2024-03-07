@@ -1,34 +1,18 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Col, Form, Input, Radio, Row } from 'antd'
-import { JsonPre } from '@fangcha/react'
-import { FieldEnumType, FormBuilder, FormFieldType, SchemaFormFieldsMap } from '@fangcha/form-models'
+import { JsonEditorDialog, JsonPre } from '@fangcha/react'
+import { FormBuilder, FormFieldType, FormSchemaHelper, SchemaFormFieldsMap } from '@fangcha/form-models'
 import { CommonForm } from '../core/CommonForm'
 
 const fieldsMap: SchemaFormFieldsMap = {
-  stringItem: FormFieldType.String,
-  numberItem: FormFieldType.Number,
-  boolItem: FormFieldType.Boolean,
-  dateItem: FormFieldType.Date,
-  datetimeItem: FormFieldType.Datetime,
-  singleChoice: {
-    fieldType: FormFieldType.String,
-    extras: {
-      enumType: FieldEnumType.Single,
-      options: [
-        { label: 'A', value: 'a' },
-        { label: 'B', value: 'b' },
-      ],
-    },
-  },
-  multipleChoice: {
-    fieldType: FormFieldType.String,
-    name: '多选',
-    extras: {
-      enumType: FieldEnumType.Multiple,
-      options: [
-        { label: 'A', value: 'a' },
-        { label: 'B', value: 'b' },
-      ],
+  key1: FormFieldType.String,
+  key2: FormFieldType.Number,
+  subData: {
+    key1: FormFieldType.String,
+    key2: FormFieldType.Number,
+    subData: {
+      key1: FormFieldType.String,
+      key2: FormFieldType.Number,
     },
   },
 }
@@ -42,6 +26,7 @@ const demoTextMap = {
   "datetimeItem": "Datetime",
   "singleChoice": {
     "fieldType": "String",
+    "name": "单选",
     "extras": {
       "enumType": "Single",
       "options": [
@@ -66,6 +51,7 @@ const demoTextMap = {
 
 export const Example_FormPageView: React.FC = () => {
   const [demoId, setDemoId] = useState('simple')
+  const [devMode, setDevMode] = useState(false)
   const [schemaText, setSchemaText] = useState('')
 
   useEffect(() => {
@@ -93,8 +79,29 @@ export const Example_FormPageView: React.FC = () => {
           <Form.Item label='示例'>
             <Radio.Group value={demoId} onChange={(e) => setDemoId(e.target.value)}>
               <Radio value='simple'>最简示例</Radio>
-              <Radio value='full'>完整示例</Radio>
+              <Radio value='full'>多级嵌套</Radio>
             </Radio.Group>
+            <a
+              onClick={() => {
+                const dialog = new JsonEditorDialog({
+                  title: '解析 Schema',
+                  curValue: {
+                    stringItem: '1',
+                    numberItem: 1,
+                    boolItem: true,
+                    dateItem: '2024-03-05',
+                    datetimeItem: '2024-03-07T17:05:00+08:00',
+                    singleChoice: 'b',
+                    multipleChoices: 'a,b',
+                  },
+                })
+                dialog.show(async (params) => {
+                  console.info(params)
+                })
+              }}
+            >
+              From JSON
+            </a>
           </Form.Item>
           <Input.TextArea
             style={{ height: '90%' }}
@@ -104,7 +111,18 @@ export const Example_FormPageView: React.FC = () => {
         </Col>
         <Col span={8}>
           <h3>Form</h3>
-          <CommonForm ref={formRef} fields={fields} onChange={() => setData(formRef.current.getResult() as any)} />
+          <Form.Item label='开发模式'>
+            <Radio.Group value={devMode} onChange={(e) => setDevMode(e.target.value)}>
+              <Radio value={true}>True</Radio>
+              <Radio value={false}>False</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <CommonForm
+            ref={formRef}
+            devMode={devMode}
+            fields={FormSchemaHelper.flattenFields(fields)}
+            onChange={() => setData(formRef.current.getResult() as any)}
+          />
         </Col>
         <Col span={8}>
           <h3>Data</h3>

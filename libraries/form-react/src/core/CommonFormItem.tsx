@@ -33,9 +33,10 @@ interface Props {
   myData: any
   editable: boolean
   updateData: UpdateData
+  devMode?: boolean
 }
 
-export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updateData }) => {
+export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updateData, devMode }) => {
   // const nameI18n = field.extrasData.nameI18n || {}
   // const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
   // const fieldName = nameI18n[code] || field.name
@@ -47,6 +48,9 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
       label={
         <div>
           {fieldName}{' '}
+          {devMode && (
+            <span className={'text-danger'}>({field.fullKeys ? field.fullKeys.join('.') : field.fieldKey})</span>
+          )}
           {field.readonly && (
             <Tooltip title={'Readonly'}>
               <InfoCircleOutlined />
