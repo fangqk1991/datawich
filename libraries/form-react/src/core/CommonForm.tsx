@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react
 import { ProForm } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
-import { FieldEnumType, FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
+import { FieldEnumType, FormChecker, FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
 import { CommonFormItem, UpdateData } from './CommonFormItem'
 
 export interface CommonFormProps {
@@ -119,10 +119,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
           }
         })
 
-      const errorMap: { [p: string]: string } = FormSchemaHelper.calcSimpleInvalidMap(
-        data,
-        visibleFields.filter((item) => !item.readonly)
-      )
+      const errorMap: { [p: string]: string } = new FormChecker(visibleFields).calcInvalidMap(data)
       if (Object.keys(errorMap).length > 0) {
         const errorMsg = Object.keys(errorMap)
           .map((errKey) => errorMap[errKey])

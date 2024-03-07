@@ -5,7 +5,7 @@ import { TableViewColumn } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonFormDialog } from '@fangcha/form-react'
-import { FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
+import { FormBuilder, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
 
 interface Props {
   connectionId: string
@@ -70,7 +70,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                 render: (item: DBTableField) => (
                   <a
                     onClick={() => {
-                      const fields = FormSchemaHelper.makeFormFields<DBTableField>({
+                      const fields = FormBuilder.buildFields<DBTableField>({
                         fieldKey: FormFieldType.String,
                         fieldType: FormFieldType.String,
                         name: FormFieldType.String,
@@ -79,6 +79,17 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                         insertable: FormFieldType.Boolean,
                         modifiable: FormFieldType.Boolean,
                         defaultValue: FormFieldType.String,
+                        extrasData: {
+                          $isForm: true,
+                          fieldKey: FormFieldType.String,
+                          fieldType: FormFieldType.String,
+                          name: FormFieldType.String,
+                          remarks: FormFieldType.String,
+                          nullable: FormFieldType.Boolean,
+                          insertable: FormFieldType.Boolean,
+                          modifiable: FormFieldType.Boolean,
+                          defaultValue: FormFieldType.String,
+                        },
                       })
                       const dialog = new CommonFormDialog({
                         title: '字段属性',

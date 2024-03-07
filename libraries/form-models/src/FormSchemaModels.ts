@@ -36,6 +36,7 @@ export interface FormField {
   readonly?: boolean
   fullKeys?: string[]
   subFields?: FormField[]
+  $isForm?: boolean
   extrasData: Partial<FormFieldExtrasData>
 }
 
@@ -43,9 +44,6 @@ export interface FormFieldParams extends Partial<FormField> {
   fieldType: FormFieldType
 }
 
-export interface FormSchema {
-  name?: string
-  fields: FormField[]
+export type SchemaFormFieldsMap<T extends {} = {}> = {
+  [p in keyof T]: FormFieldType | FormFieldParams | SchemaFormFieldsMap
 }
-
-export type SchemaFormFieldsMap<T extends {} = {}> = { [p in keyof T]: FormFieldType | FormFieldParams }
