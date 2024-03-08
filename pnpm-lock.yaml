@@ -293,6 +293,9 @@ importers:
       '@fangcha/datawich-service':
         specifier: workspace:^
         version: link:../datawich-service
+      '@fangcha/form-models':
+        specifier: workspace:^
+        version: link:../form-models
 
   libraries/datawich-service:
     devDependencies:

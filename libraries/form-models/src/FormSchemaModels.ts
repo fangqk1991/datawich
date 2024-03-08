@@ -22,6 +22,11 @@ export interface FormFieldExtrasData {
   visibleLogic: LogicExpression
   requiredLogic: LogicExpression
   matchRegex: string
+
+  remarks: string
+  isPrimary: boolean
+  isUUID: boolean
+  isAuthor: boolean
 }
 
 export interface FormField {
@@ -30,8 +35,8 @@ export interface FormField {
   name: string
   isRequired?: boolean
   notVisible?: boolean
-  notInsertable: boolean
-  notModifiable: boolean
+  notInsertable?: boolean
+  notModifiable?: boolean
   defaultValue?: string
   readonly?: boolean
   fullKeys?: string[]

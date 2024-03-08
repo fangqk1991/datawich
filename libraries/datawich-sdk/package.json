@@ -26,6 +26,7 @@
     "sourceMap": false
   },
   "devDependencies": {
-    "@fangcha/datawich-service": "workspace:^"
+    "@fangcha/datawich-service": "workspace:^",
+    "@fangcha/form-models": "workspace:^"
   }
 }
