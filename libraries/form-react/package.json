@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/form-react",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "main": "src/index.ts",
   "repository": "https://github.com/fangqk1991/datawich.git",
   "keywords": [
