@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { Button, Divider, message, Space } from 'antd'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, SdkDBDataApis, transferDBFieldToFormField } from '@fangcha/datawich-service'
+import { DBTable, SdkDBDataApis } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { DBTableInfoView } from './DBTableInfoView'
 import { commonDataColumn } from './commonDataColumn'
@@ -27,10 +27,7 @@ export const DBDataTableView: React.FC<Props> = (props) => {
     request.quickSend().then((response) => setTableSchema(response))
   }, [tableId])
 
-  const fields = useMemo(
-    () => (tableSchema?.fields || []).map((item) => transferDBFieldToFormField(item)),
-    [tableSchema]
-  )
+  const fields = useMemo(() => tableSchema?.fields || [], [tableSchema])
 
   if (!tableSchema) {
     return <LoadingView />

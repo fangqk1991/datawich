@@ -21,7 +21,7 @@ export interface DBConnection {
 }
 
 export interface DBTableFieldsExtras {
-  [fieldKey: string]: Partial<DBTableField>
+  [fieldKey: string]: Partial<FormField>
 }
 
 export interface DBTableExtrasParams {
@@ -43,7 +43,7 @@ export interface DBSchema extends DBConnection {
 export interface DBTable extends DBTableExtrasParams {
   tableId: string
   primaryKey: string
-  fields: DBTableField[]
+  fields: FormField[]
   name: string
   openLevel: OpenLevel
   fieldsExtras: DBTableFieldsExtras
@@ -95,78 +95,6 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
       visibleLogic: schemaField.extrasData.visibleLogic,
       requiredLogic: schemaField.extrasData.requiredLogic,
       bigText: schemaField.extrasData.bigText,
-    },
-  }
-  switch (schemaField.fieldType) {
-    case FieldType.Integer:
-      commonField.fieldType = FormFieldType.Number
-      commonField.extras.numberType = FieldNumberType.Integer
-      break
-    case FieldType.Float:
-      commonField.fieldType = FormFieldType.Number
-      commonField.extras.numberType = FieldNumberType.Float
-      break
-    case FieldType.MultipleLinesText:
-      commonField.fieldType = FormFieldType.String
-      commonField.extras.multipleLines = true
-      break
-    case FieldType.JSON:
-      commonField.extras.multipleLines = true
-      commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.JSON
-      break
-    case FieldType.StringList:
-      commonField.extras.multipleLines = true
-      commonField.fieldType = FormFieldType.Object
-      commonField.extras.objectType = FieldObjectType.StringList
-      break
-    case FieldType.Link:
-      commonField.extras.multipleLines = true
-      commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.Link
-      break
-    case FieldType.RichText:
-      commonField.extras.multipleLines = true
-      commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.RichText
-      break
-    case FieldType.CodeText:
-      commonField.extras.multipleLines = true
-      commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.CodeText
-      break
-    case FieldType.TextEnum:
-      commonField.extras.enumType = FieldEnumType.Single
-      break
-    case FieldType.MultiEnum:
-      commonField.extras.enumType = FieldEnumType.Multiple
-      break
-    case FieldType.Date:
-      commonField.fieldType = FormFieldType.Date
-      break
-    case FieldType.Datetime:
-      commonField.fieldType = FormFieldType.Datetime
-      break
-    case FieldType.Attachment:
-      commonField.fieldType = FormFieldType.Object
-      commonField.extras.objectType = FieldObjectType.Attachment
-      break
-  }
-  return commonField
-}
-
-export const transferDBFieldToFormField = (schemaField: DBTableField) => {
-  const commonField: FormField = {
-    fieldKey: schemaField.fieldKey,
-    fieldType: FormFieldType.String,
-    name: schemaField.name,
-    isRequired: !schemaField.nullable,
-    notVisible: schemaField.hidden,
-    notInsertable: !schemaField.insertable,
-    notModifiable: !schemaField.modifiable,
-    defaultValue: schemaField.defaultValue,
-    extras: {
-      options: schemaField.options,
     },
   }
   switch (schemaField.fieldType) {

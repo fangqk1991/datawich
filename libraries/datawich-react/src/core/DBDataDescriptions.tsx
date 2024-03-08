@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DBTable, DBTypicalRecord, SdkDBDataApis, transferDBFieldToFormField, } from '@fangcha/datawich-service'
+import { DBTable, DBTypicalRecord, SdkDBDataApis, } from '@fangcha/datawich-service'
 import { Descriptions, message } from 'antd'
 import { CommonDataCell } from './CommonDataCell'
 import { LoadingView, ReactPreviewDialog } from '@fangcha/react'
@@ -28,12 +28,12 @@ export const DBDataDescriptions: React.FC<Props> = ({ connectionId, table, recor
   return (
     <Descriptions size={'small'} bordered={true}>
       {table.fields
-        .filter((field) => !field.hidden)
+        .filter((field) => !field.notVisible)
         .map((field) => {
           return (
             <Descriptions.Item key={field.fieldKey} label={field.name}>
               <CommonDataCell
-                field={transferDBFieldToFormField(field)}
+                field={field}
                 data={data}
                 updateRecord={async (data, params) => {
                   const request = MyRequest(

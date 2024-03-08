@@ -1,8 +1,9 @@
 import { FilterOptions, SearcherTools } from 'fc-feed'
 import { makeUUID, PageResult } from '@fangcha/tools'
 import { FCDatabase, SQLAdder, SQLModifier, SQLRemover } from 'fc-sql'
-import { DBTable, DBTableField, DBTypicalRecord, FieldType } from '@fangcha/datawich-service'
+import { DBTable, DBTypicalRecord } from '@fangcha/datawich-service'
 import assert from '@fangcha/assert'
+import { FormField, FormFieldType } from '@fangcha/form-models'
 
 export class TableDataHandler<T = DBTypicalRecord> {
   public readonly database: FCDatabase
@@ -17,7 +18,7 @@ export class TableDataHandler<T = DBTypicalRecord> {
     return this.table.fields.reduce((result, cur) => {
       result[cur.fieldKey] = cur
       return result
-    }, {} as { [p: string]: DBTableField })
+    }, {} as { [p: string]: FormField })
   }
 
   public getSearcher(options: FilterOptions = {}) {
@@ -32,7 +33,9 @@ export class TableDataHandler<T = DBTypicalRecord> {
       fuzzySearchCols: [],
       gbkCols: [],
       params: options,
-      timestampTypeCols: fields.filter((item) => item.fieldType === FieldType.Datetime).map((item) => item.fieldKey),
+      timestampTypeCols: fields
+        .filter((item) => item.fieldType === FormFieldType.Datetime)
+        .map((item) => item.fieldKey),
     })
     return searcher
   }
@@ -69,14 +72,14 @@ export class TableDataHandler<T = DBTypicalRecord> {
     const fieldMapper = this.fieldMapper()
     const adder = new SQLAdder(this.database)
     adder.setTable(this.table.tableId)
-    for (const key of Object.keys(options).filter((key) => !!fieldMapper[key] && fieldMapper[key].insertable)) {
+    for (const key of Object.keys(options).filter((key) => !!fieldMapper[key] && !fieldMapper[key].notInsertable)) {
       adder.insertKV(key, options[key])
     }
     this.table.fields.forEach((field) => {
-      if (field.isUUID) {
+      if (field.extras.isUUID) {
         adder.insertKV(field.fieldKey, makeUUID())
       }
-      if (field.isAuthor) {
+      if (field.extras.isAuthor) {
         adder.insertKV(field.fieldKey, author || '')
       }
     })
@@ -89,7 +92,7 @@ export class TableDataHandler<T = DBTypicalRecord> {
     const modifier = new SQLModifier(this.database)
     modifier.setTable(this.table.tableId)
     modifier.addConditionKV(this.table.primaryKey, record[this.table.primaryKey])
-    for (const key of Object.keys(newOptions).filter((key) => !!fieldMapper[key] && fieldMapper[key].modifiable)) {
+    for (const key of Object.keys(newOptions).filter((key) => !!fieldMapper[key] && !fieldMapper[key].notModifiable)) {
       modifier.updateKV(key, newOptions[key])
     }
     await modifier.execute()

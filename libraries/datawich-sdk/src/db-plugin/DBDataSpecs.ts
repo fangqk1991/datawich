@@ -17,7 +17,7 @@ factory.prepare(SdkDBDataApis.RecordPageDataGet, async (ctx) => {
     const database = DBHandleSDK.getDatabase(connection)
     const options = ctx.request.query
     const session = ctx.session as FangchaSession
-    const authorField = table.fields.find((field) => field.isAuthor)
+    const authorField = table.fields.find((field) => field.extras.isAuthor)
     if (!session.checkVisitorIsAdmin()) {
       assert.ok(!!authorField, 'Only admin can access it.')
       switch (table.openLevel) {

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Dropdown, message } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
-import { DBTable, DBTypicalRecord, SdkDBDataApis, transferDBFieldToFormField } from '@fangcha/datawich-service'
+import { DBTable, DBTypicalRecord, SdkDBDataApis } from '@fangcha/datawich-service'
 import { CommonAPI } from '@fangcha/app-request'
 import { ConfirmDialog } from '@fangcha/react'
 import { showDBDataDescriptions } from './DBDataDescriptions'
@@ -60,7 +60,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
                 className={'text-success'}
                 onClick={(e) => {
                   const dialog = new CommonFormDialog({
-                    fields: table.fields.map((field) => transferDBFieldToFormField(field)),
+                    fields: table.fields,
                   })
                   dialog.loadData = async () => {
                     dialog.props.data = await loadRecordInfo()
@@ -86,7 +86,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
                 className={'text-info'}
                 onClick={() => {
                   const dialog = new CommonFormDialog({
-                    fields: table.fields.map((field) => transferDBFieldToFormField(field)),
+                    fields: table.fields,
                   })
                   dialog.loadData = async () => {
                     dialog.props.data = await loadRecordInfo()

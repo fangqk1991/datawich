@@ -44,7 +44,7 @@ export interface FormField {
   notVisible?: boolean
   notInsertable?: boolean
   notModifiable?: boolean
-  defaultValue?: string
+  defaultValue?: string | number | null
   readonly?: boolean
   fullKeys?: string[]
   subFields?: FormField[]

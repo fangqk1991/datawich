@@ -72,7 +72,7 @@ export class FormBuilder {
         if (isForm) {
           field.fieldType = FormFieldType.Object
           field.extras.objectType = FieldObjectType.Form
-          field.subFields = this.buildFields(props, field.fullKeys)
+          field.subFields = this.buildFields(props as SchemaFormFieldsMap, field.fullKeys)
         }
         return field
       })

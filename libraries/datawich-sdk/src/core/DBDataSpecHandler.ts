@@ -56,7 +56,7 @@ export class DBDataSpecHandler {
     assert.ok(!!record, `Record[${table.primaryKey} = ${recordId}] missing.`)
 
     const session = this.ctx.session as FangchaSession
-    const authorField = table.fields.find((field) => field.isAuthor)
+    const authorField = table.fields.find((field) => field.extras.isAuthor)
     if (!session.checkVisitorIsAdmin()) {
       if (this.ctx.method !== 'GET' && table.openLevel !== OpenLevel.Public) {
         assert.ok(

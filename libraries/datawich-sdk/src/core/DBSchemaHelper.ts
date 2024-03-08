@@ -1,5 +1,6 @@
-import { DBTable, DBTableExtrasParams, DBTableField, FieldType, OpenLevel } from '@fangcha/datawich-service'
+import { DBTable, DBTableExtrasParams, OpenLevel } from '@fangcha/datawich-service'
 import { DBColumn, DBTableHandler, FCDatabase } from 'fc-sql'
+import { FieldEnumType, FieldNumberType, FormField, FormFieldType } from '@fangcha/form-models'
 
 export class DBSchemaHelper {
   public static async getTableSchema(database: FCDatabase, tableId: string, extras?: DBTableExtrasParams) {
@@ -29,70 +30,78 @@ export class DBSchemaHelper {
     return schema
   }
 
-  public static makeTableField(column: DBColumn, extras: Partial<DBTableField> = {}): DBTableField {
-    const field: DBTableField = {
+  public static makeTableField(column: DBColumn, extensions: Partial<FormField> = {}): FormField {
+    const field: FormField = {
       fieldKey: column.Field,
-      fieldType: FieldType.SingleLineText,
+      fieldType: FormFieldType.String,
       name: column.Comment && column.Comment.length <= 4 ? column.Comment : column.Field,
-      remarks: column.Comment || '',
-      nullable: column.Null === 'YES',
-      insertable: true,
-      modifiable: true,
-      hidden: false,
-      isPrimary: false,
-      isUUID: false,
-      isAuthor: false,
-      defaultValue: column.Default,
+      isRequired: column.Null !== 'YES',
+      defaultValue: column.Default || '',
+      extras: {
+        remarks: column.Comment || '',
+      },
     }
 
     if (column.Extra.includes('auto_increment')) {
-      field.insertable = false
-      field.modifiable = false
+      field.notInsertable = true
+      field.notModifiable = true
     }
     if (column.Field === 'uid' && column.Type === 'char(32)') {
-      field.insertable = false
-      field.modifiable = false
-      field.isUUID = true
+      field.notInsertable = true
+      field.notModifiable = true
+      field.extras.isUUID = true
     }
     if (column.Field === 'author') {
-      field.insertable = false
-      field.modifiable = false
-      field.isAuthor = true
+      field.notInsertable = true
+      field.notModifiable = true
+      field.extras.isAuthor = true
     }
 
     if (column.Type.includes('int')) {
-      field.fieldType = FieldType.Integer
+      field.fieldType = FormFieldType.Number
+      field.extras.numberType = FieldNumberType.Integer
     } else if (column.Type.includes('float') || column.Type.includes('double')) {
-      field.fieldType = FieldType.Float
+      field.fieldType = FormFieldType.Number
+      field.extras.numberType = FieldNumberType.Float
     } else if (column.Type.includes('date')) {
-      field.fieldType = FieldType.Date
+      field.fieldType = FormFieldType.Date
     } else if (column.Type.includes('timestamp') || column.Type.includes('datetime')) {
-      field.fieldType = FieldType.Datetime
+      field.fieldType = FormFieldType.Datetime
     } else if (column.Type.includes('text')) {
-      field.fieldType = FieldType.MultipleLinesText
+      field.fieldType = FormFieldType.String
+      field.extras.multipleLines = true
     } else if (column.Type.startsWith('enum')) {
       const items = [...column.Type.matchAll(/'(\w+)'/g)].map((item) => item[1])
-      field.fieldType = FieldType.TextEnum
-      field.options = items.map((val) => ({ label: val, value: val }))
+      field.fieldType = FormFieldType.String
+      field.extras.enumType = FieldEnumType.Single
+      field.extras.options = items.map((val) => ({ label: val, value: val }))
     }
 
     if (
-      (field.fieldType === FieldType.Date || field.fieldType === FieldType.Datetime) &&
+      (field.fieldType === FormFieldType.Date || field.fieldType === FormFieldType.Datetime) &&
       field.defaultValue === 'CURRENT_TIMESTAMP'
     ) {
       field.defaultValue = null
-      field.insertable = false
-      field.modifiable = false
+      field.notInsertable = true
+      field.notModifiable = true
       // if (column.Extra.includes('on update CURRENT_TIMESTAMP')) {
       //   field.modifiable = false
       // }
     }
-    if ((field.fieldType === FieldType.Integer || field.fieldType === FieldType.Float) && field.defaultValue !== null) {
+    if (
+      field.fieldType === FormFieldType.Number &&
+      field.defaultValue !== null &&
+      /^\d+$/.test(`${field.defaultValue}`)
+    ) {
       field.defaultValue = Number(field.defaultValue)
     }
     return {
       ...field,
-      ...extras,
+      ...extensions,
+      extras: {
+        ...field.extras,
+        ...(extensions.extras || {}),
+      },
     }
   }
 }
