@@ -3,12 +3,12 @@ import * as moment from 'moment'
 import {
   FieldHelper,
   FieldType,
-  GeneralDataChecker,
   GeneralDataHelper,
   ModelFieldModel,
   transferModelFieldToFormField,
 } from '@fangcha/datawich-service'
 import { TypicalExcel } from '@fangcha/excel'
+import { FormChecker } from '@fangcha/form-models'
 
 const setHintRowStyle = (row: Row) => {
   row.eachCell((cell) => {
@@ -92,15 +92,13 @@ export class DataImportHandler {
         continue
       }
       let data = await this.decodeImportedData(item)
-      data = FieldHelper.cleanDataByFormFields(
-        data,
-        this.fields.map((field) => transferModelFieldToFormField(field))
-      )
+      const fields = this.fields.map((field) => transferModelFieldToFormField(field))
+      data = FieldHelper.cleanDataByFormFields(data, fields)
       if (item['_data_id']) {
         data['_data_id'] = item['_data_id']
       }
 
-      const invalidMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(data, this.fields)
+      const invalidMap: { [p: string]: string } = new FormChecker(fields).calcInvalidMap(data)
       // const invalidMap = await new ModelDataHandler(dataModel).getInvalidMap(data)
       data['invalidMap'] = invalidMap
       data['invalid'] = Object.keys(invalidMap).length > 0

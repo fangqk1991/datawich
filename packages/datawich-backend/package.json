@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@web/datawich-common": "workspace:*",
-    "@fangcha/datawich-sdk": "workspace:^"
+    "@fangcha/datawich-sdk": "workspace:^",
+    "@fangcha/form-models": "workspace:^"
   }
 }

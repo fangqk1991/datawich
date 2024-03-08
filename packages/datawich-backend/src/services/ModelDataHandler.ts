@@ -12,7 +12,6 @@ import {
   FieldHelper,
   FieldLinkModel,
   FieldType,
-  GeneralDataChecker,
   GeneralDataFormatter,
   GeneralDataHelper,
   ModelFieldModel,
@@ -25,6 +24,7 @@ import { _FieldLink } from '../models/extensions/_FieldLink'
 import { _DatawichService } from './_DatawichService'
 import { TypicalExcel } from '@fangcha/excel'
 import { OssTools } from '@fangcha/ali-oss'
+import { FormChecker } from '@fangcha/form-models'
 const archiver = require('archiver')
 
 export class ModelDataHandler {
@@ -786,7 +786,9 @@ export class ModelDataHandler {
   public async getInvalidMap(params: any, curDataId = '') {
     const dataModel = this._dataModel
     const fields = (await dataModel.getFields()).map((field) => field.modelForClient())
-    const errorMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(params, fields, curDataId)
+    const errorMap: { [p: string]: string } = new FormChecker(
+      fields.map((item) => transferModelFieldToFormField(item))
+    ).calcInvalidMap(params, !curDataId)
     for (const plugin of _DatawichService.plugins) {
       if (plugin.onParamsCheck) {
         Object.assign(errorMap, await plugin.onParamsCheck(params, dataModel))

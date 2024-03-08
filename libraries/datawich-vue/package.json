@@ -10,5 +10,8 @@
   "license": "MIT",
   "files": [
     "src/*"
-  ]
+  ],
+  "devDependencies": {
+    "@fangcha/form-models": "workspace:^"
+  }
 }

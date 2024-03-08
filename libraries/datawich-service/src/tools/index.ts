@@ -1,4 +1,3 @@
-export * from './GeneralDataChecker'
 export * from './GeneralDataHelper'
 export * from './GeneralDataFormatter'
 export * from './_TinyDatawich'

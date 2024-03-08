@@ -1,12 +1,12 @@
 import { Component } from 'vue-property-decorator'
-import { FieldType, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldType, GeneralDataHelper, ModelFieldModel, transferModelFieldToFormField } from '@fangcha/datawich-service'
 import * as moment from 'moment'
-import { i18n, MyDatetimePicker, Prop, ViewController, Watch, StringListPanel } from '@fangcha/vue'
+import { i18n, MyDatetimePicker, Prop, StringListPanel, ViewController, Watch } from '@fangcha/vue'
 import { RichTextEditor } from '@fangcha/vue/rich-text-editor'
 import { I18nCode, SelectOption } from '@fangcha/tools'
 import { FieldPluginCenter, PluginFormItem } from '../core'
-import { GeneralDataChecker, GeneralDataHelper } from '@fangcha/datawich-service'
 import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
+import { FormChecker } from '@fangcha/form-models'
 
 const _getCalcDate = (dateDesc: string) => {
   if (dateDesc) {
@@ -320,10 +320,9 @@ export class DataNormalForm extends ViewController {
   errorMap: { [p: string]: string } = {}
   checkFormDataValid(formData: any) {
     // const formData = cleanDataByModelFields(this.myData, this.allFields)
-    const errorMap: { [p: string]: string } = GeneralDataChecker.calcSimpleInvalidMap(
-      formData,
-      this.allFields.filter((item) => !item.extrasData.readonly)
-    )
+    const errorMap: { [p: string]: string } = new FormChecker(
+      this.allFields.filter((item) => !item.extrasData.readonly).map((item) => transferModelFieldToFormField(item))
+    ).calcInvalidMap(formData)
     this.errorMap = errorMap
     if (Object.keys(errorMap).length > 0) {
       const errorMsg = Object.keys(errorMap)
