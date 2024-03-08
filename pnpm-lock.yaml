@@ -50,8 +50,8 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0
       '@fangcha/logic':
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: ^0.9.0
+        version: 0.9.0
       '@fangcha/oss-models':
         specifier: ^0.4.0
         version: 0.4.0
@@ -2370,6 +2370,10 @@ packages:
 
   /@fangcha/logic@0.8.0:
     resolution: {integrity: sha512-UULIUU0LRVKf0y54NYF6qBtse1C7URB9ZQASmY8zP/d7MgYaY2BpqwwNZDCGhtdAEikI86P8H2smHDqa7NA5WQ==}
+    dev: false
+
+  /@fangcha/logic@0.9.0:
+    resolution: {integrity: sha512-MU3qBd3otnxALF7jhqLBg2zb9gsjkVFey9cU2u4KlTsB3WkwZ5Qy+ytk75CIUv/QlEilc2pXkVqRdMrhpvlh7A==}
     dev: false
 
   /@fangcha/oss-models@0.4.0:

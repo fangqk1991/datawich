@@ -1,7 +1,7 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import { ProForm } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
-import { LogicExpression, LogicExpressionHelper } from '@fangcha/logic'
+import { LogicExpressionHelper } from '@fangcha/logic'
 import { FieldEnumType, FormChecker, FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
 import { CommonFormItem, UpdateData } from './CommonFormItem'
 
@@ -17,6 +17,7 @@ export interface CommonFormProps {
 export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => {
   const flattenedFields = useMemo(() => FormSchemaHelper.flattenFields(props.fields), [props.fields])
   const [myData, setData] = useState({})
+  const [version, setVersion] = useState(0)
   const [form] = Form.useForm<any>()
 
   useEffect(() => {
@@ -54,34 +55,14 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
       })
     setData(myData)
     form.setFieldsValue(myData)
+    setVersion(version + 1)
     props.onChange && props.onChange()
   }, [flattenedFields, props.data])
 
-  const visibleFields = useMemo(() => {
-    // TODO !!!
-    const visibleLogicMap: { [fieldKey: string]: LogicExpression } = {}
-    flattenedFields.forEach((field) => {
-      if (field.extras.visibleLogic) {
-        visibleLogicMap[field.fieldKey] = field.extras.visibleLogic
-      }
-    })
-    return flattenedFields
-      .filter((field) => {
-        if (field.notVisible) {
-          return false
-        }
-        if (field.notInsertable) {
-          return false
-        }
-        return true
-      })
-      .filter((field) => {
-        if (visibleLogicMap[field.fieldKey]) {
-          return LogicExpressionHelper.calcExpression(visibleLogicMap[field.fieldKey], myData)
-        }
-        return true
-      })
-  }, [flattenedFields])
+  const visibleFields = useMemo(
+    () => flattenedFields.filter((field) => !field.notVisible && !field.notInsertable),
+    [flattenedFields, version]
+  )
 
   const updateData: UpdateData = (kvList) => {
     kvList.forEach((item) => {
@@ -91,6 +72,9 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     setData({
       ...myData,
     })
+    // if (hasVisibleLogicFeed) {
+    //   setVersion(version + 1)
+    // }
   }
 
   const getResult = useCallback(() => {
@@ -144,27 +128,34 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
 
   return (
     <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false} onChange={props.onChange}>
-      {visibleFields.map((field) => {
-        const editable = (() => {
-          if (props.forceReadonly) {
-            return false
+      {visibleFields
+        .filter((field) => {
+          if (field.extras.visibleLogic) {
+            return LogicExpressionHelper.calcExpression(field.extras.visibleLogic, myData)
           }
-          if (props.forceEditing) {
-            return true
-          }
-          return !field.readonly
-        })()
-        return (
-          <CommonFormItem
-            key={field.fullKeys ? field.fullKeys.join('.') : field.fieldKey}
-            field={field}
-            myData={myData}
-            editable={editable}
-            updateData={updateData}
-            devMode={props.devMode}
-          />
-        )
-      })}
+          return true
+        })
+        .map((field) => {
+          const editable = (() => {
+            if (props.forceReadonly) {
+              return false
+            }
+            if (props.forceEditing) {
+              return true
+            }
+            return !field.readonly
+          })()
+          return (
+            <CommonFormItem
+              key={field.fullKeys ? field.fullKeys.join('.') : field.fieldKey}
+              field={field}
+              myData={myData}
+              editable={editable}
+              updateData={updateData}
+              devMode={props.devMode}
+            />
+          )
+        })}
     </ProForm>
   )
 })

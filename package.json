@@ -31,7 +31,7 @@
     "@fangcha/job": "^0.4.0",
     "@fangcha/job-models": "^0.1.0",
     "@fangcha/job-sdk": "^0.2.0",
-    "@fangcha/logic": "^0.8.0",
+    "@fangcha/logic": "^0.9.0",
     "axios": "^1.6.5",
     "crypto-js": "^4.2.0",
     "exceljs": "^4.3.0",

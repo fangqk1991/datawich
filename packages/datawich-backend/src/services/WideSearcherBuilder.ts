@@ -140,7 +140,7 @@ export class WideSearcherBuilder {
     })
     const options = this.filterOptions
 
-    const conditions = options.conditions as FilterCondition[]
+    const conditions = options.conditions as (FilterCondition & { leftKey: string })[]
     if (Array.isArray(conditions)) {
       for (const condition of conditions.filter((condition) => condition.leftKey in filterMapper)) {
         assert.ok(FilterSymbolDescriptor.checkValueValid(condition.symbol), `condition.symbol invalid`)

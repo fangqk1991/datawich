@@ -26,7 +26,7 @@ import {
 import { CodeEditor } from '../code-editor/CodeEditor'
 import { BoolOptions } from '@fangcha/tools'
 
-export type UpdateData = (kvList: { fullKeys: string[]; value: any }[]) => void
+export type UpdateData = (kvList: { fullKeys: string[]; value: any; field: FormField }[]) => void
 
 interface Props {
   field: FormField
@@ -76,12 +76,38 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             })
           })()
           if (optionsForEnumField.length < 5) {
-            return <ProFormRadio.Group options={optionsForEnumField} radioType='button' disabled={!editable} />
+            return (
+              <ProFormRadio.Group
+                options={optionsForEnumField}
+                radioType='button'
+                disabled={!editable}
+                fieldProps={{
+                  onChange: (e) => {
+                    updateData([
+                      {
+                        field: field,
+                        fullKeys: field.fullKeys!,
+                        value: e.target.value,
+                      },
+                    ])
+                  },
+                }}
+              />
+            )
           }
           return (
             <ProFormSelect
               options={optionsForEnumField}
               disabled={!editable}
+              onChange={(value) =>
+                updateData([
+                  {
+                    field: field,
+                    fullKeys: field.fullKeys!,
+                    value: value,
+                  },
+                ])
+              }
               style={{
                 width: 'auto',
                 minWidth: '200px',
@@ -133,10 +159,12 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                   }
                   updateData([
                     {
+                      field: field,
                       fullKeys: fullKeys,
                       value: JSON.stringify(fileInfo),
                     },
                     {
+                      field: field,
                       fullKeys: entityKeys,
                       value: {
                         ...fileInfo,
@@ -170,10 +198,12 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                         onClick={() => {
                           updateData([
                             {
+                              field: field,
                               fullKeys: fullKeys,
                               value: '',
                             },
                             {
+                              field: field,
                               fullKeys: entityKeys,
                               value: null,
                             },
