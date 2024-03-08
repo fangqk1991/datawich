@@ -1,12 +1,12 @@
 import React from 'react'
-import { CoreField, FieldType } from '@fangcha/datawich-service'
 import { ColumnType } from 'antd/es/table/interface'
 import { Select } from 'antd'
 import { CommonDataCell } from './CommonDataCell'
 import { SelectOption } from '@fangcha/tools'
+import { FieldEnumType, FieldStringType, FormField, FormFieldType } from '@fangcha/form-models'
 
 interface Props {
-  field: CoreField
+  field: FormField
   filterOptions?: {}
   onFilterChange?: (params: {}) => void
   fixedColumn?: boolean
@@ -26,28 +26,26 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
 
   let header = <>{field.name}</>
   let filterView: any = undefined
-  switch (field.fieldType) {
-    case FieldType.TextEnum:
-      header = (
-        <Select
-          value={filterOptions[filterKey] || ''}
-          style={{ width: '100%' }}
-          onChange={(value) => {
-            if (props.onFilterChange) {
-              props.onFilterChange({ [filterKey]: value })
-            }
-          }}
-          size={'small'}
-          options={[
-            {
-              label: field.name,
-              value: '',
-            },
-            ...(props.getOptionsForEnumField ? props.getOptionsForEnumField() : field.options || []),
-          ]}
-        />
-      )
-      break
+  if (field.extras.enumType === FieldEnumType.Single) {
+    header = (
+      <Select
+        value={filterOptions[filterKey] || ''}
+        style={{ width: '100%' }}
+        onChange={(value) => {
+          if (props.onFilterChange) {
+            props.onFilterChange({ [filterKey]: value })
+          }
+        }}
+        size={'small'}
+        options={[
+          {
+            label: field.name,
+            value: '',
+          },
+          ...(props.getOptionsForEnumField ? props.getOptionsForEnumField() : field.extras.options || []),
+        ]}
+      />
+    )
   }
 
   return {
@@ -63,23 +61,17 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
     sortOrder: filterOptions['sortKey'] === filterKey ? filterOptions['sortDirection'] : undefined,
     sorter: (() => {
       switch (field.fieldType) {
-        case FieldType.Integer:
-        case FieldType.Float:
-        case FieldType.SingleLineText:
-        case FieldType.Date:
-        case FieldType.Datetime:
+        case FormFieldType.Number:
+        case FormFieldType.Boolean:
+        case FormFieldType.Date:
+        case FormFieldType.Datetime:
           return true
+        case FormFieldType.String:
+          return (
+            (!field.extras.stringType || field.extras.stringType === FieldStringType.Normal) &&
+            !field.extras.multipleLines
+          )
       }
-      // switch (field.fieldType) {
-      //   case FieldType.Integer:
-      //   case FieldType.Float:
-      //     return (a, b) => a[dataKey] - b[dataKey]
-      //   case FieldType.SingleLineText:
-      //     return (a, b) => (a[dataKey] || '').localeCompare(b[dataKey])
-      //   case FieldType.Date:
-      //   case FieldType.Datetime:
-      //     return (a, b) => moment(a[dataKey]).valueOf() - moment(b[dataKey]).valueOf()
-      // }
       return undefined
     })(),
     filtered: filtered,

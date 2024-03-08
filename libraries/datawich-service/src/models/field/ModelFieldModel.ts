@@ -37,11 +37,6 @@ export interface ModelFieldParams {
   extrasData?: Partial<ModelFieldExtrasData>
 }
 
-export interface TinyCoreField extends Partial<CoreField> {
-  fieldKey: string
-  fieldType: FieldType
-}
-
 export interface CoreField {
   fieldKey: string
   fieldType: FieldType
@@ -57,8 +52,13 @@ export interface CoreField {
   hidden?: boolean
 }
 
-export interface ModelFieldModel extends CoreField, Raw_ModelField {
+export interface ModelFieldModel extends Raw_ModelField {
+  fieldKey: string
   fieldType: FieldType
+  name: string
+  required: number
+  hidden?: boolean
+
   ////
   options: SelectOption[]
   value2LabelMap: { [p: string]: string }

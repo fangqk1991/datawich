@@ -1,5 +1,5 @@
 import React from 'react'
-import { GeneralDataHelper, ModelFieldModel } from '@fangcha/datawich-service'
+import { GeneralDataHelper, ModelFieldModel, transferModelFieldToFormField } from '@fangcha/datawich-service'
 import { ColumnType } from 'antd/es/table/interface'
 import { commonDataColumn } from '../core/commonDataColumn'
 import { MyDataCell } from './MyDataCell'
@@ -17,6 +17,7 @@ export const myDataColumn = (props: Props): ColumnType<any> => {
 
   return commonDataColumn({
     ...props,
+    field: transferModelFieldToFormField(props.field),
     render: (item: any) => <MyDataCell field={field} data={item} />,
     getOptionsForEnumField: () => {
       let options = field.options || []

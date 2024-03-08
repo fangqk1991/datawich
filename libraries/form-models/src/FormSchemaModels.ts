@@ -5,6 +5,7 @@ import { FieldNumberType } from './FieldNumberType'
 import { FieldEnumType } from './FieldEnumType'
 import { FieldObjectType } from './FieldObjectType'
 import { FieldStringType } from './FieldStringType'
+import { NumberFormat } from './NumberFormat'
 
 export interface FormFieldExtrasData {
   enumType: FieldEnumType
@@ -12,6 +13,10 @@ export interface FormFieldExtrasData {
   value2LabelMap: { [p: string]: string }
 
   numberType: FieldNumberType
+  numberFormat: NumberFormat
+  floatBits: number
+  bigText: boolean
+
   objectType: FieldObjectType
 
   stringType: FieldStringType
@@ -33,6 +38,8 @@ export interface FormField {
   fieldKey: string
   fieldType: FormFieldType
   name: string
+  filterKey?: string
+  dataKey?: string
   isRequired?: boolean
   notVisible?: boolean
   notInsertable?: boolean

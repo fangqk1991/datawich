@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import { Button, Divider, message, Space } from 'antd'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { DBTable, SdkDBDataApis, transferDBFieldToCore, transferDBFieldToFormField } from '@fangcha/datawich-service'
+import { DBTable, SdkDBDataApis, transferDBFieldToFormField } from '@fangcha/datawich-service'
 import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { DBTableInfoView } from './DBTableInfoView'
 import { commonDataColumn } from './commonDataColumn'
@@ -27,7 +27,10 @@ export const DBDataTableView: React.FC<Props> = (props) => {
     request.quickSend().then((response) => setTableSchema(response))
   }, [tableId])
 
-  const fields = useMemo(() => (tableSchema?.fields || []).map((item) => transferDBFieldToCore(item)), [tableSchema])
+  const fields = useMemo(
+    () => (tableSchema?.fields || []).map((item) => transferDBFieldToFormField(item)),
+    [tableSchema]
+  )
 
   if (!tableSchema) {
     return <LoadingView />
@@ -57,7 +60,7 @@ export const DBDataTableView: React.FC<Props> = (props) => {
           type={'primary'}
           onClick={() => {
             const dialog = new CommonFormDialog({
-              fields: tableSchema.fields.map((field) => transferDBFieldToFormField(field)),
+              fields: fields,
             })
             dialog.title = '创建数据记录'
             dialog.show(async (params) => {
@@ -104,7 +107,7 @@ export const DBDataTableView: React.FC<Props> = (props) => {
         }}
         columns={TableViewColumn.makeColumns<any>([
           ...fields
-            .filter((field) => !field.hidden)
+            .filter((field) => !field.notVisible)
             .map((field): any =>
               commonDataColumn({
                 field: field,

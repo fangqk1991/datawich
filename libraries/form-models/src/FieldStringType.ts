@@ -4,10 +4,17 @@ export enum FieldStringType {
   Normal = 'Normal',
   Link = 'Link',
   RichText = 'RichText',
+  JSON = 'JSON',
   CodeText = 'CodeText',
 }
 
-const values = [FieldStringType.Normal, FieldStringType.Link, FieldStringType.RichText, FieldStringType.CodeText]
+const values = [
+  FieldStringType.Normal,
+  FieldStringType.Link,
+  FieldStringType.RichText,
+  FieldStringType.JSON,
+  FieldStringType.CodeText,
+]
 
 const describe = (code: FieldStringType) => {
   switch (code) {
@@ -17,6 +24,8 @@ const describe = (code: FieldStringType) => {
       return '链接'
     case FieldStringType.RichText:
       return '富文本'
+    case FieldStringType.JSON:
+      return 'JSON'
     case FieldStringType.CodeText:
       return '代码'
   }

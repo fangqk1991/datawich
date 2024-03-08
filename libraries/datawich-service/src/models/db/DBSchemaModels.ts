@@ -103,6 +103,15 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
     readonly: !!schemaField.isSystem,
     extras: {
       options: schemaField.options,
+      value2LabelMap: schemaField.value2LabelMap,
+
+      constraintKey: schemaField.extrasData.constraintKey,
+      matchRegex: schemaField.extrasData.matchRegex,
+      numberFormat: schemaField.extrasData.numberFormat,
+      floatBits: schemaField.extrasData.floatBits,
+      visibleLogic: schemaField.extrasData.visibleLogic,
+      requiredLogic: schemaField.extrasData.requiredLogic,
+      bigText: schemaField.extrasData.bigText,
     },
   }
   switch (schemaField.fieldType) {
