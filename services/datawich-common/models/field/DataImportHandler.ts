@@ -5,7 +5,8 @@ import {
   FieldType,
   GeneralDataChecker,
   GeneralDataHelper,
-  ModelFieldModel
+  ModelFieldModel,
+  transferModelFieldToFormField,
 } from '@fangcha/datawich-service'
 import { TypicalExcel } from '@fangcha/excel'
 
@@ -91,7 +92,10 @@ export class DataImportHandler {
         continue
       }
       let data = await this.decodeImportedData(item)
-      data = FieldHelper.cleanDataByModelFields(data, this.fields)
+      data = FieldHelper.cleanDataByFormFields(
+        data,
+        this.fields.map((field) => transferModelFieldToFormField(field))
+      )
       if (item['_data_id']) {
         data['_data_id'] = item['_data_id']
       }

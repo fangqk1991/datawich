@@ -1,6 +1,7 @@
 import { addSlashes, SelectOption } from '@fangcha/tools'
-import { CoreField, DescribableField, FieldsDisplaySettings, FieldType, ModelFieldModel } from '../models'
+import { DescribableField, FieldsDisplaySettings, FieldType, ModelFieldModel } from '../models'
 import { GeneralDataHelper } from './GeneralDataHelper'
+import { FieldObjectType, FieldStringType, FormField, FormFieldType } from '@fangcha/form-models'
 
 export interface FieldDisplayItem {
   field: ModelFieldModel
@@ -196,20 +197,20 @@ export class FieldHelper {
     return items
   }
 
-  public static cleanDataByModelFields(data: any, modelFields: CoreField[] = []) {
+  public static cleanDataByFormFields(data: any, fields: FormField[] = []) {
     const realData: any = {}
-    modelFields.forEach((field) => {
+    fields.forEach((field) => {
       for (const key of [field.fieldKey, GeneralDataHelper.entityKey(field.fieldKey)]) {
         if (key in data) {
           realData[key] = data[key]
           if (!realData[key]) {
-            if (field.fieldType === FieldType.JSON) {
+            if (field.extras.stringType === FieldStringType.JSON) {
               realData[key] = '{}'
-            } else if (field.fieldType === FieldType.StringList) {
+            } else if (field.extras.objectType === FieldObjectType.StringList) {
               realData[key] = []
             }
           } else {
-            if (field.fieldType === FieldType.StringList) {
+            if (field.extras.objectType === FieldObjectType.StringList) {
               if (typeof realData[key] === 'string') {
                 realData[key] = JSON.parse(realData[key])
               }
@@ -218,11 +219,11 @@ export class FieldHelper {
         }
       }
     })
-    modelFields
+    fields
       .filter(
         (field) =>
-          [FieldType.Integer, FieldType.Float, FieldType.Date].includes(field.fieldType as FieldType) &&
-          !field.required &&
+          [FormFieldType.Number, FormFieldType.Date, FormFieldType.Datetime].includes(field.fieldType) &&
+          !field.isRequired &&
           (realData[field.fieldKey] === '' || realData[field.fieldKey] === null)
       )
       .forEach((field) => {

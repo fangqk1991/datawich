@@ -80,13 +80,14 @@ export const RecordActionCell: React.FC<Props> = ({
               <a
                 style={{ color: '#28a745' }}
                 onClick={() => {
+                  const fields = mainFields.map((field) => transferModelFieldToFormField(field))
                   const dialog = new CommonFormDialog({
-                    fields: mainFields.map((field) => transferModelFieldToFormField(field)),
+                    fields: fields,
                   })
                   dialog.title = '创建数据记录'
                   dialog.loadData = async () => {
                     const record = await loadRecordInfo()
-                    dialog.props.data = FieldHelper.cleanDataByModelFields(record, mainFields)
+                    dialog.props.data = FieldHelper.cleanDataByFormFields(record, fields)
                   }
                   dialog.show(async (params) => {
                     const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordCreate, modelKey))
@@ -107,13 +108,14 @@ export const RecordActionCell: React.FC<Props> = ({
               <a
                 style={{ color: '#1677ff' }}
                 onClick={() => {
+                  const fields = mainFields.map((field) => transferModelFieldToFormField(field))
                   const dialog = new CommonFormDialog({
-                    fields: mainFields.map((field) => transferModelFieldToFormField(field)),
+                    fields: fields,
                   })
                   dialog.title = '修改数据记录'
                   dialog.loadData = async () => {
                     const record = await loadRecordInfo()
-                    dialog.props.data = FieldHelper.cleanDataByModelFields(record, mainFields)
+                    dialog.props.data = FieldHelper.cleanDataByFormFields(record, fields)
                   }
                   dialog.show(async (params) => {
                     const request = MyRequest(

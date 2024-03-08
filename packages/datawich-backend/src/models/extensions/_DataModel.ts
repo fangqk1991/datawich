@@ -17,6 +17,7 @@ import {
   FieldTypeDescriptor,
   ModelFieldModel,
   ModelFullMetadata,
+  transferModelFieldToFormField,
 } from '@fangcha/datawich-service'
 import {
   AccessLevel,
@@ -148,7 +149,10 @@ export class _DataModel extends __DataModel {
 
   public async getClearData(options: any) {
     const fields = await this.getFields()
-    options = FieldHelper.cleanDataByModelFields(options, fields as any)
+    options = FieldHelper.cleanDataByFormFields(
+      options,
+      fields.map((field) => transferModelFieldToFormField(field.modelForClient()))
+    )
     return options
   }
 

@@ -1,6 +1,6 @@
 import { FieldType } from '../field/FieldType'
 import { SelectOption } from '@fangcha/tools'
-import { CoreField, ModelFieldModel } from '../field/ModelFieldModel'
+import { ModelFieldModel } from '../field/ModelFieldModel'
 import { OpenLevel } from './OpenLevel'
 import {
   FieldEnumType,
@@ -73,23 +73,6 @@ export interface DBTypicalRecord {
   updated_at: string
 }
 
-export const transferDBFieldToCore = (schemaField: DBTableField): CoreField => {
-  return {
-    fieldKey: schemaField.fieldKey,
-    fieldType: schemaField.fieldType,
-    name: schemaField.name,
-    required: schemaField.nullable ? 0 : 1,
-    extrasData: {} as any,
-    defaultValue: schemaField.defaultValue,
-    options: schemaField.options,
-    value2LabelMap: (schemaField.options || []).reduce((result: any, cur: any) => {
-      result[cur.value] = cur.label
-      return result
-    }, {}),
-    hidden: schemaField.hidden,
-  }
-}
-
 export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
   const commonField: FormField = {
     fieldKey: schemaField.fieldKey,
@@ -129,8 +112,8 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
       break
     case FieldType.JSON:
       commonField.extras.multipleLines = true
-      commonField.fieldType = FormFieldType.Object
-      commonField.extras.objectType = FieldObjectType.JSON
+      commonField.fieldType = FormFieldType.String
+      commonField.extras.stringType = FieldStringType.JSON
       break
     case FieldType.StringList:
       commonField.extras.multipleLines = true
@@ -201,8 +184,8 @@ export const transferDBFieldToFormField = (schemaField: DBTableField) => {
       break
     case FieldType.JSON:
       commonField.extras.multipleLines = true
-      commonField.fieldType = FormFieldType.Object
-      commonField.extras.objectType = FieldObjectType.JSON
+      commonField.fieldType = FormFieldType.String
+      commonField.extras.stringType = FieldStringType.JSON
       break
     case FieldType.StringList:
       commonField.extras.multipleLines = true

@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  DBTable,
-  DBTypicalRecord,
-  SdkDBDataApis,
-  transferDBFieldToCore,
-  transferDBFieldToFormField,
-} from '@fangcha/datawich-service'
+import { DBTable, DBTypicalRecord, SdkDBDataApis, transferDBFieldToFormField, } from '@fangcha/datawich-service'
 import { Descriptions, message } from 'antd'
 import { CommonDataCell } from './CommonDataCell'
 import { LoadingView, ReactPreviewDialog } from '@fangcha/react'

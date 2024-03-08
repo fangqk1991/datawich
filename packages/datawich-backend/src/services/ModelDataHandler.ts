@@ -16,6 +16,7 @@ import {
   GeneralDataFormatter,
   GeneralDataHelper,
   ModelFieldModel,
+  transferModelFieldToFormField,
 } from '@fangcha/datawich-service'
 import { _ModelField } from '../models/extensions/_ModelField'
 import { ModelDataInfo } from './ModelDataInfo'
@@ -610,7 +611,10 @@ export class ModelDataHandler {
     const database = ModelDataInfo.database
     const fields = await dataModel.getFields()
     const dataList: any[] = customDataList.map((options) => {
-      const data = FieldHelper.cleanDataByModelFields(options, fields as any)
+      const data = FieldHelper.cleanDataByFormFields(
+        options,
+        fields.map((field) => transferModelFieldToFormField(field.modelForClient()))
+      )
       delete data['create_time']
       delete data['update_time']
       delete data['rid']
