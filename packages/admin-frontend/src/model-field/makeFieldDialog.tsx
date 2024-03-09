@@ -9,7 +9,7 @@ import {
   NumberFormat,
   NumberFormatDescriptor,
 } from '@fangcha/datawich-service'
-import { NumBoolDescriptor } from '@fangcha/tools'
+import { NumBoolDescriptor, SelectOption } from '@fangcha/tools'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { CommonFormDialog } from '@fangcha/form-react'
 import {
@@ -67,7 +67,7 @@ export const makeFieldDialog = (props: Props = {}) => {
       itemSchema: {
         label: FormFieldType.String,
         value: FormFieldType.String,
-      },
+      } as SchemaFormFieldsMap<SelectOption>,
       extras: {
         visibleLogic: {
           condition: {

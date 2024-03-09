@@ -110,7 +110,16 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
           FormSchemaHelper.setFieldValue(data, field, null)
         }
       })
-    return props.transform ? props.transform(data) : data
+
+    const data2 = {
+      ...myData,
+      ...data,
+      extras: {
+        ...(myData['extras'] || {}),
+        ...(data.extras || {}),
+      },
+    }
+    return props.transform ? props.transform(data2) : data2
   }, [visibleFields, props.transform])
 
   useImperativeHandle(ref, () => ({

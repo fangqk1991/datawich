@@ -72,7 +72,7 @@ export class FormBuilder {
         if (field.fieldType === FormFieldType.Array && field.itemSchema && !field.itemField) {
           field.itemField = {
             fieldType: FormFieldType.Object,
-            subFields: this.buildFields(field.itemSchema, field.fullKeys),
+            subFields: this.buildFields(field.itemSchema),
           }
         }
         if (isForm) {

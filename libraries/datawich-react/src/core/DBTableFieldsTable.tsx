@@ -14,8 +14,10 @@ import {
   FormFieldType,
   FormFieldTypeDescriptor,
   SchemaFormFieldsMap,
+  WidgetType,
 } from '@fangcha/form-models'
 import { FilterSymbol } from '@fangcha/logic'
+import { SelectOption } from '@fangcha/tools'
 
 interface Props {
   connectionId: string
@@ -103,14 +105,18 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                         fieldKey: {
                           fieldType: FormFieldType.String,
                           name: '键值',
-                          readonly: true,
+                          isRequired: true,
+                          notModifiable: true,
                         },
                         fieldType: {
                           fieldType: FormFieldType.String,
                           name: '字段类型',
+                          isRequired: true,
+                          notModifiable: true,
                           extras: {
                             enumType: FieldEnumType.Single,
                             options: FormFieldTypeDescriptor.options(),
+                            uiWidget: WidgetType.Radio,
                           },
                           defaultValue: FormFieldType.String,
                         },
@@ -146,22 +152,10 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           options: {
                             name: '枚举选项',
                             fieldType: FormFieldType.Array,
-                            // defaultValue: [],
-                            itemField: {
-                              fieldType: FormFieldType.Object,
-                              subFields: [
-                                {
-                                  fieldKey: 'label',
-                                  fieldType: FormFieldType.String,
-                                  name: '枚举名称',
-                                },
-                                {
-                                  fieldKey: 'value',
-                                  fieldType: FormFieldType.String,
-                                  name: '枚举值',
-                                },
-                              ],
-                            },
+                            itemSchema: {
+                              label: FormFieldType.String,
+                              value: FormFieldType.String,
+                            } as SchemaFormFieldsMap<SelectOption>,
                             extras: {
                               visibleLogic: {
                                 condition: {
@@ -182,9 +176,9 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                         title: '字段属性',
                         fields: fields,
                         data: item,
+                        forEditing: true,
                       })
                       dialog.show(async (params) => {
-                        message.success(JSON.stringify(params, null, 2))
                         const request = MyRequest(
                           new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, table.tableId)
                         )
@@ -194,7 +188,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             [item.fieldKey]: params,
                           },
                         })
-                        // await request.quickSend()
+                        await request.quickSend()
                         message.success('更新成功')
 
                         onDataChanged && onDataChanged()
