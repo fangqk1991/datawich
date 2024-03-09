@@ -5,6 +5,7 @@ import {
   ProFormDatePicker,
   ProFormDateTimePicker,
   ProFormDigit,
+  ProFormList,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
@@ -32,7 +33,7 @@ interface Props {
   field: FormField
   myData: any
   editable: boolean
-  updateData: UpdateData
+  updateData?: UpdateData
   devMode?: boolean
 }
 
@@ -41,6 +42,51 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
   // const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
   // const fieldName = nameI18n[code] || field.name
   const fieldName = field.name
+  const extras = field.extras || {}
+
+  if (field.fieldType === FormFieldType.Array) {
+    const schema = field.arraySchema!
+    const subFields = schema.subFields || []
+    const items = FormSchemaHelper.getFieldValue(myData, field) || []
+    return (
+      <div style={{ border: '1px solid #dee2e6', padding: '12px', marginBottom: '8px' }}>
+        <ProFormList
+          name={field.fullKeys || field.fieldKey}
+          label={
+            <div>
+              {fieldName}{' '}
+              {devMode && (
+                <span className={'text-danger'}>({field.fullKeys ? field.fullKeys.join('.') : field.fieldKey})</span>
+              )}
+              {field.readonly && (
+                <Tooltip title={'Readonly'}>
+                  <InfoCircleOutlined />
+                </Tooltip>
+              )}
+            </div>
+          }
+          required={field.isRequired}
+          style={{
+            margin: 0,
+          }}
+        >
+          <ProForm.Group>
+            {subFields.map((subField, index) => {
+              return (
+                <CommonFormItem
+                  key={subField.fullKeys ? subField.fullKeys.join('.') : subField.fieldKey}
+                  field={subField}
+                  myData={items[index]}
+                  editable={editable}
+                  devMode={devMode}
+                />
+              )
+            })}
+          </ProForm.Group>
+        </ProFormList>
+      </div>
+    )
+  }
 
   return (
     <ProForm.Item
@@ -64,13 +110,13 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
       }}
     >
       {(() => {
-        if (field.extras.enumType === FieldEnumType.Single) {
+        if (extras.enumType === FieldEnumType.Single) {
           const optionsForEnumField = (() => {
-            if (!field.extras.constraintKey) {
-              return field.extras.options!
+            if (!extras.constraintKey) {
+              return extras.options!
             }
-            const constraintValue = myData[field.extras.constraintKey] || ''
-            return (field.extras.options || []).filter((option) => {
+            const constraintValue = myData[extras.constraintKey] || ''
+            return (extras.options || []).filter((option) => {
               const restraintValueMap = option['restraintValueMap'] || {}
               return !!restraintValueMap[constraintValue]
             })
@@ -83,13 +129,14 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 disabled={!editable}
                 fieldProps={{
                   onChange: (e) => {
-                    updateData([
-                      {
-                        field: field,
-                        fullKeys: field.fullKeys!,
-                        value: e.target.value,
-                      },
-                    ])
+                    updateData &&
+                      updateData([
+                        {
+                          field: field,
+                          fullKeys: field.fullKeys!,
+                          value: e.target.value,
+                        },
+                      ])
                   },
                 }}
               />
@@ -100,6 +147,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               options={optionsForEnumField}
               disabled={!editable}
               onChange={(value) =>
+                updateData &&
                 updateData([
                   {
                     field: field,
@@ -114,17 +162,17 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               }}
             />
           )
-        } else if (field.extras.enumType === FieldEnumType.Multiple) {
-          return <ProFormCheckbox.Group options={field.extras.options} disabled={!editable} />
+        } else if (extras.enumType === FieldEnumType.Multiple) {
+          return <ProFormCheckbox.Group options={extras.options} disabled={!editable} />
         }
         switch (field.fieldType) {
           case FormFieldType.String:
-            if (field.extras.stringType === FieldStringType.RichText) {
+            if (extras.stringType === FieldStringType.RichText) {
               return <RichTextEditor />
-            } else if (field.extras.stringType === FieldStringType.CodeText) {
+            } else if (extras.stringType === FieldStringType.CodeText) {
               return <CodeEditor />
             }
-            if (field.extras.multipleLines) {
+            if (extras.multipleLines) {
               return <ProFormTextArea disabled={!editable} />
             }
             return <ProFormText disabled={!editable} />
@@ -144,9 +192,9 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
           case FormFieldType.Datetime:
             return <ProFormDateTimePicker />
           case FormFieldType.Object:
-            if (field.extras.objectType === FieldObjectType.StringList) {
+            if (extras.objectType === FieldObjectType.StringList) {
               return <ProFormSelect mode='tags' />
-            } else if (field.extras.objectType === FieldObjectType.Attachment) {
+            } else if (extras.objectType === FieldObjectType.Attachment) {
               const fullKeys = field.fullKeys || [field.fieldKey]
               const entityKeys = FormSchemaHelper.entityKeys(fullKeys)
               const ossFileInfo = FormSchemaHelper.getDeepValue(myData, entityKeys) as OssFileInfo
@@ -157,21 +205,22 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                     mimeType: resource.mimeType,
                     size: resource.size,
                   }
-                  updateData([
-                    {
-                      field: field,
-                      fullKeys: fullKeys,
-                      value: JSON.stringify(fileInfo),
-                    },
-                    {
-                      field: field,
-                      fullKeys: entityKeys,
-                      value: {
-                        ...fileInfo,
-                        url: resource.url,
+                  updateData &&
+                    updateData([
+                      {
+                        field: field,
+                        fullKeys: fullKeys,
+                        value: JSON.stringify(fileInfo),
                       },
-                    },
-                  ])
+                      {
+                        field: field,
+                        fullKeys: entityKeys,
+                        value: {
+                          ...fileInfo,
+                          url: resource.url,
+                        },
+                      },
+                    ])
                 })
               }
               if (!ossFileInfo) {
@@ -196,18 +245,19 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                       <a
                         className={'text-danger'}
                         onClick={() => {
-                          updateData([
-                            {
-                              field: field,
-                              fullKeys: fullKeys,
-                              value: '',
-                            },
-                            {
-                              field: field,
-                              fullKeys: entityKeys,
-                              value: null,
-                            },
-                          ])
+                          updateData &&
+                            updateData([
+                              {
+                                field: field,
+                                fullKeys: fullKeys,
+                                value: '',
+                              },
+                              {
+                                field: field,
+                                fullKeys: entityKeys,
+                                value: null,
+                              },
+                            ])
                         }}
                       >
                         移除

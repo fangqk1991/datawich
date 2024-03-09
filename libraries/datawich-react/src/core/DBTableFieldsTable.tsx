@@ -112,6 +112,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             enumType: FieldEnumType.Single,
                             options: FormFieldTypeDescriptor.options(),
                           },
+                          defaultValue: FormFieldType.String,
                         },
                         name: {
                           fieldType: FormFieldType.String,
@@ -129,6 +130,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           enumType: {
                             fieldType: FormFieldType.String,
                             name: '使用枚举',
+                            defaultValue: FieldEnumType.Single,
                             extras: {
                               enumType: FieldEnumType.Single,
                               options: FieldEnumTypeDescriptor.options(),
@@ -142,8 +144,24 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             },
                           },
                           options: {
-                            fieldType: FormFieldType.String,
-                            name: 'Options',
+                            name: '枚举选项',
+                            fieldType: FormFieldType.Array,
+                            // defaultValue: [],
+                            arraySchema: {
+                              fieldType: FormFieldType.Object,
+                              subFields: [
+                                {
+                                  fieldKey: 'label',
+                                  fieldType: FormFieldType.String,
+                                  name: '枚举名称',
+                                },
+                                {
+                                  fieldKey: 'value',
+                                  fieldType: FormFieldType.String,
+                                  name: '枚举值',
+                                },
+                              ],
+                            },
                             extras: {
                               visibleLogic: {
                                 condition: {
@@ -166,6 +184,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                         data: item,
                       })
                       dialog.show(async (params) => {
+                        message.success(JSON.stringify(params, null, 2))
                         const request = MyRequest(
                           new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, table.tableId)
                         )
@@ -175,7 +194,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             [item.fieldKey]: params,
                           },
                         })
-                        await request.quickSend()
+                        // await request.quickSend()
                         message.success('更新成功')
 
                         onDataChanged && onDataChanged()

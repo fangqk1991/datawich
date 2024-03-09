@@ -6,6 +6,7 @@ export enum FormFieldType {
   Boolean = 'Boolean',
   Date = 'Date',
   Datetime = 'Datetime',
+  Array = 'Array',
   Object = 'Object',
 }
 
@@ -15,6 +16,7 @@ const values = [
   FormFieldType.Boolean,
   FormFieldType.Date,
   FormFieldType.Datetime,
+  FormFieldType.Array,
   FormFieldType.Object,
 ]
 
@@ -42,6 +44,10 @@ const FormFieldTypeI18N = {
   Datetime: {
     en: `Datetime`,
     zh: `时间`,
+  },
+  Array: {
+    en: `Array`,
+    zh: `列表`,
   },
   Object: {
     en: `Object`,

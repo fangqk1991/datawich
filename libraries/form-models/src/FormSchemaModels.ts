@@ -48,6 +48,7 @@ export interface FormField {
   readonly?: boolean
   fullKeys?: string[]
   subFields?: FormField[]
+  arraySchema?: Omit<FormField, 'fieldKey' | 'name'>
   $isForm?: boolean
   extras: Partial<FormFieldExtrasData>
 }

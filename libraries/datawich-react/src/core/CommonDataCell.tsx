@@ -147,6 +147,8 @@ export const CommonDataCell: React.FC<Props> = (props) => {
             break
           case FormFieldType.Datetime:
             return value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : ''
+          case FormFieldType.Array:
+            break
           case FormFieldType.Object:
             switch (field.extras.objectType!) {
               case FieldObjectType.JSON:
