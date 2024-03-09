@@ -20,7 +20,7 @@ import {
 } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, message, Space, Switch, Tag } from 'antd'
-import { ModelFieldDialog } from './ModelFieldDialog'
+import { makeFieldDialog } from './makeFieldDialog'
 import { ProFormText } from '@ant-design/pro-components'
 import { FieldActionsCell } from './FieldActionsCell'
 
@@ -89,7 +89,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
         <Button
           type='primary'
           onClick={() => {
-            const dialog = new ModelFieldDialog({
+            const dialog = makeFieldDialog({
               title: '创建字段',
             })
             dialog.show(async (params) => {
@@ -338,11 +338,13 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                           setVersion(version + 1)
                         })
                       } else {
-                        const dialog = new ModelFieldDialog({
+                        const dialog = makeFieldDialog({
                           title: '编辑字段',
-                          field: field,
                           forEditing: true,
+                          data: field,
                         })
+                        dialog.title = '编辑字段'
+                        dialog.props.data = field
                         dialog.show(async (params) => {
                           const request = MyRequest(
                             new CommonAPI(ModelFieldApis.DataModelFieldUpdate, modelKey, field.fieldKey)
@@ -362,9 +364,9 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                       <a
                         style={{ color: '#28a745' }}
                         onClick={async () => {
-                          const dialog = new ModelFieldDialog({
+                          const dialog = makeFieldDialog({
                             title: '创建字段',
-                            field: field,
+                            data: field,
                           })
                           dialog.show(async (params) => {
                             const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))

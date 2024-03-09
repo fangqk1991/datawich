@@ -21,7 +21,7 @@ export class CommonFormDialog extends ReactDialog<Props> {
       props.context.handleResult = async () => {
         return await formRef.current.exportResult()
       }
-      return <CommonForm ref={formRef} fields={props.fields} data={props.data} />
+      return <CommonForm ref={formRef} {...props} />
     }
   }
 }

@@ -25,7 +25,6 @@ export interface ModelFieldExtrasData {
   visibleLogic?: LogicExpression
   requiredLogic?: LogicExpression
   bigText?: boolean
-  useRawTextEditor?: boolean
 }
 
 export interface ModelFieldParams {

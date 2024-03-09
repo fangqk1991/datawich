@@ -27,11 +27,12 @@ import {
 } from '@fangcha/form-models'
 import { CodeEditor } from '../code-editor/CodeEditor'
 import { BoolOptions } from '@fangcha/tools'
+import { FormFieldExt } from './FormFieldExt'
 
 export type UpdateData = (kvList: { fullKeys: string[]; value: any; field: FormField }[]) => void
 
 interface Props {
-  field: FormField
+  field: FormFieldExt
   myData: any
   editable: boolean
   updateData?: UpdateData
@@ -94,7 +95,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
       name={field.fullKeys || field.fieldKey}
       label={
         <div>
-          {fieldName}{' '}
+          {field.label || fieldName}{' '}
           {devMode && (
             <span className={'text-danger'}>({field.fullKeys ? field.fullKeys.join('.') : field.fieldKey})</span>
           )}

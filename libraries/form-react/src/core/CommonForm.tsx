@@ -2,16 +2,20 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import { ProForm } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
 import { LogicExpressionHelper } from '@fangcha/logic'
-import { FieldEnumType, FormChecker, FormField, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
+import { FieldEnumType, FormChecker, FormFieldType, FormSchemaHelper } from '@fangcha/form-models'
 import { CommonFormItem, UpdateData } from './CommonFormItem'
+import { FormFieldExt } from './FormFieldExt'
 
 export interface CommonFormProps {
-  fields: FormField[]
-  devMode?: boolean
+  fields: FormFieldExt[]
   data?: any
+  forEditing?: boolean
+
   forceReadonly?: boolean
   forceEditing?: boolean
   onChange?: () => void
+
+  devMode?: boolean
 }
 
 export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => {
@@ -142,6 +146,9 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
             }
             if (props.forceEditing) {
               return true
+            }
+            if (props.forEditing && field.notModifiable) {
+              return false
             }
             return !field.readonly
           })()
