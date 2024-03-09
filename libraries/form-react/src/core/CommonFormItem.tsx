@@ -47,8 +47,8 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
   const extras = field.extras || {}
 
   if (field.fieldType === FormFieldType.Array) {
-    const schema = field.arraySchema!
-    const subFields = schema.subFields || []
+    const itemField = field.itemField!
+    const subFields = itemField.subFields || []
     const items = FormSchemaHelper.getFieldValue(myData, field) || []
     return (
       <div style={{ border: '1px solid #dee2e6', padding: '12px', marginBottom: '8px' }}>

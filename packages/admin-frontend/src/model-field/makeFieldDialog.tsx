@@ -64,20 +64,9 @@ export const makeFieldDialog = (props: Props = {}) => {
     options: {
       name: '枚举选项',
       fieldType: FormFieldType.Array,
-      arraySchema: {
-        fieldType: FormFieldType.Object,
-        subFields: [
-          {
-            fieldKey: 'label',
-            fieldType: FormFieldType.String,
-            name: '枚举名称',
-          },
-          {
-            fieldKey: 'value',
-            fieldType: FormFieldType.String,
-            name: '枚举值',
-          },
-        ],
+      itemSchema: {
+        label: FormFieldType.String,
+        value: FormFieldType.String,
       },
       extras: {
         visibleLogic: {

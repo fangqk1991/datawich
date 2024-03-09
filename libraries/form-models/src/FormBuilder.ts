@@ -69,6 +69,12 @@ export class FormBuilder {
         field.name = this.makeFieldName(field)
         field.extras = field.extras || {}
         field.fullKeys = [...parentKeys, field.fieldKey]
+        if (field.fieldType === FormFieldType.Array && field.itemSchema && !field.itemField) {
+          field.itemField = {
+            fieldType: FormFieldType.Object,
+            subFields: this.buildFields(field.itemSchema, field.fullKeys),
+          }
+        }
         if (isForm) {
           field.fieldType = FormFieldType.Object
           field.extras.objectType = FieldObjectType.Form

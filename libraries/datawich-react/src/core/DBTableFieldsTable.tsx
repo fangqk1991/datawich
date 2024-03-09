@@ -147,7 +147,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             name: '枚举选项',
                             fieldType: FormFieldType.Array,
                             // defaultValue: [],
-                            arraySchema: {
+                            itemField: {
                               fieldType: FormFieldType.Object,
                               subFields: [
                                 {

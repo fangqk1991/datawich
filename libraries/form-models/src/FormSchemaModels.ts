@@ -51,7 +51,8 @@ export interface FormField {
   readonly?: boolean
   fullKeys?: string[]
   subFields?: FormField[]
-  arraySchema?: Omit<FormField, 'fieldKey' | 'name'>
+  itemSchema?: SchemaFormFieldsMap
+  itemField?: Omit<FormField, 'fieldKey' | 'name' | 'extras'>
   $isForm?: boolean
   extras: Partial<FormFieldExtrasData>
 }
@@ -60,6 +61,8 @@ export interface FormFieldParams extends Partial<FormField> {
   fieldType: FormFieldType
 }
 
+export type FieldDefinition = FormFieldType | FormFieldParams | SchemaFormFieldsMap
+
 export type SchemaFormFieldsMap<T extends {} = {}> = {
-  [p in keyof T]: FormFieldType | FormFieldParams | SchemaFormFieldsMap
+  [p in keyof T]: FieldDefinition
 }
