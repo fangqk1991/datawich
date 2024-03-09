@@ -15,6 +15,8 @@ export interface CommonFormProps {
   forceEditing?: boolean
   onChange?: () => void
 
+  transform?: (result: any) => any
+
   devMode?: boolean
 }
 
@@ -76,9 +78,6 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     setData({
       ...myData,
     })
-    // if (hasVisibleLogicFeed) {
-    //   setVersion(version + 1)
-    // }
   }
 
   const getResult = useCallback(() => {
@@ -111,8 +110,8 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
           FormSchemaHelper.setFieldValue(data, field, null)
         }
       })
-    return data
-  }, [visibleFields])
+    return props.transform ? props.transform(data) : data
+  }, [visibleFields, props.transform])
 
   useImperativeHandle(ref, () => ({
     getResult: getResult,

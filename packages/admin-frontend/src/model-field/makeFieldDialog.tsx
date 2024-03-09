@@ -1,5 +1,4 @@
 import React from 'react'
-import { DialogProps } from '@fangcha/react'
 import { Tooltip } from 'antd'
 import {
   FieldType,
@@ -7,6 +6,7 @@ import {
   ModelFieldExtrasData,
   ModelFieldModel,
   ModelFieldParams,
+  NumberFormat,
   NumberFormatDescriptor,
 } from '@fangcha/datawich-service'
 import { NumBoolDescriptor } from '@fangcha/tools'
@@ -93,6 +93,7 @@ export const makeFieldDialog = (props: Props = {}) => {
       numberFormat: {
         fieldType: FormFieldType.String,
         name: '数字格式',
+        defaultValue: NumberFormat.Normal,
         extras: {
           enumType: FieldEnumType.Single,
           options: NumberFormatDescriptor.options(),
@@ -108,6 +109,7 @@ export const makeFieldDialog = (props: Props = {}) => {
       floatBits: {
         fieldType: FormFieldType.Number,
         name: '小数精度',
+        defaultValue: -1,
         extras: {
           numberType: FieldNumberType.Integer,
           visibleLogic: {
@@ -147,6 +149,18 @@ export const makeFieldDialog = (props: Props = {}) => {
     fields: fields,
     forEditing: props.forEditing,
     data: props.field,
+    transform: (result: ModelFieldParams) => {
+      const data = (props.field || {}) as ModelFieldParams
+      data.extrasData = data.extrasData || {}
+      return {
+        ...data,
+        ...result,
+        extrasData: {
+          ...data.extrasData,
+          ...result.extrasData,
+        },
+      }
+    },
   })
   dialog.title = '编辑字段'
   return dialog
