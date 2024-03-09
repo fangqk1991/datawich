@@ -6,6 +6,7 @@ import { FieldEnumType } from './FieldEnumType'
 import { FieldObjectType } from './FieldObjectType'
 import { FieldStringType } from './FieldStringType'
 import { NumberFormat } from './NumberFormat'
+import { WidgetType } from './WidgetType'
 
 export interface FormFieldExtrasData {
   enumType: FieldEnumType
@@ -27,6 +28,8 @@ export interface FormFieldExtrasData {
   visibleLogic: LogicExpression
   requiredLogic: LogicExpression
   matchRegex: string
+
+  uiWidget: WidgetType
 
   remarks: string
   isPrimary: boolean

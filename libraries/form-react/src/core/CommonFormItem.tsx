@@ -23,6 +23,7 @@ import {
   FormField,
   FormFieldType,
   FormSchemaHelper,
+  WidgetType,
 } from '@fangcha/form-models'
 import { CodeEditor } from '../code-editor/CodeEditor'
 import { BoolOptions } from '@fangcha/tools'
@@ -121,7 +122,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               return !!restraintValueMap[constraintValue]
             })
           })()
-          if (optionsForEnumField.length < 5) {
+          if (extras.uiWidget === WidgetType.Radio || optionsForEnumField.length < 5) {
             return (
               <ProFormRadio.Group
                 options={optionsForEnumField}
