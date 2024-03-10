@@ -84,62 +84,61 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
     notModifiable: !!schemaField.isSystem,
     defaultValue: schemaField.useDefault ? schemaField.defaultValue : '',
     readonly: !!schemaField.isSystem,
-    extras: {
-      options: schemaField.options,
-      value2LabelMap: schemaField.value2LabelMap,
 
-      constraintKey: schemaField.extrasData.constraintKey,
-      matchRegex: schemaField.extrasData.matchRegex,
-      numberFormat: schemaField.extrasData.numberFormat,
-      floatBits: schemaField.extrasData.floatBits,
-      visibleLogic: schemaField.extrasData.visibleLogic,
-      requiredLogic: schemaField.extrasData.requiredLogic,
-      bigText: schemaField.extrasData.bigText,
-    },
+    options: schemaField.options,
+    value2LabelMap: schemaField.value2LabelMap,
+
+    constraintKey: schemaField.extrasData.constraintKey,
+    matchRegex: schemaField.extrasData.matchRegex,
+    numberFormat: schemaField.extrasData.numberFormat,
+    floatBits: schemaField.extrasData.floatBits,
+    visibleLogic: schemaField.extrasData.visibleLogic,
+    requiredLogic: schemaField.extrasData.requiredLogic,
+    bigText: schemaField.extrasData.bigText,
   }
   switch (schemaField.fieldType) {
     case FieldType.Integer:
       commonField.fieldType = FormFieldType.Number
-      commonField.extras.numberType = FieldNumberType.Integer
+      commonField.numberType = FieldNumberType.Integer
       break
     case FieldType.Float:
       commonField.fieldType = FormFieldType.Number
-      commonField.extras.numberType = FieldNumberType.Float
+      commonField.numberType = FieldNumberType.Float
       break
     case FieldType.MultipleLinesText:
       commonField.fieldType = FormFieldType.String
-      commonField.extras.multipleLines = true
+      commonField.multipleLines = true
       break
     case FieldType.JSON:
-      commonField.extras.multipleLines = true
+      commonField.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.JSON
+      commonField.stringType = FieldStringType.JSON
       break
     case FieldType.StringList:
-      commonField.extras.multipleLines = true
+      commonField.multipleLines = true
       commonField.fieldType = FormFieldType.Object
-      commonField.extras.objectType = FieldObjectType.StringList
+      commonField.objectType = FieldObjectType.StringList
       break
     case FieldType.Link:
-      commonField.extras.multipleLines = true
+      commonField.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.Link
+      commonField.stringType = FieldStringType.Link
       break
     case FieldType.RichText:
-      commonField.extras.multipleLines = true
+      commonField.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.RichText
+      commonField.stringType = FieldStringType.RichText
       break
     case FieldType.CodeText:
-      commonField.extras.multipleLines = true
+      commonField.multipleLines = true
       commonField.fieldType = FormFieldType.String
-      commonField.extras.stringType = FieldStringType.CodeText
+      commonField.stringType = FieldStringType.CodeText
       break
     case FieldType.TextEnum:
-      commonField.extras.enumType = FieldEnumType.Single
+      commonField.enumType = FieldEnumType.Single
       break
     case FieldType.MultiEnum:
-      commonField.extras.enumType = FieldEnumType.Multiple
+      commonField.enumType = FieldEnumType.Multiple
       break
     case FieldType.Date:
       commonField.fieldType = FormFieldType.Date
@@ -149,7 +148,7 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
       break
     case FieldType.Attachment:
       commonField.fieldType = FormFieldType.Object
-      commonField.extras.objectType = FieldObjectType.Attachment
+      commonField.objectType = FieldObjectType.Attachment
       break
   }
   return commonField

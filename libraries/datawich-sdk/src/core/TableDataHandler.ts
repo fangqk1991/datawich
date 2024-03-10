@@ -76,10 +76,10 @@ export class TableDataHandler<T = DBTypicalRecord> {
       adder.insertKV(key, options[key])
     }
     this.table.fields.forEach((field) => {
-      if (field.extras.isUUID) {
+      if (field.isUUID) {
         adder.insertKV(field.fieldKey, makeUUID())
       }
-      if (field.extras.isAuthor) {
+      if (field.isAuthor) {
         adder.insertKV(field.fieldKey, author || '')
       }
     })

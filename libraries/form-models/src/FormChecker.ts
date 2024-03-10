@@ -25,8 +25,8 @@ export class FormChecker {
         }
       }
       let isRequired = field.isRequired
-      if (field.extras.requiredLogic) {
-        isRequired = LogicExpressionHelper.calcExpression(field.extras.requiredLogic, params)
+      if (field.requiredLogic) {
+        isRequired = LogicExpressionHelper.calcExpression(field.requiredLogic, params)
       }
       if (checkRequiredProps && isRequired) {
         if (params[field.fieldKey] === undefined || params[field.fieldKey] === null) {
@@ -44,23 +44,23 @@ export class FormChecker {
       const value = params[field.fieldKey]
       if (value !== undefined && value !== null) {
         if (
-          field.extras.enumType === FieldEnumType.Single ||
-          field.extras.enumType === FieldEnumType.Multiple
+          field.enumType === FieldEnumType.Single ||
+          field.enumType === FieldEnumType.Multiple
         ) {
-          if (!field.extras.value2LabelMap) {
-            field.extras.value2LabelMap = (field.extras.options || []).reduce((result: any, cur: any) => {
+          if (!field.value2LabelMap) {
+            field.value2LabelMap = (field.options || []).reduce((result: any, cur: any) => {
               result[cur.value] = cur.label
               return result
             }, {})
           }
-          const value2LabelMap = field.extras.value2LabelMap!
-          if (field.extras.enumType === FieldEnumType.Single) {
+          const value2LabelMap = field.value2LabelMap!
+          if (field.enumType === FieldEnumType.Single) {
             if (value !== '' && value2LabelMap[value] === undefined) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
                 .join(' | ')} }`
             }
-          } else if (field.extras.enumType === FieldEnumType.Multiple) {
+          } else if (field.enumType === FieldEnumType.Multiple) {
             if (FormSchemaHelper.extractMultiEnumItems(value).find((key) => value2LabelMap[key] === undefined)) {
               errorMap[field.fieldKey] = `${field.name} 有误，合法的枚举项为 { ${Object.keys(value2LabelMap)
                 .map((value) => `${value}[${value2LabelMap[value]}]`)
@@ -71,14 +71,14 @@ export class FormChecker {
 
         switch (field.fieldType as FormFieldType) {
           case FormFieldType.String:
-            if (!field.extras.multipleLines) {
+            if (!field.multipleLines) {
               if (`${value}`.length > 1024) {
                 errorMap[field.fieldKey] = `${field.name} 的长度不能超过 1024`
               }
             }
             break
           case FormFieldType.Number:
-            switch (field.extras.numberType!) {
+            switch (field.numberType!) {
               case FieldNumberType.Integer:
                 if (!/^-?\d+$/.test(value)) {
                   errorMap[field.fieldKey] = `${field.name} 有误，请提交整数`
@@ -104,7 +104,7 @@ export class FormChecker {
             }
             break
           case FormFieldType.Object:
-            switch (field.extras.objectType!) {
+            switch (field.objectType!) {
               case FieldObjectType.JSON:
                 if (!JsonChecker.checkJSON(value)) {
                   errorMap[field.fieldKey] = `${field.name} 必须为标准 JSON 格式`
@@ -137,10 +137,10 @@ export class FormChecker {
             break
         }
 
-        if (field.extras.matchRegex) {
-          const pattern = new RegExp(field.extras.matchRegex)
+        if (field.matchRegex) {
+          const pattern = new RegExp(field.matchRegex)
           if (!pattern.test(value)) {
-            errorMap[field.fieldKey] = `${field.name} 有误，需满足规则 ${field.extras.matchRegex}`
+            errorMap[field.fieldKey] = `${field.name} 有误，需满足规则 ${field.matchRegex}`
           }
         }
       }

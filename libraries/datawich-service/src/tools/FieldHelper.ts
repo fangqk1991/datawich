@@ -204,13 +204,13 @@ export class FieldHelper {
         if (key in data) {
           realData[key] = data[key]
           if (!realData[key]) {
-            if (field.extras.stringType === FieldStringType.JSON) {
+            if (field.stringType === FieldStringType.JSON) {
               realData[key] = '{}'
-            } else if (field.extras.objectType === FieldObjectType.StringList) {
+            } else if (field.objectType === FieldObjectType.StringList) {
               realData[key] = []
             }
           } else {
-            if (field.extras.objectType === FieldObjectType.StringList) {
+            if (field.objectType === FieldObjectType.StringList) {
               if (typeof realData[key] === 'string') {
                 realData[key] = JSON.parse(realData[key])
               }

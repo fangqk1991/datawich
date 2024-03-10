@@ -91,7 +91,6 @@ export class FormBuilder {
         const field = (isForm ? { fieldType: FormFieldType.Object } : props) as FormField
         field.fieldKey = fieldKey
         field.name = this.makeFieldName(field)
-        field.extras = field.extras || {}
         field.fullKeys = [...parentKeys, field.fieldKey]
         if (field.fieldType === FormFieldType.Array && field.itemSchema && !field.itemField) {
           field.itemField = {
@@ -101,7 +100,7 @@ export class FormBuilder {
         }
         if (isForm) {
           field.fieldType = FormFieldType.Object
-          field.extras.objectType = FieldObjectType.Form
+          field.objectType = FieldObjectType.Form
           field.subFields = this.buildFields(props as SchemaFormFieldsMap, field.fullKeys)
         }
         return field

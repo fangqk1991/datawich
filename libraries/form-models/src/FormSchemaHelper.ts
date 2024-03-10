@@ -46,7 +46,7 @@ export class FormSchemaHelper {
     const newFields: FormField[] = []
     const searchTree = (fields: FormField[]) => {
       fields.forEach((field) => {
-        if (field.fieldType === FormFieldType.Object && field.extras.objectType === FieldObjectType.Form) {
+        if (field.fieldType === FormFieldType.Object && field.objectType === FieldObjectType.Form) {
           searchTree(field.subFields || [])
         } else {
           newFields.push(field)

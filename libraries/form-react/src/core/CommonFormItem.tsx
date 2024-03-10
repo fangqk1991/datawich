@@ -44,7 +44,6 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
   // const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
   // const fieldName = nameI18n[code] || field.name
   const fieldName = field.name
-  const extras = field.extras || {}
 
   if (field.fieldType === FormFieldType.Array) {
     const itemField = field.itemField!
@@ -159,18 +158,18 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
       }}
     >
       {(() => {
-        if (extras.enumType === FieldEnumType.Single) {
+        if (field.enumType === FieldEnumType.Single) {
           const optionsForEnumField = (() => {
-            if (!extras.constraintKey) {
-              return extras.options!
+            if (!field.constraintKey) {
+              return field.options!
             }
-            const constraintValue = myData[extras.constraintKey] || ''
-            return (extras.options || []).filter((option) => {
+            const constraintValue = myData[field.constraintKey] || ''
+            return (field.options || []).filter((option) => {
               const restraintValueMap = option['restraintValueMap'] || {}
               return !!restraintValueMap[constraintValue]
             })
           })()
-          if (extras.uiWidget === WidgetType.Radio || optionsForEnumField.length < 5) {
+          if (field.uiWidget === WidgetType.Radio || optionsForEnumField.length < 5) {
             return (
               <ProFormRadio.Group
                 options={optionsForEnumField}
@@ -211,17 +210,17 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               }}
             />
           )
-        } else if (extras.enumType === FieldEnumType.Multiple) {
-          return <ProFormCheckbox.Group options={extras.options} disabled={!editable} />
+        } else if (field.enumType === FieldEnumType.Multiple) {
+          return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
         }
         switch (field.fieldType) {
           case FormFieldType.String:
-            if (extras.stringType === FieldStringType.RichText) {
+            if (field.stringType === FieldStringType.RichText) {
               return <RichTextEditor />
-            } else if (extras.stringType === FieldStringType.CodeText) {
+            } else if (field.stringType === FieldStringType.CodeText) {
               return <CodeEditor />
             }
-            if (extras.multipleLines) {
+            if (field.multipleLines) {
               return <ProFormTextArea disabled={!editable} />
             }
             return <ProFormText placeholder={fieldName} disabled={!editable} />
@@ -241,9 +240,9 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
           case FormFieldType.Datetime:
             return <ProFormDateTimePicker />
           case FormFieldType.Object:
-            if (extras.objectType === FieldObjectType.StringList) {
+            if (field.objectType === FieldObjectType.StringList) {
               return <ProFormSelect mode='tags' />
-            } else if (extras.objectType === FieldObjectType.Attachment) {
+            } else if (field.objectType === FieldObjectType.Attachment) {
               const fullKeys = field.fullKeys || [field.fieldKey]
               const entityKeys = FormSchemaHelper.entityKeys(fullKeys)
               const ossFileInfo = FormSchemaHelper.getDeepValue(myData, entityKeys) as OssFileInfo

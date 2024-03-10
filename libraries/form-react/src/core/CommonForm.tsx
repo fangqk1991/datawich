@@ -45,7 +45,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
         }
       })
     flattenedFields
-      .filter((field) => field.extras.enumType === FieldEnumType.Multiple)
+      .filter((field) => field.enumType === FieldEnumType.Multiple)
       .forEach((field) => {
         const value = FormSchemaHelper.getFieldValue(myData, field)
         if (value && !Array.isArray(value)) {
@@ -98,7 +98,7 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
   const getResult = useCallback(() => {
     const data = form.getFieldsValue()
     visibleFields
-      .filter((field) => field.extras.enumType === FieldEnumType.Multiple)
+      .filter((field) => field.enumType === FieldEnumType.Multiple)
       .forEach((field) => {
         const value = FormSchemaHelper.getFieldValue(data, field)
         if (Array.isArray(value)) {
@@ -144,10 +144,6 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     const data2 = {
       ...myData,
       ...data,
-      extras: {
-        ...(myData['extras'] || {}),
-        ...(data.extras || {}),
-      },
     }
     return props.transform ? props.transform(data2) : data2
   }, [visibleFields, props.transform])
@@ -172,8 +168,8 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
     <ProForm form={form} autoFocusFirstInput initialValues={myData} submitter={false} onChange={props.onChange}>
       {visibleFields
         .filter((field) => {
-          if (field.extras.visibleLogic) {
-            return LogicExpressionHelper.calcExpression(field.extras.visibleLogic, myData)
+          if (field.visibleLogic) {
+            return LogicExpressionHelper.calcExpression(field.visibleLogic, myData)
           }
           return true
         })

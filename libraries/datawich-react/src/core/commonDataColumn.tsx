@@ -26,7 +26,7 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
 
   let header = <>{field.name}</>
   let filterView: any = undefined
-  if (field.extras.enumType === FieldEnumType.Single) {
+  if (field.enumType === FieldEnumType.Single) {
     header = (
       <Select
         value={filterOptions[filterKey] || ''}
@@ -42,7 +42,7 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
             label: field.name,
             value: '',
           },
-          ...(props.getOptionsForEnumField ? props.getOptionsForEnumField() : field.extras.options || []),
+          ...(props.getOptionsForEnumField ? props.getOptionsForEnumField() : field.options || []),
         ]}
       />
     )
@@ -68,8 +68,8 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
           return true
         case FormFieldType.String:
           return (
-            (!field.extras.stringType || field.extras.stringType === FieldStringType.Normal) &&
-            !field.extras.multipleLines
+            (!field.stringType || field.stringType === FieldStringType.Normal) &&
+            !field.multipleLines
           )
       }
       return undefined

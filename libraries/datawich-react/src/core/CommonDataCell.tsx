@@ -18,8 +18,8 @@ interface Props {
 export const CommonDataCell: React.FC<Props> = (props) => {
   const field = props.field
   const dataKey = field.dataKey || field.fieldKey
-  if (field.extras.enumType && !field.extras.value2LabelMap) {
-    field.extras.value2LabelMap = (field.extras.options || []).reduce((result: any, cur: any) => {
+  if (field.enumType && !field.value2LabelMap) {
+    field.value2LabelMap = (field.options || []).reduce((result: any, cur: any) => {
       result[cur.value] = cur.label
       return result
     }, {})
@@ -28,15 +28,15 @@ export const CommonDataCell: React.FC<Props> = (props) => {
     <div>
       {(() => {
         const value = props.data[dataKey]
-        if (field.extras.enumType === FieldEnumType.Single) {
-          return field.extras.value2LabelMap![value]
-        } else if (field.extras.enumType === FieldEnumType.Multiple) {
+        if (field.enumType === FieldEnumType.Single) {
+          return field.value2LabelMap![value]
+        } else if (field.enumType === FieldEnumType.Multiple) {
           return (
             <MyTagsPanel
               inline={true}
               values={GeneralDataHelper.extractMultiEnumItems(value)}
               describeFunc={(value) => {
-                return props.field.extras.value2LabelMap![value]
+                return props.field.value2LabelMap![value]
               }}
               tagProps={{
                 color: 'geekblue',
@@ -46,7 +46,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
         }
         switch (field.fieldType) {
           case FormFieldType.String:
-            switch (field.extras.stringType!) {
+            switch (field.stringType!) {
               case FieldStringType.Normal:
                 break
               case FieldStringType.Link:
@@ -109,7 +109,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                 }
                 break
             }
-            if (field.extras.multipleLines) {
+            if (field.multipleLines) {
               return <pre>{value}</pre>
             }
             break
@@ -118,9 +118,9 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               return ''
             }
             const realValue = value || 0
-            if (field.extras.numberFormat === NumberFormat.Percent) {
+            if (field.numberFormat === NumberFormat.Percent) {
               return <PercentSpan value={value || 0} />
-            } else if (field.extras.numberFormat === NumberFormat.Format) {
+            } else if (field.numberFormat === NumberFormat.Format) {
               const prefix = realValue < 0 ? '-' : ''
               let val = Math.abs(realValue)
               let unit
@@ -137,8 +137,8 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               )
               // num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               // return realValue.toLocaleString('en-US')
-            } else if (typeof field.extras.floatBits === 'number' && field.extras.floatBits >= 0) {
-              return realValue.toFixed(field.extras.floatBits)
+            } else if (typeof field.floatBits === 'number' && field.floatBits >= 0) {
+              return realValue.toFixed(field.floatBits)
             }
             break
           case FormFieldType.Boolean:
@@ -150,7 +150,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
           case FormFieldType.Array:
             break
           case FormFieldType.Object:
-            switch (field.extras.objectType!) {
+            switch (field.objectType!) {
               case FieldObjectType.JSON:
                 break
               case FieldObjectType.StringList:

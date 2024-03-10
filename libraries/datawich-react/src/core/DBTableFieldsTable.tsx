@@ -10,7 +10,6 @@ import {
   FieldEnumTypeDescriptor,
   FormBuilder,
   FormField,
-  FormFieldExtrasData,
   FormFieldType,
   FormFieldTypeDescriptor,
   SchemaFormFieldsMap,
@@ -50,9 +49,9 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
           render: (item) => (
             <Space>
               {FormFieldTypeDescriptor.describe(item.fieldType)}
-              {item.extras.isPrimary && <Tag color={'success'}>Primary</Tag>}
-              {item.extras.isUUID && <Tag color={'success'}>UUID</Tag>}
-              {item.extras.isAuthor && <Tag color={'success'}>Author</Tag>}
+              {item.isPrimary && <Tag color={'success'}>Primary</Tag>}
+              {item.isUUID && <Tag color={'success'}>UUID</Tag>}
+              {item.isAuthor && <Tag color={'success'}>Author</Tag>}
             </Space>
           ),
         },
@@ -63,7 +62,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
               {item.isRequired && <Tag color={'success'}>必填</Tag>}
               {item.notInsertable && <Tag color={'error'}>不可插入</Tag>}
               {item.notModifiable && <Tag color={'error'}>不可修改</Tag>}
-              {item.extras.enumType && (
+              {item.enumType && (
                 <Tooltip
                   title={
                     <ul
@@ -71,7 +70,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                         paddingInlineStart: '12px',
                       }}
                     >
-                      {(item.extras.options || []).map((option) => (
+                      {(item.options || []).map((option) => (
                         <li key={option.value}>
                           {option.value} - {option.label}
                         </li>
@@ -79,7 +78,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                     </ul>
                   }
                 >
-                  <Tag color={'geekblue'}>{FieldEnumTypeDescriptor.describe(item.extras.enumType)}</Tag>
+                  <Tag color={'geekblue'}>{FieldEnumTypeDescriptor.describe(item.enumType)}</Tag>
                 </Tooltip>
               )}
             </Space>
@@ -91,7 +90,7 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
         },
         {
           title: '备注',
-          render: (item) => item.extras.remarks,
+          render: (item) => item.remarks,
         },
         ...(hideActions
           ? []
@@ -113,11 +112,9 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           name: '字段类型',
                           isRequired: true,
                           notModifiable: true,
-                          extras: {
-                            enumType: FieldEnumType.Single,
-                            options: FormFieldTypeDescriptor.options(),
-                            uiWidget: WidgetType.Radio,
-                          },
+                          enumType: FieldEnumType.Single,
+                          options: FormFieldTypeDescriptor.options(),
+                          uiWidget: WidgetType.Radio,
                           defaultValue: FormFieldType.String,
                         },
                         name: {
@@ -132,45 +129,39 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           fieldType: FormFieldType.String,
                           name: '默认值',
                         },
-                        extras: {
-                          enumType: {
-                            fieldType: FormFieldType.String,
-                            name: '使用枚举',
-                            defaultValue: FieldEnumType.Single,
-                            extras: {
-                              enumType: FieldEnumType.Single,
-                              options: FieldEnumTypeDescriptor.options(),
-                              visibleLogic: {
-                                condition: {
-                                  leftKey: 'fieldType',
-                                  symbol: FilterSymbol.EQ,
-                                  rightValue: FormFieldType.String,
-                                },
-                              },
+                        enumType: {
+                          fieldType: FormFieldType.String,
+                          name: '使用枚举',
+                          defaultValue: FieldEnumType.Single,
+                          enumType: FieldEnumType.Single,
+                          options: FieldEnumTypeDescriptor.options(),
+                          visibleLogic: {
+                            condition: {
+                              leftKey: 'fieldType',
+                              symbol: FilterSymbol.EQ,
+                              rightValue: FormFieldType.String,
                             },
                           },
-                          options: {
-                            name: '枚举选项',
-                            fieldType: FormFieldType.Array,
-                            itemSchema: {
-                              label: FormFieldType.String,
-                              value: FormFieldType.String,
-                            } as SchemaFormFieldsMap<SelectOption>,
-                            extras: {
-                              visibleLogic: {
-                                condition: {
-                                  leftKey: ['extras', 'enumType'],
-                                  symbol: FilterSymbol.IN,
-                                  rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
-                                },
-                              },
+                        },
+                        options: {
+                          name: '枚举选项',
+                          fieldType: FormFieldType.Array,
+                          itemSchema: {
+                            label: FormFieldType.String,
+                            value: FormFieldType.String,
+                          } as SchemaFormFieldsMap<SelectOption>,
+                          visibleLogic: {
+                            condition: {
+                              leftKey: 'enumType',
+                              symbol: FilterSymbol.IN,
+                              rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
                             },
                           },
-                          remarks: {
-                            fieldType: FormFieldType.String,
-                            name: '备注',
-                          },
-                        } as SchemaFormFieldsMap<Partial<FormFieldExtrasData>>,
+                        },
+                        remarks: {
+                          fieldType: FormFieldType.String,
+                          name: '备注',
+                        },
                       })
                       const dialog = new CommonFormDialog({
                         title: '字段属性',

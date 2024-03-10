@@ -41,11 +41,9 @@ export const makeFieldDialog = (props: Props = {}) => {
       name: '字段类型',
       isRequired: true,
       notModifiable: true,
-      extras: {
-        enumType: FieldEnumType.Single,
-        options: FieldTypeDescriptor.options(),
-        uiWidget: WidgetType.Radio,
-      },
+      enumType: FieldEnumType.Single,
+      options: FieldTypeDescriptor.options(),
+      uiWidget: WidgetType.Radio,
       defaultValue: FieldType.SingleLineText,
     },
     name: {
@@ -55,10 +53,8 @@ export const makeFieldDialog = (props: Props = {}) => {
     required: {
       fieldType: FormFieldType.Number,
       name: '必填',
-      extras: {
-        enumType: FieldEnumType.Single,
-        options: NumBoolDescriptor.options(),
-      },
+      enumType: FieldEnumType.Single,
+      options: NumBoolDescriptor.options(),
       defaultValue: 0,
     },
     options: {
@@ -68,13 +64,11 @@ export const makeFieldDialog = (props: Props = {}) => {
         label: FormFieldType.String,
         value: FormFieldType.String,
       } as SchemaFormFieldsMap<SelectOption>,
-      extras: {
-        visibleLogic: {
-          condition: {
-            leftKey: 'fieldType',
-            symbol: FilterSymbol.IN,
-            rightValue: [FieldType.TextEnum, FieldType.MultiEnum],
-          },
+      visibleLogic: {
+        condition: {
+          leftKey: 'fieldType',
+          symbol: FilterSymbol.IN,
+          rightValue: [FieldType.TextEnum, FieldType.MultiEnum],
         },
       },
     },
@@ -83,15 +77,13 @@ export const makeFieldDialog = (props: Props = {}) => {
         fieldType: FormFieldType.String,
         name: '数字格式',
         defaultValue: NumberFormat.Normal,
-        extras: {
-          enumType: FieldEnumType.Single,
-          options: NumberFormatDescriptor.options(),
-          visibleLogic: {
-            condition: {
-              leftKey: 'fieldType',
-              symbol: FilterSymbol.IN,
-              rightValue: [FieldType.Integer, FieldType.Float],
-            },
+        enumType: FieldEnumType.Single,
+        options: NumberFormatDescriptor.options(),
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.IN,
+            rightValue: [FieldType.Integer, FieldType.Float],
           },
         },
       },
@@ -99,14 +91,12 @@ export const makeFieldDialog = (props: Props = {}) => {
         fieldType: FormFieldType.Number,
         name: '小数精度',
         defaultValue: -1,
-        extras: {
-          numberType: FieldNumberType.Integer,
-          visibleLogic: {
-            condition: {
-              leftKey: 'fieldType',
-              symbol: FilterSymbol.IN,
-              rightValue: [FieldType.Integer, FieldType.Float],
-            },
+        numberType: FieldNumberType.Integer,
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.IN,
+            rightValue: [FieldType.Integer, FieldType.Float],
           },
         },
       },
@@ -121,13 +111,11 @@ export const makeFieldDialog = (props: Props = {}) => {
             </Tooltip>
           </div>
         ),
-        extras: {
-          visibleLogic: {
-            condition: {
-              leftKey: 'fieldType',
-              symbol: FilterSymbol.IN,
-              rightValue: [FieldType.JSON, FieldType.MultipleLinesText, FieldType.CodeText, FieldType.RichText],
-            },
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.IN,
+            rightValue: [FieldType.JSON, FieldType.MultipleLinesText, FieldType.CodeText, FieldType.RichText],
           },
         },
       },

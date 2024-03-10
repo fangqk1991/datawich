@@ -52,9 +52,35 @@ export interface FormField {
   fullKeys?: string[]
   subFields?: FormField[]
   itemSchema?: SchemaFormFieldsMap
-  itemField?: Omit<FormField, 'fieldKey' | 'name' | 'extras'>
+  itemField?: Omit<FormField, 'fieldKey' | 'name'>
   $isForm?: boolean
-  extras: Partial<FormFieldExtrasData>
+
+  enumType?: FieldEnumType
+  options?: SelectOption[]
+  value2LabelMap?: { [p: string]: string }
+
+  numberType?: FieldNumberType
+  numberFormat?: NumberFormat
+  floatBits?: number
+  bigText?: boolean
+
+  objectType?: FieldObjectType
+
+  stringType?: FieldStringType
+  multipleLines?: boolean
+
+  constraintKey?: string
+
+  visibleLogic?: LogicExpression
+  requiredLogic?: LogicExpression
+  matchRegex?: string
+
+  uiWidget?: WidgetType
+
+  remarks?: string
+  isPrimary?: boolean
+  isUUID?: boolean
+  isAuthor?: boolean
 }
 
 export interface FormFieldParams extends Partial<FormField> {

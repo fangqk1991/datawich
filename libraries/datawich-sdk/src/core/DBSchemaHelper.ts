@@ -37,9 +37,7 @@ export class DBSchemaHelper {
       name: column.Comment && column.Comment.length <= 4 ? column.Comment : column.Field,
       isRequired: column.Null !== 'YES',
       defaultValue: column.Default || '',
-      extras: {
-        remarks: column.Comment || '',
-      },
+      remarks: column.Comment || '',
     }
 
     if (column.Extra.includes('auto_increment')) {
@@ -49,32 +47,32 @@ export class DBSchemaHelper {
     if (column.Field === 'uid' && column.Type === 'char(32)') {
       field.notInsertable = true
       field.notModifiable = true
-      field.extras.isUUID = true
+      field.isUUID = true
     }
     if (column.Field === 'author') {
       field.notInsertable = true
       field.notModifiable = true
-      field.extras.isAuthor = true
+      field.isAuthor = true
     }
 
     if (column.Type.includes('int')) {
       field.fieldType = FormFieldType.Number
-      field.extras.numberType = FieldNumberType.Integer
+      field.numberType = FieldNumberType.Integer
     } else if (column.Type.includes('float') || column.Type.includes('double')) {
       field.fieldType = FormFieldType.Number
-      field.extras.numberType = FieldNumberType.Float
+      field.numberType = FieldNumberType.Float
     } else if (column.Type.includes('date')) {
       field.fieldType = FormFieldType.Date
     } else if (column.Type.includes('timestamp') || column.Type.includes('datetime')) {
       field.fieldType = FormFieldType.Datetime
     } else if (column.Type.includes('text')) {
       field.fieldType = FormFieldType.String
-      field.extras.multipleLines = true
+      field.multipleLines = true
     } else if (column.Type.startsWith('enum')) {
       const items = [...column.Type.matchAll(/'(\w+)'/g)].map((item) => item[1])
       field.fieldType = FormFieldType.String
-      field.extras.enumType = FieldEnumType.Single
-      field.extras.options = items.map((val) => ({ label: val, value: val }))
+      field.enumType = FieldEnumType.Single
+      field.options = items.map((val) => ({ label: val, value: val }))
     }
 
     if (
@@ -98,10 +96,6 @@ export class DBSchemaHelper {
     return {
       ...field,
       ...extensions,
-      extras: {
-        ...field.extras,
-        ...(extensions.extras || {}),
-      },
     }
   }
 }

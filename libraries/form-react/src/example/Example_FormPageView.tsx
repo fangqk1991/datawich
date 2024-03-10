@@ -43,23 +43,19 @@ const demoTextMap = {
     "fieldType": "String",
     "name": "单选",
     "defaultValue": "a",
-    "extras": {
-      "enumType": "Single",
-      "options": [
-        { "label": "A",  "value": "a" },
-        { "label": "B",  "value": "b" }
-      ]
-    }
+    "enumType": "Single",
+    "options": [
+      { "label": "A",  "value": "a" },
+      { "label": "B",  "value": "b" }
+    ]
   },
   "multipleChoices": {
     "fieldType": "String",
-    "extras": {
-      "enumType": "Multiple",
-      "options": [
-        { "label": "A",  "value": "a" },
-        { "label": "B",  "value": "b" }
-      ]
-    }
+    "enumType": "Multiple",
+    "options": [
+      { "label": "A",  "value": "a" },
+      { "label": "B",  "value": "b" }
+    ]
   }
 }`,
   nested: JSON.stringify(nestedFieldsMap, null, 2),
@@ -115,8 +111,7 @@ export const Example_FormPageView: React.FC = () => {
                       },
                     ],
                     stringArray: ['1', '2'],
-                    extras: {},
-                  },
+                  } as SchemaFormFieldsMap,
                 })
                 dialog.show(async (params) => {
                   setSchemaText(JSON.stringify(FormBuilder.transferToFieldsMap(params), null, 2))
