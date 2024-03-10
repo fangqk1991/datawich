@@ -15,24 +15,19 @@ const nestedFieldsMap: SchemaFormFieldsMap = {
       key1: FormFieldType.String,
       key2: FormFieldType.Number,
     },
-  },
-}
-
-const fullFieldsMap: SchemaFormFieldsMap = {
-  stringItem: FormFieldType.String,
-  boolItem: FormFieldType.Boolean,
-  dateItem: FormFieldType.Date,
-  objArray: {
-    fieldType: FormFieldType.Array,
-    itemSchema: {
-      label: FormFieldType.String,
-      value: FormFieldType.String,
-    } as SchemaFormFieldsMap<SelectOption>,
-  },
-  stringArray: {
-    fieldType: FormFieldType.Array,
-    itemField: {
-      fieldType: FormFieldType.String,
+    objArray: {
+      fieldType: FormFieldType.Array,
+      itemSchema: {
+        label: FormFieldType.String,
+        value: FormFieldType.Number,
+      } as SchemaFormFieldsMap<SelectOption>,
+    },
+    stringArray: {
+      fieldType: FormFieldType.Array,
+      itemField: {
+        fieldType: FormFieldType.String,
+      },
+      defaultValue: ['1', '2'],
     },
   },
 }
@@ -68,12 +63,11 @@ const demoTextMap = {
   }
 }`,
   nested: JSON.stringify(nestedFieldsMap, null, 2),
-  full: JSON.stringify(fullFieldsMap, null, 2),
 }
 
 export const Example_FormPageView: React.FC = () => {
-  const [demoId, setDemoId] = useState('full')
-  const [devMode, setDevMode] = useState(false)
+  const [demoId, setDemoId] = useState('nested')
+  const [devMode, setDevMode] = useState(true)
   const [schemaText, setSchemaText] = useState('')
 
   useEffect(() => {
@@ -129,7 +123,6 @@ export const Example_FormPageView: React.FC = () => {
             <Radio.Group value={demoId} onChange={(e) => setDemoId(e.target.value)}>
               <Radio value='simple'>最简示例</Radio>
               <Radio value='nested'>多级嵌套</Radio>
-              <Radio value='full'>完整实例</Radio>
             </Radio.Group>
           </Form.Item>
           <Input.TextArea

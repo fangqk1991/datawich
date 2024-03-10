@@ -59,6 +59,21 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
           )
         }
       })
+    flattenedFields
+      .filter(
+        (field) =>
+          field.fieldType === FormFieldType.Array &&
+          field.itemField &&
+          field.itemField.fieldType !== FormFieldType.Object
+      )
+      .forEach((field) => {
+        const value = (FormSchemaHelper.getFieldValue(myData, field) || []) as any[]
+        FormSchemaHelper.setFieldValue(
+          myData,
+          field,
+          value.map((item) => ({ $entity: item }))
+        )
+      })
     setData(myData)
     form.setFieldsValue(myData)
     setVersion(version + 1)
@@ -109,6 +124,21 @@ export const CommonForm: React.FC<CommonFormProps> = forwardRef((props, ref) => 
         } else if (!value) {
           FormSchemaHelper.setFieldValue(data, field, null)
         }
+      })
+    visibleFields
+      .filter(
+        (field) =>
+          field.fieldType === FormFieldType.Array &&
+          field.itemField &&
+          field.itemField.fieldType !== FormFieldType.Object
+      )
+      .forEach((field) => {
+        const value = (FormSchemaHelper.getFieldValue(data, field) || []) as { $entity: any }[]
+        FormSchemaHelper.setFieldValue(
+          data,
+          field,
+          value.map((item) => item.$entity)
+        )
       })
 
     const data2 = {

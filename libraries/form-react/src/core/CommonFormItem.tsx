@@ -103,23 +103,31 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             return (
               <ProForm.Group>
                 <Space>
-                  <ProForm.Item>{index + 1}</ProForm.Item>
-                  {(() => {
-                    switch (itemField.fieldType) {
-                      case FormFieldType.String:
-                        return <ProFormText placeholder={fieldName} disabled={!editable} />
-                      case FormFieldType.Number:
-                        break
-                      case FormFieldType.Boolean:
-                        break
-                      case FormFieldType.Date:
-                        break
-                      case FormFieldType.Datetime:
-                        break
-                      case FormFieldType.Array:
-                        break
-                    }
-                  })()}
+                  <ProForm.Item
+                    style={{
+                      minWidth: '20px',
+                    }}
+                  >
+                    {index + 1}
+                  </ProForm.Item>
+                  <ProForm.Item name={'$entity'} style={{ margin: 0 }}>
+                    {(() => {
+                      switch (itemField.fieldType) {
+                        case FormFieldType.String:
+                          return <ProFormText disabled={!editable} />
+                        case FormFieldType.Number:
+                          return <ProFormDigit min={Number.MIN_SAFE_INTEGER} />
+                        case FormFieldType.Boolean:
+                          return <ProFormRadio.Group options={BoolOptions} radioType='button' disabled={!editable} />
+                        case FormFieldType.Date:
+                          return <ProFormDatePicker />
+                        case FormFieldType.Datetime:
+                          return <ProFormDateTimePicker />
+                        case FormFieldType.Array:
+                          break
+                      }
+                    })()}
+                  </ProForm.Item>
                 </Space>
               </ProForm.Group>
             )
