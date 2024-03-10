@@ -11,7 +11,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Tooltip } from 'antd'
+import { Space, Tooltip } from 'antd'
 import { RichTextEditor } from '@fangcha/react/rich-text'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OssFileInfo } from '@fangcha/oss-models'
@@ -72,19 +72,58 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             margin: 0,
           }}
         >
-          <ProForm.Group>
-            {subFields.map((subField, index) => {
+          {(f, index, action) => {
+            if (itemField.fieldType === FormFieldType.Object) {
               return (
-                <CommonFormItem
-                  key={subField.fullKeys ? subField.fullKeys.join('.') : subField.fieldKey}
-                  field={subField}
-                  myData={items[index]}
-                  editable={editable}
-                  devMode={devMode}
-                />
+                <ProForm.Group>
+                  <Space>
+                    <ProForm.Item
+                      label={'#'}
+                      style={{
+                        minWidth: '20px',
+                      }}
+                    >
+                      {index + 1}
+                    </ProForm.Item>
+                    {subFields.map((subField) => {
+                      return (
+                        <CommonFormItem
+                          key={subField.fullKeys ? subField.fullKeys.join('.') : subField.fieldKey}
+                          field={subField}
+                          myData={items[index]}
+                          editable={editable}
+                          devMode={devMode}
+                        />
+                      )
+                    })}
+                  </Space>
+                </ProForm.Group>
               )
-            })}
-          </ProForm.Group>
+            }
+            return (
+              <ProForm.Group>
+                <Space>
+                  <ProForm.Item>{index + 1}</ProForm.Item>
+                  {(() => {
+                    switch (itemField.fieldType) {
+                      case FormFieldType.String:
+                        return <ProFormText placeholder={fieldName} disabled={!editable} />
+                      case FormFieldType.Number:
+                        break
+                      case FormFieldType.Boolean:
+                        break
+                      case FormFieldType.Date:
+                        break
+                      case FormFieldType.Datetime:
+                        break
+                      case FormFieldType.Array:
+                        break
+                    }
+                  })()}
+                </Space>
+              </ProForm.Group>
+            )
+          }}
         </ProFormList>
       </div>
     )
@@ -177,7 +216,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             if (extras.multipleLines) {
               return <ProFormTextArea disabled={!editable} />
             }
-            return <ProFormText disabled={!editable} />
+            return <ProFormText placeholder={fieldName} disabled={!editable} />
           case FormFieldType.Number:
             return <ProFormDigit disabled={!editable} min={Number.MIN_SAFE_INTEGER} />
           case FormFieldType.Boolean:
@@ -270,7 +309,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               )
             }
         }
-        return <ProFormText disabled={!editable} />
+        return <ProFormText placeholder={fieldName} disabled={!editable} />
       })()}
     </ProForm.Item>
   )

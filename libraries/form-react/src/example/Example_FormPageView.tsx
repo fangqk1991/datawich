@@ -3,8 +3,9 @@ import { Col, Form, Input, Radio, Row } from 'antd'
 import { JsonEditorDialog, JsonPre } from '@fangcha/react'
 import { FormBuilder, FormFieldType, SchemaFormFieldsMap } from '@fangcha/form-models'
 import { CommonForm } from '../core/CommonForm'
+import { SelectOption } from '@fangcha/tools'
 
-const fieldsMap: SchemaFormFieldsMap = {
+const nestedFieldsMap: SchemaFormFieldsMap = {
   key1: FormFieldType.String,
   key2: FormFieldType.Number,
   subData: {
@@ -13,6 +14,25 @@ const fieldsMap: SchemaFormFieldsMap = {
     subData: {
       key1: FormFieldType.String,
       key2: FormFieldType.Number,
+    },
+  },
+}
+
+const fullFieldsMap: SchemaFormFieldsMap = {
+  stringItem: FormFieldType.String,
+  boolItem: FormFieldType.Boolean,
+  dateItem: FormFieldType.Date,
+  objArray: {
+    fieldType: FormFieldType.Array,
+    itemSchema: {
+      label: FormFieldType.String,
+      value: FormFieldType.String,
+    } as SchemaFormFieldsMap<SelectOption>,
+  },
+  stringArray: {
+    fieldType: FormFieldType.Array,
+    itemField: {
+      fieldType: FormFieldType.String,
     },
   },
 }
@@ -47,11 +67,12 @@ const demoTextMap = {
     }
   }
 }`,
-  full: JSON.stringify(fieldsMap, null, 2),
+  nested: JSON.stringify(nestedFieldsMap, null, 2),
+  full: JSON.stringify(fullFieldsMap, null, 2),
 }
 
 export const Example_FormPageView: React.FC = () => {
-  const [demoId, setDemoId] = useState('simple')
+  const [demoId, setDemoId] = useState('full')
   const [devMode, setDevMode] = useState(false)
   const [schemaText, setSchemaText] = useState('')
 
@@ -77,11 +98,7 @@ export const Example_FormPageView: React.FC = () => {
       <Row style={{ height: '800px' }} gutter={20}>
         <Col span={8}>
           <h3>Schema</h3>
-          <Form.Item label='示例'>
-            <Radio.Group value={demoId} onChange={(e) => setDemoId(e.target.value)}>
-              <Radio value='simple'>最简示例</Radio>
-              <Radio value='full'>多级嵌套</Radio>
-            </Radio.Group>
+          <div>
             <a
               onClick={() => {
                 const dialog = new JsonEditorDialog({
@@ -107,6 +124,13 @@ export const Example_FormPageView: React.FC = () => {
             >
               From JSON
             </a>
+          </div>
+          <Form.Item label='示例'>
+            <Radio.Group value={demoId} onChange={(e) => setDemoId(e.target.value)}>
+              <Radio value='simple'>最简示例</Radio>
+              <Radio value='nested'>多级嵌套</Radio>
+              <Radio value='full'>完整实例</Radio>
+            </Radio.Group>
           </Form.Item>
           <Input.TextArea
             style={{ height: '90%' }}
