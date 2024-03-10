@@ -15,29 +15,53 @@ export class FormBuilder {
     )
   }
 
+  public static detectFieldType(value: any) {
+    const valType = typeof value
+    let fieldType = FormFieldType.String
+    if (valType === 'boolean') {
+      fieldType = FormFieldType.Boolean
+    } else if (valType === 'number') {
+      fieldType = FormFieldType.Number
+    } else if (valType === 'string') {
+      if (value.match(/^\d{4}-\d{2}-\d{2}$/) && moment(value).isValid()) {
+        fieldType = FormFieldType.Date
+      } else if (value.match(/^\d{4}-\d{2}-\d{2}/) && moment(value).isValid()) {
+        fieldType = FormFieldType.Datetime
+      }
+    }
+    return fieldType
+  }
+
   public static transferToFieldsMap(data: {}) {
     const mapper: SchemaFormFieldsMap = {}
     Object.keys(data).forEach((key) => {
       const value = data[key]
-      const valType = typeof value
-      if (value && valType === 'object') {
+      if (Array.isArray(value)) {
+        const childValue = value[0]
+        const isItemObject = !!childValue && typeof childValue === 'object'
+        if (isItemObject) {
+          mapper[key] = {
+            fieldType: FormFieldType.Array,
+            itemSchema: this.transferToFieldsMap(childValue),
+            defaultValue: value,
+          }
+        } else {
+          mapper[key] = {
+            fieldType: FormFieldType.Array,
+            itemField: {
+              fieldType: this.detectFieldType(childValue),
+            },
+            defaultValue: value,
+          }
+        }
+        return
+      }
+      if (value && typeof value === 'object') {
         mapper[key] = this.transferToFieldsMap(value)
         return
       }
-      let fieldType = FormFieldType.String
-      if (valType === 'boolean') {
-        fieldType = FormFieldType.Boolean
-      } else if (valType === 'number') {
-        fieldType = FormFieldType.Number
-      } else if (valType === 'string') {
-        if (value.match(/^\d{4}-\d{2}-\d{2}$/) && moment(value).isValid()) {
-          fieldType = FormFieldType.Date
-        } else if (value.match(/^\d{4}-\d{2}-\d{2}/) && moment(value).isValid()) {
-          fieldType = FormFieldType.Datetime
-        }
-      }
       mapper[key] = {
-        fieldType: fieldType,
+        fieldType: this.detectFieldType(value),
         defaultValue: value,
       }
     })

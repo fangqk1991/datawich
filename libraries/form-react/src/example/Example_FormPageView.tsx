@@ -101,14 +101,21 @@ export const Example_FormPageView: React.FC = () => {
                     stringItem: '1',
                     numberItem: 1,
                     boolItem: true,
-                    dateItem: '2024-03-05',
-                    datetimeItem: '2024-03-07T17:05:00+08:00',
-                    singleChoice: 'b',
-                    multipleChoices: 'a,b',
-                    subData: {
-                      key1: 1,
-                      key2: 2,
-                    },
+                    dateItem: '2024-03-06',
+                    datetimeItem: '2024-03-10T23:07:45+08:00',
+                    singleChoice: 'a',
+                    objArray: [
+                      {
+                        label: 'L',
+                        value: 1,
+                      },
+                      {
+                        label: 'M',
+                        value: 2,
+                      },
+                    ],
+                    stringArray: ['1', '2'],
+                    extras: {},
                   },
                 })
                 dialog.show(async (params) => {
