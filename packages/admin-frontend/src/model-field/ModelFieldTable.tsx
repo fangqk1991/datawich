@@ -341,10 +341,8 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                         const dialog = makeFieldDialog({
                           title: '编辑字段',
                           forEditing: true,
-                          data: field,
+                          field: field,
                         })
-                        dialog.title = '编辑字段'
-                        dialog.props.data = field
                         dialog.show(async (params) => {
                           const request = MyRequest(
                             new CommonAPI(ModelFieldApis.DataModelFieldUpdate, modelKey, field.fieldKey)
@@ -366,7 +364,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                         onClick={async () => {
                           const dialog = makeFieldDialog({
                             title: '创建字段',
-                            data: field,
+                            field: field,
                           })
                           dialog.show(async (params) => {
                             const request = MyRequest(new CommonAPI(ModelFieldApis.DataModelFieldCreate, modelKey))
