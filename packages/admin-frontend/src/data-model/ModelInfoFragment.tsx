@@ -9,7 +9,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
-import { DataModelDialog } from './DataModelDialog'
+import { makeModelDialog } from './makeModelDialog'
 import { ModelPanelsCard } from './ModelPanelsCard'
 import { useNavigate } from 'react-router-dom'
 import * as moment from 'moment'
@@ -39,7 +39,7 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
         <Button
           type='primary'
           onClick={() => {
-            const dialog = new DataModelDialog({
+            const dialog = makeModelDialog({
               title: '编辑模型',
               data: dataModel,
               forEditing: true,

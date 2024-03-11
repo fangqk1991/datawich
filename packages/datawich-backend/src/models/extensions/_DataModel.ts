@@ -109,7 +109,7 @@ export class _DataModel extends __DataModel {
       assert.ok(/^[a-z][a-z0-9_]{1,62}$/.test(params.modelKey), '模型 Key 需满足规则 /^[a-z][a-z0-9_]{1,62}$/')
     }
     if (!onlyCheckDefinedKeys || params.name !== undefined) {
-      assert.ok(!!params.name, '业务名称不能为空')
+      assert.ok(!!params.name, '模型名称不能为空')
     }
     if (!onlyCheckDefinedKeys || params.isOnline !== undefined) {
       assert.ok([0, 1].includes(params.isOnline), '是否发布 参数有误')

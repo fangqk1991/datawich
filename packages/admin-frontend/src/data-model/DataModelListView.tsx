@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, message, Space, Spin } from 'antd'
-import { DataAppApis, DataModelApis } from '@web/datawich-common/admin-apis'
+import { DataModelApis } from '@web/datawich-common/admin-apis'
 import { DataModelModel } from '@fangcha/datawich-service'
 import { LS } from '../core/ReactI18n'
 import { DataModelCard } from './DataModelCard'
 import { JsonEditorDialog } from '@fangcha/react'
-import { DataModelDialog } from './DataModelDialog'
+import { makeModelDialog } from './makeModelDialog'
 
 export const DataModelListView: React.FC = () => {
   const [appList, setAppList] = useState<DataModelModel[]>()
@@ -38,7 +38,7 @@ export const DataModelListView: React.FC = () => {
         <Button
           type='primary'
           onClick={() => {
-            const dialog = new DataModelDialog({
+            const dialog = makeModelDialog({
               title: '创建模型',
             })
             dialog.show(async (params) => {
