@@ -85,6 +85,9 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
     defaultValue: schemaField.useDefault ? schemaField.defaultValue : '',
     readonly: !!schemaField.isSystem,
 
+    dataKey: schemaField.dataKey,
+    filterKey: schemaField.filterKey,
+
     options: schemaField.options,
     value2LabelMap: schemaField.value2LabelMap,
 
