@@ -60,6 +60,9 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
     fixed: props.fixedColumn ? 'left' : undefined,
     sortOrder: filterOptions['sortKey'] === filterKey ? filterOptions['sortDirection'] : undefined,
     sorter: (() => {
+      if (field.enumType === FieldEnumType.Single) {
+        return undefined
+      }
       switch (field.fieldType) {
         case FormFieldType.Number:
         case FormFieldType.Boolean:
@@ -67,10 +70,7 @@ export const commonDataColumn = (props: Props): ColumnType<any> => {
         case FormFieldType.Datetime:
           return true
         case FormFieldType.String:
-          return (
-            (!field.stringType || field.stringType === FieldStringType.Normal) &&
-            !field.multipleLines
-          )
+          return (!field.stringType || field.stringType === FieldStringType.Normal) && !field.multipleLines
       }
       return undefined
     })(),
