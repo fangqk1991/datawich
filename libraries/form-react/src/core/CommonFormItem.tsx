@@ -44,6 +44,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
   // const code = ReactI18n.language === 'en' ? I18nCode.en : I18nCode.zhHans
   // const fieldName = nameI18n[code] || field.name
   const fieldName = field.name
+  const style = field.style || {}
 
   if (field.fieldType === FormFieldType.Array) {
     const itemField = field.itemField!
@@ -175,6 +176,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 options={optionsForEnumField}
                 radioType='button'
                 disabled={!editable}
+                style={style}
                 fieldProps={{
                   onChange: (e) => {
                     updateData &&
@@ -207,41 +209,43 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               style={{
                 width: 'auto',
                 minWidth: '200px',
+                ...style,
               }}
             />
           )
         } else if (field.enumType === FieldEnumType.Multiple) {
-          return <ProFormCheckbox.Group options={field.options} disabled={!editable} />
+          return <ProFormCheckbox.Group options={field.options} disabled={!editable} style={style} />
         }
         switch (field.fieldType) {
           case FormFieldType.String:
             if (field.stringType === FieldStringType.RichText) {
-              return <RichTextEditor />
+              return <RichTextEditor style={style} />
             } else if (field.stringType === FieldStringType.CodeText) {
               return <CodeEditor />
             }
             if (field.multipleLines) {
-              return <ProFormTextArea disabled={!editable} />
+              return <ProFormTextArea disabled={!editable} style={style} />
             }
-            return <ProFormText placeholder={fieldName} disabled={!editable} />
+            return <ProFormText placeholder={fieldName} disabled={!editable} style={style} />
           case FormFieldType.Number:
-            return <ProFormDigit disabled={!editable} min={Number.MIN_SAFE_INTEGER} />
+            return <ProFormDigit disabled={!editable} min={Number.MIN_SAFE_INTEGER} style={style} />
           case FormFieldType.Boolean:
-            return <ProFormRadio.Group options={BoolOptions} radioType='button' disabled={!editable} />
+            return <ProFormRadio.Group options={BoolOptions} radioType='button' disabled={!editable} style={style} />
           case FormFieldType.Date:
             return (
               <ProFormDatePicker
-              // fieldProps={{
-              //   format: 'YYYY-MM-DD',
-              //   value: myData[field.fieldKey] ? dayjs(myData[field.fieldKey]) : null,
-              // }}
+                style={style}
+                // fieldProps={{
+                //   format: 'YYYY-MM-DD',
+                //   value: myData[field.fieldKey] ? dayjs(myData[field.fieldKey]) : null,
+                // }}
               />
             )
           case FormFieldType.Datetime:
-            return <ProFormDateTimePicker />
+            return <ProFormDateTimePicker style={style} />
           case FormFieldType.Object:
             if (field.objectType === FieldObjectType.StringList) {
-              return <ProFormSelect mode='tags' />
+              return <ProFormSelect mode='tags' style={style} />
             } else if (field.objectType === FieldObjectType.Attachment) {
               const fullKeys = field.fullKeys || [field.fieldKey]
               const entityKeys = FormSchemaHelper.entityKeys(fullKeys)
@@ -316,7 +320,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               )
             }
         }
-        return <ProFormText placeholder={fieldName} disabled={!editable} />
+        return <ProFormText placeholder={fieldName} disabled={!editable} style={style} />
       })()}
     </ProForm.Item>
   )
