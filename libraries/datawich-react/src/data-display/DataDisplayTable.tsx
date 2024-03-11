@@ -70,18 +70,18 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
       tableProps={{
         size: 'small',
         bordered: true,
-        onRow: (record) => {
-          return {
-            onDoubleClick: () => {
-              showRecordDescriptions({
-                modelKey: modelKey,
-                displayItems: displayItems,
-                record: record,
-                extrasColumns: extrasColumns,
-              })
-            },
-          }
-        },
+        // onRow: (record) => {
+        //   return {
+        //     onDoubleClick: () => {
+        //       showRecordDescriptions({
+        //         modelKey: modelKey,
+        //         displayItems: displayItems,
+        //         record: record,
+        //         extrasColumns: extrasColumns,
+        //       })
+        //     },
+        //   }
+        // },
       }}
       showTotal={true}
       columns={TableViewColumn.makeColumns<DataRecord>([

@@ -89,18 +89,18 @@ export const DBDataTableView: React.FC<Props> = (props) => {
         tableProps={{
           size: 'small',
           bordered: true,
-          onRow: (record) => {
-            return {
-              onDoubleClick: () => {
-                showDBDataDescriptions({
-                  connectionId: connectionId,
-                  table: tableSchema,
-                  record: record,
-                  onDataChanged: forceUpdate,
-                })
-              },
-            }
-          },
+          // onRow: (record) => {
+          //   return {
+          //     onDoubleClick: () => {
+          //       showDBDataDescriptions({
+          //         connectionId: connectionId,
+          //         table: tableSchema,
+          //         record: record,
+          //         onDataChanged: forceUpdate,
+          //       })
+          //     },
+          //   }
+          // },
         }}
         columns={TableViewColumn.makeColumns<any>([
           ...fields
