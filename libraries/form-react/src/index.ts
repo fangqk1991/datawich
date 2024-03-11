@@ -1,4 +1,6 @@
 export * from './code-editor/CodeEditor'
 export * from './code-editor/CodeEditorDialog'
 export * from './core/CommonForm'
+export * from './core/CommonFormItem'
 export * from './core/CommonFormDialog'
+export * from './core/FormFieldExt'
