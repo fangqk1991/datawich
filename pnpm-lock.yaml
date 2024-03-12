@@ -55,9 +55,6 @@ importers:
       '@fangcha/oss-models':
         specifier: ^0.4.0
         version: 0.4.0
-      '@fangcha/oss-react':
-        specifier: ^0.4.0
-        version: 0.4.0
       '@fangcha/oss-service':
         specifier: ^0.12.0
         version: 0.12.0
@@ -158,6 +155,9 @@ importers:
       '@fangcha/job-react':
         specifier: ^0.1.0
         version: 0.1.0
+      '@fangcha/oss-react':
+        specifier: ^0.4.0
+        version: 0.4.0
       '@fangcha/react':
         specifier: ^0.62.0
         version: 0.62.0(moment@2.29.4)(rc-field-form@1.41.0)
@@ -2385,7 +2385,7 @@ packages:
 
   /@fangcha/oss-react@0.4.0:
     resolution: {integrity: sha512-tkQOjRKX2XIo1nnp4OgZYCk7LQ5K8uODOYjYNmQgIsicTjqH8LA0uGffjhig72lWr9xhxrSH5G8yVZSYhbhcww==}
-    dev: false
+    dev: true
 
   /@fangcha/oss-service@0.12.0:
     resolution: {integrity: sha512-ovADEmZmepC8Wf3zkcWQDGXbMDBfN6W7j7YsbFSQU++4oHQCnPINcM4Jp5GigIeBLnLCdGarHVYWgZjTieD4RA==}
