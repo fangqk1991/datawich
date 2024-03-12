@@ -83,7 +83,7 @@ export class TableDataHandler<T = DBTypicalRecord> {
         adder.insertKV(field.fieldKey, author || '')
       }
     })
-    await adder.execute()
+    return await adder.execute()
   }
 
   public async updateDataRecord(record: DBTypicalRecord, newOptions: Partial<DBTypicalRecord>) {

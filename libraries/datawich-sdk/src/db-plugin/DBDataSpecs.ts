@@ -34,7 +34,7 @@ factory.prepare(SdkDBDataApis.RecordCreate, async (ctx) => {
   const session = ctx.session as FangchaSession
   await new DBDataSpecHandler(ctx).handleTable(async (table, connection) => {
     const database = DBHandleSDK.getDatabase(connection)
-    await new TableDataHandler(database, table).createRecord(ctx.request.body, session.curUserStr())
+    ctx.body = await new TableDataHandler(database, table).createRecord(ctx.request.body, session.curUserStr())
     ctx.status = 200
   })
 })
