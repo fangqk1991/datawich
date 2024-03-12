@@ -53,11 +53,11 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
       '@fangcha/oss-models':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.5.0
+        version: 0.5.0
       '@fangcha/oss-service':
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.14.0
+        version: 0.14.0
       '@fangcha/resque':
         specifier: ^1.7.0
         version: 1.7.0
@@ -156,8 +156,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
       '@fangcha/oss-react':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.8.0
+        version: 0.8.0
       '@fangcha/react':
         specifier: ^0.62.0
         version: 0.62.0(moment@2.29.4)(rc-field-form@1.41.0)
@@ -287,6 +287,10 @@ importers:
       react-quill:
         specifier: ^2.0.0
         version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
+    devDependencies:
+      '@fangcha/oss-react':
+        specifier: ^0.8.0
+        version: 0.8.0
 
   libraries/datawich-sdk:
     devDependencies:
@@ -2379,16 +2383,16 @@ packages:
     resolution: {integrity: sha512-MU3qBd3otnxALF7jhqLBg2zb9gsjkVFey9cU2u4KlTsB3WkwZ5Qy+ytk75CIUv/QlEilc2pXkVqRdMrhpvlh7A==}
     dev: false
 
-  /@fangcha/oss-models@0.4.0:
-    resolution: {integrity: sha512-0hmun0PVPPEzor/OZzWf3JE5NIeTvrVVm7h95C3vJz7zF5M/o3HZUVcDxDcEilnY94IQ9IFRNptAn5717Uvi8w==}
+  /@fangcha/oss-models@0.5.0:
+    resolution: {integrity: sha512-nMItgRrFkgbez0nblqxksZpeZWtVATfeMUumbao0c7bVf8FRsOTqaEi1bCgWmVfhEFS8tRhFcL89FrA75bxavg==}
     dev: false
 
-  /@fangcha/oss-react@0.4.0:
-    resolution: {integrity: sha512-tkQOjRKX2XIo1nnp4OgZYCk7LQ5K8uODOYjYNmQgIsicTjqH8LA0uGffjhig72lWr9xhxrSH5G8yVZSYhbhcww==}
+  /@fangcha/oss-react@0.8.0:
+    resolution: {integrity: sha512-k/wDw9mnxL9NiQEI3/tLMKf/SZRDc/eWGncm9atsAjZZwYHFXHBGRL9MxFVc86NAj8/2bnkerDky+39QU02GvA==}
     dev: true
 
-  /@fangcha/oss-service@0.12.0:
-    resolution: {integrity: sha512-ovADEmZmepC8Wf3zkcWQDGXbMDBfN6W7j7YsbFSQU++4oHQCnPINcM4Jp5GigIeBLnLCdGarHVYWgZjTieD4RA==}
+  /@fangcha/oss-service@0.14.0:
+    resolution: {integrity: sha512-3/sZvylu7IllJkpRU5iq61ZaxVNeh1JETakvhczUzvRnhX6d/zj1fSiRex89+worjUn5yxbhVA0rnXQEJv0T2w==}
     dev: false
 
   /@fangcha/react@0.62.0(moment@2.29.4)(rc-field-form@1.41.0):

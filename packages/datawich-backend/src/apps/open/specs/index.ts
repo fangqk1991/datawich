@@ -4,6 +4,7 @@ import { OpenDataModelSpecs } from './OpenDataModelSpecs'
 import { OpenDataAppSpecs } from './OpenDataAppSpecs'
 import { OpenProfileSpecs } from './OpenProfileSpecs'
 import { OpenPanelSpecs } from './OpenPanelSpecs'
+import { OpenOssSpecs } from './OpenOssSpecs'
 
 export const DatawichOpenSwaggerDocItems: SwaggerDocItem[] = [
   {
@@ -26,5 +27,10 @@ export const DatawichOpenSwaggerDocItems: SwaggerDocItem[] = [
     name: 'Panel',
     pageURL: '/api-docs/v1/panel',
     specs: OpenPanelSpecs,
+  },
+  {
+    name: 'OSS',
+    pageURL: '/api-docs/v1/open-oss',
+    specs: OpenOssSpecs,
   },
 ]

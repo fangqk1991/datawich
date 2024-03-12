@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { MyRouter } from './MyRouter'
-import { AuthSdkHelper, useSessionConfig } from '@fangcha/auth-react'
+import { AuthSdkHelper } from '@fangcha/auth-react'
 import { OssSDK } from '@fangcha/oss-react'
 import './app.scss'
 import { DatawichWebSDKConfig } from '@fangcha/datawich-react'
@@ -13,6 +13,7 @@ import {
   ModelFieldApis,
   ModelPanelApis,
 } from '@web/datawich-common/admin-apis'
+import { OssApis } from '@fangcha/oss-models'
 
 // ReactTheme.colorPrimary = 'rgb(221 115 164)'
 AuthSdkHelper.defaultRedirectUri = '/'
@@ -40,10 +41,9 @@ DatawichWebSDKConfig.apis.DataAppRecordGet = DataAppApis.DataAppRecordGet
 DatawichWebSDKConfig.apis.DataAppRecordUpdate = DataAppApis.DataAppRecordUpdate
 DatawichWebSDKConfig.apis.DataAppRecordDelete = DataAppApis.DataAppRecordDelete
 
+OssSDK.apis.OssResourcePrepare = OssApis.OssResourcePrepare
+OssSDK.apis.OssResourceStatusMark = OssApis.OssResourceStatusMark
+
 export const App: React.FC = () => {
-  const config = useSessionConfig() as any
-
-  OssSDK.init(config.ossParams)
-
   return <RouterProvider router={MyRouter}></RouterProvider>
 }

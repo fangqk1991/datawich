@@ -1,4 +1,6 @@
 import { SdkDatawichApis, SdkDatawichPages } from '@fangcha/datawich-service'
+import { OssSDK } from '@fangcha/oss-react'
+import { OssApis } from '@fangcha/oss-models'
 
 export const DatawichWebSDKConfig = {
   appListPage: SdkDatawichPages.WebAppListRoute,
@@ -25,3 +27,6 @@ export const DatawichWebSDKConfig = {
     DataAppRecordDelete: SdkDatawichApis.DataAppRecordDelete,
   },
 }
+
+OssSDK.apis.OssResourcePrepare = SdkDatawichApis.OssResourcePrepare
+OssSDK.apis.OssResourceStatusMark = SdkDatawichApis.OssResourceStatusMark

@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/datawich-react",
-  "version": "0.33.1",
+  "version": "0.34.0",
   "main": "src/index.ts",
   "repository": "https://github.com/fangqk1991/datawich.git",
   "keywords": [
@@ -15,5 +15,8 @@
     "react-quill": "^2.0.0",
     "@fangcha/form-models": "workspace:*",
     "@fangcha/form-react": "workspace:*"
+  },
+  "devDependencies": {
+    "@fangcha/oss-react": "^0.8.0"
   }
 }

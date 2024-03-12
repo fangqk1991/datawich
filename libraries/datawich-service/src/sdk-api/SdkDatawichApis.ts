@@ -1,4 +1,4 @@
-import { OpenDataAppApis, OpenDataModelApis, OpenPanelApis, OpenProfileApis } from '../open-api'
+import { OpenDataAppApis, OpenDataModelApis, OpenOssApis, OpenPanelApis, OpenProfileApis } from '../open-api'
 import { Api } from '@fangcha/swagger'
 
 export const SdkDatawichApis = {
@@ -6,6 +6,7 @@ export const SdkDatawichApis = {
   ...OpenDataAppApis,
   ...OpenProfileApis,
   ...OpenPanelApis,
+  ...OpenOssApis,
 }
 
 for (const key of Object.keys(SdkDatawichApis)) {
