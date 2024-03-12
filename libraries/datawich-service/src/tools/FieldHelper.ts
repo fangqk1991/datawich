@@ -227,7 +227,7 @@ export class FieldHelper {
           (realData[field.fieldKey] === '' || realData[field.fieldKey] === null)
       )
       .forEach((field) => {
-        delete realData[field.fieldKey]
+        realData[field.fieldKey] = null
       })
     delete realData['create_time']
     delete realData['update_time']
