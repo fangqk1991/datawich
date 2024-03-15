@@ -81,6 +81,9 @@ export interface FormField {
   isPrimary?: boolean
   isUUID?: boolean
   isAuthor?: boolean
+
+  exactSearch?: boolean
+  fuzzySearch?: boolean
 }
 
 export interface FormFieldParams extends Partial<FormField> {

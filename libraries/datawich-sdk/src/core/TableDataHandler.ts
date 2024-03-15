@@ -29,8 +29,8 @@ export class TableDataHandler<T = DBTypicalRecord> {
     searcher.setColumns(fieldKeys)
     SearcherTools.injectConditions(searcher, {
       colsMapper: fieldKeys,
-      exactSearchCols: [],
-      fuzzySearchCols: [],
+      exactSearchCols: this.table.fields.filter((item) => item.exactSearch).map((field) => field.fieldKey),
+      fuzzySearchCols: this.table.fields.filter((item) => item.fuzzySearch).map((field) => field.fieldKey),
       gbkCols: [],
       params: options,
       timestampTypeCols: fields
