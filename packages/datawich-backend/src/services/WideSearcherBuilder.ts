@@ -71,11 +71,15 @@ export class WideSearcherBuilder {
     columns.push(`${mainTableName}._data_id AS data_id`)
     const userColumnNames: string[] = []
     const searchableFields: SearchableField[] = []
+    const fuzzySearchCols: string[] = []
     for (const field of this.mainFields) {
+      const leftColumnName = `${mainTableName}.${field.fieldKey}`
+      if (field.extrasData.fuzzySearch) {
+        fuzzySearchCols.push(leftColumnName)
+      }
       if (!accessFullText && field.extrasData.bigText) {
         continue
       }
-      const leftColumnName = `${mainTableName}.${field.fieldKey}`
       columns.push(`${leftColumnName} AS \`${field.fieldKey}\``)
       const filterKey = GeneralDataHelper.calculateFilterKey(field)
       filterMapper[filterKey] = {
@@ -98,11 +102,14 @@ export class WideSearcherBuilder {
       bigTable = `${bigTable} LEFT JOIN ${refTable} AS ${refTableAlias} ON ${curColumnName} = ${linkColumnName}`
       const refFields = await link.getRefFields()
       for (const refViceField of refFields.map((field) => field.modelForClient())) {
+        const leftColumnName = `${refTableAlias}.${refViceField.fieldKey}`
+        if (refViceField.extrasData.fuzzySearch) {
+          fuzzySearchCols.push(leftColumnName)
+        }
         if (!accessFullText && refViceField.extrasData.bigText) {
           continue
         }
         const refViceColumn = GeneralDataHelper.calculateDataKey(refViceField, link)
-        const leftColumnName = `${refTableAlias}.${refViceField.fieldKey}`
         columns.push(`${leftColumnName} AS \`${refViceColumn}\``)
         filterMapper[GeneralDataHelper.calculateFilterKey(refViceField, link)] = {
           columnName: leftColumnName,
@@ -133,7 +140,7 @@ export class WideSearcherBuilder {
       //   [FieldType.Datetime].includes(filterMapper[key].field.fieldType as FieldType)
       // ),
       exactSearchCols: [],
-      fuzzySearchCols: [],
+      fuzzySearchCols: fuzzySearchCols,
       gbkCols: [],
       params: this.filterOptions,
       timestampTypeCols: [],

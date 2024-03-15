@@ -25,6 +25,7 @@ export interface ModelFieldExtrasData {
   visibleLogic?: LogicExpression
   requiredLogic?: LogicExpression
   bigText?: boolean
+  fuzzySearch?: boolean
 }
 
 export interface ModelFieldParams {

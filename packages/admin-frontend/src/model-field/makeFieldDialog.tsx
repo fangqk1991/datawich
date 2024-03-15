@@ -119,6 +119,17 @@ export const makeFieldDialog = (props: Props = {}) => {
           },
         },
       },
+      fuzzySearch: {
+        fieldType: FormFieldType.Boolean,
+        name: '模糊搜索',
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.IN,
+            rightValue: [FieldType.SingleLineText, FieldType.StringList, FieldType.MultipleLinesText],
+          },
+        },
+      },
     } as SchemaFormFieldsMap<Partial<ModelFieldExtrasData>>,
   })
   const dialog = new CommonFormDialog({
