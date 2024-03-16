@@ -165,6 +165,10 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           fieldType: FormFieldType.String,
                           name: '备注',
                         },
+                        notVisible: {
+                          fieldType: FormFieldType.Boolean,
+                          name: '隐藏',
+                        },
                       })
                       const dialog = new CommonFormDialog({
                         title: '字段属性',
