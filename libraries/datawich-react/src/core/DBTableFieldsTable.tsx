@@ -29,6 +29,9 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
   return (
     <Table
       size={'small'}
+      scroll={{
+        x: 'max-content',
+      }}
       rowKey={(item) => item.fieldKey}
       columns={TableViewColumn.makeColumns<FormField>([
         {
