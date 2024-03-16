@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DBTable, DBTypicalRecord, SdkDBDataApis, } from '@fangcha/datawich-service'
+import { DBTable, DBTypicalRecord, SdkDBDataApis } from '@fangcha/datawich-service'
 import { Descriptions, message } from 'antd'
 import { CommonDataCell } from './CommonDataCell'
 import { LoadingView, ReactPreviewDialog } from '@fangcha/react'
@@ -27,28 +27,26 @@ export const DBDataDescriptions: React.FC<Props> = ({ connectionId, table, recor
   }
   return (
     <Descriptions size={'small'} bordered={true}>
-      {table.fields
-        .filter((field) => !field.notVisible)
-        .map((field) => {
-          return (
-            <Descriptions.Item key={field.fieldKey} label={field.name}>
-              <CommonDataCell
-                field={field}
-                data={data}
-                updateRecord={async (data, params) => {
-                  const request = MyRequest(
-                    new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, data[table.primaryKey])
-                  )
-                  request.setBodyData(params)
-                  await request.execute()
-                  message.success('修改成功')
-                  setVersion(version + 1)
-                  onDataChanged && onDataChanged()
-                }}
-              />
-            </Descriptions.Item>
-          )
-        })}
+      {table.fields.map((field) => {
+        return (
+          <Descriptions.Item key={field.fieldKey} label={field.name}>
+            <CommonDataCell
+              field={field}
+              data={data}
+              updateRecord={async (data, params) => {
+                const request = MyRequest(
+                  new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, data[table.primaryKey])
+                )
+                request.setBodyData(params)
+                await request.execute()
+                message.success('修改成功')
+                setVersion(version + 1)
+                onDataChanged && onDataChanged()
+              }}
+            />
+          </Descriptions.Item>
+        )
+      })}
     </Descriptions>
   )
 }
