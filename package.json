@@ -24,7 +24,7 @@
     "@fangcha/resque-sdk": "^0.4.0",
     "@fangcha/router": "^0.31.0",
     "@fangcha/session": "^0.2.0",
-    "@fangcha/web-auth-sdk": "^0.8.0",
+    "@fangcha/web-auth-sdk": "^0.9.0",
     "@fangcha/account-models": "^0.20.0",
     "@fangcha/sso-models": "^0.8.0",
     "@fangcha/job": "^0.4.0",

@@ -77,8 +77,8 @@ importers:
         specifier: ^1.40.0
         version: 1.40.0
       '@fangcha/web-auth-sdk':
-        specifier: ^0.8.0
-        version: 0.8.0(@fangcha/account-models@0.20.0)(@fangcha/account@0.33.0)(@fangcha/app-request-extensions@0.3.0)(@fangcha/app-request@1.9.0)(@fangcha/backend-kit@0.66.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.8.0)
+        specifier: ^0.9.0
+        version: 0.9.0(@fangcha/account-models@0.20.0)(@fangcha/account@0.33.0)(@fangcha/app-request-extensions@0.3.0)(@fangcha/app-request@1.9.0)(@fangcha/backend-kit@0.66.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.8.0)
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -2496,14 +2496,14 @@ packages:
       vue-router: 3.6.5(vue@2.7.14)
     dev: true
 
-  /@fangcha/web-auth-sdk@0.8.0(@fangcha/account-models@0.20.0)(@fangcha/account@0.33.0)(@fangcha/app-request-extensions@0.3.0)(@fangcha/app-request@1.9.0)(@fangcha/backend-kit@0.66.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.8.0):
-    resolution: {integrity: sha512-YjMe86f2yeZttSpRmMnz7aDrjvmXLwJxTXGsSuU+GlWLoLYci09urdOlyGMHeIXHZEGWSk7NwgUDh0nRVm6kfA==}
+  /@fangcha/web-auth-sdk@0.9.0(@fangcha/account-models@0.20.0)(@fangcha/account@0.33.0)(@fangcha/app-request-extensions@0.3.0)(@fangcha/app-request@1.9.0)(@fangcha/backend-kit@0.66.0)(@fangcha/router@0.31.0)(@fangcha/sso-models@0.8.0):
+    resolution: {integrity: sha512-lBg+SWiggr1FJRM4MSji8GEHvhMZzqxe9DvDmUfoLztjxaF7NG5CcF2CiAmRU8q2UKwi7KiMSxYpH7DNQUJhcg==}
     peerDependencies:
       '@fangcha/account': '*'
       '@fangcha/account-models': '*'
-      '@fangcha/app-request': '*'
-      '@fangcha/app-request-extensions': '*'
-      '@fangcha/backend-kit': ^0.61.0
+      '@fangcha/app-request': ^1.9.0
+      '@fangcha/app-request-extensions': ^0.3.0
+      '@fangcha/backend-kit': ^0.66.0
       '@fangcha/router': '*'
       '@fangcha/sso-models': '*'
     dependencies:
