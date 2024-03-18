@@ -9,7 +9,12 @@ export const SdkDBDataApis = {
   RecordPageDataGet: {
     method: 'GET',
     route: '/api/datawich-sdk/db/v1/connection/:connectionId/table/:tableId/record',
-    description: '获取分页数据',
+    description: '获取分页数据（包含总数）',
+  } as Api,
+  RecordItemsGet: {
+    method: 'GET',
+    route: '/api/datawich-sdk/db/v1/connection/:connectionId/table/:tableId/all-records',
+    description: '获取完整列表',
   } as Api,
   RecordCreate: {
     method: 'POST',

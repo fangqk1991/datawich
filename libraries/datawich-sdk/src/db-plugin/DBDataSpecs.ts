@@ -3,6 +3,7 @@ import { FangchaSession } from '@fangcha/session'
 import { OpenLevel, SdkDBDataApis } from '@fangcha/datawich-service'
 import { DBDataSpecHandler, DBHandleSDK, TableDataHandler } from '../core'
 import assert from '@fangcha/assert'
+import { FilterOptions } from 'fc-feed'
 
 const factory = new SpecFactory('DB Data SDK')
 
@@ -15,7 +16,7 @@ factory.prepare(SdkDBDataApis.TableSchemaGet, async (ctx) => {
 factory.prepare(SdkDBDataApis.RecordPageDataGet, async (ctx) => {
   await new DBDataSpecHandler(ctx).handleTable(async (table, connection) => {
     const database = DBHandleSDK.getDatabase(connection)
-    const options = ctx.request.query
+    const options = ctx.request.query as FilterOptions
     const session = ctx.session as FangchaSession
     const authorField = table.fields.find((field) => field.isAuthor)
     if (!session.checkVisitorIsAdmin()) {
@@ -27,6 +28,26 @@ factory.prepare(SdkDBDataApis.RecordPageDataGet, async (ctx) => {
       }
     }
     ctx.body = await new TableDataHandler(database, table).getPageResult(options)
+  })
+})
+
+factory.prepare(SdkDBDataApis.RecordItemsGet, async (ctx) => {
+  await new DBDataSpecHandler(ctx).handleTable(async (table, connection) => {
+    const database = DBHandleSDK.getDatabase(connection)
+    const options = ctx.request.query as FilterOptions
+    const session = ctx.session as FangchaSession
+    const authorField = table.fields.find((field) => field.isAuthor)
+    if (!session.checkVisitorIsAdmin()) {
+      assert.ok(!!authorField, 'Only admin can access it.')
+      switch (table.openLevel) {
+        case OpenLevel.Private:
+          options[authorField!.fieldKey] = session.curUserStr()
+          break
+      }
+    }
+    options._length = Math.max(Math.min(options._length || 100, 10000), 0)
+    const searcher = new TableDataHandler(database, table).getSearcher(options)
+    ctx.body = await searcher.queryList()
   })
 })
 
