@@ -8,6 +8,8 @@ import { CommonFormDialog } from '@fangcha/form-react'
 import {
   FieldEnumType,
   FieldEnumTypeDescriptor,
+  FieldStringType,
+  FieldStringTypeDescriptor,
   FormBuilder,
   FormField,
   FormFieldType,
@@ -15,7 +17,7 @@ import {
   SchemaFormFieldsMap,
   WidgetType,
 } from '@fangcha/form-models'
-import { FilterSymbol } from '@fangcha/logic'
+import { FilterSymbol, LogicSymbol } from '@fangcha/logic'
 import { SelectOption } from '@fangcha/tools'
 
 interface Props {
@@ -132,6 +134,21 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           fieldType: FormFieldType.String,
                           name: '默认值',
                         },
+                        stringType: {
+                          fieldType: FormFieldType.String,
+                          name: '文本属性',
+                          enumType: FieldEnumType.Single,
+                          options: FieldStringTypeDescriptor.options(),
+                          uiWidget: WidgetType.Radio,
+                          defaultValue: FieldStringType.Normal,
+                          visibleLogic: {
+                            condition: {
+                              leftKey: 'fieldType',
+                              symbol: FilterSymbol.EQ,
+                              rightValue: FormFieldType.String,
+                            },
+                          },
+                        },
                         enumType: {
                           fieldType: FormFieldType.String,
                           name: '使用枚举',
@@ -139,11 +156,23 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           enumType: FieldEnumType.Single,
                           options: FieldEnumTypeDescriptor.options(),
                           visibleLogic: {
-                            condition: {
-                              leftKey: 'fieldType',
-                              symbol: FilterSymbol.EQ,
-                              rightValue: FormFieldType.String,
-                            },
+                            logic: LogicSymbol.AND,
+                            elements: [
+                              {
+                                condition: {
+                                  leftKey: 'stringType',
+                                  symbol: FilterSymbol.EQ,
+                                  rightValue: FieldStringType.Normal,
+                                },
+                              },
+                              {
+                                condition: {
+                                  leftKey: 'enumType',
+                                  symbol: FilterSymbol.IN,
+                                  rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
+                                },
+                              },
+                            ],
                           },
                         },
                         options: {
@@ -154,11 +183,23 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             value: FormFieldType.String,
                           } as SchemaFormFieldsMap<SelectOption>,
                           visibleLogic: {
-                            condition: {
-                              leftKey: 'enumType',
-                              symbol: FilterSymbol.IN,
-                              rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
-                            },
+                            logic: LogicSymbol.AND,
+                            elements: [
+                              {
+                                condition: {
+                                  leftKey: 'stringType',
+                                  symbol: FilterSymbol.EQ,
+                                  rightValue: FieldStringType.Normal,
+                                },
+                              },
+                              {
+                                condition: {
+                                  leftKey: 'enumType',
+                                  symbol: FilterSymbol.IN,
+                                  rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
+                                },
+                              },
+                            ],
                           },
                         },
                         remarks: {
