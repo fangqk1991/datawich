@@ -45,6 +45,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
   // const fieldName = nameI18n[code] || field.name
   const fieldName = field.name
   const style = field.style || {}
+  const fullKeys = field.fullKeys || [field.fieldKey]
 
   if (field.fieldType === FormFieldType.Array) {
     const itemField = field.itemField!
@@ -56,10 +57,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
           name={field.fullKeys || field.fieldKey}
           label={
             <div>
-              {fieldName}{' '}
-              {devMode && (
-                <span className={'text-danger'}>({field.fullKeys ? field.fullKeys.join('.') : field.fieldKey})</span>
-              )}
+              {fieldName} {devMode && <span className={'text-danger'}>({fullKeys.join('.')})</span>}
               {field.readonly && (
                 <Tooltip title={'Readonly'}>
                   <InfoCircleOutlined />
@@ -142,10 +140,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
       name={field.fullKeys || field.fieldKey}
       label={
         <div>
-          {field.label || fieldName}{' '}
-          {devMode && (
-            <span className={'text-danger'}>({field.fullKeys ? field.fullKeys.join('.') : field.fieldKey})</span>
-          )}
+          {field.label || fieldName} {devMode && <span className={'text-danger'}>({fullKeys.join('.')})</span>}
           {field.readonly && (
             <Tooltip title={'Readonly'}>
               <InfoCircleOutlined />
@@ -183,7 +178,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                       updateData([
                         {
                           field: field,
-                          fullKeys: field.fullKeys!,
+                          fullKeys: fullKeys,
                           value: e.target.value,
                         },
                       ])
@@ -201,7 +196,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 updateData([
                   {
                     field: field,
-                    fullKeys: field.fullKeys!,
+                    fullKeys: fullKeys,
                     value: value,
                   },
                 ])
@@ -247,7 +242,6 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             if (field.objectType === FieldObjectType.StringList) {
               return <ProFormSelect mode='tags' style={style} />
             } else if (field.objectType === FieldObjectType.Attachment) {
-              const fullKeys = field.fullKeys || [field.fieldKey]
               const entityKeys = FormSchemaHelper.entityKeys(fullKeys)
               const ossFileInfo = FormSchemaHelper.getDeepValue(myData, entityKeys) as OssFileInfo
               const uploadFile = () => {
