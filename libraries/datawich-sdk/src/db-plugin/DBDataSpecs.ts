@@ -54,6 +54,9 @@ factory.prepare(SdkDBDataApis.RecordItemsGet, async (ctx) => {
 factory.prepare(SdkDBDataApis.RecordCreate, async (ctx) => {
   const session = ctx.session as FangchaSession
   await new DBDataSpecHandler(ctx).handleTable(async (table, connection) => {
+    if (table.openLevel === OpenLevel.None || table.openLevel === OpenLevel.Readonly) {
+      assert.ok(session.checkVisitorIsAdmin(), 'Only the admin can modify it.', 403)
+    }
     const database = DBHandleSDK.getDatabase(connection)
     ctx.body = await new TableDataHandler(database, table).createRecord(ctx.request.body, session.curUserStr())
     ctx.status = 200
