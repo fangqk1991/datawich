@@ -134,6 +134,17 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           fieldType: FormFieldType.String,
                           name: '默认值',
                         },
+                        multipleLines: {
+                          fieldType: FormFieldType.Boolean,
+                          name: '多行文本',
+                          visibleLogic: {
+                            condition: {
+                              leftKey: 'fieldType',
+                              symbol: FilterSymbol.EQ,
+                              rightValue: FormFieldType.String,
+                            },
+                          },
+                        },
                         stringType: {
                           fieldType: FormFieldType.String,
                           name: '文本属性',
@@ -156,21 +167,40 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                           enumType: FieldEnumType.Single,
                           options: FieldEnumTypeDescriptor.options(),
                           visibleLogic: {
-                            logic: LogicSymbol.AND,
+                            logic: LogicSymbol.OR,
                             elements: [
                               {
                                 condition: {
-                                  leftKey: 'stringType',
+                                  leftKey: 'fieldType',
                                   symbol: FilterSymbol.EQ,
-                                  rightValue: FieldStringType.Normal,
+                                  rightValue: FormFieldType.Number,
                                 },
                               },
                               {
-                                condition: {
-                                  leftKey: 'enumType',
-                                  symbol: FilterSymbol.IN,
-                                  rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
-                                },
+                                logic: LogicSymbol.AND,
+                                elements: [
+                                  {
+                                    condition: {
+                                      leftKey: 'fieldType',
+                                      symbol: FilterSymbol.EQ,
+                                      rightValue: FormFieldType.String,
+                                    },
+                                  },
+                                  {
+                                    condition: {
+                                      leftKey: 'multipleLines',
+                                      symbol: FilterSymbol.BoolEQ,
+                                      rightValue: false,
+                                    },
+                                  },
+                                  {
+                                    condition: {
+                                      leftKey: 'stringType',
+                                      symbol: FilterSymbol.EQ,
+                                      rightValue: FieldStringType.Normal,
+                                    },
+                                  },
+                                ],
                               },
                             ],
                           },
@@ -183,23 +213,11 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                             value: FormFieldType.String,
                           } as SchemaFormFieldsMap<SelectOption>,
                           visibleLogic: {
-                            logic: LogicSymbol.AND,
-                            elements: [
-                              {
-                                condition: {
-                                  leftKey: 'stringType',
-                                  symbol: FilterSymbol.EQ,
-                                  rightValue: FieldStringType.Normal,
-                                },
-                              },
-                              {
-                                condition: {
-                                  leftKey: 'enumType',
-                                  symbol: FilterSymbol.IN,
-                                  rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
-                                },
-                              },
-                            ],
+                            condition: {
+                              leftKey: 'enumType',
+                              symbol: FilterSymbol.IN,
+                              rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
+                            },
                           },
                         },
                         remarks: {

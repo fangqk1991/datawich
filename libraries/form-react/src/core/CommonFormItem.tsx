@@ -175,13 +175,13 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 fieldProps={{
                   onChange: (e) => {
                     updateData &&
-                      updateData([
-                        {
-                          field: field,
-                          fullKeys: fullKeys,
-                          value: e.target.value,
-                        },
-                      ])
+                    updateData([
+                      {
+                        field: field,
+                        fullKeys: fullKeys,
+                        value: e.target.value,
+                      },
+                    ])
                   },
                 }}
               />
@@ -225,7 +225,26 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
           case FormFieldType.Number:
             return <ProFormDigit disabled={!editable} min={Number.MIN_SAFE_INTEGER} style={style} />
           case FormFieldType.Boolean:
-            return <ProFormRadio.Group options={BoolOptions} radioType='button' disabled={!editable} style={style} />
+            return (
+              <ProFormRadio.Group
+                options={BoolOptions}
+                radioType='button'
+                disabled={!editable}
+                style={style}
+                fieldProps={{
+                  onChange: (e) => {
+                    updateData &&
+                    updateData([
+                      {
+                        field: field,
+                        fullKeys: fullKeys,
+                        value: e.target.value,
+                      },
+                    ])
+                  },
+                }}
+              />
+            )
           case FormFieldType.Date:
             return (
               <ProFormDatePicker
@@ -252,21 +271,21 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                     size: resource.size,
                   }
                   updateData &&
-                    updateData([
-                      {
-                        field: field,
-                        fullKeys: fullKeys,
-                        value: JSON.stringify(fileInfo),
+                  updateData([
+                    {
+                      field: field,
+                      fullKeys: fullKeys,
+                      value: JSON.stringify(fileInfo),
+                    },
+                    {
+                      field: field,
+                      fullKeys: entityKeys,
+                      value: {
+                        ...fileInfo,
+                        url: resource.url,
                       },
-                      {
-                        field: field,
-                        fullKeys: entityKeys,
-                        value: {
-                          ...fileInfo,
-                          url: resource.url,
-                        },
-                      },
-                    ])
+                    },
+                  ])
                 })
               }
               if (!ossFileInfo) {
@@ -292,18 +311,18 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                         className={'text-danger'}
                         onClick={() => {
                           updateData &&
-                            updateData([
-                              {
-                                field: field,
-                                fullKeys: fullKeys,
-                                value: '',
-                              },
-                              {
-                                field: field,
-                                fullKeys: entityKeys,
-                                value: null,
-                              },
-                            ])
+                          updateData([
+                            {
+                              field: field,
+                              fullKeys: fullKeys,
+                              value: '',
+                            },
+                            {
+                              field: field,
+                              fullKeys: entityKeys,
+                              value: null,
+                            },
+                          ])
                         }}
                       >
                         移除
