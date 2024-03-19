@@ -35,7 +35,7 @@ export const DBDataTableView: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <h4>{tableSchema.name || tableSchema.tableId}</h4>
+      <h3>{tableSchema.name || tableSchema.tableId}</h3>
 
       <Divider />
 
