@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/form-models",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Form Models.",
   "main": "src/index.ts",
   "publishConfig": {
