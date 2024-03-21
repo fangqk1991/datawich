@@ -1,7 +1,7 @@
 import React from 'react'
 import { message, Space, Table, Tag, Tooltip } from 'antd'
 import { DBTable, SdkDatabaseApis } from '@fangcha/datawich-service'
-import { TableViewColumn } from '@fangcha/react'
+import { TableViewColumn, TextPreviewDialog } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonFormDialog } from '@fangcha/form-react'
@@ -103,157 +103,160 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
               {
                 title: '操作',
                 render: (item: FormField) => (
-                  <a
-                    onClick={() => {
-                      const fields = FormBuilder.buildFields<FormField>({
-                        fieldKey: {
-                          fieldType: FormFieldType.String,
-                          name: '键值',
-                          isRequired: true,
-                          notModifiable: true,
-                        },
-                        fieldType: {
-                          fieldType: FormFieldType.String,
-                          name: '字段类型',
-                          isRequired: true,
-                          notModifiable: true,
-                          enumType: FieldEnumType.Single,
-                          options: FormFieldTypeDescriptor.options(),
-                          uiWidget: WidgetType.Radio,
-                          defaultValue: FormFieldType.String,
-                        },
-                        name: {
-                          fieldType: FormFieldType.String,
-                          name: '名称',
-                        },
-                        isRequired: {
-                          fieldType: FormFieldType.Boolean,
-                          name: '必填',
-                        },
-                        defaultValue: {
-                          fieldType: FormFieldType.String,
-                          name: '默认值',
-                        },
-                        multipleLines: {
-                          fieldType: FormFieldType.Boolean,
-                          name: '多行文本',
-                          visibleLogic: {
-                            condition: {
-                              leftKey: 'fieldType',
-                              symbol: FilterSymbol.EQ,
-                              rightValue: FormFieldType.String,
+                  <Space>
+                    <a
+                      onClick={() => {
+                        const fields = FormBuilder.buildFields<FormField>({
+                          fieldKey: {
+                            fieldType: FormFieldType.String,
+                            name: '键值',
+                            isRequired: true,
+                            notModifiable: true,
+                          },
+                          fieldType: {
+                            fieldType: FormFieldType.String,
+                            name: '字段类型',
+                            isRequired: true,
+                            notModifiable: true,
+                            enumType: FieldEnumType.Single,
+                            options: FormFieldTypeDescriptor.options(),
+                            uiWidget: WidgetType.Radio,
+                            defaultValue: FormFieldType.String,
+                          },
+                          name: {
+                            fieldType: FormFieldType.String,
+                            name: '名称',
+                          },
+                          isRequired: {
+                            fieldType: FormFieldType.Boolean,
+                            name: '必填',
+                          },
+                          defaultValue: {
+                            fieldType: FormFieldType.String,
+                            name: '默认值',
+                          },
+                          multipleLines: {
+                            fieldType: FormFieldType.Boolean,
+                            name: '多行文本',
+                            visibleLogic: {
+                              condition: {
+                                leftKey: 'fieldType',
+                                symbol: FilterSymbol.EQ,
+                                rightValue: FormFieldType.String,
+                              },
                             },
                           },
-                        },
-                        stringType: {
-                          fieldType: FormFieldType.String,
-                          name: '文本属性',
-                          enumType: FieldEnumType.Single,
-                          options: FieldStringTypeDescriptor.options(),
-                          uiWidget: WidgetType.Radio,
-                          defaultValue: FieldStringType.Normal,
-                          visibleLogic: {
-                            condition: {
-                              leftKey: 'fieldType',
-                              symbol: FilterSymbol.EQ,
-                              rightValue: FormFieldType.String,
+                          stringType: {
+                            fieldType: FormFieldType.String,
+                            name: '文本属性',
+                            enumType: FieldEnumType.Single,
+                            options: FieldStringTypeDescriptor.options(),
+                            uiWidget: WidgetType.Radio,
+                            defaultValue: FieldStringType.Normal,
+                            visibleLogic: {
+                              condition: {
+                                leftKey: 'fieldType',
+                                symbol: FilterSymbol.EQ,
+                                rightValue: FormFieldType.String,
+                              },
                             },
                           },
-                        },
-                        enumType: {
-                          fieldType: FormFieldType.String,
-                          name: '使用枚举',
-                          defaultValue: FieldEnumType.Single,
-                          enumType: FieldEnumType.Single,
-                          options: FieldEnumTypeDescriptor.options(),
-                          visibleLogic: {
-                            logic: LogicSymbol.OR,
-                            elements: [
-                              {
-                                condition: {
-                                  leftKey: 'fieldType',
-                                  symbol: FilterSymbol.EQ,
-                                  rightValue: FormFieldType.Number,
+                          enumType: {
+                            fieldType: FormFieldType.String,
+                            name: '使用枚举',
+                            defaultValue: FieldEnumType.Single,
+                            enumType: FieldEnumType.Single,
+                            options: FieldEnumTypeDescriptor.options(),
+                            visibleLogic: {
+                              logic: LogicSymbol.OR,
+                              elements: [
+                                {
+                                  condition: {
+                                    leftKey: 'fieldType',
+                                    symbol: FilterSymbol.EQ,
+                                    rightValue: FormFieldType.Number,
+                                  },
                                 },
-                              },
-                              {
-                                logic: LogicSymbol.AND,
-                                elements: [
-                                  {
-                                    condition: {
-                                      leftKey: 'fieldType',
-                                      symbol: FilterSymbol.EQ,
-                                      rightValue: FormFieldType.String,
+                                {
+                                  logic: LogicSymbol.AND,
+                                  elements: [
+                                    {
+                                      condition: {
+                                        leftKey: 'fieldType',
+                                        symbol: FilterSymbol.EQ,
+                                        rightValue: FormFieldType.String,
+                                      },
                                     },
-                                  },
-                                  {
-                                    condition: {
-                                      leftKey: 'multipleLines',
-                                      symbol: FilterSymbol.BoolEQ,
-                                      rightValue: false,
+                                    {
+                                      condition: {
+                                        leftKey: 'multipleLines',
+                                        symbol: FilterSymbol.BoolEQ,
+                                        rightValue: false,
+                                      },
                                     },
-                                  },
-                                  {
-                                    condition: {
-                                      leftKey: 'stringType',
-                                      symbol: FilterSymbol.EQ,
-                                      rightValue: FieldStringType.Normal,
+                                    {
+                                      condition: {
+                                        leftKey: 'stringType',
+                                        symbol: FilterSymbol.EQ,
+                                        rightValue: FieldStringType.Normal,
+                                      },
                                     },
-                                  },
-                                ],
-                              },
-                            ],
-                          },
-                        },
-                        options: {
-                          name: '枚举选项',
-                          fieldType: FormFieldType.Array,
-                          itemSchema: {
-                            label: FormFieldType.String,
-                            value: FormFieldType.String,
-                          } as SchemaFormFieldsMap<SelectOption>,
-                          visibleLogic: {
-                            condition: {
-                              leftKey: 'enumType',
-                              symbol: FilterSymbol.IN,
-                              rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
+                                  ],
+                                },
+                              ],
                             },
                           },
-                        },
-                        remarks: {
-                          fieldType: FormFieldType.String,
-                          name: '备注',
-                        },
-                        notVisible: {
-                          fieldType: FormFieldType.Boolean,
-                          name: '隐藏',
-                        },
-                      })
-                      const dialog = new CommonFormDialog({
-                        title: '字段属性',
-                        fields: fields,
-                        data: item,
-                        forEditing: true,
-                      })
-                      dialog.show(async (params) => {
-                        const request = MyRequest(
-                          new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, table.tableId)
-                        )
-                        request.setBodyData({
-                          fieldsExtras: {
-                            ...table.fieldsExtras,
-                            [item.fieldKey]: params,
+                          options: {
+                            name: '枚举选项',
+                            fieldType: FormFieldType.Array,
+                            itemSchema: {
+                              label: FormFieldType.String,
+                              value: FormFieldType.String,
+                            } as SchemaFormFieldsMap<SelectOption>,
+                            visibleLogic: {
+                              condition: {
+                                leftKey: 'enumType',
+                                symbol: FilterSymbol.IN,
+                                rightValue: [FieldEnumType.Single, FieldEnumType.Multiple],
+                              },
+                            },
+                          },
+                          remarks: {
+                            fieldType: FormFieldType.String,
+                            name: '备注',
+                          },
+                          notVisible: {
+                            fieldType: FormFieldType.Boolean,
+                            name: '隐藏',
                           },
                         })
-                        await request.quickSend()
-                        message.success('更新成功')
+                        const dialog = new CommonFormDialog({
+                          title: '字段属性',
+                          fields: fields,
+                          data: item,
+                          forEditing: true,
+                        })
+                        dialog.show(async (params) => {
+                          const request = MyRequest(
+                            new CommonAPI(SdkDatabaseApis.TableSchemaUpdate, connectionId, table.tableId)
+                          )
+                          request.setBodyData({
+                            fieldsExtras: {
+                              ...table.fieldsExtras,
+                              [item.fieldKey]: params,
+                            },
+                          })
+                          await request.quickSend()
+                          message.success('更新成功')
 
-                        onDataChanged && onDataChanged()
-                      })
-                    }}
-                  >
-                    编辑
-                  </a>
+                          onDataChanged && onDataChanged()
+                        })
+                      }}
+                    >
+                      编辑
+                    </a>
+                    <a onClick={() => TextPreviewDialog.previewData(item)}>Raw</a>
+                  </Space>
                 ),
               },
             ]),
