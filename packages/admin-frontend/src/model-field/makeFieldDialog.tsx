@@ -6,8 +6,6 @@ import {
   ModelFieldExtrasData,
   ModelFieldModel,
   ModelFieldParams,
-  NumberFormat,
-  NumberFormatDescriptor,
 } from '@fangcha/datawich-service'
 import { NumBoolDescriptor, SelectOption } from '@fangcha/tools'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -17,6 +15,8 @@ import {
   FieldNumberType,
   FormBuilder,
   FormFieldType,
+  NumberFormat,
+  NumberFormatDescriptor,
   SchemaFormFieldsMap,
   WidgetType,
 } from '@fangcha/form-models'

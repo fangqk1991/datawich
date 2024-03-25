@@ -1,12 +1,19 @@
 import React from 'react'
-import { GeneralDataHelper, NumberFormat } from '@fangcha/datawich-service'
+import { GeneralDataHelper } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Image, Tag } from 'antd'
 import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
 import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
 import { CodeEditor, CodeEditorDialog } from '@fangcha/form-react'
-import { FieldEnumType, FieldObjectType, FieldStringType, FormField, FormFieldType } from '@fangcha/form-models'
+import {
+  FieldEnumType,
+  FieldObjectType,
+  FieldStringType,
+  FormField,
+  FormFieldType,
+  NumberFormat,
+} from '@fangcha/form-models'
 
 interface Props {
   field: FormField
@@ -118,8 +125,8 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               return ''
             }
             const realValue = value || 0
-            if (field.numberFormat === NumberFormat.Percent) {
-              return <PercentSpan value={value || 0} />
+            if (field.numberFormat === NumberFormat.Percent || field.numberFormat === NumberFormat.PurePercent) {
+              return <PercentSpan pure={field.numberFormat === NumberFormat.PurePercent} value={value || 0} />
             } else if (field.numberFormat === NumberFormat.Format) {
               const prefix = realValue < 0 ? '-' : ''
               let val = Math.abs(realValue)

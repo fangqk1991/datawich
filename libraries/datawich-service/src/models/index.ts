@@ -13,7 +13,6 @@ export * from './field/FieldLinkModel'
 export * from './field/ModelFieldModel'
 export * from './field/FieldLinkMaker'
 export * from './field/ModelFieldTypes'
-export * from './field/NumberFormat'
 export * from './field/FieldSpecialModels'
 
 export * from './data-model/DataModelModel'

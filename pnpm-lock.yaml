@@ -156,8 +156,8 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0
       '@fangcha/react':
-        specifier: ^0.63.0
-        version: 0.63.0(moment@2.29.4)(rc-field-form@1.41.0)
+        specifier: ^0.64.0
+        version: 0.64.0(moment@2.29.4)(rc-field-form@1.41.0)
       '@fangcha/vue':
         specifier: ^0.79.0
         version: 0.79.0
@@ -362,6 +362,9 @@ importers:
       '@fangcha/datawich-frontend':
         specifier: workspace:*
         version: link:../../libraries/datawich-vue
+      '@fangcha/form-models':
+        specifier: workspace:*
+        version: link:../../libraries/form-models
       '@web/datawich-common':
         specifier: workspace:*
         version: link:../../services/datawich-common
@@ -2389,8 +2392,8 @@ packages:
     resolution: {integrity: sha512-3/sZvylu7IllJkpRU5iq61ZaxVNeh1JETakvhczUzvRnhX6d/zj1fSiRex89+worjUn5yxbhVA0rnXQEJv0T2w==}
     dev: false
 
-  /@fangcha/react@0.63.0(moment@2.29.4)(rc-field-form@1.41.0):
-    resolution: {integrity: sha512-YhJczkhksdi4A84jrS5Reimg6yUkJ0jxBnj4XJVrtWgRmLCN1Nb090zlJN4WWBN0KHGs7W6uLI35p5U5JO3kbA==}
+  /@fangcha/react@0.64.0(moment@2.29.4)(rc-field-form@1.41.0):
+    resolution: {integrity: sha512-yu2Zk8igCdiUWBwUgf+D1vBLkfTQgH9h4mExN2NJHigh0IcP8t8TFCVaXLrsGvXLEFZjgV08ydt49Me9/TP5CA==}
     dependencies:
       '@ant-design/pro-components': 2.6.43(antd@5.12.8)(rc-field-form@1.41.0)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/react': 11.10.6(react@18.2.0)

@@ -6,12 +6,11 @@ import {
   FieldTypeDescriptor,
   ModelFieldExtrasData,
   ModelFieldModel,
-  NumberFormat,
-  NumberFormatDescriptor,
 } from '@fangcha/datawich-service'
 import EnumFieldExtension from './EnumFieldExtension'
 import TagsFieldExtension from './TagsFieldExtension'
 import { I18nCode } from '@fangcha/tools'
+import { NumberFormat, NumberFormatDescriptor } from '@fangcha/form-models'
 
 @Component({
   components: {

@@ -3,7 +3,7 @@ import { FieldLinkModel } from './FieldLinkModel'
 import { FieldType } from './FieldType'
 import { FieldActionParams, Raw_ModelField } from './ModelFieldTypes'
 import { LogicExpression } from '@fangcha/logic'
-import { NumberFormat } from './NumberFormat'
+import { NumberFormat } from '@fangcha/form-models'
 
 export interface DateRange {
   floor: string

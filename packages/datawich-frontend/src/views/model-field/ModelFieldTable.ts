@@ -12,7 +12,7 @@ import {
   TextPreviewDialog,
   ViewController,
 } from '@fangcha/vue'
-import { FieldIndexModel, FieldType, ModelFieldModel, NumberFormat } from '@fangcha/datawich-service'
+import { FieldIndexModel, FieldType, ModelFieldModel } from '@fangcha/datawich-service'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/admin-apis'
 import { SelectOption } from '@fangcha/tools'
 import ModelFieldDialog from './ModelFieldDialog'
@@ -24,6 +24,7 @@ import { DatawichEventKeys } from '../../services/DatawichEventKeys'
 import { LogicExpressionDialog } from '../../components/LogicExpressionDialog'
 import { FieldHelper } from '@fangcha/datawich-service'
 import { LogicExpressionHelper } from '@fangcha/logic'
+import { NumberFormat } from '@fangcha/form-models'
 
 @Component({
   components: {
@@ -64,7 +65,9 @@ import { LogicExpressionHelper } from '@fangcha/logic'
       <el-table-column prop="fieldType" label="字段类型" min-width="140px">
         <template slot-scope="scope">
           {{ scope.row.fieldType | describe_model_field_type }}
-          <template v-if="scope.row.extrasData.constraintKey"> [父级字段: {{ scope.row.extrasData.constraintKey }}] </template>
+          <template v-if="scope.row.extrasData.constraintKey">
+            [父级字段: {{ scope.row.extrasData.constraintKey }}]
+          </template>
         </template>
       </el-table-column>
       <el-table-column prop="required" label="是否隐藏" width="90px">

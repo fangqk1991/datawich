@@ -11,18 +11,13 @@ import {
 } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { ModelFieldApis, ModelIndexApis } from '@web/datawich-common/admin-apis'
-import {
-  FieldHelper,
-  FieldIndexModel,
-  FieldTypeDescriptor,
-  ModelFieldModel,
-  NumberFormat,
-} from '@fangcha/datawich-service'
+import { FieldHelper, FieldIndexModel, FieldTypeDescriptor, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { Button, message, Space, Switch, Tag } from 'antd'
 import { makeFieldDialog } from './makeFieldDialog'
 import { ProFormText } from '@ant-design/pro-components'
 import { FieldActionsCell } from './FieldActionsCell'
+import { NumberFormat } from '@fangcha/form-models'
 
 interface Props {
   modelKey: string
@@ -288,7 +283,10 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
                 <>
                   {!!field.isSystem && <Tag color={'geekblue'}>系统字段</Tag>}
                   {!!field.extrasData.searchable && <Tag color={'geekblue'}>可搜索</Tag>}
-                  {field.extrasData.numberFormat === NumberFormat.Percent && <Tag color={'warning'}>Percent</Tag>}
+                  {field.extrasData.numberFormat === NumberFormat.Percent && <Tag color={'success'}>Percent</Tag>}
+                  {field.extrasData.numberFormat === NumberFormat.PurePercent && (
+                    <Tag color={'warning'}>PurePercent</Tag>
+                  )}
                   {!!field.extrasData.readonly && <Tag color={'warning'}>Readonly</Tag>}
                   {!!field.extrasData.matchRegex && <Tag color={'red'}>{field.extrasData.matchRegex}</Tag>}
                   {!!field.extrasData.bigText && <Tag color={'red'}>超长文本</Tag>}
