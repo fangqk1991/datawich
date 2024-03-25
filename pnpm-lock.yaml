@@ -276,18 +276,18 @@ importers:
   libraries/datawich-react:
     dependencies:
       '@fangcha/form-models':
-        specifier: workspace:*
+        specifier: ^0.8.0
         version: link:../form-models
       '@fangcha/form-react':
-        specifier: workspace:*
+        specifier: ^0.9.0
         version: link:../form-react
-      react-quill:
-        specifier: ^2.0.0
-        version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@fangcha/oss-react':
         specifier: ^0.8.0
         version: 0.8.0
+      react-quill:
+        specifier: ^2.0.0
+        version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
 
   libraries/datawich-sdk:
     devDependencies:
@@ -3227,7 +3227,6 @@ packages:
     resolution: {integrity: sha512-IhW3fPW+bkt9MLNlycw8u8fWb7oO7W5URC9MfZYHBlA24rex9rs23D5DETChu1zvgVdc5ka64ICjJOgQMr6Shw==}
     dependencies:
       parchment: 1.1.4
-    dev: false
 
   /@types/range-parser@1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
@@ -10391,7 +10390,6 @@ packages:
       quill: 1.3.7
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
 
   /react-redux@7.2.9(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Gx4L3uM182jEEayZfRbI/G11ZpYdNAnBs70lFVMNdHJI76XYtR+7m0MN+eAs7UHBPhWXcnFPaS+9owSCJQHNpQ==}
