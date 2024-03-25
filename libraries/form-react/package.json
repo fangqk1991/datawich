@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/form-react",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "main": "src/index.ts",
   "repository": "https://github.com/fangqk1991/datawich.git",
   "keywords": [
@@ -11,8 +11,10 @@
   "files": [
     "src/*"
   ],
+  "peerDependencies": {
+    "@fangcha/form-models": "^0.8.0"
+  },
   "dependencies": {
-    "@fangcha/form-models": "workspace:*",
     "react-quill": "^2.0.0",
     "@monaco-editor/react": "^4.6.0"
   }

@@ -315,7 +315,7 @@ importers:
   libraries/form-react:
     dependencies:
       '@fangcha/form-models':
-        specifier: workspace:*
+        specifier: ^0.8.0
         version: link:../form-models
       '@monaco-editor/react':
         specifier: ^4.6.0
