@@ -11,6 +11,7 @@ import { ModelPanelProvider } from '../filter/ModelPanelContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { DataFilterPanel } from '../filter/DataFilterPanel'
 import { DataDisplayTable } from '../data-display/DataDisplayTable'
+import { DataCreateButton } from '../core/DataCreateButton'
 
 interface Props {
   extrasColumns?: {
@@ -48,6 +49,12 @@ export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
       <DataFilterPanel modelKey={modelKey} mainFields={mainFields} />
 
       <Divider style={{ margin: '0 0 12px' }} />
+
+      <Space style={{ marginBottom: '12px' }}>
+        <DataCreateButton modelKey={modelKey} fields={mainFields} onDataChanged={() => forceUpdate()} />
+      </Space>
+
+      {/*<Divider style={{ margin: '0 0 12px' }} />*/}
 
       <DataDisplayTable
         modelKey={modelKey}

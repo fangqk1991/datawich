@@ -11,6 +11,7 @@ export * from './core/DBRecordActionCell'
 export * from './core/DBTableFieldsTable'
 export * from './core/DBTableInfoView'
 export * from './core/DBDataTableView'
+export * from './core/DataCreateButton'
 export * from './core/useConnection'
 
 export * from './data-display/DataDisplayTable'

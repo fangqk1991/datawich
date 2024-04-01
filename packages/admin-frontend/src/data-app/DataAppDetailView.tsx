@@ -8,9 +8,9 @@ import { CommonAPI } from '@fangcha/app-request'
 import { LS } from '../core/ReactI18n'
 import { LoadingDialog, RouterLink, useQueryParams } from '@fangcha/react'
 import { DataImportButton } from './DataImportButton'
-import { DataCreateButton } from './DataCreateButton'
 import { DownloadTaskHelper } from '@fangcha/oss-react'
 import {
+  DataCreateButton,
   DataDisplayTable,
   DataFilterPanel,
   ModelPanelProvider,
@@ -76,7 +76,7 @@ export const DataAppDetailView: React.FC = () => {
       <Divider style={{ margin: '0 0 12px' }} />
 
       <Space style={{ marginBottom: '12px' }}>
-        <DataCreateButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
+        <DataCreateButton modelKey={modelKey} fields={mainFields} onDataChanged={() => forceUpdate()} />
         <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
         <Button
           danger={true}
