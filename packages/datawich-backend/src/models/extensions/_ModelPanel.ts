@@ -34,14 +34,20 @@ export class _ModelPanel extends __ModelPanel {
   }
 
   public async updateInfos(params: ModelPanelParams) {
-    assert.ok(!!params.name, '名称不能为空')
-    assert.ok(!!params.configData, 'configData 不能为空')
-    assert.ok(!!params.configData.displaySettings, 'configData.displaySettings 有误')
-    params.configData.queryParams = params.configData.queryParams || {}
-
     this.fc_edit()
-    this.name = params.name
-    this.configDataStr = JSON.stringify(params.configData)
+    if (params.isPublic !== undefined) {
+      this.isPublic = params.isPublic ? 1 : 0
+    }
+    if (params.name !== undefined) {
+      assert.ok(!!params.name, '名称不能为空')
+      this.name = params.name
+    }
+    if (params.configData !== undefined) {
+      assert.ok(!!params.configData, 'configData 不能为空')
+      assert.ok(!!params.configData.displaySettings, 'configData.displaySettings 有误')
+      params.configData.queryParams = params.configData.queryParams || {}
+      this.configDataStr = JSON.stringify(params.configData)
+    }
     await this.updateToDB()
   }
 }

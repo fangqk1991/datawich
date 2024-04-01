@@ -319,11 +319,13 @@ CREATE TABLE IF NOT EXISTS model_panel
     FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE CASCADE,
     author          VARCHAR(255) COLLATE ascii_bin NOT NULL DEFAULT '' COMMENT '创建者邮箱',
     name            VARCHAR(127)                   NOT NULL DEFAULT '' COMMENT '名称',
+    is_public       TINYINT                        NOT NULL DEFAULT 0 COMMENT '所有人可见',
     config_data_str TEXT COMMENT '描述信息，空 | JSON 字符串',
     create_time     TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time     TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE (panel_id),
     INDEX (model_key),
+    INDEX (is_public),
     index (author)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

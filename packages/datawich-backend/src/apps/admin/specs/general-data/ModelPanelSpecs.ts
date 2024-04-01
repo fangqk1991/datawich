@@ -8,9 +8,14 @@ import assert from '@fangcha/assert'
 const factory = new SpecFactory('模型面板')
 
 factory.prepare(ModelPanelApis.ModelPanelListGet, async (ctx) => {
+  const { showAll } = ctx.request.body
   await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    await new SessionChecker(ctx).assertModelAccessible(dataModel)
+    const checker = new SessionChecker(ctx)
+    await checker.assertModelAccessible(dataModel)
     const searcher = new DataModelHandler(dataModel).getPanelSearcher()
+    if (!showAll) {
+      searcher.processor().addSpecialCondition('is_public = 1 OR author = ?', checker.email)
+    }
     ctx.body = await searcher.queryJsonFeeds()
   })
 })

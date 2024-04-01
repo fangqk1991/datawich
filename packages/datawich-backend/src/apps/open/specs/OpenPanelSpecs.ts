@@ -9,7 +9,9 @@ const factory = new SpecFactory('模型面板')
 
 factory.prepare(OpenPanelApis.ModelPanelListGet, async (ctx) => {
   await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
+    const session = ctx.session as OpenSession
     const searcher = new DataModelHandler(dataModel).getPanelSearcher()
+    searcher.processor().addSpecialCondition('is_public = 1 OR author = ?', session.realUserId)
     ctx.body = await searcher.queryJsonFeeds()
   })
 })

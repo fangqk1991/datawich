@@ -111,16 +111,6 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, control
     const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelListGet, modelKey))
     return request.quickSend<ModelPanelInfo[]>()
   }, [modelKey, version])
-  const [hideOthers, setHideOthers] = useState(false)
-  const visiblePanels = useMemo(() => {
-    if (!panelList) {
-      return []
-    }
-    if (!hideOthers) {
-      return panelList
-    }
-    return panelList.filter((panel) => panel.author === userInfo.email || panel.panelId === queryParams.panelId)
-  }, [panelList, hideOthers, userInfo])
 
   if (loading) {
     return <LoadingView />
@@ -225,11 +215,8 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, control
                   </Button>
                 </Space>
               )}
-              <Checkbox checked={hideOthers} onChange={(e) => setHideOthers(e.target.checked)}>
-                隐藏他人面板
-              </Checkbox>
               <Space wrap={true}>
-                {visiblePanels.map((item) => {
+                {panelList.map((item) => {
                   const checked = !!panelInfo && item.panelId === panelInfo.panelId
                   const isAuthor = userInfo.email === item.author
                   return (

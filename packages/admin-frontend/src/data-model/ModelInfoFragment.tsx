@@ -10,7 +10,6 @@ import { DataModelModel } from '@fangcha/datawich-service'
 import { ModelMilestonePanel } from './ModelMilestonePanel'
 import { ConfirmDialog, LoadingDialog, RouterLink } from '@fangcha/react'
 import { makeModelDialog } from './makeModelDialog'
-import { ModelPanelsCard } from './ModelPanelsCard'
 import { useNavigate } from 'react-router-dom'
 import * as moment from 'moment'
 
@@ -173,8 +172,6 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
       )}
       <Divider />
       <ModelMilestonePanel dataModel={dataModel} onModelInfoChanged={onModelInfoChanged} />
-      <Divider />
-      <ModelPanelsCard dataModel={dataModel} onModelInfoChanged={onModelInfoChanged} />
     </>
   )
 }

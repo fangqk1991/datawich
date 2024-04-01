@@ -67,6 +67,10 @@ export const DatawichI18N = {
     en: `Fields`,
     zh: `字段结构`,
   },
+  '[i18n] Panel Management': {
+    en: `Panel`,
+    zh: `面板管理`,
+  },
   '[i18n] Privacy Management': {
     en: `Privacy`,
     zh: `访问管理`,

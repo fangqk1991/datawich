@@ -7,6 +7,7 @@ const _cols: string[] = [
   'model_key',
   'author',
   'name',
+  'is_public',
   'config_data_str',
   'create_time',
   'update_time',
@@ -17,6 +18,7 @@ const _insertableCols: string[] = [
   'model_key',
   'author',
   'name',
+  'is_public',
   'config_data_str',
 ]
 const _modifiableCols: string[] = [
@@ -24,6 +26,7 @@ const _modifiableCols: string[] = [
   'model_key',
   'author',
   'name',
+  'is_public',
   'config_data_str',
   'create_time',
 ]
@@ -53,6 +56,10 @@ export default class __ModelPanel extends FeedBase {
    * @description [varchar(127)] 名称
    */
   public name!: string
+  /**
+   * @description [tinyint] 所有人可见
+   */
+  public isPublic!: number
   /**
    * @description [text] 描述信息，空 | JSON 字符串
    */
@@ -101,6 +108,7 @@ export default class __ModelPanel extends FeedBase {
     // This function is invoked by constructor of FCModel
     this.author = ''
     this.name = ''
+    this.isPublic = 0
     this.configDataStr = ''
   }
 
@@ -110,6 +118,7 @@ export default class __ModelPanel extends FeedBase {
       modelKey: 'model_key',
       author: 'author',
       name: 'name',
+      isPublic: 'is_public',
       configDataStr: 'config_data_str',
       createTime: 'create_time',
       updateTime: 'update_time',

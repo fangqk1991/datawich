@@ -10,6 +10,7 @@ import { RouterLink, useQueryParams } from '@fangcha/react'
 import { ModelInfoFragment } from './ModelInfoFragment'
 import { ModelStructureFragment } from './ModelStructureFragment'
 import { ModelAccessFragment } from './ModelAccessFragment'
+import { ModelPanelFragment } from './ModelPanelFragment'
 
 export const DataModelManageView: React.FC = () => {
   const { modelKey = '' } = useParams()
@@ -61,6 +62,11 @@ export const DataModelManageView: React.FC = () => {
             children: (
               <ModelStructureFragment dataModel={dataModel} onModelInfoChanged={() => setVersion(version + 1)} />
             ),
+          },
+          {
+            label: LS('[i18n] Panel Management'),
+            key: 'fragment-model-panel',
+            children: <ModelPanelFragment dataModel={dataModel} onModelInfoChanged={() => setVersion(version + 1)} />,
           },
           {
             label: LS('[i18n] Privacy Management'),

@@ -34,6 +34,7 @@ export interface ModelPanelConfig {
 export interface ModelPanelParams {
   name: string
   configData: ModelPanelConfig
+  isPublic?: number
   author?: string
 }
 
@@ -42,6 +43,7 @@ export interface ModelPanelInfo {
   modelKey: string
   author: string
   name: string
+  isPublic: number
   configData: ModelPanelConfig
   createTime: string
   updateTime: string
