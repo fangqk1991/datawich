@@ -8,7 +8,7 @@ import assert from '@fangcha/assert'
 const factory = new SpecFactory('模型面板')
 
 factory.prepare(ModelPanelApis.ModelPanelListGet, async (ctx) => {
-  const { showAll } = ctx.request.body
+  const { showAll } = ctx.request.query
   await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
     const checker = new SessionChecker(ctx)
     await checker.assertModelAccessible(dataModel)
