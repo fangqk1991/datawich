@@ -276,10 +276,10 @@ importers:
   libraries/datawich-react:
     devDependencies:
       '@fangcha/form-models':
-        specifier: ^0.8.0
+        specifier: workspace:*
         version: link:../form-models
       '@fangcha/form-react':
-        specifier: ^0.9.0
+        specifier: workspace:*
         version: link:../form-react
       '@fangcha/oss-react':
         specifier: ^0.8.0

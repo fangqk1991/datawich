@@ -165,7 +165,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
               return !!restraintValueMap[constraintValue]
             })
           })()
-          if (field.uiWidget === WidgetType.Radio || optionsForEnumField.length < 5) {
+          if (field.uiWidget === WidgetType.Radio || optionsForEnumField.length < 8) {
             return (
               <ProFormRadio.Group
                 options={optionsForEnumField}
