@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FieldDisplayItem } from '@fangcha/datawich-service'
-import { Descriptions } from 'antd'
+import { Descriptions, Divider } from 'antd'
 import { LoadingView, ReactPreviewDialog } from '@fangcha/react'
 import { MyDataCell } from '../data-display/MyDataCell'
 import { MyRequest } from '@fangcha/auth-react'
@@ -36,22 +36,45 @@ export const RecordDescriptions: React.FC<Props> = ({ modelKey, displayItems, ex
   }
   const columns = extrasColumns || []
   return (
-    <Descriptions size={'small'} bordered={true}>
-      {displayItems
-        .filter((item) => !item.isHidden)
-        .map((item) => {
-          return (
-            <Descriptions.Item key={item.field.dataKey} label={item.field.name}>
-              <MyDataCell field={item.field} data={record} />
-            </Descriptions.Item>
-          )
-        })}
-      {columns.map((column, index) => (
-        <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
-          {column.render(record, record, 0)}
-        </Descriptions.Item>
-      ))}
-    </Descriptions>
+    <>
+      <Descriptions title={'展示字段信息'} size={'small'} bordered={true}>
+        {displayItems
+          .filter((item) => !item.isHidden)
+          .map((item) => {
+            return (
+              <Descriptions.Item key={item.field.dataKey} label={item.field.name}>
+                <MyDataCell field={item.field} data={record} />
+              </Descriptions.Item>
+            )
+          })}
+        {columns.map((column, index) => (
+          <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
+            {column.render(record, record, 0)}
+          </Descriptions.Item>
+        ))}
+      </Descriptions>
+      {displayItems.filter((item) => item.isHidden).length > 0 && (
+        <>
+          <Divider />
+          <Descriptions title={'隐藏字段信息'} size={'small'} bordered={true}>
+            {displayItems
+              .filter((item) => item.isHidden)
+              .map((item) => {
+                return (
+                  <Descriptions.Item key={item.field.dataKey} label={item.field.name}>
+                    <MyDataCell field={item.field} data={record} />
+                  </Descriptions.Item>
+                )
+              })}
+            {columns.map((column, index) => (
+              <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
+                {column.render(record, record, 0)}
+              </Descriptions.Item>
+            ))}
+          </Descriptions>
+        </>
+      )}
+    </>
   )
 }
 
