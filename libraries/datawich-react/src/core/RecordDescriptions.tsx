@@ -66,11 +66,6 @@ export const RecordDescriptions: React.FC<Props> = ({ modelKey, displayItems, ex
                   </Descriptions.Item>
                 )
               })}
-            {columns.map((column, index) => (
-              <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
-                {column.render(record, record, 0)}
-              </Descriptions.Item>
-            ))}
           </Descriptions>
         </>
       )}
