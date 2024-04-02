@@ -274,14 +274,13 @@ importers:
         version: 3.6.5(vue@2.7.14)
 
   libraries/datawich-react:
-    dependencies:
+    devDependencies:
       '@fangcha/form-models':
         specifier: ^0.8.0
         version: link:../form-models
       '@fangcha/form-react':
         specifier: ^0.9.0
         version: link:../form-react
-    devDependencies:
       '@fangcha/oss-react':
         specifier: ^0.8.0
         version: 0.8.0
@@ -314,15 +313,16 @@ importers:
 
   libraries/form-react:
     dependencies:
-      '@fangcha/form-models':
-        specifier: ^0.8.0
-        version: link:../form-models
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.6.0(monaco-editor@0.46.0)(react-dom@18.2.0)(react@18.2.0)
       react-quill:
         specifier: ^2.0.0
         version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
+    devDependencies:
+      '@fangcha/form-models':
+        specifier: ^0.8.0
+        version: link:../form-models
 
   packages/admin-frontend:
     devDependencies:
