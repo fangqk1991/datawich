@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { DataModelModel, FieldsDisplaySettings, ModelPanelInfo, ProfileEvent } from '@fangcha/datawich-service'
-import { useParams } from 'react-router-dom'
 import { useQueryParams } from '@fangcha/react'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
@@ -26,7 +25,6 @@ interface Props extends React.ComponentProps<any> {
 export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Props) => {
   const [version, setVersion] = useState(0)
 
-  const { modelKey = '' } = useParams()
   const { queryParams, updateQueryParams } = useQueryParams<{
     keywords: string
     panelId: string
@@ -52,7 +50,7 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Pro
     }
     if (!queryParams.panelId) {
       const request = MyRequest(
-        new CommonAPI(DatawichWebSDKConfig.apis.ProfileInfoGet, ProfileEvent.UserModelDefaultPanel, modelKey)
+        new CommonAPI(DatawichWebSDKConfig.apis.ProfileInfoGet, ProfileEvent.UserModelDefaultPanel, dataModel.modelKey)
       )
       request.quickSend<{ panelId: string }>().then(({ panelId }) => {
         const usingPanelId = panelId || dataModel.extrasData.defaultPanelId
@@ -67,7 +65,9 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Pro
       return
     }
 
-    const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelInfoGet, modelKey, queryParams.panelId))
+    const request = MyRequest(
+      new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelInfoGet, dataModel.modelKey, queryParams.panelId)
+    )
     request.setMute(true)
     request
       .quickSend<ModelPanelInfo>()

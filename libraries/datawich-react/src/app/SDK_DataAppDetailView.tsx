@@ -12,6 +12,7 @@ import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { DataFilterPanel } from '../filter/DataFilterPanel'
 import { DataDisplayTable } from '../data-display/DataDisplayTable'
 import { DataCreateButton } from '../core/DataCreateButton'
+import { useFavorAppsCtx } from '../profile/FavorAppsContext'
 
 interface Props {
   extrasColumns?: {
@@ -26,6 +27,8 @@ export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
 
   const dataModel = useDataModel(modelKey)
   const mainFields = useMainFields(modelKey)
+  const favorAppsCtx = useFavorAppsCtx()
+  const favored = favorAppsCtx.checkAppFavor(modelKey)
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
@@ -39,7 +42,12 @@ export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
             title: <RouterLink route={DatawichWebSDKConfig.appListPage}>{'数据应用'}</RouterLink>,
           },
           {
-            title: <Space>{dataModel.name}</Space>,
+            title: (
+              <Space>
+                {dataModel.name} |
+                <a onClick={() => favorAppsCtx.toggleAppFavor(modelKey)}>{favored ? '取消关注' : '关注'}</a>
+              </Space>
+            ),
           },
         ]}
       />

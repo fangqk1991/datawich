@@ -128,23 +128,6 @@ export class FieldHelper {
     return code !== FieldType.MultipleLinesText && !this.checkSpecialField(code)
   }
 
-  public static extractDisplayFields(mainFields: ModelFieldModel[], displaySettings: FieldsDisplaySettings) {
-    const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
-      result[cur] = true
-      return result
-    }, {})
-    let displayItems = mainFields.filter((item) => !displaySettings.hiddenFieldsMap[item.filterKey])
-    const fieldMap = displayItems.reduce((result, cur) => {
-      result[cur.filterKey] = cur
-      return result
-    }, {})
-    displayItems = [
-      ...displaySettings.checkedList.map((filterKey) => fieldMap[filterKey]).filter((item) => !!item),
-      ...displayItems.filter((item) => !checkedMap[item.filterKey]),
-    ]
-    return displayItems
-  }
-
   public static flattenDisplayItems(
     mainFields: ModelFieldModel[],
     displaySettings: FieldsDisplaySettings,
