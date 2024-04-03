@@ -13,6 +13,7 @@ export * from './core/DBTableInfoView'
 export * from './core/DBDataTableView'
 export * from './core/DataCreateButton'
 export * from './core/useConnection'
+export * from './core/RecordDescriptions'
 
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'

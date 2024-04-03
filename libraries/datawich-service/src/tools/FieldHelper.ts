@@ -130,9 +130,14 @@ export class FieldHelper {
 
   public static flattenDisplayItems(
     mainFields: ModelFieldModel[],
-    displaySettings: FieldsDisplaySettings,
+    displaySettings?: FieldsDisplaySettings,
     withoutOutlineLink = false
   ) {
+    displaySettings = displaySettings || {
+      hiddenFieldsMap: {},
+      checkedList: mainFields.map((item) => item.filterKey),
+      fixedList: [],
+    }
     const checkedMap = displaySettings.checkedList.reduce((result, cur) => {
       result[cur] = true
       return result
@@ -151,7 +156,7 @@ export class FieldHelper {
           items.push({
             field: refField,
             superField: field,
-            isHidden: !fieldLink.isInline || displaySettings.hiddenFieldsMap[refField.filterKey],
+            isHidden: !fieldLink.isInline || displaySettings!.hiddenFieldsMap[refField.filterKey],
           })
         })
       }
