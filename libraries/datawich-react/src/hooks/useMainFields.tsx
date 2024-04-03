@@ -5,9 +5,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
-export const useMainFields = () => {
-  const { modelKey = '' } = useParams()
-
+export const useMainFields = (modelKey: string) => {
   const [mainFields, setMainFields] = useState<ModelFieldModel[]>([])
 
   useEffect(() => {

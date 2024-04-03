@@ -21,11 +21,11 @@ import {
 
 export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
-
-  const dataModel = useDataModel()
-  const mainFields = useMainFields()
-
   const { modelKey = '' } = useParams()
+
+  const dataModel = useDataModel(modelKey)
+  const mainFields = useMainFields(modelKey)
+
   const { queryParams } = useQueryParams<{
     keywords: string
     panelId: string

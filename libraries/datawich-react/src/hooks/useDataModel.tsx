@@ -5,8 +5,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
-export const useDataModel = () => {
-  const { modelKey = '' } = useParams()
+export const useDataModel = (modelKey: string) => {
   const [dataModel, setDataModel] = useState<DataModelModel>()
 
   useEffect(() => {

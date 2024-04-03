@@ -24,8 +24,8 @@ export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
   const { modelKey = '' } = useParams()
 
-  const dataModel = useDataModel()
-  const mainFields = useMainFields()
+  const dataModel = useDataModel(modelKey)
+  const mainFields = useMainFields(modelKey)
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
