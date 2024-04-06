@@ -22,6 +22,7 @@ import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 interface Props {
   modelKey: string
   mainFields: ModelFieldModel[]
+  disableDisplaySetting?: boolean
   controlPanelCollapse?: boolean
 }
 
@@ -34,7 +35,12 @@ const trimQueryParams = (queryParams: {} = {}) => {
     }, {})
 }
 
-export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, controlPanelCollapse }) => {
+export const DataFilterPanel: React.FC<Props> = ({
+  modelKey,
+  mainFields,
+  disableDisplaySetting,
+  controlPanelCollapse,
+}) => {
   const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
   const [version, setVersion] = useState(0)
   const userInfo = useUserInfo()
@@ -284,62 +290,66 @@ export const DataFilterPanel: React.FC<Props> = ({ modelKey, mainFields, control
                   enterButton
                 />
 
-                <Button
-                  type={'primary'}
-                  onClick={() => {
-                    const dialog = new FieldsDisplaySettingDialog({
-                      mainFields: mainFields,
-                      displaySettings: displaySettings,
-                    })
-                    dialog.show(async (newDisplaySettings) => {
-                      if (panelInfo) {
-                        const params: ModelPanelParams = {
-                          name: panelInfo.name,
-                          configData: {
-                            queryParams: trimQueryParams(queryParams),
-                            displaySettings: newDisplaySettings,
-                          },
-                        }
-                        const request = MyRequest(
-                          new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelUpdate, modelKey, panelInfo.panelId)
-                        )
-                        request.setBodyData(params)
-                        await request.quickSend<ModelPanelInfo>()
-                        setQueryParams({
-                          panelId: panelInfo.panelId,
-                        })
-                        reloadPanelInfo()
-                        setVersion(version + 1)
-                        message.success('面板保存成功')
-                      } else {
-                        const dialog = new SimpleInputDialog({
-                          title: '另存为',
-                          placeholder: '面板名称',
-                          curValue: '',
-                        })
-                        dialog.show(async (name) => {
+                {!disableDisplaySetting && (
+                  <Button
+                    type={'primary'}
+                    onClick={() => {
+                      const dialog = new FieldsDisplaySettingDialog({
+                        mainFields: mainFields,
+                        displaySettings: displaySettings,
+                      })
+                      dialog.show(async (newDisplaySettings) => {
+                        if (panelInfo) {
                           const params: ModelPanelParams = {
-                            name: name,
+                            name: panelInfo.name,
                             configData: {
                               queryParams: trimQueryParams(queryParams),
                               displaySettings: newDisplaySettings,
                             },
                           }
-                          const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelCreate, modelKey))
+                          const request = MyRequest(
+                            new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelUpdate, modelKey, panelInfo.panelId)
+                          )
                           request.setBodyData(params)
-                          const panel = await request.quickSend<ModelPanelInfo>()
+                          await request.quickSend<ModelPanelInfo>()
                           setQueryParams({
-                            panelId: panel.panelId,
+                            panelId: panelInfo.panelId,
                           })
+                          reloadPanelInfo()
                           setVersion(version + 1)
-                          message.success('面板另存成功')
-                        })
-                      }
-                    })
-                  }}
-                >
-                  管理展示字段
-                </Button>
+                          message.success('面板保存成功')
+                        } else {
+                          const dialog = new SimpleInputDialog({
+                            title: '另存为',
+                            placeholder: '面板名称',
+                            curValue: '',
+                          })
+                          dialog.show(async (name) => {
+                            const params: ModelPanelParams = {
+                              name: name,
+                              configData: {
+                                queryParams: trimQueryParams(queryParams),
+                                displaySettings: newDisplaySettings,
+                              },
+                            }
+                            const request = MyRequest(
+                              new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelCreate, modelKey)
+                            )
+                            request.setBodyData(params)
+                            const panel = await request.quickSend<ModelPanelInfo>()
+                            setQueryParams({
+                              panelId: panel.panelId,
+                            })
+                            setVersion(version + 1)
+                            message.success('面板另存成功')
+                          })
+                        }
+                      })
+                    }}
+                  >
+                    管理展示字段
+                  </Button>
+                )}
 
                 <Button
                   onClick={() => {
