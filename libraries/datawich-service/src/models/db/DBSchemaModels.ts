@@ -99,6 +99,7 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
     visibleLogic: schemaField.extrasData.visibleLogic,
     requiredLogic: schemaField.extrasData.requiredLogic,
     bigText: schemaField.extrasData.bigText,
+    hideDetail: schemaField.extrasData.hideDetail,
   }
   switch (schemaField.fieldType) {
     case FieldType.Integer:

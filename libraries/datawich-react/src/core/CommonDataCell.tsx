@@ -163,12 +163,13 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                 break
               case FieldObjectType.StringList:
                 const items = (value as string[]) || []
+                let element: React.ReactNode
                 if (field.uiWidget === WidgetType.List) {
-                  return (
+                  element = (
                     <ul
                       style={{
                         paddingInlineStart: '10px',
-                        marginBlockStart: '4px',
+                        marginBlockStart: '6px',
                       }}
                     >
                       {items.map((str, index) => (
@@ -176,16 +177,32 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                       ))}
                     </ul>
                   )
+                } else {
+                  element = (
+                    <MyTagsPanel
+                      inline={false}
+                      thin={true}
+                      values={items}
+                      tagProps={{
+                        color: 'geekblue',
+                      }}
+                    />
+                  )
                 }
-                return (
-                  <MyTagsPanel
-                    inline={false}
-                    thin={true}
-                    values={items}
-                    tagProps={{
-                      color: 'geekblue',
+                return field.hideDetail ? (
+                  <a
+                    onClick={() => {
+                      const dialog = new ReactPreviewDialog({
+                        element: element,
+                      })
+                      dialog.width = '90%'
+                      dialog.show()
                     }}
-                  />
+                  >
+                    点击查看
+                  </a>
+                ) : (
+                  element
                 )
               case FieldObjectType.Attachment:
                 const info = props.data[GeneralDataHelper.entityKey(dataKey)] as OssFileInfo

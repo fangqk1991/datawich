@@ -77,6 +77,8 @@ export interface FormField {
 
   uiWidget?: WidgetType
 
+  hideDetail?: boolean
+
   remarks?: string
   isPrimary?: boolean
   isUUID?: boolean

@@ -27,6 +27,7 @@ export interface ModelFieldExtrasData {
   bigText?: boolean
   fuzzySearch?: boolean
   useListWidget?: boolean
+  hideDetail?: boolean
 }
 
 export interface ModelFieldParams {

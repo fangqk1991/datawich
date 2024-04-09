@@ -141,6 +141,17 @@ export const makeFieldDialog = (props: Props = {}) => {
           },
         },
       },
+      hideDetail: {
+        fieldType: FormFieldType.Boolean,
+        name: '是否折叠',
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.EQ,
+            rightValue: FieldType.StringList,
+          },
+        },
+      },
     } as SchemaFormFieldsMap<Partial<ModelFieldExtrasData>>,
   })
   const dialog = new CommonFormDialog({
