@@ -12,7 +12,7 @@
     "src/*"
   ],
   "devDependencies": {
-    "@fangcha/form-models": "^0.8.0"
+    "@fangcha/form-models": "workspace:^"
   },
   "dependencies": {
     "react-quill": "^2.0.0",
