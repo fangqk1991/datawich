@@ -26,6 +26,7 @@ export interface ModelFieldExtrasData {
   requiredLogic?: LogicExpression
   bigText?: boolean
   fuzzySearch?: boolean
+  useListWidget?: boolean
 }
 
 export interface ModelFieldParams {

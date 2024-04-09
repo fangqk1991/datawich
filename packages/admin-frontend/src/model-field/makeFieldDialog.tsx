@@ -130,6 +130,17 @@ export const makeFieldDialog = (props: Props = {}) => {
           },
         },
       },
+      useListWidget: {
+        fieldType: FormFieldType.Boolean,
+        name: '使用 List 组件',
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.EQ,
+            rightValue: FieldType.StringList,
+          },
+        },
+      },
     } as SchemaFormFieldsMap<Partial<ModelFieldExtrasData>>,
   })
   const dialog = new CommonFormDialog({

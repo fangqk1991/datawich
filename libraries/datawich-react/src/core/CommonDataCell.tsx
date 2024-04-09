@@ -13,6 +13,7 @@ import {
   FormField,
   FormFieldType,
   NumberFormat,
+  WidgetType,
 } from '@fangcha/form-models'
 
 interface Props {
@@ -161,11 +162,26 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               case FieldObjectType.JSON:
                 break
               case FieldObjectType.StringList:
+                const items = (value as string[]) || []
+                if (field.uiWidget === WidgetType.List) {
+                  return (
+                    <ul
+                      style={{
+                        paddingInlineStart: '10px',
+                        marginBlockStart: '4px',
+                      }}
+                    >
+                      {items.map((str, index) => (
+                        <li key={index}>{str}</li>
+                      ))}
+                    </ul>
+                  )
+                }
                 return (
                   <MyTagsPanel
                     inline={false}
                     thin={true}
-                    values={value}
+                    values={items}
                     tagProps={{
                       color: 'geekblue',
                     }}

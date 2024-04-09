@@ -9,6 +9,7 @@ import {
   FieldStringType,
   FormField,
   FormFieldType,
+  WidgetType,
 } from '@fangcha/form-models'
 
 export interface DBConnection {
@@ -121,6 +122,9 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
       commonField.multipleLines = true
       commonField.fieldType = FormFieldType.Object
       commonField.objectType = FieldObjectType.StringList
+      if (schemaField.extrasData.useListWidget) {
+        commonField.uiWidget = WidgetType.List
+      }
       break
     case FieldType.Link:
       commonField.multipleLines = true

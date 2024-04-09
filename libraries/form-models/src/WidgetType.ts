@@ -5,9 +5,10 @@ export enum WidgetType {
   Input = 'Input',
   Radio = 'Radio',
   Select = 'Select',
+  List = 'List',
 }
 
-const values = [WidgetType.Default, WidgetType.Input, WidgetType.Radio, WidgetType.Select]
+const values = [WidgetType.Default, WidgetType.Input, WidgetType.Radio, WidgetType.Select, WidgetType.List]
 
 const describe = (code: WidgetType) => {
   return code
