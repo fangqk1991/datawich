@@ -81,7 +81,7 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Pro
       .catch(() => {
         setPanelInfo(null)
         updateQueryParams({
-          panelId: '',
+          panelId: dataModel.extrasData.defaultPanelId === queryParams.panelId ? '' : undefined,
         })
       })
   }, [queryParams.panelId, dataModel, version])
