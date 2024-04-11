@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
-import { TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { LoadingView, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { myDataColumn } from './myDataColumn'
 import { useModelPanel } from '../filter/ModelPanelContext'
@@ -60,6 +60,10 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
   )
 
   const isMobile = window.innerWidth < 768
+
+  if (panelCtx.isLoading) {
+    return <LoadingView />
+  }
 
   return (
     <TableView

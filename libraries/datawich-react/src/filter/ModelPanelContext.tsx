@@ -7,6 +7,7 @@ import { Spin } from 'antd'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
 interface Context {
+  isLoading: boolean
   panelInfo: ModelPanelInfo | null | undefined
   displaySettings: FieldsDisplaySettings
   reloadPanelInfo: () => void
@@ -24,6 +25,7 @@ interface Props extends React.ComponentProps<any> {
 
 export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Props) => {
   const [version, setVersion] = useState(0)
+  const [isLoading, setLoading] = useState(false)
 
   const { queryParams, updateQueryParams } = useQueryParams<{
     keywords: string
@@ -46,22 +48,30 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Pro
   useEffect(() => {
     if (queryParams.panelId === '') {
       setPanelInfo(null)
+      setLoading(false)
       return
     }
+    setLoading(true)
     if (!queryParams.panelId) {
       const request = MyRequest(
         new CommonAPI(DatawichWebSDKConfig.apis.ProfileInfoGet, ProfileEvent.UserModelDefaultPanel, dataModel.modelKey)
       )
-      request.quickSend<{ panelId: string }>().then(({ panelId }) => {
-        const usingPanelId = panelId || dataModel.extrasData.defaultPanelId
-        if (usingPanelId) {
-          updateQueryParams({
-            panelId: usingPanelId,
-          })
-        } else {
-          setPanelInfo(null)
-        }
-      })
+      request
+        .quickSend<{ panelId: string }>()
+        .then(({ panelId }) => {
+          const usingPanelId = panelId || dataModel.extrasData.defaultPanelId
+          if (usingPanelId) {
+            updateQueryParams({
+              panelId: usingPanelId,
+            })
+          } else {
+            setPanelInfo(null)
+          }
+          setLoading(false)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
       return
     }
 
@@ -73,6 +83,7 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Pro
       .quickSend<ModelPanelInfo>()
       .then((response) => {
         setPanelInfo(response)
+        setLoading(false)
         updateQueryParams({
           ...response.configData.queryParams,
           ...queryParams,
@@ -80,6 +91,7 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Pro
       })
       .catch(() => {
         setPanelInfo(null)
+        setLoading(false)
         updateQueryParams({
           panelId: dataModel.extrasData.defaultPanelId === queryParams.panelId ? '' : undefined,
         })
@@ -87,6 +99,7 @@ export const ModelPanelProvider: React.FC<Props> = ({ children, dataModel }: Pro
   }, [queryParams.panelId, dataModel, version])
 
   const context: Context = {
+    isLoading: isLoading,
     panelInfo: panelInfo,
     displaySettings: displaySettings,
     reloadPanelInfo: () => setVersion(version + 1),
