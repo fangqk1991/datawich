@@ -53,6 +53,8 @@ export interface FormField {
   subFields?: FormField[]
   itemSchema?: SchemaFormFieldsMap
   itemField?: Omit<FormField, 'fieldKey' | 'name'>
+
+  hyperlink?: string
   $isForm?: boolean
 
   enumType?: FieldEnumType

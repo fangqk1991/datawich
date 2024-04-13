@@ -15,6 +15,7 @@ import {
   NumberFormat,
   WidgetType,
 } from '@fangcha/form-models'
+import { TemplateHelper } from '@fangcha/tools'
 
 interface Props {
   field: FormField
@@ -36,7 +37,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
     <div>
       {(() => {
         const value = props.data[dataKey]
-        let element: React.ReactNode = <>{value}</>
+        let element: React.ReactNode = value
         if (field.enumType === FieldEnumType.Single) {
           element = field.value2LabelMap![value]
         } else if (field.enumType === FieldEnumType.Multiple) {
@@ -85,6 +86,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                         <a
                           onClick={() => {
                             const dialog = new ReactPreviewDialog({
+                              title: field.name,
                               element: (
                                 <CodeEditor
                                   height={Math.max(window.innerHeight - 260, 250)}
@@ -228,6 +230,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
             <a
               onClick={() => {
                 const dialog = new ReactPreviewDialog({
+                  title: field.name,
                   element: element,
                 })
                 dialog.width = '90%'
@@ -237,6 +240,16 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               点击查看
             </a>
           )
+        }
+        if (field.hyperlink) {
+          const link = TemplateHelper.renderTmpl(field.hyperlink, props.data)
+          if (link) {
+            return (
+              <a href={link} target={'_blank'}>
+                {element || '点击跳转'}
+              </a>
+            )
+          }
         }
         return element
       })()}

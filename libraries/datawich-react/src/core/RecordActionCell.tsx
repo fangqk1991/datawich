@@ -33,13 +33,6 @@ interface DataRecord {
   [p: string]: any
 }
 
-interface DescriptionItem {
-  key: string
-  field: ModelFieldModel
-  superField?: ModelFieldModel
-  cell: React.ReactNode
-}
-
 export const RecordActionCell: React.FC<Props> = ({
   modelKey,
   mainFields,

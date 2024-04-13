@@ -28,6 +28,7 @@ export interface ModelFieldExtrasData {
   fuzzySearch?: boolean
   useListWidget?: boolean
   hideDetail?: boolean
+  hyperlink?: string
 }
 
 export interface ModelFieldParams {
