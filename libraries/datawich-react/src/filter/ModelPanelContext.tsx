@@ -15,7 +15,7 @@ interface Context {
 
 export const ModelPanelContext = React.createContext<Context>(null as any)
 
-export const useModelPanel = (): Context => {
+export const useModelPanelCtx = (): Context => {
   return useContext(ModelPanelContext)
 }
 

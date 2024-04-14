@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { DataModelModel } from '@fangcha/datawich-service'
-import { useParams } from 'react-router-dom'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
-export const useDataModel = (modelKey: string) => {
+export const useDataModel = (modelKey: string, version: number = 0) => {
   const [dataModel, setDataModel] = useState<DataModelModel>()
 
   useEffect(() => {
@@ -14,7 +13,7 @@ export const useDataModel = (modelKey: string) => {
       .then((response) => {
         setDataModel(response)
       })
-  }, [modelKey])
+  }, [modelKey, version])
 
   return dataModel
 }

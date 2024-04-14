@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { ModelFieldModel } from '@fangcha/datawich-service'
-import { useParams } from 'react-router-dom'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'

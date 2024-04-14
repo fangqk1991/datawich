@@ -6,13 +6,13 @@ import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { RouterLink } from '@fangcha/react'
 import { useMainFields } from '../hooks/useMainFields'
-import { useDataModel } from '../hooks/useDataModel'
 import { ModelPanelProvider } from '../filter/ModelPanelContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { DataFilterPanel } from '../filter/DataFilterPanel'
 import { DataDisplayTable } from '../data-display/DataDisplayTable'
 import { DataCreateButton } from '../core/DataCreateButton'
 import { useFavorAppsCtx } from '../profile/FavorAppsContext'
+import { DataModelProvider, useDataModelCtx } from '../filter/DataModelContext'
 
 interface Props {
   extrasColumns?: {
@@ -21,11 +21,13 @@ interface Props {
   }[]
 }
 
-export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
+const DataAppCoreView: React.FC<Props> = (props) => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
-  const { modelKey = '' } = useParams()
 
-  const dataModel = useDataModel(modelKey)
+  const dataModelCtx = useDataModelCtx()
+  const dataModel = dataModelCtx.dataModel
+  const modelKey = dataModel.modelKey
+
   const mainFields = useMainFields(modelKey)
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
@@ -76,5 +78,14 @@ export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
         onDataChanged={forceUpdate}
       />
     </ModelPanelProvider>
+  )
+}
+
+export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
+  const { modelKey = '' } = useParams()
+  return (
+    <DataModelProvider modelKey={modelKey}>
+      <DataAppCoreView {...props} />
+    </DataModelProvider>
   )
 }

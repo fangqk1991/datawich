@@ -3,7 +3,7 @@ import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { LoadingView, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { myDataColumn } from './myDataColumn'
-import { useModelPanel } from '../filter/ModelPanelContext'
+import { useModelPanelCtx } from '../filter/ModelPanelContext'
 import { RecordActionCell } from '../core/RecordActionCell'
 import { showDBDataDescriptions } from '../core/DBDataDescriptions'
 import { showRecordDescriptions } from '../core/RecordDescriptions'
@@ -44,7 +44,7 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
     [p: string]: any
   }>()
 
-  const panelCtx = useModelPanel()
+  const panelCtx = useModelPanelCtx()
   const { displaySettings, panelInfo } = panelCtx
 
   const fixedColumnMap = useMemo(() => {

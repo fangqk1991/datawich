@@ -16,7 +16,7 @@ import { CommonAPI } from '@fangcha/app-request'
 import { FilterItemDialog } from './FilterItemDialog'
 import { FieldsDisplaySettingDialog } from '../data-display/FieldsDisplaySettingDialog'
 import { DataFilterItemView } from './DataFilterItemView'
-import { useModelPanel } from './ModelPanelContext'
+import { useModelPanelCtx } from './ModelPanelContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
 interface Props {
@@ -45,7 +45,7 @@ export const DataFilterPanel: React.FC<Props> = ({
   const [version, setVersion] = useState(0)
   const userInfo = useUserInfo()
 
-  const panelCtx = useModelPanel()
+  const panelCtx = useModelPanelCtx()
   const { displaySettings, panelInfo, reloadPanelInfo } = panelCtx
 
   const displayItems = useMemo(
