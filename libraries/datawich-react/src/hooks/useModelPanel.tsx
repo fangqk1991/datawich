@@ -42,6 +42,7 @@ export const useModelPanel = (panelId: string, version: number = 0) => {
         if (usingPanelId) {
           reloadPanelInfo(usingPanelId)
         } else {
+          setReady(true)
           setPanelInfo(null)
         }
       })
