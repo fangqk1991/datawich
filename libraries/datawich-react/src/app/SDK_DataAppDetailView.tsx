@@ -6,13 +6,13 @@ import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
 import { RouterLink } from '@fangcha/react'
 import { useMainFields } from '../hooks/useMainFields'
-import { ModelPanelProvider } from '../filter/ModelPanelContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { DataFilterPanel } from '../filter/DataFilterPanel'
 import { DataDisplayTable } from '../data-display/DataDisplayTable'
 import { DataCreateButton } from '../core/DataCreateButton'
 import { useFavorAppsCtx } from '../profile/FavorAppsContext'
-import { DataModelProvider, useDataModelCtx } from '../filter/DataModelContext'
+import { useDataModelCtx } from '../filter/DataModelContext'
+import { DataAppCoreProvider } from './DataAppCoreProvider'
 
 interface Props {
   extrasColumns?: {
@@ -24,20 +24,19 @@ interface Props {
 const DataAppCoreView: React.FC<Props> = (props) => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
 
-  const dataModelCtx = useDataModelCtx()
-  const dataModel = dataModelCtx.dataModel
+  const dataModel = useDataModelCtx().dataModel
   const modelKey = dataModel.modelKey
 
   const mainFields = useMainFields(modelKey)
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
 
-  if (!dataModel || mainFields.length === 0) {
+  if (mainFields.length === 0) {
     return <Spin size='large' />
   }
 
   return (
-    <ModelPanelProvider dataModel={dataModel}>
+    <div>
       <Breadcrumb
         items={[
           {
@@ -77,15 +76,15 @@ const DataAppCoreView: React.FC<Props> = (props) => {
         extrasColumns={props.extrasColumns || []}
         onDataChanged={forceUpdate}
       />
-    </ModelPanelProvider>
+    </div>
   )
 }
 
 export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
   const { modelKey = '' } = useParams()
   return (
-    <DataModelProvider modelKey={modelKey}>
+    <DataAppCoreProvider modelKey={modelKey}>
       <DataAppCoreView {...props} />
-    </DataModelProvider>
+    </DataAppCoreProvider>
   )
 }

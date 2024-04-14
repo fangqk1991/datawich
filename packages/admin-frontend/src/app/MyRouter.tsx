@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import React from 'react'
 import { MainLayout } from '../core/MainLayout'
 import { RouteErrorBoundary } from '@fangcha/react'
-import { FavorAppsProvider, SDK_DataAppListView } from '@fangcha/datawich-react'
+import { DataAppCoreProvider, FavorAppsProvider, SDK_DataAppListView } from '@fangcha/datawich-react'
 import { DataAppDetailView } from '../data-app/DataAppDetailView'
 import { DataModelListView } from '../data-model/DataModelListView'
 import { DataModelManageView } from '../data-model/DataModelManageView'
@@ -36,7 +36,11 @@ export const MyRouter = createBrowserRouter([
       },
       {
         path: DatawichAdminPages.DataAppDetailRoute,
-        element: <DataAppDetailView />,
+        element: (
+          <DataAppCoreProvider>
+            <DataAppDetailView />
+          </DataAppCoreProvider>
+        ),
       },
       {
         path: DatawichAdminPages.ModelListRoute,

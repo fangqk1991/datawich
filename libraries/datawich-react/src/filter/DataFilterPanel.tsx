@@ -46,7 +46,7 @@ export const DataFilterPanel: React.FC<Props> = ({
   const userInfo = useUserInfo()
 
   const panelCtx = useModelPanelCtx()
-  const { displaySettings, panelInfo, reloadPanelInfo } = panelCtx
+  const { displaySettings, panelInfo } = panelCtx
 
   const displayItems = useMemo(
     () => FieldHelper.flattenDisplayItems(mainFields, displaySettings),
@@ -161,7 +161,6 @@ export const DataFilterPanel: React.FC<Props> = ({
                           setQueryParams({
                             panelId: panelInfo!.panelId,
                           })
-                          reloadPanelInfo()
                           setVersion(version + 1)
                           message.success('面板保存成功')
                         })
@@ -315,7 +314,6 @@ export const DataFilterPanel: React.FC<Props> = ({
                           setQueryParams({
                             panelId: panelInfo.panelId,
                           })
-                          reloadPanelInfo()
                           setVersion(version + 1)
                           message.success('面板保存成功')
                         } else {
@@ -357,7 +355,6 @@ export const DataFilterPanel: React.FC<Props> = ({
                       panelId: queryParams.panelId,
                     })
                     setKeywords('')
-                    reloadPanelInfo()
                   }}
                 >
                   重置过滤器

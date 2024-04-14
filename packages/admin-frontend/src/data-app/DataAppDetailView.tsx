@@ -13,8 +13,7 @@ import {
   DataCreateButton,
   DataDisplayTable,
   DataFilterPanel,
-  ModelPanelProvider,
-  useDataModel,
+  useDataModelCtx,
   useFavorAppsCtx,
   useMainFields,
 } from '@fangcha/datawich-react'
@@ -23,7 +22,7 @@ export const DataAppDetailView: React.FC = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
   const { modelKey = '' } = useParams()
 
-  const dataModel = useDataModel(modelKey)
+  const dataModel = useDataModelCtx().dataModel
   const mainFields = useMainFields(modelKey)
 
   const { queryParams } = useQueryParams<{
@@ -40,7 +39,7 @@ export const DataAppDetailView: React.FC = () => {
   }
 
   return (
-    <ModelPanelProvider dataModel={dataModel}>
+    <div>
       <Breadcrumb
         items={[
           {
@@ -108,6 +107,6 @@ export const DataAppDetailView: React.FC = () => {
         extrasColumns={[]}
         onDataChanged={forceUpdate}
       />
-    </ModelPanelProvider>
+    </div>
   )
 }

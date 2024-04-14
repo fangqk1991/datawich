@@ -61,10 +61,6 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
 
   const isMobile = window.innerWidth < 768
 
-  if (panelCtx.isLoading) {
-    return <LoadingView />
-  }
-
   return (
     <TableView
       rowKey={(item: DataRecord) => {
