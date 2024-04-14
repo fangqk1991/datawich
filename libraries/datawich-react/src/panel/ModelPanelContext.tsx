@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo } from 'react'
-import { DataModelModel, FieldsDisplaySettings, ModelPanelInfo } from '@fangcha/datawich-service'
+import { DataModelModel, FieldsDisplaySettings, ModelPanelInfo } from '@fangcha/datawich-service/lib'
 import { LoadingView, useQueryParams } from '@fangcha/react'
-import { useModelPanel } from '../hooks/useModelPanel'
+import { useModelPanel } from './useModelPanel'
 
 interface Context {
   panelInfo: ModelPanelInfo | null

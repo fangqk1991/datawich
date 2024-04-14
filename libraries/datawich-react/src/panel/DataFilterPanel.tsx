@@ -8,14 +8,14 @@ import {
   ModelPanelInfo,
   ModelPanelParams,
   ProfileEvent,
-} from '@fangcha/datawich-service'
+} from '@fangcha/datawich-service/lib'
 import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
 import { Button, Checkbox, Collapse, Input, message, Space, Tag } from 'antd'
 import { MyRequest, useUserInfo } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
-import { FilterItemDialog } from './FilterItemDialog'
+import { FilterItemDialog } from '../filter/FilterItemDialog'
 import { FieldsDisplaySettingDialog } from '../data-display/FieldsDisplaySettingDialog'
-import { DataFilterItemView } from './DataFilterItemView'
+import { DataFilterItemView } from '../filter/DataFilterItemView'
 import { useModelPanelCtx } from './ModelPanelContext'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { DataModelProvider } from '../filter/DataModelContext'
-import { ModelPanelProvider } from '../filter/ModelPanelContext'
+import { ModelPanelProvider } from '../panel/ModelPanelContext'
 
 interface Props extends React.ComponentProps<any> {
   modelKey?: string

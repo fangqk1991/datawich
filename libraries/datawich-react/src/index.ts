@@ -21,11 +21,13 @@ export * from './data-display/FieldsDisplaySettingDialog'
 
 export * from './filter/FilterItemDialog'
 export * from './filter/DataFilterItemView'
-export * from './filter/DataFilterPanel'
-export * from './filter/ModelPanelContext'
 export * from './filter/DataModelContext'
 
 export * from './hooks/useDataModel'
 export * from './hooks/useMainFields'
 
 export * from './profile/FavorAppsContext'
+
+export * from './panel/DataFilterPanel'
+export * from './panel/useModelPanel'
+export * from './panel/ModelPanelContext'
