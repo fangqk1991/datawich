@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ModelPanelInfo, ProfileEvent } from '@fangcha/datawich-service/lib'
+import { ModelPanelInfo, ProfileEvent } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'

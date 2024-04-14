@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useMemo } from 'react'
-import { DataModelModel, FieldsDisplaySettings, ModelPanelInfo } from '@fangcha/datawich-service/lib'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { FieldsDisplaySettings, ModelPanelInfo } from '@fangcha/datawich-service'
 import { LoadingView, useQueryParams } from '@fangcha/react'
 import { useModelPanel } from './useModelPanel'
 
 interface Context {
   panelInfo: ModelPanelInfo | null
   displaySettings: FieldsDisplaySettings
+  reloadPanelInfo: (panelId?: string) => void
 }
 
 export const ModelPanelContext = React.createContext<Context>(null as any)
@@ -17,12 +18,13 @@ export const useModelPanelCtx = (): Context => {
 interface Props extends React.ComponentProps<any> {}
 
 export const ModelPanelProvider: React.FC<Props> = ({ children }: Props) => {
-  const { queryParams, updateQueryParams } = useQueryParams<{
+  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
     panelId: string
     [p: string]: any
   }>()
 
-  const { isReady, panelInfo } = useModelPanel(queryParams.panelId)
+  const [version, setVersion] = useState(0)
+  const { isReady, panelInfo } = useModelPanel(queryParams.panelId, version)
 
   const displaySettings = useMemo<FieldsDisplaySettings>(() => {
     if (panelInfo) {
@@ -53,6 +55,12 @@ export const ModelPanelProvider: React.FC<Props> = ({ children }: Props) => {
   const context: Context = {
     panelInfo: panelInfo,
     displaySettings: displaySettings,
+    reloadPanelInfo: (panelId?: string) => {
+      setQueryParams({
+        panelId: panelId || '',
+      })
+      setVersion(version + 1)
+    },
   }
 
   if (!isReady) {

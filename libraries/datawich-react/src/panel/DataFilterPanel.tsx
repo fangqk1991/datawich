@@ -8,7 +8,7 @@ import {
   ModelPanelInfo,
   ModelPanelParams,
   ProfileEvent,
-} from '@fangcha/datawich-service/lib'
+} from '@fangcha/datawich-service'
 import { ConfirmDialog, LoadingView, SimpleInputDialog, useLoadingData, useQueryParams } from '@fangcha/react'
 import { Button, Checkbox, Collapse, Input, message, Space, Tag } from 'antd'
 import { MyRequest, useUserInfo } from '@fangcha/auth-react'
@@ -41,7 +41,11 @@ export const DataFilterPanel: React.FC<Props> = ({
   disableDisplaySetting,
   controlPanelCollapse,
 }) => {
-  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{ keywords: string; [p: string]: any }>()
+  const { queryParams, updateQueryParams, setQueryParams } = useQueryParams<{
+    keywords: string
+    panelId: string
+    [p: string]: any
+  }>()
   const [version, setVersion] = useState(0)
   const userInfo = useUserInfo()
 
@@ -158,9 +162,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                           )
                           request.setBodyData(params)
                           await request.quickSend<ModelPanelInfo>()
-                          setQueryParams({
-                            panelId: panelInfo!.panelId,
-                          })
+                          panelCtx.reloadPanelInfo(panelInfo!.panelId)
                           setVersion(version + 1)
                           message.success('面板保存成功')
                         })
@@ -188,9 +190,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                         const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelCreate, modelKey))
                         request.setBodyData(params)
                         const panel = await request.quickSend<ModelPanelInfo>()
-                        setQueryParams({
-                          panelId: panel.panelId,
-                        })
+                        panelCtx.reloadPanelInfo(panel.panelId)
                         setVersion(version + 1)
                         message.success('面板另存 成功')
                       })
@@ -229,7 +229,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                       {item.name}{' '}
                       <Checkbox
                         checked={checked}
-                        onChange={(e) => setQueryParams({ panelId: e.target.checked ? item.panelId : '' })}
+                        onChange={(e) => panelCtx.reloadPanelInfo(e.target.checked ? item.panelId : '')}
                       />{' '}
                       {isAuthor && (
                         <DeleteOutlined
@@ -311,9 +311,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                           )
                           request.setBodyData(params)
                           await request.quickSend<ModelPanelInfo>()
-                          setQueryParams({
-                            panelId: panelInfo.panelId,
-                          })
+                          panelCtx.reloadPanelInfo(panelInfo.panelId)
                           setVersion(version + 1)
                           message.success('面板保存成功')
                         } else {
@@ -335,9 +333,7 @@ export const DataFilterPanel: React.FC<Props> = ({
                             )
                             request.setBodyData(params)
                             const panel = await request.quickSend<ModelPanelInfo>()
-                            setQueryParams({
-                              panelId: panel.panelId,
-                            })
+                            panelCtx.reloadPanelInfo(panel.panelId)
                             setVersion(version + 1)
                             message.success('面板另存成功')
                           })
@@ -351,9 +347,7 @@ export const DataFilterPanel: React.FC<Props> = ({
 
                 <Button
                   onClick={() => {
-                    setQueryParams({
-                      panelId: queryParams.panelId,
-                    })
+                    panelCtx.reloadPanelInfo(queryParams.panelId)
                     setKeywords('')
                   }}
                 >
