@@ -115,7 +115,7 @@ export const DataFilterPanel: React.FC<Props> = ({
       })
     }
     return items
-  }, [queryParams, panelInfo, fieldMapper])
+  }, [queryParams, fieldMapper])
 
   const { data: panelList, loading } = useLoadingData(async () => {
     const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelListGet, modelKey))
