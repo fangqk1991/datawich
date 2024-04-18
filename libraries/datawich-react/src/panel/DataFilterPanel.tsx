@@ -266,6 +266,13 @@ export const DataFilterPanel: React.FC<Props> = ({
                       displayItems: displayItems,
                     })
                     dialog.show((params) => {
+                      if (queryParams[params.key] !== undefined) {
+                        let index = 1
+                        while (queryParams[`${params.key}.${index}`] !== undefined) {
+                          ++index
+                        }
+                        params.key = `${params.key}.${index}`
+                      }
                       updateQueryParams({
                         [params.key]: params.value,
                       })
