@@ -40,16 +40,6 @@ export const ModelPanelProvider: React.FC<Props> = ({ children }: Props) => {
   useEffect(() => {
     if (isReady) {
       if (panelInfo) {
-        // const retainParams = { ...panelInfo.configData.queryParams }
-        // const keysMap = Object.keys(queryParams).filter((key) =>
-        //   key.match(/^([a-zA-Z_][\w.]+)\.(\$not\.)?(\$\w+)(\.\w+)?$/)
-        // )
-        // Object.keys(retainParams).forEach((key) => {
-        //   if (key in queryParams) {
-        //     delete retainParams[key]
-        //     ;('.disabled')
-        //   }
-        // })
         updateQueryParams({
           ...panelInfo.configData.queryParams,
           ...queryParams,
