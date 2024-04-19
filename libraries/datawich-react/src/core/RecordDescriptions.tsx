@@ -8,7 +8,6 @@ import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 
 interface DataRecord {
-  rid: number
   _data_id: string
   [p: string]: any
 }

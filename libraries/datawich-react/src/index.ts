@@ -18,6 +18,8 @@ export * from './core/RecordDescriptions'
 
 export * from './data-display/DataDisplayTable'
 export * from './data-display/FieldsDisplaySettingDialog'
+export * from './data-display/MyDataCell'
+export * from './data-display/myDataColumn'
 
 export * from './filter/FilterItemDialog'
 export * from './filter/DataFilterItemView'

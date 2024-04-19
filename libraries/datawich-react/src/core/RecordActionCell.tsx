@@ -28,7 +28,6 @@ interface Props {
 }
 
 interface DataRecord {
-  rid: number
   _data_id: string
   [p: string]: any
 }

@@ -1,15 +1,12 @@
 import React, { useMemo } from 'react'
 import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
-import { LoadingView, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { myDataColumn } from './myDataColumn'
 import { useModelPanelCtx } from '../panel/ModelPanelContext'
 import { RecordActionCell } from '../core/RecordActionCell'
-import { showDBDataDescriptions } from '../core/DBDataDescriptions'
-import { showRecordDescriptions } from '../core/RecordDescriptions'
 
 interface DataRecord {
-  rid: number
   _data_id: string
 }
 
@@ -64,7 +61,7 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
   return (
     <TableView
       rowKey={(item: DataRecord) => {
-        return `${item.rid}`
+        return `${item._data_id}`
       }}
       reactiveQuery={true}
       tableProps={{
