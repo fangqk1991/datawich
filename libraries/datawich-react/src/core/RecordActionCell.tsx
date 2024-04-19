@@ -25,6 +25,8 @@ interface Props {
     title: React.ReactNode
     render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
   }[]
+
+  actionMenuItems?: React.ReactNode[]
 }
 
 interface DataRecord {
@@ -39,7 +41,9 @@ export const RecordActionCell: React.FC<Props> = ({
   extrasColumns,
   record,
   onDataChanged,
+  actionMenuItems,
 }) => {
+  actionMenuItems = actionMenuItems || []
   const loadRecordInfo = useCallback(() => {
     const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordGet, modelKey, record._data_id))
     return request.quickSend<DataRecord>()
@@ -147,6 +151,10 @@ export const RecordActionCell: React.FC<Props> = ({
               </a>
             ),
           },
+          ...actionMenuItems.map((item, index) => ({
+            key: `custom_${index}`,
+            label: item,
+          })),
         ],
       }}
       trigger={['click']}
