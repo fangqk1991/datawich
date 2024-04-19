@@ -89,8 +89,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0
       fc-feed:
-        specifier: ^0.50.0
-        version: 0.50.0
+        specifier: ^0.50.1
+        version: 0.50.1
       fc-model:
         specifier: ^0.6.0
         version: 0.6.0
@@ -156,8 +156,8 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0
       '@fangcha/react':
-        specifier: ^0.64.0
-        version: 0.64.0(moment@2.29.4)(rc-field-form@1.41.0)
+        specifier: ^0.65.0
+        version: 0.65.0(moment@2.29.4)(rc-field-form@1.41.0)
       '@fangcha/vue':
         specifier: ^0.79.0
         version: 0.79.0
@@ -2388,8 +2388,8 @@ packages:
     resolution: {integrity: sha512-3/sZvylu7IllJkpRU5iq61ZaxVNeh1JETakvhczUzvRnhX6d/zj1fSiRex89+worjUn5yxbhVA0rnXQEJv0T2w==}
     dev: false
 
-  /@fangcha/react@0.64.0(moment@2.29.4)(rc-field-form@1.41.0):
-    resolution: {integrity: sha512-yu2Zk8igCdiUWBwUgf+D1vBLkfTQgH9h4mExN2NJHigh0IcP8t8TFCVaXLrsGvXLEFZjgV08ydt49Me9/TP5CA==}
+  /@fangcha/react@0.65.0(moment@2.29.4)(rc-field-form@1.41.0):
+    resolution: {integrity: sha512-td95u3oQOoDT4mfCIFmbP09cfQp74LDpjmId8Ld/nX1tNzeczetsJduWjwABNUktz48c44AUMMi4DCV2AX+w4A==}
     dependencies:
       '@ant-design/pro-components': 2.6.43(antd@5.12.8)(rc-field-form@1.41.0)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/react': 11.10.6(react@18.2.0)
@@ -6437,8 +6437,8 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /fc-feed@0.50.0:
-    resolution: {integrity: sha512-BSINCreoN6miBrq7u1P9k5S5vcjvFQH9qMcvtHTpZ3YXACNc2N4/kIAUj+/XPMLzXxm99xeJpVQpyCudvgRzQg==}
+  /fc-feed@0.50.1:
+    resolution: {integrity: sha512-7ax+Z+JWXAvR/cZqDxg1Y8uoDQIK08yEJxXCw6B+6/phFCdFnM62B4K2idA9PlijinCXBvoqRmgEhbROAQhlIg==}
     dependencies:
       '@fangcha/logic': 0.9.0
       fc-model: 0.6.0
