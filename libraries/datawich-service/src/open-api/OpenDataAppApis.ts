@@ -84,12 +84,6 @@ export const OpenDataAppApis = {
     description: '获取应用数据记录',
   } as Api,
 
-  FullModelDataInfoGet: {
-    method: 'GET',
-    route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
-    description: '获取完整应用数据记录',
-  } as Api,
-
   DataAppRecordUpdate: {
     method: 'PUT',
     route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
@@ -136,4 +130,10 @@ export const OpenDataAppApis = {
     description: '检查记录是否存在',
     detailInfo: 'uniqueFieldKey 必须具备唯一索引',
   },
+
+  FullModelDataInfoGet: {
+    method: 'GET',
+    route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
+    description: '获取完整应用数据记录',
+  } as Api,
 }

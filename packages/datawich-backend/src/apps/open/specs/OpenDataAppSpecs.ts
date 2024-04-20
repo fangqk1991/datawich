@@ -131,4 +131,10 @@ factory.prepare(OpenDataAppApis.ModelDataExistsCheck, async (ctx) => {
   })
 })
 
+factory.prepare(OpenDataAppApis.FullModelDataInfoGet, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
+    ctx.body = await new ModelDataHandler(dataModel).getFullDataInfo(ctx.params)
+  })
+})
+
 export const OpenDataAppSpecs = factory.buildSpecs()

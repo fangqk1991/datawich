@@ -12,6 +12,7 @@ import {
   FieldHelper,
   FieldLinkModel,
   FieldType,
+  FullDataInfo,
   GeneralDataFormatter,
   GeneralDataHelper,
   ModelFieldModel,
@@ -25,6 +26,7 @@ import { _DatawichService } from './_DatawichService'
 import { TypicalExcel } from '@fangcha/excel'
 import { OssTools } from '@fangcha/ali-oss'
 import { FormChecker } from '@fangcha/form-models'
+import { _ModelPanel } from '../models/extensions/_ModelPanel'
 const archiver = require('archiver')
 
 export class ModelDataHandler {
@@ -812,5 +814,32 @@ export class ModelDataHandler {
       }
     }
     return errorMap
+  }
+
+  public async getFullDataInfo(params: { uniqueFieldKey: string; fieldValue: string }) {
+    const dataModel = this._dataModel
+    const uniqueFieldKey = params.uniqueFieldKey
+    const fieldValue = params.fieldValue
+    assert.ok(!!uniqueFieldKey, 'uniqueFieldKey 不合法')
+    assert.ok(!!fieldValue, 'fieldValue 不合法')
+    const data = (await dataModel.findData(uniqueFieldKey, fieldValue))!
+    assert.ok(!!data, `[${uniqueFieldKey} = ${fieldValue}] 数据不存在`, 404)
+    const dataHandler = new ModelDataHandler(dataModel)
+    const dataInfo = await dataHandler.findDataWithDataId(data['_data_id'])
+    const modelInfo = dataModel.modelForClient()
+
+    const fullInfo: FullDataInfo = {
+      dataModel: modelInfo,
+      mainFields: await dataModel.getExpandedFields(),
+      panelInfo: null as any,
+      data: dataInfo,
+    }
+    if (modelInfo.extrasData.defaultPanelId) {
+      const panel = await _ModelPanel.findWithUid(modelInfo.extrasData.defaultPanelId)
+      if (panel) {
+        fullInfo.panelInfo = panel.modelForClient()
+      }
+    }
+    return fullInfo
   }
 }

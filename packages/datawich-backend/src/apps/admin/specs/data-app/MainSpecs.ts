@@ -14,8 +14,7 @@ import { SessionChecker } from '../../../../services/SessionChecker'
 import { DataImportHandler } from '../../../../services/DataImportHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { GeneralPermission } from '@web/datawich-common/models'
-import { FullDataInfo, ProfileEvent } from '@fangcha/datawich-service'
-import { _ModelPanel } from '../../../../models/extensions/_ModelPanel'
+import { ProfileEvent } from '@fangcha/datawich-service'
 
 const factory = new SpecFactory('数据应用（常规）')
 
@@ -218,29 +217,7 @@ factory.prepare(DataAppApis.DataAppPendingListGet, async (ctx) => {
 
 factory.prepare(DataAppApis.FullModelDataInfoGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handle(async (dataModel) => {
-    const uniqueFieldKey = ctx.params.uniqueFieldKey
-    const fieldValue = ctx.params.fieldValue
-    assert.ok(!!uniqueFieldKey, 'uniqueFieldKey 不合法')
-    assert.ok(!!fieldValue, 'fieldValue 不合法')
-    const data = (await dataModel.findData(uniqueFieldKey, fieldValue))!
-    assert.ok(!!data, `[${uniqueFieldKey} = ${fieldValue}] 数据不存在`, 404)
-    const dataHandler = new ModelDataHandler(dataModel)
-    const dataInfo = await dataHandler.findDataWithDataId(data['_data_id'])
-    const modelInfo = dataModel.modelForClient()
-
-    const fullInfo: FullDataInfo = {
-      dataModel: modelInfo,
-      mainFields: await dataModel.getExpandedFields(),
-      panelInfo: null as any,
-      data: dataInfo,
-    }
-    if (modelInfo.extrasData.defaultPanelId) {
-      const panel = await _ModelPanel.findWithUid(modelInfo.extrasData.defaultPanelId)
-      if (panel) {
-        fullInfo.panelInfo = panel.modelForClient()
-      }
-    }
-    ctx.body = fullInfo
+    ctx.body = await new ModelDataHandler(dataModel).getFullDataInfo(ctx.params)
   })
 })
 
