@@ -14,7 +14,8 @@ import { SessionChecker } from '../../../../services/SessionChecker'
 import { DataImportHandler } from '../../../../services/DataImportHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { GeneralPermission } from '@web/datawich-common/models'
-import { ProfileEvent } from '@fangcha/datawich-service'
+import { FullDataInfo, ProfileEvent } from '@fangcha/datawich-service'
+import { _ModelPanel } from '../../../../models/extensions/_ModelPanel'
 
 const factory = new SpecFactory('数据应用（常规）')
 
@@ -212,6 +213,34 @@ factory.prepare(DataAppApis.DataAppPendingListGet, async (ctx) => {
     const resource = (await _OSSResource.findWithUid(ctx.params.resourceId))!
     assert.ok(!!resource, 'Resource Not Found')
     ctx.body = await new DataImportHandler(dataModel).extractRecordsFromResource(resource)
+  })
+})
+
+factory.prepare(DataAppApis.FullModelDataInfoGet, async (ctx) => {
+  await new DataAppSpecHandler(ctx).handle(async (dataModel) => {
+    const uniqueFieldKey = ctx.params.uniqueFieldKey
+    const fieldValue = ctx.params.fieldValue
+    assert.ok(!!uniqueFieldKey, 'uniqueFieldKey 不合法')
+    assert.ok(!!fieldValue, 'fieldValue 不合法')
+    const data = (await dataModel.findData(uniqueFieldKey, fieldValue))!
+    assert.ok(!!data, `[${uniqueFieldKey} = ${fieldValue}] 数据不存在`, 404)
+    const dataHandler = new ModelDataHandler(dataModel)
+    const dataInfo = await dataHandler.findDataWithDataId(data['_data_id'])
+    const modelInfo = dataModel.modelForClient()
+
+    const fullInfo: FullDataInfo = {
+      dataModel: modelInfo,
+      mainFields: await dataModel.getExpandedFields(),
+      panelInfo: null as any,
+      data: dataInfo,
+    }
+    if (modelInfo.extrasData.defaultPanelId) {
+      const panel = await _ModelPanel.findWithUid(modelInfo.extrasData.defaultPanelId)
+      if (panel) {
+        fullInfo.panelInfo = panel.modelForClient()
+      }
+    }
+    ctx.body = fullInfo
   })
 })
 

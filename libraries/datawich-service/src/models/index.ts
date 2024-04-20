@@ -20,5 +20,6 @@ export * from './data-model/ModelFullMetadata'
 export * from './data-model/TinyModelInfo'
 export * from './data-model/ModelPanelModels'
 export * from './data-model/ModelPanelTools'
+export * from './data-model/FullDataInfo'
 
 export * from './swagger'

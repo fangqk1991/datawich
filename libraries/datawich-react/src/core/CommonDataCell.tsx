@@ -1,8 +1,8 @@
 import React from 'react'
-import { GeneralDataHelper } from '@fangcha/datawich-service'
+import { FieldHelper, FullDataInfo, GeneralDataHelper, ModelPanelTools } from '@fangcha/datawich-service'
 import { LinkOutlined } from '@ant-design/icons'
 import { Image, Tag } from 'antd'
-import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
+import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog, } from '@fangcha/react'
 import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
 import { CodeEditor, CodeEditorDialog } from '@fangcha/form-react'
@@ -16,6 +16,10 @@ import {
   WidgetType,
 } from '@fangcha/form-models'
 import { TemplateHelper } from '@fangcha/tools'
+import { MyRequest } from '@fangcha/auth-react'
+import { CommonAPI } from '@fangcha/app-request'
+import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
+import { RecordDescriptions } from './RecordDescriptions'
 
 interface Props {
   field: FormField
@@ -244,6 +248,56 @@ export const CommonDataCell: React.FC<Props> = (props) => {
         if (field.hyperlink) {
           const link = TemplateHelper.renderTmpl(field.hyperlink, props.data)
           if (link) {
+            const matches = link.match(/^datawich:\/\/(\w+)\/(\w+)\/([\w-.]+)\/(\w+)$/)
+            if (matches) {
+              const [modelKey, key, value, action] = [matches[1], matches[2], matches[3], matches[4]]
+              return (
+                <a
+                  onClick={() => {
+                    switch (action) {
+                      case 'view':
+                        break
+                    }
+
+                    const dialog = new ReactPreviewDialog({
+                      title: `${key} = ${value}`,
+                      loadElement: async () => {
+                        const request = MyRequest(
+                          new CommonAPI(DatawichWebSDKConfig.apis.FullModelDataInfoGet, modelKey, key, value)
+                        )
+                        const response = await request.quickSend<FullDataInfo>()
+                        const displaySettings = ModelPanelTools.extractDisplaySettings(response.panelInfo)
+                        const displayItems = FieldHelper.flattenDisplayItems(response.mainFields, displaySettings)
+
+                        return (
+                          <RecordDescriptions modelKey={modelKey} displayItems={displayItems} record={response.data} />
+                        )
+                      },
+                    })
+                    dialog.width = '95%'
+                    dialog.show()
+
+                    // LoadingDialog.execute({
+                    //   handler: async () => {
+                    //     const request = MyRequest(
+                    //       new CommonAPI(DatawichWebSDKConfig.apis.FullModelDataInfoGet, modelKey, key, value)
+                    //     )
+                    //     const response = await request.quickSend<FullDataInfo>()
+                    //     const displaySettings = ModelPanelTools.extractDisplaySettings(response.panelInfo)
+                    //     const displayItems = FieldHelper.flattenDisplayItems(response.mainFields, displaySettings)
+                    //     showRecordDescriptions({
+                    //       modelKey: modelKey,
+                    //       displayItems: displayItems,
+                    //       record: response.data,
+                    //     })
+                    //   },
+                    // })
+                  }}
+                >
+                  {element || action}
+                </a>
+              )
+            }
             return (
               <a href={link} target={'_blank'}>
                 {element || '点击跳转'}

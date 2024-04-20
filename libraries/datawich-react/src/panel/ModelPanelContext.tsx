@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { FieldsDisplaySettings, ModelPanelInfo } from '@fangcha/datawich-service'
+import { FieldsDisplaySettings, ModelPanelInfo, ModelPanelTools } from '@fangcha/datawich-service'
 import { LoadingView, useQueryParams } from '@fangcha/react'
 import { useModelPanel } from './useModelPanel'
 
@@ -26,16 +26,10 @@ export const ModelPanelProvider: React.FC<Props> = ({ children }: Props) => {
   const [version, setVersion] = useState(0)
   const { isReady, panelInfo } = useModelPanel(queryParams.panelId, version)
 
-  const displaySettings = useMemo<FieldsDisplaySettings>(() => {
-    if (panelInfo) {
-      return panelInfo.configData.displaySettings
-    }
-    return {
-      hiddenFieldsMap: {},
-      checkedList: [],
-      fixedList: [],
-    }
-  }, [panelInfo])
+  const displaySettings = useMemo<FieldsDisplaySettings>(
+    () => ModelPanelTools.extractDisplaySettings(panelInfo),
+    [panelInfo]
+  )
 
   useEffect(() => {
     if (isReady) {

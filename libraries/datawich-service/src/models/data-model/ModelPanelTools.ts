@@ -1,4 +1,4 @@
-import { FieldFilterParams } from './ModelPanelModels'
+import { FieldFilterParams, ModelPanelInfo } from './ModelPanelModels'
 import { TextSymbol } from '@fangcha/logic'
 
 export class ModelPanelTools {
@@ -14,5 +14,16 @@ export class ModelPanelTools {
       key = `${key}.disabled`
     }
     return key
+  }
+
+  public static extractDisplaySettings(panelInfo: ModelPanelInfo | null) {
+    if (panelInfo) {
+      return panelInfo.configData.displaySettings
+    }
+    return {
+      hiddenFieldsMap: {},
+      checkedList: [],
+      fixedList: [],
+    }
   }
 }

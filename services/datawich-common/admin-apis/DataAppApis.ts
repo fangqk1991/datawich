@@ -61,7 +61,7 @@ export const DataAppApis = {
   DataAppRecordGet: {
     method: 'GET',
     route: '/api/v1/data-app/:modelKey/record/:dataId',
-    description: '更新数据记录',
+    description: '获取数据记录',
   },
   DataAppRecordUpdate: {
     method: 'PUT',
@@ -97,5 +97,12 @@ export const DataAppApis = {
     method: 'GET',
     route: '/api/v1/data-app/:modelKey/pending-resource/:resourceId',
     description: '获取待导入的应用数据',
+  },
+
+  FullModelDataInfoGet: {
+    method: 'GET',
+    route: '/api/v1/data-app/:modelKey/record/:uniqueFieldKey/:fieldValue',
+    description: '获取模型指定数据完整信息',
+    detailInfo: 'uniqueFieldKey 必须具备唯一索引',
   },
 }

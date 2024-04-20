@@ -3,7 +3,7 @@ import { SpecFactory } from '@fangcha/router'
 import { AuthModelSpecHandler } from './AuthModelSpecHandler'
 import { _ModelField } from '../../../models/extensions/_ModelField'
 import { ModelDataHandler } from '../../../services/ModelDataHandler'
-import { FieldLinkModel, ModelFieldModel, OpenDataAppApis } from '@fangcha/datawich-service'
+import { OpenDataAppApis } from '@fangcha/datawich-service'
 import { OpenSession } from '../../../services/OpenSession'
 
 const factory = new SpecFactory('Data App', { skipAuth: true })
@@ -23,22 +23,7 @@ factory.prepare(OpenDataAppApis.ModelFieldListGet, async (ctx) => {
 
 factory.prepare(OpenDataAppApis.ModelVisibleFieldListGet, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
-    const feeds = await dataModel.getVisibleFields()
-    const allLinks = await dataModel.getFieldLinks()
-    const uniqueMap = await dataModel.getUniqueColumnMap()
-    const result: ModelFieldModel[] = []
-    for (const feed of feeds) {
-      const data = feed.modelForClient()
-      const links = allLinks.filter((link) => link.fieldKey === feed.fieldKey)
-      const linkModels: FieldLinkModel[] = []
-      for (const link of links) {
-        linkModels.push(await link.modelWithRefFields())
-      }
-      data.refFieldLinks = linkModels
-      data.isUnique = uniqueMap[feed.fieldKey] ? 1 : 0
-      result.push(data)
-    }
-    ctx.body = result
+    ctx.body = await dataModel.getExpandedFields()
   })
 })
 

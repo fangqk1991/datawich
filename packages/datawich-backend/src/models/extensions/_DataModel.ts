@@ -13,6 +13,7 @@ import {
   DataModelModel,
   DataModelParams,
   FieldHelper,
+  FieldLinkModel,
   FieldType,
   FieldTypeDescriptor,
   ModelFieldModel,
@@ -70,6 +71,26 @@ export class _DataModel extends __DataModel {
   public async getVisibleFields() {
     const fields = await this.getFields()
     return fields.filter((field) => !field.isHidden)
+  }
+
+  public async getExpandedFields() {
+    const dataModel = this
+    const feeds = await dataModel.getVisibleFields()
+    const allLinks = await dataModel.getFieldLinks()
+    const uniqueMap = await dataModel.getUniqueColumnMap()
+    const result: ModelFieldModel[] = []
+    for (const feed of feeds) {
+      const data = feed.modelForClient()
+      const links = allLinks.filter((link) => link.fieldKey === feed.fieldKey)
+      const linkModels: FieldLinkModel[] = []
+      for (const link of links) {
+        linkModels.push(await link.modelWithRefFields())
+      }
+      data.refFieldLinks = linkModels
+      data.isUnique = uniqueMap[feed.fieldKey] ? 1 : 0
+      result.push(data)
+    }
+    return result
   }
 
   public async getNormalFields() {

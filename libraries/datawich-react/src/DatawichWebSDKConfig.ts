@@ -25,6 +25,8 @@ export const DatawichWebSDKConfig = {
     DataAppRecordGet: SdkDatawichApis.DataAppRecordGet,
     DataAppRecordUpdate: SdkDatawichApis.DataAppRecordUpdate,
     DataAppRecordDelete: SdkDatawichApis.DataAppRecordDelete,
+
+    FullModelDataInfoGet: SdkDatawichApis.FullModelDataInfoGet,
   },
 }
 

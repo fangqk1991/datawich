@@ -1,7 +1,7 @@
 import { SpecFactory } from '@fangcha/router'
 import assert from '@fangcha/assert'
 import { ModelFieldApis } from '@web/datawich-common/admin-apis'
-import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service'
+import { FieldLinkModel } from '@fangcha/datawich-service'
 import { SessionChecker } from '../../../../services/SessionChecker'
 import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { DataModelSpecHandler } from '../../../../services/DataModelSpecHandler'
@@ -40,22 +40,7 @@ factory.prepare(ModelFieldApis.DataModelFieldsRebuild, async (ctx) => {
 
 factory.prepare(ModelFieldApis.DataModelVisibleFieldListGet, async (ctx) => {
   await new DataModelSpecHandler(ctx).handle(async (dataModel) => {
-    const feeds = await dataModel.getVisibleFields()
-    const allLinks = await dataModel.getFieldLinks()
-    const uniqueMap = await dataModel.getUniqueColumnMap()
-    const result: ModelFieldModel[] = []
-    for (const feed of feeds) {
-      const data = feed.modelForClient()
-      const links = allLinks.filter((link) => link.fieldKey === feed.fieldKey)
-      const linkModels: FieldLinkModel[] = []
-      for (const link of links) {
-        linkModels.push(await link.modelWithRefFields())
-      }
-      data.refFieldLinks = linkModels
-      data.isUnique = uniqueMap[feed.fieldKey] ? 1 : 0
-      result.push(data)
-    }
-    ctx.body = result
+    ctx.body = await dataModel.getExpandedFields()
   })
 })
 
