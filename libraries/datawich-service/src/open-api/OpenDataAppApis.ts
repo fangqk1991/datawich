@@ -133,7 +133,8 @@ export const OpenDataAppApis = {
 
   FullModelDataInfoGet: {
     method: 'GET',
-    route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
-    description: '获取完整应用数据记录',
+    route: '/api/data-app/v1/data-model:modelKey/record/:uniqueFieldKey/:fieldValue',
+    description: '获取模型指定数据完整信息',
+    detailInfo: 'uniqueFieldKey 必须具备唯一索引',
   } as Api,
 }
