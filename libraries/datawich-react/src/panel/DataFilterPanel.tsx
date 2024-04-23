@@ -96,7 +96,7 @@ export const DataFilterPanel: React.FC<Props> = ({
         })
         continue
       }
-      const matches = key.match(/^([a-zA-Z_][\w.]+)\.(\$not\.)?(\$\w+)(\.\w+)?$/)
+      const matches = key.match(/^([a-zA-Z_][\w.]+)\.(\$not\.)?(\$\w+)(\.[\w.]+)?$/)
       if (!matches || !fieldMapper[matches[1]]) {
         continue
       }
@@ -106,7 +106,7 @@ export const DataFilterPanel: React.FC<Props> = ({
       const extension = matches[4]
       mergeFilterItem({
         isNot: isNot,
-        disabled: extension === '.disabled',
+        disabled: !!extension && extension.startsWith('.disabled'),
         key: key,
         filterKey: filterKey,
         symbol: symbol,
