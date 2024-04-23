@@ -25,7 +25,7 @@ interface Props {
   mainFields: ModelFieldModel[]
   loadData: (params: {}) => Promise<PageResult<DataRecord>>
   extrasColumns?: ExtrasColumn[]
-  actionMenuItems?: React.ReactNode[]
+  actionMenuItems?: (record: DataRecord) => React.ReactNode[]
   onDataChanged?: () => void
 }
 
@@ -110,7 +110,7 @@ export const DataDisplayTable: React.FC<Props> = ({
               mainFields={mainFields}
               displayItems={displayItems}
               extrasColumns={extrasColumns}
-              actionMenuItems={actionMenuItems}
+              actionMenuItems={actionMenuItems ? actionMenuItems(item) : undefined}
               record={item}
               onDataChanged={onDataChanged}
             />

@@ -13,10 +13,10 @@ import { DataCreateButton } from '../core/DataCreateButton'
 import { useFavorAppsCtx } from '../profile/FavorAppsContext'
 import { useDataModelCtx } from '../filter/DataModelContext'
 import { DataAppCoreProvider } from './DataAppCoreProvider'
-import { ExtrasColumn } from '../core/CellModels'
+import { DataRecord, ExtrasColumn } from '../core/CellModels'
 
 interface Props {
-  actionMenuItems?: React.ReactNode[]
+  actionMenuItems?: (record: DataRecord) => React.ReactNode[]
   extrasColumns?: ExtrasColumn[]
 }
 
