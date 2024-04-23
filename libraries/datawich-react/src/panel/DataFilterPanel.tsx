@@ -122,6 +122,36 @@ export const DataFilterPanel: React.FC<Props> = ({
     return request.quickSend<ModelPanelInfo[]>()
   }, [modelKey, version])
 
+  const updateFilterParams = (paramsList: { key: string; value: string | string[] }[]) => {
+    const options: {} = {}
+    paramsList.filter(({ value }) => value === '').forEach(({ key }) => (options[key] = ''))
+
+    for (let { key, value } of paramsList.filter(({ value }) => value !== '')) {
+      if (fieldMapper[key]) {
+        key = `${key}.$eq`
+      }
+      if (options[key] === '') {
+        options[key] = value
+        continue
+      }
+      if (queryParams[key] !== undefined) {
+        let index = 1
+        while (queryParams[`${key}.${index}`] !== undefined) {
+          ++index
+        }
+        key = `${key}.${index}`
+      }
+      options[key] = value
+    }
+
+    if (panelInfo) {
+      Object.keys(options)
+        .filter((key) => options[key] === '' && !panelInfo.configData.queryParams[key])
+        .forEach((key) => (options[key] = undefined))
+    }
+    updateQueryParams(options)
+  }
+
   if (loading) {
     return <LoadingView />
   }
@@ -263,22 +293,11 @@ export const DataFilterPanel: React.FC<Props> = ({
                 <a
                   onClick={() => {
                     const dialog = new FilterItemDialog({
+                      title: '添加筛选项',
                       displayItems: displayItems,
                     })
                     dialog.show((params) => {
-                      if (fieldMapper[params.key]) {
-                        params.key = `${params.key}.$eq`
-                      }
-                      if (queryParams[params.key] !== undefined) {
-                        let index = 1
-                        while (queryParams[`${params.key}.${index}`] !== undefined) {
-                          ++index
-                        }
-                        params.key = `${params.key}.${index}`
-                      }
-                      updateQueryParams({
-                        [params.key]: params.value,
-                      })
+                      updateFilterParams([params])
                     })
                   }}
                 >
@@ -391,7 +410,9 @@ export const DataFilterPanel: React.FC<Props> = ({
                     key={item.key}
                     filterItem={item}
                     displayItems={displayItems}
-                    onFilterItemChanged={(options) => updateQueryParams(options)}
+                    onFilterItemChanged={(options) => {
+                      updateFilterParams(options)
+                    }}
                   />
                 ))}
               </ul>

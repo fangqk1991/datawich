@@ -1,14 +1,14 @@
 import React from 'react'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { CopyOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { TextSymbol, TextSymbolDescriptor } from '@fangcha/logic'
-import { FieldDisplayItem, FieldFilterItem, FieldType, ModelPanelTools, } from '@fangcha/datawich-service'
+import { FieldDisplayItem, FieldFilterItem, FieldType, ModelPanelTools } from '@fangcha/datawich-service'
 import { Checkbox, Tag } from 'antd'
 import { FilterItemDialog } from './FilterItemDialog'
 
 interface Props {
   filterItem: FieldFilterItem
   displayItems: FieldDisplayItem[]
-  onFilterItemChanged: (options: {}) => void
+  onFilterItemChanged: (paramsList: { key: string; value: string | string[] }[]) => void
 }
 
 export const DataFilterItemView: React.FC<Props> = ({ filterItem, displayItems, onFilterItemChanged }) => {
@@ -58,41 +58,65 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, displayItems, 
           checked={checked}
           onChange={(e) => {
             if (e.target.checked) {
-              onFilterItemChanged({
-                [ModelPanelTools.calculateFilterItemKey({
-                  ...filterItem,
-                  disabled: true,
-                })]: '',
-                [ModelPanelTools.calculateFilterItemKey({
-                  ...filterItem,
-                  disabled: false,
-                })]: filterItem.value,
-              })
+              onFilterItemChanged([
+                {
+                  key: filterItem.key,
+                  value: '',
+                },
+                {
+                  key: ModelPanelTools.calculateFilterItemKey({
+                    ...filterItem,
+                    disabled: false,
+                  }),
+                  value: filterItem.value,
+                },
+              ])
             } else {
-              onFilterItemChanged({
-                [ModelPanelTools.calculateFilterItemKey({
-                  ...filterItem,
-                  disabled: false,
-                })]: '',
-                [ModelPanelTools.calculateFilterItemKey({
-                  ...filterItem,
-                  disabled: true,
-                })]: filterItem.value,
-              })
+              onFilterItemChanged([
+                {
+                  key: filterItem.key,
+                  value: '',
+                },
+                {
+                  key: ModelPanelTools.calculateFilterItemKey({
+                    ...filterItem,
+                    disabled: true,
+                  }),
+                  value: filterItem.value,
+                },
+              ])
             }
           }}
         />{' '}
         <a
           onClick={() => {
             const dialog = new FilterItemDialog({
+              title: '添加筛选项',
               filterItem: filterItem,
               displayItems: displayItems,
             })
             dialog.show((params) => {
-              onFilterItemChanged({
-                [filterItem.key]: '',
-                [params.key]: params.value,
-              })
+              onFilterItemChanged([params])
+            })
+          }}
+        >
+          <CopyOutlined />
+        </a>{' '}
+        <a
+          onClick={() => {
+            const dialog = new FilterItemDialog({
+              title: '编辑筛选项',
+              filterItem: filterItem,
+              displayItems: displayItems,
+            })
+            dialog.show((params) => {
+              onFilterItemChanged([
+                {
+                  key: filterItem.key,
+                  value: '',
+                },
+                params,
+              ])
             })
           }}
         >
@@ -101,9 +125,12 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, displayItems, 
         <a
           style={{ color: 'red' }}
           onClick={() => {
-            onFilterItemChanged({
-              [filterItem.key]: '',
-            })
+            onFilterItemChanged([
+              {
+                key: filterItem.key,
+                value: '',
+              },
+            ])
           }}
         >
           <DeleteOutlined />
