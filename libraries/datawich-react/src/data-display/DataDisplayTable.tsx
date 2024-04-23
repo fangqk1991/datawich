@@ -31,10 +31,18 @@ interface Props {
     title: React.ReactNode
     render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
   }[]
+  actionMenuItems?: React.ReactNode[]
   onDataChanged?: () => void
 }
 
-export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extrasColumns, loadData, onDataChanged }) => {
+export const DataDisplayTable: React.FC<Props> = ({
+  modelKey,
+  mainFields,
+  extrasColumns,
+  actionMenuItems,
+  loadData,
+  onDataChanged,
+}) => {
   const { queryParams, updateQueryParams } = useQueryParams<{
     keywords: string
     panelId: string
@@ -108,6 +116,7 @@ export const DataDisplayTable: React.FC<Props> = ({ modelKey, mainFields, extras
               mainFields={mainFields}
               displayItems={displayItems}
               extrasColumns={extrasColumns}
+              actionMenuItems={actionMenuItems}
               record={item}
               onDataChanged={onDataChanged}
             />
