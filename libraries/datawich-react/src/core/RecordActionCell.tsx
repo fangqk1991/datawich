@@ -13,6 +13,7 @@ import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { ConfirmDialog } from '@fangcha/react'
 import { showRecordDescriptions } from './RecordDescriptions'
 import { CommonFormDialog } from '@fangcha/form-react'
+import { DataRecord, ExtrasColumn } from './CellModels'
 
 interface Props {
   modelKey: string
@@ -21,17 +22,9 @@ interface Props {
   record: DataRecord
   onDataChanged?: () => void
 
-  extrasColumns?: {
-    title: React.ReactNode
-    render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
-  }[]
+  extrasColumns?: ExtrasColumn[]
 
   actionMenuItems?: React.ReactNode[]
-}
-
-interface DataRecord {
-  _data_id: string
-  [p: string]: any
 }
 
 export const RecordActionCell: React.FC<Props> = ({

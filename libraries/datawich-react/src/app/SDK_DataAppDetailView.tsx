@@ -13,12 +13,11 @@ import { DataCreateButton } from '../core/DataCreateButton'
 import { useFavorAppsCtx } from '../profile/FavorAppsContext'
 import { useDataModelCtx } from '../filter/DataModelContext'
 import { DataAppCoreProvider } from './DataAppCoreProvider'
+import { ExtrasColumn } from '../core/CellModels'
 
 interface Props {
-  extrasColumns?: {
-    title: React.ReactNode
-    render: (item: any, _: any, index: number) => React.ReactNode
-  }[]
+  actionMenuItems?: React.ReactNode[]
+  extrasColumns?: ExtrasColumn[]
 }
 
 const DataAppCoreView: React.FC<Props> = (props) => {
@@ -73,6 +72,7 @@ const DataAppCoreView: React.FC<Props> = (props) => {
           request.setQueryParams(params)
           return request.quickSend()
         }}
+        actionMenuItems={props.actionMenuItems}
         extrasColumns={props.extrasColumns || []}
         onDataChanged={forceUpdate}
       />

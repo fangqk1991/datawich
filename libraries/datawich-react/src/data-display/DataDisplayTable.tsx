@@ -5,10 +5,7 @@ import { PageResult } from '@fangcha/tools'
 import { myDataColumn } from './myDataColumn'
 import { useModelPanelCtx } from '../panel/ModelPanelContext'
 import { RecordActionCell } from '../core/RecordActionCell'
-
-interface DataRecord {
-  _data_id: string
-}
+import { DataRecord, ExtrasColumn } from '../core/CellModels'
 
 const trimParams = (params: {}) => {
   params = params || {}
@@ -27,10 +24,7 @@ interface Props {
   modelKey: string
   mainFields: ModelFieldModel[]
   loadData: (params: {}) => Promise<PageResult<DataRecord>>
-  extrasColumns?: {
-    title: React.ReactNode
-    render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
-  }[]
+  extrasColumns?: ExtrasColumn[]
   actionMenuItems?: React.ReactNode[]
   onDataChanged?: () => void
 }

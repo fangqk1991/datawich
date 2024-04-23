@@ -6,21 +6,14 @@ import { MyDataCell } from '../data-display/MyDataCell'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
-
-interface DataRecord {
-  _data_id: string
-  [p: string]: any
-}
+import { DataRecord, ExtrasColumn } from './CellModels'
 
 interface Props {
   modelKey: string
   displayItems: FieldDisplayItem[]
   record: DataRecord
 
-  extrasColumns?: {
-    title: React.ReactNode
-    render: (item: DataRecord, _: DataRecord, index: number) => React.ReactNode
-  }[]
+  extrasColumns?: ExtrasColumn[]
 }
 
 export const RecordDescriptions: React.FC<Props> = ({ modelKey, displayItems, extrasColumns, record }) => {
