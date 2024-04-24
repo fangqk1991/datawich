@@ -19,6 +19,13 @@ export const DataFilterItemView: React.FC<Props> = ({ filterItem, displayItems, 
     if (Array.isArray(val)) {
       return val.map((subVal) => describeValue(subVal))
     }
+    if (val.startsWith('::')) {
+      const filterKey = val.replace('::', '')
+      const displayItem = displayItems.find((item) => item.field.filterKey === filterKey)
+      if (displayItem) {
+        return displayItem.field.name
+      }
+    }
     switch (filterItem.field.fieldType) {
       case FieldType.TextEnum:
       case FieldType.MultiEnum:
