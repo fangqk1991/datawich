@@ -191,7 +191,7 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
                       case TextSymbol.$eq:
                       case TextSymbol.$ne:
                         if ([FieldType.Integer, FieldType.Float].includes(curField.fieldType)) {
-                          return <ProFormDigit min={Number.MIN_SAFE_INTEGER} />
+                          // return <ProFormDigit min={Number.MIN_SAFE_INTEGER} />
                         } else if (curField.fieldType === FieldType.TextEnum) {
                           return <ProFormRadio.Group options={curField.options} radioType='button' />
                         }
@@ -200,7 +200,8 @@ export class FilterItemDialog extends ReactDialog<Props, FieldFilterParams> {
                       case TextSymbol.$gt:
                       case TextSymbol.$le:
                       case TextSymbol.$lt:
-                        return <ProFormDigit min={Number.MIN_SAFE_INTEGER} />
+                        break
+                        // return <ProFormDigit min={Number.MIN_SAFE_INTEGER} />
                       case TextSymbol.$includeAll:
                       case TextSymbol.$includeAny:
                       case TextSymbol.$excludeAll:
