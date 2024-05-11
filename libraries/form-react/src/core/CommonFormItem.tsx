@@ -175,13 +175,13 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 fieldProps={{
                   onChange: (e) => {
                     updateData &&
-                    updateData([
-                      {
-                        field: field,
-                        fullKeys: fullKeys,
-                        value: e.target.value,
-                      },
-                    ])
+                      updateData([
+                        {
+                          field: field,
+                          fullKeys: fullKeys,
+                          value: e.target.value,
+                        },
+                      ])
                   },
                 }}
               />
@@ -221,9 +221,43 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             if (field.multipleLines) {
               return <ProFormTextArea disabled={!editable} style={style} />
             }
-            return <ProFormText placeholder={fieldName} disabled={!editable} style={style} />
+            return (
+              <ProFormText
+                placeholder={fieldName}
+                disabled={!editable}
+                style={style}
+                fieldProps={{
+                  onChange: (e) =>
+                    updateData &&
+                    updateData([
+                      {
+                        field: field,
+                        fullKeys: fullKeys,
+                        value: e.target.value,
+                      },
+                    ]),
+                }}
+              />
+            )
           case FormFieldType.Number:
-            return <ProFormDigit disabled={!editable} min={Number.MIN_SAFE_INTEGER} style={style} />
+            return (
+              <ProFormDigit
+                disabled={!editable}
+                min={Number.MIN_SAFE_INTEGER}
+                style={style}
+                fieldProps={{
+                  onChange: (val) =>
+                    updateData &&
+                    updateData([
+                      {
+                        field: field,
+                        fullKeys: fullKeys,
+                        value: val,
+                      },
+                    ]),
+                }}
+              />
+            )
           case FormFieldType.Boolean:
             return (
               <ProFormRadio.Group
@@ -234,13 +268,13 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 fieldProps={{
                   onChange: (e) => {
                     updateData &&
-                    updateData([
-                      {
-                        field: field,
-                        fullKeys: fullKeys,
-                        value: e.target.value,
-                      },
-                    ])
+                      updateData([
+                        {
+                          field: field,
+                          fullKeys: fullKeys,
+                          value: e.target.value,
+                        },
+                      ])
                   },
                 }}
               />
@@ -271,21 +305,21 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                     size: resource.size,
                   }
                   updateData &&
-                  updateData([
-                    {
-                      field: field,
-                      fullKeys: fullKeys,
-                      value: JSON.stringify(fileInfo),
-                    },
-                    {
-                      field: field,
-                      fullKeys: entityKeys,
-                      value: {
-                        ...fileInfo,
-                        url: resource.url,
+                    updateData([
+                      {
+                        field: field,
+                        fullKeys: fullKeys,
+                        value: JSON.stringify(fileInfo),
                       },
-                    },
-                  ])
+                      {
+                        field: field,
+                        fullKeys: entityKeys,
+                        value: {
+                          ...fileInfo,
+                          url: resource.url,
+                        },
+                      },
+                    ])
                 })
               }
               if (!ossFileInfo) {
@@ -311,18 +345,18 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                         className={'text-danger'}
                         onClick={() => {
                           updateData &&
-                          updateData([
-                            {
-                              field: field,
-                              fullKeys: fullKeys,
-                              value: '',
-                            },
-                            {
-                              field: field,
-                              fullKeys: entityKeys,
-                              value: null,
-                            },
-                          ])
+                            updateData([
+                              {
+                                field: field,
+                                fullKeys: fullKeys,
+                                value: '',
+                              },
+                              {
+                                field: field,
+                                fullKeys: entityKeys,
+                                value: null,
+                              },
+                            ])
                         }}
                       >
                         移除
