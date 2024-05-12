@@ -1,13 +1,38 @@
-import ReactDOM from 'react-dom/client'
 import React from 'react'
-import { LaunchContainer } from '@fangcha/auth-react'
-import { App } from './app/App'
+import { AuthSdkHelper, LaunchContainer } from '@fangcha/auth-react'
+import './app/app.scss'
+import { ReactApp } from '@fangcha/react'
+import { SDK_DataAppDetailView, SDK_DataAppListView, SDK_MainLayout, } from '@fangcha/datawich-react'
+import { SdkDatawichPages } from '@fangcha/datawich-service'
 
-const app = ReactDOM.createRoot(document.getElementById('app')!)
-app.render(
-  <React.StrictMode>
+AuthSdkHelper.defaultRedirectUri = '/'
+
+new ReactApp({
+  mainLayout: (
     <LaunchContainer allowAnonymous={true}>
-      <App />
+      <SDK_MainLayout />
     </LaunchContainer>
-  </React.StrictMode>
-)
+  ),
+  routes: [
+    {
+      path: '/',
+      element: <SDK_DataAppListView />,
+    },
+    {
+      path: SdkDatawichPages.WebAppDetailRoute,
+      element: (
+        <SDK_DataAppDetailView
+          extrasColumns={
+            [
+              // {
+              //   title: 'test',
+              //   fixed: 'right',
+              //   render: () => <b>!!!</b>,
+              // },
+            ]
+          }
+        />
+      ),
+    },
+  ],
+}).launch()
