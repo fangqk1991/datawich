@@ -28,7 +28,7 @@ import {
 import { CodeEditor } from '../code-editor/CodeEditor'
 import { BoolOptions } from '@fangcha/tools'
 import { FormFieldExt } from './FormFieldExt'
-import { JsonEditorDialog } from '@fangcha/react'
+import { JsonEditorDialog, JsonPre } from '@fangcha/react'
 
 export type UpdateData = (kvList: { fullKeys: string[]; value: any; field: FormField }[]) => void
 
@@ -243,8 +243,9 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                       })
                     }}
                   >
-                    点击查看 / 编辑
+                    点击编辑
                   </a>
+                  <JsonPre value={value} />
                 </div>
               )
             }
