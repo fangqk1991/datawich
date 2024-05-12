@@ -28,6 +28,7 @@ import {
 import { CodeEditor } from '../code-editor/CodeEditor'
 import { BoolOptions } from '@fangcha/tools'
 import { FormFieldExt } from './FormFieldExt'
+import { JsonEditorDialog } from '@fangcha/react'
 
 export type UpdateData = (kvList: { fullKeys: string[]; value: any; field: FormField }[]) => void
 
@@ -219,7 +220,33 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             if (field.stringType === FieldStringType.RichText) {
               return <RichTextEditor style={style} />
             } else if (field.stringType === FieldStringType.CodeText) {
-              return <CodeEditor />
+              return (
+                <div className={'mb-2'}>
+                  <CodeEditor />
+                </div>
+              )
+            } else if (field.stringType === FieldStringType.JSON) {
+              return (
+                <div className={'mb-2'}>
+                  <a
+                    onClick={() => {
+                      const dialog = JsonEditorDialog.dialogForEditing(value)
+                      dialog.show((params) => {
+                        updateData &&
+                          updateData([
+                            {
+                              field: field,
+                              fullKeys: fullKeys,
+                              value: JSON.stringify(params),
+                            },
+                          ])
+                      })
+                    }}
+                  >
+                    点击查看 / 编辑
+                  </a>
+                </div>
+              )
             }
             if (field.multipleLines) {
               return <ProFormTextArea disabled={!editable} style={style} />
