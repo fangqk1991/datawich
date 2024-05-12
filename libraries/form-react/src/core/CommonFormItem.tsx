@@ -135,6 +135,8 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
     )
   }
 
+  const value = FormSchemaHelper.getFieldValue(myData, field) || undefined
+
   return (
     <ProForm.Item
       name={field.fullKeys || field.fieldKey}
@@ -173,6 +175,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 disabled={!editable}
                 style={style}
                 fieldProps={{
+                  value: value,
                   onChange: (e) => {
                     updateData &&
                       updateData([
@@ -227,6 +230,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 disabled={!editable}
                 style={style}
                 fieldProps={{
+                  value: value,
                   onChange: (e) =>
                     updateData &&
                     updateData([
@@ -246,6 +250,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 min={Number.MIN_SAFE_INTEGER}
                 style={style}
                 fieldProps={{
+                  value: value,
                   onChange: (val) =>
                     updateData &&
                     updateData([
@@ -266,6 +271,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
                 disabled={!editable}
                 style={style}
                 fieldProps={{
+                  value: value,
                   onChange: (e) => {
                     updateData &&
                       updateData([
