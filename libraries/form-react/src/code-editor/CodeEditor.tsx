@@ -12,9 +12,14 @@ const Wrapper = styled.div`
   }
 `
 
-export const CodeEditor: React.FC<EditorProps> = (props) => {
+interface Props extends EditorProps {
+  className?: string
+  style?: React.CSSProperties
+}
+
+export const CodeEditor: React.FC<Props> = ({ style, className, ...props }) => {
   return (
-    <Wrapper>
+    <Wrapper className={className} style={style}>
       <Editor
         language='javascript'
         theme='light'

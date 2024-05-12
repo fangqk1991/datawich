@@ -220,11 +220,7 @@ export const CommonFormItem: React.FC<Props> = ({ field, myData, editable, updat
             if (field.stringType === FieldStringType.RichText) {
               return <RichTextEditor style={style} />
             } else if (field.stringType === FieldStringType.CodeText) {
-              return (
-                <div className={'mb-2'}>
-                  <CodeEditor />
-                </div>
-              )
+              return <CodeEditor className={'mb-2'} />
             } else if (field.stringType === FieldStringType.JSON) {
               return (
                 <div className={'mb-2'}>
