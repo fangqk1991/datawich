@@ -21,6 +21,9 @@ export class AuthModelSpecHandler extends ModelSpecHandler {
     searcher.processor().addConditionKV('model_key', dataModel.modelKey)
     searcher.processor().addConditionKV('appid', session.visitorId)
     assert.ok((await searcher.queryCount()) > 0, `${session.visitorId} 不能访问模型 ${dataModel.modelKey}`)
+
+    assert.ok(!dataModel.getExtrasData().needLogin || session.isLogin(), `访问 [${dataModel.name}] 需要登录`, 403)
+
     if (session.usingWebSDK && this.ctx.method !== 'GET') {
       assert.ok(session.isLogin(), `当前操作需要登录`)
     }
