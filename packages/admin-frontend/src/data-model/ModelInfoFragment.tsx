@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Descriptions, Divider, message, Space } from 'antd'
+import { Button, Descriptions, Divider, message, Space, Switch } from 'antd'
 import { ModelFragmentProtocol } from './ModelFragmentProtocol'
 import { AccessLevel, describeAccessLevelDetail } from '@web/datawich-common/models'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
@@ -127,6 +127,24 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
             </span>
           )}
         </Descriptions.Item>
+
+        <Descriptions.Item label='需要登录'>
+          <Switch
+            checked={!!dataModel.extrasData.needLogin}
+            onChange={async (checked) => {
+              const request = MyRequest(new CommonAPI(DataModelApis.DataModelUpdate, dataModel.modelKey))
+              request.setBodyData({
+                extrasData: {
+                  needLogin: checked,
+                },
+              })
+              await request.quickSend()
+              message.success('更新成功')
+              onModelInfoChanged()
+            }}
+          />
+        </Descriptions.Item>
+
         <Descriptions.Item label='模型可见性'>
           {describeAccessLevelDetail(dataModel.accessLevel as AccessLevel)}
         </Descriptions.Item>
