@@ -1,7 +1,7 @@
 import { FormField } from '@fangcha/form-models'
 import React from 'react'
 
-type UpdateData = (kvList: { fullKeys: string[]; value: any; field: FormField }[]) => void
+type UpdateData = (kvList: { fullKeys: string[]; value: any }[]) => void
 
 interface Options {
   field: FormFieldExt

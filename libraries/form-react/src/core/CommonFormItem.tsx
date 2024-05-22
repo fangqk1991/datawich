@@ -30,7 +30,7 @@ import { BoolOptions } from '@fangcha/tools'
 import { FormFieldExt } from './FormFieldExt'
 import { JsonEditorDialog, JsonPre } from '@fangcha/react'
 
-export type UpdateData = (kvList: { fullKeys: string[]; value: any; field: FormField }[]) => void
+export type UpdateData = (kvList: { fullKeys: string[]; value: any }[]) => void
 
 interface Props {
   field: FormFieldExt
@@ -189,7 +189,6 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                     updateData &&
                       updateData([
                         {
-                          field: field,
                           fullKeys: fullKeys,
                           value: e.target.value,
                         },
@@ -207,7 +206,6 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                 updateData &&
                 updateData([
                   {
-                    field: field,
                     fullKeys: fullKeys,
                     value: value,
                   },
@@ -239,7 +237,6 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                         updateData &&
                           updateData([
                             {
-                              field: field,
                               fullKeys: fullKeys,
                               value: JSON.stringify(params),
                             },
@@ -267,7 +264,6 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                     updateData &&
                     updateData([
                       {
-                        field: field,
                         fullKeys: fullKeys,
                         value: e.target.value,
                       },
@@ -287,7 +283,6 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                     updateData &&
                     updateData([
                       {
-                        field: field,
                         fullKeys: fullKeys,
                         value: val,
                       },
@@ -308,7 +303,6 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                     updateData &&
                       updateData([
                         {
-                          field: field,
                           fullKeys: fullKeys,
                           value: e.target.value,
                         },
@@ -345,12 +339,10 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                   updateData &&
                     updateData([
                       {
-                        field: field,
                         fullKeys: fullKeys,
                         value: JSON.stringify(fileInfo),
                       },
                       {
-                        field: field,
                         fullKeys: entityKeys,
                         value: {
                           ...fileInfo,
@@ -385,12 +377,10 @@ export const CommonFormItem: React.FC<Props> = (props) => {
                           updateData &&
                             updateData([
                               {
-                                field: field,
                                 fullKeys: fullKeys,
                                 value: '',
                               },
                               {
-                                field: field,
                                 fullKeys: entityKeys,
                                 value: null,
                               },
