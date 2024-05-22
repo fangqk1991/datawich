@@ -159,7 +159,11 @@ export const CommonFormItem: React.FC<Props> = (props) => {
     >
       {(() => {
         if (field.customFormItem) {
-          return field.customFormItem(props)
+          return field.customFormItem({
+            ...props,
+            value: value,
+            fullKeys: fullKeys,
+          })
         }
         if (field.enumType === FieldEnumType.Single) {
           const optionsForEnumField = (() => {

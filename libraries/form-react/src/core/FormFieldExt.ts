@@ -9,6 +9,8 @@ interface Options {
   editable: boolean
   updateData?: UpdateData
   devMode?: boolean
+  value: any
+  fullKeys: string[]
 }
 
 export interface FormFieldExt extends FormField {

@@ -1,10 +1,10 @@
 import React from 'react'
-import { message, Space, Table, Tag, Tooltip } from 'antd'
+import { message, Space, Switch, Table, Tag, Tooltip } from 'antd'
 import { DBTable, SdkDatabaseApis } from '@fangcha/datawich-service'
 import { TableViewColumn, TextPreviewDialog } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
 import { MyRequest } from '@fangcha/auth-react'
-import { CommonFormDialog } from '@fangcha/form-react'
+import { CommonFormDialog, FormFieldExt } from '@fangcha/form-react'
 import { FieldEnumTypeDescriptor, FormBuilder, FormField, FormFieldTypeDescriptor } from '@fangcha/form-models'
 
 interface Props {
@@ -94,6 +94,27 @@ export const DBTableFieldsTable: React.FC<Props> = ({ connectionId, table, onDat
                     <a
                       onClick={() => {
                         const schema = FormBuilder.getFormFieldSchema()
+                        {
+                          const someField = schema.isRequired as FormFieldExt
+                          someField.customFormItem = ({ value, fullKeys, field, updateData }) => {
+                            return (
+                              <Switch
+                                className={'mb-3'}
+                                checked={!!value}
+                                onChange={async (checked) => {
+                                  updateData &&
+                                    updateData([
+                                      {
+                                        field: field,
+                                        fullKeys: fullKeys,
+                                        value: checked,
+                                      },
+                                    ])
+                                }}
+                              />
+                            )
+                          }
+                        }
                         const fields = FormBuilder.buildFields(schema)
                         const dialog = new CommonFormDialog({
                           title: '字段属性',
