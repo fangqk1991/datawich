@@ -142,6 +142,17 @@ export class FormBuilder {
         fieldType: FormFieldType.String,
         name: '默认值',
       },
+      isUUID: {
+        fieldType: FormFieldType.Boolean,
+        name: 'UUID',
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.EQ,
+            rightValue: FormFieldType.String,
+          },
+        },
+      },
       multipleLines: {
         fieldType: FormFieldType.Boolean,
         name: '多行文本',
