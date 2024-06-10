@@ -21,7 +21,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
       new CommonAPI(SdkDBDataApis.RecordInfoGet, connectionId, table.tableId, record[table.primaryKey])
     )
     return request.quickSend<DBTypicalRecord>()
-  }, [])
+  }, [connectionId, table, record])
   const updateRecordInfo = useCallback(async (params: {}) => {
     const request = MyRequest(
       new CommonAPI(SdkDBDataApis.RecordUpdate, connectionId, table.tableId, record[table.primaryKey])
@@ -30,7 +30,7 @@ export const DBRecordActionCell: React.FC<Props> = ({ connectionId, table, recor
     await request.execute()
     message.success('修改成功')
     onDataChanged && onDataChanged()
-  }, [])
+  }, [connectionId, table, record])
   return (
     <Dropdown
       menu={{
