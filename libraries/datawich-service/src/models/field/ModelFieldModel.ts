@@ -29,6 +29,7 @@ export interface ModelFieldExtrasData {
   useListWidget?: boolean
   hideDetail?: boolean
   hyperlink?: string
+  tips?: string
 }
 
 export interface ModelFieldParams {

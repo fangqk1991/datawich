@@ -169,6 +169,23 @@ export const makeFieldDialog = (props: Props = {}) => {
           },
         },
       },
+      tips: {
+        fieldType: FormFieldType.String,
+        name: '提示',
+        visibleLogic: {
+          condition: {
+            leftKey: 'fieldType',
+            symbol: FilterSymbol.NotIN,
+            rightValue: [
+              FieldType.StringList,
+              FieldType.Link,
+              FieldType.CodeText,
+              FieldType.RichText,
+              FieldType.Attachment,
+            ],
+          },
+        },
+      },
     } as SchemaFormFieldsMap<Partial<ModelFieldExtrasData>>,
   })
   const dialog = new CommonFormDialog({

@@ -102,6 +102,7 @@ export const transferModelFieldToFormField = (schemaField: ModelFieldModel) => {
     hideDetail: schemaField.extrasData.hideDetail,
 
     hyperlink: schemaField.extrasData.hyperlink,
+    tips: schemaField.extrasData.tips,
   }
   switch (schemaField.fieldType) {
     case FieldType.Integer:

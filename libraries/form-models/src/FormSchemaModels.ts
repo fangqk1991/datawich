@@ -81,6 +81,7 @@ export interface FormField {
 
   hideDetail?: boolean
 
+  tips?: string
   remarks?: string
   isPrimary?: boolean
   isUUID?: boolean

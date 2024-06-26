@@ -1,8 +1,8 @@
 import React from 'react'
 import { FieldHelper, FullDataInfo, GeneralDataHelper, ModelPanelTools } from '@fangcha/datawich-service'
-import { LinkOutlined } from '@ant-design/icons'
-import { Image, Tag } from 'antd'
-import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog, } from '@fangcha/react'
+import { InfoCircleOutlined, LinkOutlined } from '@ant-design/icons'
+import { Image, Tag, Tooltip } from 'antd'
+import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
 import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
 import { CodeEditor, CodeEditorDialog } from '@fangcha/form-react'
@@ -229,6 +229,18 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               break
           }
         }
+        if (field.tips && TemplateHelper.renderTmpl(field.tips, props.data)) {
+          const tips = TemplateHelper.renderTmpl(field.tips, props.data)
+          element = (
+            <>
+              {element}{' '}
+              <Tooltip title={tips}>
+                <InfoCircleOutlined />
+              </Tooltip>
+            </>
+          )
+        }
+
         if (field.hideDetail) {
           return (
             <a
