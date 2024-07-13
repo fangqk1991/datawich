@@ -2,7 +2,7 @@ import React from 'react'
 import { FieldHelper, FullDataInfo, GeneralDataHelper, ModelPanelTools } from '@fangcha/datawich-service'
 import { InfoCircleOutlined, LinkOutlined } from '@ant-design/icons'
 import { Image, Tag, Tooltip } from 'antd'
-import { MyRichTextPanel, MyTagsPanel, PercentSpan, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
+import { FormatDigitSpan, MyRichTextPanel, MyTagsPanel, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
 import { OssFileInfo } from '@fangcha/oss-models'
 import * as moment from 'moment'
 import { CodeEditor, CodeEditorDialog } from '@fangcha/form-react'
@@ -137,22 +137,17 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               }
               const realValue = value || 0
               if (field.numberFormat === NumberFormat.Percent || field.numberFormat === NumberFormat.PurePercent) {
-                element = <PercentSpan pure={field.numberFormat === NumberFormat.PurePercent} value={value || 0} />
-              } else if (field.numberFormat === NumberFormat.Format) {
-                const prefix = realValue < 0 ? '-' : ''
-                let val = Math.abs(realValue)
-                let unit
-                const units = ['', 'K', 'M', 'B', 'T']
-                while ((unit = units.shift()) !== undefined && val >= 1000) {
-                  val = val / 1000
-                }
                 element = (
-                  <span style={{ color: '#28a745' }}>
-                    {prefix}
-                    {unit === '' ? val : val.toFixed(2)}
-                    <b>{unit}</b>
-                  </span>
+                  <FormatDigitSpan
+                    mode={field.numberFormat === NumberFormat.PurePercent ? 'normal' : 'profit'}
+                    usingPercent={
+                      field.numberFormat === NumberFormat.Percent || field.numberFormat === NumberFormat.PurePercent
+                    }
+                    value={value || 0}
+                  />
                 )
+              } else if (field.numberFormat === NumberFormat.Format) {
+                element = <FormatDigitSpan mode={'normal'} value={value || 0} />
                 // num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 // return realValue.toLocaleString('en-US')
               } else if (typeof field.floatBits === 'number' && field.floatBits >= 0) {
