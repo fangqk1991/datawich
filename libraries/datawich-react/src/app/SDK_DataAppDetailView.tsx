@@ -16,6 +16,7 @@ import { DataAppCoreProvider } from './DataAppCoreProvider'
 import { DataRecord, ExtrasColumn } from '../core/CellModels'
 
 interface Props {
+  modelKey?: string
   actionMenuItems?: (record: DataRecord) => React.ReactNode[]
   extrasColumns?: ExtrasColumn[]
 }
@@ -83,7 +84,7 @@ const DataAppCoreView: React.FC<Props> = (props) => {
 export const SDK_DataAppDetailView: React.FC<Props> = (props) => {
   const { modelKey = '' } = useParams()
   return (
-    <DataAppCoreProvider modelKey={modelKey}>
+    <DataAppCoreProvider modelKey={props.modelKey || modelKey}>
       <DataAppCoreView {...props} />
     </DataAppCoreProvider>
   )
