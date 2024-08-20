@@ -61,7 +61,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
           switch (field.fieldType) {
             case FormFieldType.String:
               if (field.multipleLines) {
-                element = <pre>{value}</pre>
+                element = <pre style={{ whiteSpace: 'pre-wrap' }}>{value}</pre>
               }
               switch (field.stringType!) {
                 case FieldStringType.Normal:
