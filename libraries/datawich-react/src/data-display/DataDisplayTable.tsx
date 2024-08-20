@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
@@ -6,6 +6,7 @@ import { myDataColumn } from './myDataColumn'
 import { useModelPanelCtx } from '../panel/ModelPanelContext'
 import { RecordActionCell } from '../core/RecordActionCell'
 import { DataRecord, ExtrasColumn } from '../core/CellModels'
+import { showRecordDescriptions } from '../core/RecordDescriptions'
 
 const trimParams = (params: {}) => {
   params = params || {}
@@ -40,11 +41,15 @@ export const DataDisplayTable: React.FC<Props> = ({
   const { queryParams, updateQueryParams } = useQueryParams<{
     keywords: string
     panelId: string
+    __splash: string
     [p: string]: any
   }>()
 
   const panelCtx = useModelPanelCtx()
   const { displaySettings, panelInfo } = panelCtx
+
+  const itemsRef = useRef<DataRecord[]>([])
+  const [loaded, setLoaded] = useState(false)
 
   const fixedColumnMap = useMemo(() => {
     return displaySettings.fixedList.reduce((result, cur) => {
@@ -57,6 +62,20 @@ export const DataDisplayTable: React.FC<Props> = ({
     () => FieldHelper.flattenDisplayItems(mainFields, displaySettings),
     [mainFields, displaySettings]
   )
+
+  useEffect(() => {
+    if (loaded && itemsRef.current.length === 1 && queryParams.__splash) {
+      showRecordDescriptions({
+        modelKey: modelKey,
+        displayItems: displayItems,
+        record: itemsRef.current[0],
+        extrasColumns: extrasColumns,
+      })
+      updateQueryParams({
+        __splash: '',
+      })
+    }
+  }, [loaded])
 
   const isMobile = window.innerWidth < 768
 
@@ -134,7 +153,10 @@ export const DataDisplayTable: React.FC<Props> = ({
           .forEach((key) => {
             delete params[key]
           })
-        return loadData(params)
+        const pageResult = await loadData(params)
+        itemsRef.current = pageResult.items
+        setLoaded(true)
+        return pageResult
       }}
     />
   )
