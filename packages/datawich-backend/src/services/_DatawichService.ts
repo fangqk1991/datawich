@@ -19,6 +19,7 @@ import { OSSService, OssServiceOptions } from '@fangcha/oss-service'
 import { _ModelPanel } from '../models/extensions/_ModelPanel'
 import { _DBConnection } from '../models/database/_DBConnection'
 import { _DBTableExtras } from '../models/database/_DBTableExtras'
+import { _DataRecordFavor } from '../models/extensions/_DataRecordFavor'
 
 interface Params {
   database: FCDatabase
@@ -66,6 +67,7 @@ class __DatawichService {
     _DBTableExtras.setDatabase(database)
 
     _DataModel.setDatabase(database)
+    _DataRecordFavor.setDatabase(database)
     _ModelField.setDatabase(database)
     _FieldIndex.setDatabase(database)
     _FieldLink.setDatabase(database)

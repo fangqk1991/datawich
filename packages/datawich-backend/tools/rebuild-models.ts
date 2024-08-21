@@ -20,6 +20,12 @@ const generalDataSchemas: DBModelSchema[] = [
     modifiableBlackList: ['author', 'create_time'],
   },
   {
+    tableName: 'data_record_favor',
+    outputFile: `${__dirname}/../src/models/auto-build/__DataRecordFavor.ts`,
+    extFile: `${__dirname}/../src/models/extensions/_DataRecordFavor.ts`,
+    primaryKey: ['model_key', 'record_id', 'owner_id'],
+  },
+  {
     tableName: 'model_field',
     outputFile: `${__dirname}/../src/models/auto-build/__ModelField.ts`,
     extFile: `${__dirname}/../src/models/extensions/_ModelField.ts`,

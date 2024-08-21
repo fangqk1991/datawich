@@ -177,6 +177,19 @@ CREATE TABLE IF NOT EXISTS data_model
   DEFAULT CHARSET = utf8mb4
   COLLATE utf8mb4_general_ci;
 
+CREATE TABLE IF NOT EXISTS data_record_favor
+(
+    _rid        BIGINT UNSIGNED                NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    model_key   VARCHAR(63) COLLATE ascii_bin  NOT NULL COMMENT '模型键值，SQL 外键 -> data_model.model_key',
+    FOREIGN KEY (model_key) REFERENCES data_model (model_key) ON DELETE CASCADE,
+    record_id   BIGINT UNSIGNED                NOT NULL,
+    owner_id    VARCHAR(127) COLLATE ascii_bin NOT NULL DEFAULT '' COMMENT '所有者',
+    create_time TIMESTAMP                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    UNIQUE (model_key, record_id, owner_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE utf8mb4_general_ci;
+
 CREATE TABLE IF NOT EXISTS model_field
 (
     _rid          BIGINT UNSIGNED               NOT NULL AUTO_INCREMENT PRIMARY KEY,
