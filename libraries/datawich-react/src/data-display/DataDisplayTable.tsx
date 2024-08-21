@@ -88,18 +88,21 @@ export const DataDisplayTable: React.FC<Props> = ({
       tableProps={{
         size: 'small',
         bordered: true,
-        // onRow: (record) => {
-        //   return {
-        //     onDoubleClick: () => {
-        //       showRecordDescriptions({
-        //         modelKey: modelKey,
-        //         displayItems: displayItems,
-        //         record: record,
-        //         extrasColumns: extrasColumns,
-        //       })
-        //     },
-        //   }
-        // },
+        onRow: (record) => {
+          return {
+            style: {
+              background: record.isFavored ? 'rgba(255,251,231,0.25)' : '',
+            },
+            // onDoubleClick: () => {
+            //   showRecordDescriptions({
+            //     modelKey: modelKey,
+            //     displayItems: displayItems,
+            //     record: record,
+            //     extrasColumns: extrasColumns,
+            //   })
+            // },
+          }
+        },
       }}
       showTotal={true}
       columns={TableViewColumn.makeColumns<DataRecord>([
