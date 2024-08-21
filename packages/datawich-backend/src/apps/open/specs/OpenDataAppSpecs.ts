@@ -93,21 +93,21 @@ factory.prepare(OpenDataAppApis.DataAppRecordGet, async (ctx) => {
 })
 
 factory.prepare(OpenDataAppApis.DataAppRecordFavorAdd, async (ctx) => {
-  await new AuthModelSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const dataHandler = new ModelDataHandler(dataModel)
     const session = ctx.session as OpenSession
     dataHandler.setOperator(session.curUserStr())
-    await dataHandler.markDataFavored(dataInfo.dataId)
+    await dataHandler.markDataFavored(ctx.params.dataId)
     ctx.status = 200
   })
 })
 
 factory.prepare(OpenDataAppApis.DataAppRecordFavorDelete, async (ctx) => {
-  await new AuthModelSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
+  await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const dataHandler = new ModelDataHandler(dataModel)
     const session = ctx.session as OpenSession
     dataHandler.setOperator(session.curUserStr())
-    await dataHandler.removeDataFavored(dataInfo.dataId)
+    await dataHandler.removeDataFavored(ctx.params.dataId)
     ctx.status = 200
   })
 })
