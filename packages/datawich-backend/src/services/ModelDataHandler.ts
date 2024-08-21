@@ -535,21 +535,21 @@ export class ModelDataHandler {
     return rawData['rid'] || ''
   }
 
-  public async markDataFavored(dataId: string, operator: string) {
+  public async markDataFavored(dataId: string) {
     const recordId = await this.searchRecordId(dataId)
     const feed = new _DataRecordFavor()
     feed.modelKey = this._dataModel.modelKey
     feed.recordId = recordId
-    feed.ownerId = operator
+    feed.ownerId = this._operator
     await feed.strongAddToDB()
   }
 
-  public async removeDataFavored(dataId: string, operator: string) {
+  public async removeDataFavored(dataId: string) {
     const recordId = await this.searchRecordId(dataId)
     const feed = new _DataRecordFavor()
     feed.modelKey = this._dataModel.modelKey
     feed.recordId = recordId
-    feed.ownerId = operator
+    feed.ownerId = this._operator
     await feed.deleteFromDB()
   }
 

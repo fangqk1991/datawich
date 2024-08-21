@@ -197,7 +197,8 @@ factory.prepare(DataAppApis.DataAppRecordFavorAdd, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
     const dataHandler = new ModelDataHandler(dataModel)
     const session = ctx.session as FangchaSession
-    await dataHandler.markDataFavored(dataInfo.dataId, session.curUserStr())
+    dataHandler.setOperator(session.curUserStr())
+    await dataHandler.markDataFavored(dataInfo.dataId)
     ctx.status = 200
   })
 })
@@ -206,7 +207,8 @@ factory.prepare(DataAppApis.DataAppRecordFavorDelete, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
     const dataHandler = new ModelDataHandler(dataModel)
     const session = ctx.session as FangchaSession
-    await dataHandler.removeDataFavored(dataInfo.dataId, session.curUserStr())
+    dataHandler.setOperator(session.curUserStr())
+    await dataHandler.removeDataFavored(dataInfo.dataId)
     ctx.status = 200
   })
 })

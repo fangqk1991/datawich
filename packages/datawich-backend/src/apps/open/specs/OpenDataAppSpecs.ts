@@ -30,6 +30,8 @@ factory.prepare(OpenDataAppApis.ModelVisibleFieldListGet, async (ctx) => {
 factory.prepare(OpenDataAppApis.DataAppRecordPageDataSearch, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const options = { ...ctx.request.body }
+    const session = ctx.session as OpenSession
+    options['relatedUser'] = session.curUserStr()
     ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
   })
 })
@@ -37,6 +39,8 @@ factory.prepare(OpenDataAppApis.DataAppRecordPageDataSearch, async (ctx) => {
 factory.prepare(OpenDataAppApis.DataAppRecordPageDataGet, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     const options = { ...ctx.request.query }
+    const session = ctx.session as OpenSession
+    options['relatedUser'] = session.curUserStr()
     ctx.body = await new ModelDataHandler(dataModel).getPageResult(options)
   })
 })
@@ -85,6 +89,26 @@ factory.prepare(OpenDataAppApis.DataAppRecordGet, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
     const dataHandler = new ModelDataHandler(dataModel)
     ctx.body = await dataHandler.findDataWithDataId(dataInfo.dataId)
+  })
+})
+
+factory.prepare(OpenDataAppApis.DataAppRecordFavorAdd, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
+    const dataHandler = new ModelDataHandler(dataModel)
+    const session = ctx.session as OpenSession
+    dataHandler.setOperator(session.curUserStr())
+    await dataHandler.markDataFavored(dataInfo.dataId)
+    ctx.status = 200
+  })
+})
+
+factory.prepare(OpenDataAppApis.DataAppRecordFavorDelete, async (ctx) => {
+  await new AuthModelSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
+    const dataHandler = new ModelDataHandler(dataModel)
+    const session = ctx.session as OpenSession
+    dataHandler.setOperator(session.curUserStr())
+    await dataHandler.removeDataFavored(dataInfo.dataId)
+    ctx.status = 200
   })
 })
 
