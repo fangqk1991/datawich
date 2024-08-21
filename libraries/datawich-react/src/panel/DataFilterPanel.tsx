@@ -117,6 +117,7 @@ export const DataFilterPanel: React.FC<Props> = ({
     return items
   }, [queryParams, fieldMapper])
 
+  const onlyShowFavored = !!queryParams.favored
   const { data: panelList, loading } = useLoadingData(async () => {
     const request = MyRequest(new CommonAPI(DatawichWebSDKConfig.apis.ModelPanelListGet, modelKey))
     return request.quickSend<ModelPanelInfo[]>()
@@ -405,6 +406,19 @@ export const DataFilterPanel: React.FC<Props> = ({
                     </a>
                   </li>
                 )}
+                <li>
+                  <Tag color={onlyShowFavored ? 'geekblue' : ''}>
+                    只看关注{' '}
+                    <Checkbox
+                      checked={onlyShowFavored}
+                      onChange={(e) => {
+                        updateQueryParams({
+                          favored: e.target.checked ? '1' : '',
+                        })
+                      }}
+                    />
+                  </Tag>
+                </li>
                 {filterItems.map((item) => (
                   <DataFilterItemView
                     key={item.key}
