@@ -2,6 +2,7 @@ import React from 'react'
 
 export interface DataRecord {
   _data_id: string
+  isFavored: 0 | 1
   [p: string]: any
 }
 

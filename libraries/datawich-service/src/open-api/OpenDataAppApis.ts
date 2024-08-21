@@ -103,6 +103,16 @@ export const OpenDataAppApis = {
     route: '/api/data-app/v1/data-model/:modelKey/record/:dataId',
     description: '删除应用数据记录',
   } as Api,
+  DataAppRecordFavorAdd: {
+    method: 'POST',
+    route: '/api/data-app/v1/data-model/:modelKey/record/:dataId/favor',
+    description: '数据记录 - 添加关注',
+  },
+  DataAppRecordFavorDelete: {
+    method: 'DELETE',
+    route: '/api/data-app/v1/data-model/:modelKey/record/:dataId/favor',
+    description: '数据记录 - 移除关注',
+  },
   DataAppRecordsBatchUpsert: {
     method: 'POST',
     route: '/api/data-app/v1/data-model/:modelKey/batch-upsert',

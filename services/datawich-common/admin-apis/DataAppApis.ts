@@ -73,6 +73,16 @@ export const DataAppApis = {
     route: '/api/v1/data-app/:modelKey/record/:dataId',
     description: '删除数据记录',
   },
+  DataAppRecordFavorAdd: {
+    method: 'POST',
+    route: '/api/v1/data-app/:modelKey/record/:dataId/favor',
+    description: '数据记录 - 添加关注',
+  },
+  DataAppRecordFavorDelete: {
+    method: 'DELETE',
+    route: '/api/v1/data-app/:modelKey/record/:dataId/favor',
+    description: '数据记录 - 移除关注',
+  },
   DataAppRecordInfosGet: {
     method: 'GET',
     route: '/api/v1/data-app/:modelKey/record/:dataId/infos',

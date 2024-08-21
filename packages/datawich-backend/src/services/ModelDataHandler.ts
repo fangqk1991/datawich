@@ -27,6 +27,7 @@ import { TypicalExcel } from '@fangcha/excel'
 import { OssTools } from '@fangcha/ali-oss'
 import { FormChecker } from '@fangcha/form-models'
 import { _ModelPanel } from '../models/extensions/_ModelPanel'
+import { _DataRecordFavor } from '../models/extensions/_DataRecordFavor'
 const archiver = require('archiver')
 
 export class ModelDataHandler {
@@ -525,6 +526,31 @@ export class ModelDataHandler {
     })
     const data = await searcher.querySingle()
     return await this.convertData(data)
+  }
+
+  public async searchRecordId(dataId: string) {
+    const searcher = await this.dataSearcherWithoutFields()
+    searcher.addSpecialCondition(`${this._dataModel.sqlTableName()}._data_id = ?`, dataId)
+    const rawData = (await searcher.querySingle())! || {}
+    return rawData['rid'] || ''
+  }
+
+  public async markDataFavored(dataId: string, operator: string) {
+    const recordId = await this.searchRecordId(dataId)
+    const feed = new _DataRecordFavor()
+    feed.modelKey = this._dataModel.modelKey
+    feed.recordId = recordId
+    feed.ownerId = operator
+    await feed.strongAddToDB()
+  }
+
+  public async removeDataFavored(dataId: string, operator: string) {
+    const recordId = await this.searchRecordId(dataId)
+    const feed = new _DataRecordFavor()
+    feed.modelKey = this._dataModel.modelKey
+    feed.recordId = recordId
+    feed.ownerId = operator
+    await feed.deleteFromDB()
   }
 
   public async forcePutData(customData: any) {

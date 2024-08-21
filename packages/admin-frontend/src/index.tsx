@@ -56,6 +56,9 @@ DatawichWebSDKConfig.apis.DataAppRecordGet = DataAppApis.DataAppRecordGet
 DatawichWebSDKConfig.apis.DataAppRecordUpdate = DataAppApis.DataAppRecordUpdate
 DatawichWebSDKConfig.apis.DataAppRecordDelete = DataAppApis.DataAppRecordDelete
 
+DatawichWebSDKConfig.apis.DataAppRecordFavorAdd = DataAppApis.DataAppRecordFavorAdd
+DatawichWebSDKConfig.apis.DataAppRecordFavorDelete = DataAppApis.DataAppRecordFavorDelete
+
 DatawichWebSDKConfig.apis.FullModelDataInfoGet = DataAppApis.FullModelDataInfoGet
 
 OssSDK.apis.OssResourcePrepare = OssApis.OssResourcePrepare

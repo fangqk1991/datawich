@@ -46,6 +46,38 @@ export const RecordActionCell: React.FC<Props> = ({
       menu={{
         items: [
           {
+            key: 'favor',
+            label: record.isFavored ? (
+              <a
+                style={{ color: '#dc3545' }}
+                onClick={async () => {
+                  const request = MyRequest(
+                    new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordFavorDelete, modelKey, record._data_id)
+                  )
+                  await request.execute()
+                  message.success('已取消关注')
+                  onDataChanged && onDataChanged()
+                }}
+              >
+                取消关注
+              </a>
+            ) : (
+              <a
+                style={{ color: '#28a745' }}
+                onClick={async () => {
+                  const request = MyRequest(
+                    new CommonAPI(DatawichWebSDKConfig.apis.DataAppRecordFavorAdd, modelKey, record._data_id)
+                  )
+                  await request.execute()
+                  message.success('关注成功')
+                  onDataChanged && onDataChanged()
+                }}
+              >
+                关注
+              </a>
+            ),
+          },
+          {
             key: 'view',
             label: (
               <a

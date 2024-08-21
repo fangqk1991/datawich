@@ -193,6 +193,24 @@ factory.prepare(DataAppApis.DataAppRecordDelete, async (ctx) => {
   })
 })
 
+factory.prepare(DataAppApis.DataAppRecordFavorAdd, async (ctx) => {
+  await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
+    const dataHandler = new ModelDataHandler(dataModel)
+    const session = ctx.session as FangchaSession
+    await dataHandler.markDataFavored(dataInfo.dataId, session.curUserStr())
+    ctx.status = 200
+  })
+})
+
+factory.prepare(DataAppApis.DataAppRecordFavorDelete, async (ctx) => {
+  await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo, dataModel) => {
+    const dataHandler = new ModelDataHandler(dataModel)
+    const session = ctx.session as FangchaSession
+    await dataHandler.removeDataFavored(dataInfo.dataId, session.curUserStr())
+    ctx.status = 200
+  })
+})
+
 factory.prepare(DataAppApis.DataAppRecordInfosGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handleDataInfo(async (dataInfo) => {
     ctx.body = await new ModelDataHandler(dataInfo.dataModel).makeReadableInfosForClient(dataInfo)

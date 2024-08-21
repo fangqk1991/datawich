@@ -141,7 +141,7 @@ export class WideSearcherBuilder {
     searcher.setColumns(columns)
 
     // TODO: For data_record_favor 2
-    searcher.conditionValues = [dataModel.modelKey, options.author]
+    searcher.conditionValues = [dataModel.modelKey, options.relatedUser]
 
     SearcherTools.injectConditions(searcher, {
       colsMapper: filterKeys.reduce((result, key) => {
