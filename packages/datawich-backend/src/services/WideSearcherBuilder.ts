@@ -14,6 +14,7 @@ interface SearchableField {
 }
 
 interface SearchOptions extends FilterOptions {
+  favored?: boolean
   conditions?: FilterCondition[]
 }
 
@@ -124,6 +125,13 @@ export class WideSearcherBuilder {
         })
       }
     }
+
+    const options = this.filterOptions
+
+    // TODO: For data_record_favor 1
+    bigTable = `${bigTable} LEFT JOIN data_record_favor AS _favor ON _favor.model_key = ? AND ${mainTableName}.rid = _favor.record_id AND _favor.owner_id = ?`
+    columns.push(`IF(_favor._rid, 1, 0) AS isFavored`)
+
     this.userColumnNames = userColumnNames
     this.searchableFields = searchableFields
 
@@ -131,6 +139,10 @@ export class WideSearcherBuilder {
     const searcher = dataModel.dbSpec().database.searcher()
     searcher.setTable(bigTable)
     searcher.setColumns(columns)
+
+    // TODO: For data_record_favor 2
+    searcher.conditionValues = [dataModel.modelKey, options.author]
+
     SearcherTools.injectConditions(searcher, {
       colsMapper: filterKeys.reduce((result, key) => {
         result[key] = filterMapper[key].columnName
@@ -142,10 +154,14 @@ export class WideSearcherBuilder {
       exactSearchCols: [],
       fuzzySearchCols: fuzzySearchCols,
       gbkCols: [],
-      params: this.filterOptions,
+      params: options,
       timestampTypeCols: [],
     })
-    const options = this.filterOptions
+
+    // TODO: For data_record_favor 3
+    if (options.favored) {
+      searcher.addSpecialCondition(`_favor._rid IS NOT NULL`)
+    }
 
     const conditions = options.conditions as (FilterCondition & { leftKey: string })[]
     if (Array.isArray(conditions)) {
