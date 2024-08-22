@@ -266,6 +266,10 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                 matches[5],
               ]
 
+              if (action === 'link') {
+                return <a href={`./${modelKey}/${key}/${value}${searchStr || ''}`}> {element || action}</a>
+              }
+
               return (
                 <a
                   onClick={() => {

@@ -2,7 +2,12 @@ import React from 'react'
 import { AuthSdkHelper, LaunchContainer } from '@fangcha/auth-react'
 import './app/app.scss'
 import { ReactApp } from '@fangcha/react'
-import { SDK_DataAppDetailView, SDK_DataAppListView, SDK_MainLayout, } from '@fangcha/datawich-react'
+import {
+  SDK_DataAppDetailView,
+  SDK_DataAppListView,
+  SDK_DataAppRecordView,
+  SDK_MainLayout,
+} from '@fangcha/datawich-react'
 import { SdkDatawichPages } from '@fangcha/datawich-service'
 
 AuthSdkHelper.defaultRedirectUri = '/'
@@ -33,6 +38,10 @@ new ReactApp({
           }
         />
       ),
+    },
+    {
+      path: SdkDatawichPages.WebAppRecordRoute,
+      element: <SDK_DataAppRecordView />,
     },
   ],
 }).launch()

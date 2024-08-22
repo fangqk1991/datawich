@@ -95,11 +95,7 @@ new ReactApp({
     },
     {
       path: DatawichAdminPages.DataAppRecordRoute,
-      element: (
-        <DataAppCoreProvider>
-          <DataAppRecordView />
-        </DataAppCoreProvider>
-      ),
+      element: <DataAppRecordView />,
     },
     {
       path: DatawichAdminPages.ModelListRoute,
