@@ -35,13 +35,13 @@ export const RecordDescriptions: React.FC<Props> = ({ modelKey, displayItems, ex
           .map((item) => {
             return (
               <Descriptions.Item key={item.field.dataKey} label={item.field.name}>
-                <MyDataCell field={item.field} data={record} />
+                <MyDataCell field={item.field} data={data} />
               </Descriptions.Item>
             )
           })}
         {columns.map((column, index) => (
           <Descriptions.Item key={`custom-${index}-${column.title}`} label={column.title}>
-            {column.render(record, record, 0)}
+            {column.render(data, data, 0)}
           </Descriptions.Item>
         ))}
       </Descriptions>
@@ -54,7 +54,7 @@ export const RecordDescriptions: React.FC<Props> = ({ modelKey, displayItems, ex
               .map((item) => {
                 return (
                   <Descriptions.Item key={item.field.dataKey} label={item.field.name}>
-                    <MyDataCell field={item.field} data={record} />
+                    <MyDataCell field={item.field} data={data} />
                   </Descriptions.Item>
                 )
               })}
