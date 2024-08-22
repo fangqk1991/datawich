@@ -29,12 +29,15 @@ import { DBTableDataView } from './database/DBTableDataView'
 import { Example_FormPageView } from '@fangcha/form-react/src/example/Example_FormPageView'
 import { OssApis } from '@fangcha/oss-models'
 import './app/app.scss'
+import { DataAppRecordView } from './data-app/DataAppRecordView'
 
 // ReactTheme.colorPrimary = 'rgb(221 115 164)'
 AuthSdkHelper.defaultRedirectUri = '/'
 
 DatawichWebSDKConfig.appDetailPage = (modelKey) =>
   DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])
+DatawichWebSDKConfig.appRecordPage = (modelKey, fieldKey, fieldValue) =>
+  DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppRecordRoute, [modelKey, fieldKey, fieldValue])
 
 DatawichWebSDKConfig.apis.AppListGet = DataAppApis.DataAppListGet
 DatawichWebSDKConfig.apis.FavorAppListGet = DataAppApis.FavorDataAppListGet
@@ -60,6 +63,7 @@ DatawichWebSDKConfig.apis.DataAppRecordFavorAdd = DataAppApis.DataAppRecordFavor
 DatawichWebSDKConfig.apis.DataAppRecordFavorDelete = DataAppApis.DataAppRecordFavorDelete
 
 DatawichWebSDKConfig.apis.FullModelDataInfoGet = DataAppApis.FullModelDataInfoGet
+DatawichWebSDKConfig.apis.ModelDataInfoGet = DataAppApis.ModelDataInfoGet
 
 OssSDK.apis.OssResourcePrepare = OssApis.OssResourcePrepare
 OssSDK.apis.OssResourceStatusMark = OssApis.OssResourceStatusMark
@@ -86,6 +90,14 @@ new ReactApp({
       element: (
         <DataAppCoreProvider>
           <DataAppDetailView />
+        </DataAppCoreProvider>
+      ),
+    },
+    {
+      path: DatawichAdminPages.DataAppRecordRoute,
+      element: (
+        <DataAppCoreProvider>
+          <DataAppRecordView />
         </DataAppCoreProvider>
       ),
     },

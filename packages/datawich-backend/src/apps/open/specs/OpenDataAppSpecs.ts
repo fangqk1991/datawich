@@ -135,12 +135,7 @@ factory.prepare(OpenDataAppApis.DataAppRecordDelete, async (ctx) => {
 
 factory.prepare(OpenDataAppApis.ModelDataInfoGet, async (ctx) => {
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
-    assert.ok(!!ctx.params.uniqueFieldKey, 'uniqueFieldKey 不合法')
-    assert.ok(!!ctx.params.fieldValue, 'fieldValue 不合法')
-    const data = (await dataModel.findData(ctx.params.uniqueFieldKey, ctx.params.fieldValue))!
-    assert.ok(!!data, '数据不存在', 404)
-    const dataHandler = new ModelDataHandler(dataModel)
-    ctx.body = await dataHandler.findDataWithDataId(data['_data_id'])
+    ctx.body = await new ModelDataHandler(dataModel).findDataWithKV(ctx.params)
   })
 })
 

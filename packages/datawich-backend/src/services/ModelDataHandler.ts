@@ -528,6 +528,18 @@ export class ModelDataHandler {
     return await this.convertData(data)
   }
 
+  public async findDataWithKV(params: { uniqueFieldKey: string; fieldValue: string }) {
+    const dataModel = this._dataModel
+    const uniqueFieldKey = params.uniqueFieldKey
+    const fieldValue = params.fieldValue
+    assert.ok(!!uniqueFieldKey, 'uniqueFieldKey 不合法')
+    assert.ok(!!fieldValue, 'fieldValue 不合法')
+    const data = (await dataModel.findData(uniqueFieldKey, fieldValue))!
+    assert.ok(!!data, `[${uniqueFieldKey} = ${fieldValue}] 数据不存在`, 404)
+    const dataHandler = new ModelDataHandler(dataModel)
+    return await dataHandler.findDataWithDataId(data['_data_id'])
+  }
+
   public async searchRecordId(dataId: string) {
     const searcher = await this.dataSearcherWithoutFields()
     searcher.addSpecialCondition(`${this._dataModel.sqlTableName()}._data_id = ?`, dataId)

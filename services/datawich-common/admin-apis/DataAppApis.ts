@@ -109,6 +109,13 @@ export const DataAppApis = {
     description: '获取待导入的应用数据',
   },
 
+  ModelDataInfoGet: {
+    method: 'GET',
+    route: '/api/v1/data-app/:modelKey/data/:uniqueFieldKey/:fieldValue',
+    description: '获取模型指定数据信息',
+    detailInfo: 'uniqueFieldKey 必须具备唯一索引',
+  },
+
   FullModelDataInfoGet: {
     method: 'GET',
     route: '/api/v1/data-app/:modelKey/record/:uniqueFieldKey/:fieldValue',

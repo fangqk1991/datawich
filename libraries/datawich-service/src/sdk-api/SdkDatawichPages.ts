@@ -3,6 +3,7 @@ import * as assert from 'assert'
 export class SdkDatawichPages {
   public static WebAppListRoute = '/'
   public static WebAppDetailRoute = '/v1/app/:modelKey'
+  public static WebAppRecordRoute = '/v1/app/:modelKey/:fieldKey/:fieldValue'
 
   public static buildRoute(route: string, params: { [p: string]: string | number } | (string | number)[]) {
     if (Array.isArray(params)) {

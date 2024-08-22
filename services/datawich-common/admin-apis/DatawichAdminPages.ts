@@ -7,6 +7,7 @@ export class DatawichAdminPages {
   public static AllDataAppsRoute = '/v1/all-data-app'
   public static DataAppListRoute = '/v1/data-app'
   public static DataAppDetailRoute = '/v1/data-app/:modelKey'
+  public static DataAppRecordRoute = '/v1/data-app/:modelKey/:fieldKey/:fieldValue'
 
   public static ClientListRoute = '/v1/model-client'
 

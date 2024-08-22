@@ -235,6 +235,12 @@ factory.prepare(DataAppApis.DataAppPendingListGet, async (ctx) => {
   })
 })
 
+factory.prepare(DataAppApis.ModelDataInfoGet, async (ctx) => {
+  await new DataAppSpecHandler(ctx).handle(async (dataModel) => {
+    ctx.body = await new ModelDataHandler(dataModel).findDataWithKV(ctx.params)
+  })
+})
+
 factory.prepare(DataAppApis.FullModelDataInfoGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handle(async (dataModel) => {
     ctx.body = await new ModelDataHandler(dataModel).getFullDataInfo(ctx.params)
