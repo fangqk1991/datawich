@@ -34,6 +34,8 @@ import { DataAppRecordView } from './data-app/DataAppRecordView'
 // ReactTheme.colorPrimary = 'rgb(221 115 164)'
 AuthSdkHelper.defaultRedirectUri = '/'
 
+DatawichWebSDKConfig.pathPrefix = '/v1/data-app'
+
 DatawichWebSDKConfig.appDetailPage = (modelKey) =>
   DatawichAdminPages.buildRoute(DatawichAdminPages.DataAppDetailRoute, [modelKey])
 DatawichWebSDKConfig.appRecordPage = (modelKey, fieldKey, fieldValue) =>

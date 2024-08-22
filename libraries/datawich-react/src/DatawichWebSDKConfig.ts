@@ -3,6 +3,8 @@ import { OssSDK } from '@fangcha/oss-react'
 import { OssApis } from '@fangcha/oss-models'
 
 export const DatawichWebSDKConfig = {
+  pathPrefix: '/v1/app',
+
   appListPage: SdkDatawichPages.WebAppListRoute,
   appDetailPage: (modelKey: string) => SdkDatawichPages.buildRoute(SdkDatawichPages.WebAppDetailRoute, [modelKey]),
   appRecordPage: (modelKey: string, fieldKey: string, fieldValue: string) =>

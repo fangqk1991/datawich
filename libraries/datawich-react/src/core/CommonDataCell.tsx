@@ -267,7 +267,11 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               ]
 
               if (action === 'link') {
-                return <a href={`./${modelKey}/${key}/${value}${searchStr || ''}`}> {element || action}</a>
+                return (
+                  <a href={`${DatawichWebSDKConfig.pathPrefix}/${modelKey}/${key}/${value}${searchStr || ''}`}>
+                    {element || action}
+                  </a>
+                )
               }
 
               return (
@@ -278,7 +282,9 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                         break
                     }
 
-                    const queryParams = qs.parse(searchStr.replace(/^\?/, '')) as { [p: string]: string }
+                    const queryParams = (searchStr ? qs.parse(searchStr.replace(/^\?/, '')) : {}) as {
+                      [p: string]: string
+                    }
                     const dialog = new ReactPreviewDialog({
                       title: `${key} = ${value}`,
                       loadElement: async () => {
