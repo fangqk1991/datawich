@@ -20,6 +20,7 @@ import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { RecordDescriptions } from './RecordDescriptions'
+import * as qs from 'qs'
 
 interface Props {
   field: FormField
@@ -255,9 +256,16 @@ export const CommonDataCell: React.FC<Props> = (props) => {
         if (field.hyperlink) {
           const link = TemplateHelper.renderTmpl(field.hyperlink, props.data)
           if (link) {
-            const matches = link.match(/^datawich:\/\/(\w+)\/(\w+)\/([\w-.]+)\/(\w+)$/)
+            const matches = link.match(/^datawich:\/\/(\w+)\/(\w+)\/([\w-.]+)\/(\w+)(\?.*)?$/)
             if (matches) {
-              const [modelKey, key, value, action] = [matches[1], matches[2], matches[3], matches[4]]
+              const [modelKey, key, value, action, searchStr] = [
+                matches[1],
+                matches[2],
+                matches[3],
+                matches[4],
+                matches[5],
+              ]
+
               return (
                 <a
                   onClick={() => {
@@ -266,6 +274,7 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                         break
                     }
 
+                    const queryParams = qs.parse(searchStr.replace(/^\?/, '')) as { [p: string]: string }
                     const dialog = new ReactPreviewDialog({
                       title: `${key} = ${value}`,
                       loadElement: async () => {
@@ -274,8 +283,21 @@ export const CommonDataCell: React.FC<Props> = (props) => {
                         )
                         const response = await request.quickSend<FullDataInfo>()
                         const displaySettings = ModelPanelTools.extractDisplaySettings(response.panelInfo)
-                        const displayItems = FieldHelper.flattenDisplayItems(response.mainFields, displaySettings)
-
+                        let displayItems = FieldHelper.flattenDisplayItems(response.mainFields, displaySettings)
+                        if (queryParams['fields']) {
+                          const whiteMap = queryParams['fields']
+                            .split(',')
+                            .map((item) => item.trim())
+                            .filter((item) => !!item)
+                            .reduce((result, cur) => {
+                              const key = cur.includes('.') ? cur : `${modelKey}.${cur}`
+                              result[key] = true
+                              return result
+                            }, {})
+                          displayItems = displayItems.filter((item) => {
+                            return whiteMap[`${item.field.modelKey}.${item.field.fieldKey}`]
+                          })
+                        }
                         return (
                           <RecordDescriptions modelKey={modelKey} displayItems={displayItems} record={response.data} />
                         )
