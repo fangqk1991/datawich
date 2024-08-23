@@ -29,7 +29,7 @@ export const RecordDescriptions: React.FC<Props> = ({ modelKey, displayItems, ex
   const columns = extrasColumns || []
   return (
     <>
-      <Descriptions title={'展示字段信息'} size={'small'} bordered={true}>
+      <Descriptions title={'基本信息'} size={'small'} bordered={true}>
         {displayItems
           .filter((item) => !item.isHidden)
           .map((item) => {

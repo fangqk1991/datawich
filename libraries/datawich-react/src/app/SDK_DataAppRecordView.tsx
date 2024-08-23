@@ -7,12 +7,14 @@ import { CommonAPI } from '@fangcha/app-request'
 import { RouterLink } from '@fangcha/react'
 import { DatawichWebSDKConfig } from '../DatawichWebSDKConfig'
 import { RecordDescriptions } from '../core/RecordDescriptions'
+import { ExtrasColumn } from '../core/CellModels'
 
 interface Props {
   modelKey?: string
+  extrasColumns?: ExtrasColumn[]
 }
 
-export const SDK_DataAppRecordView: React.FC<Props> = (props) => {
+export const SDK_DataAppRecordView: React.FC<Props> = ({ extrasColumns }) => {
   const { modelKey = '', fieldKey = '', fieldValue = '' } = useParams()
 
   const [fullData, setFullData] = useState<FullDataInfo>()
@@ -55,7 +57,12 @@ export const SDK_DataAppRecordView: React.FC<Props> = (props) => {
 
       <Divider style={{ margin: '12px 0' }} />
 
-      <RecordDescriptions modelKey={modelKey} displayItems={displayItems} record={fullData.data} />
+      <RecordDescriptions
+        modelKey={modelKey}
+        displayItems={displayItems}
+        record={fullData.data}
+        extrasColumns={extrasColumns}
+      />
     </div>
   )
 }

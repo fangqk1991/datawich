@@ -27,21 +27,29 @@ new ReactApp({
       path: SdkDatawichPages.WebAppDetailRoute,
       element: (
         <SDK_DataAppDetailView
-          extrasColumns={
-            [
-              // {
-              //   title: 'test',
-              //   fixed: 'right',
-              //   render: () => <b>!!!</b>,
-              // },
-            ]
-          }
+          extrasColumns={[
+            {
+              title: 'test',
+              fixed: 'right',
+              render: () => <b>!!!</b>,
+            },
+          ]}
         />
       ),
     },
     {
       path: SdkDatawichPages.WebAppRecordRoute,
-      element: <SDK_DataAppRecordView />,
+      element: (
+        <SDK_DataAppRecordView
+          extrasColumns={[
+            {
+              title: 'test',
+              fixed: 'right',
+              render: () => <b>!!!</b>,
+            },
+          ]}
+        />
+      ),
     },
   ],
 }).launch()
