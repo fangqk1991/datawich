@@ -54,6 +54,10 @@ export class DatawichProxy extends BasicAuthProxy {
   }
 
   public async getAllRecords<T>(modelKey: string, options: FilterOptions = {}, pageSize = 10000): Promise<T[]> {
+    if (options._length) {
+      const pageData = await this.getPageResult<T>(modelKey, options)
+      return pageData.items
+    }
     let items: T[] = []
     let finished = false
     let offset = 0
