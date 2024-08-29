@@ -42,7 +42,7 @@ export class FormSchemaHelper {
     this.setDeepValue(data, fullKeys, value)
   }
 
-  public static flattenFields(fields: FormField[]) {
+  public static flattenFields<T extends FormField>(fields: T[]) {
     const newFields: FormField[] = []
     const searchTree = (fields: FormField[]) => {
       fields.forEach((field) => {
@@ -54,7 +54,7 @@ export class FormSchemaHelper {
       })
     }
     searchTree(fields)
-    return newFields
+    return newFields as T[]
   }
 
   public static entityKeys(keys: string[]) {
