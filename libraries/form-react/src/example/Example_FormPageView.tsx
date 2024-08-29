@@ -1,12 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Col, Form, Input, Radio, Row } from 'antd'
+import { Col, Divider, Form, Input, Radio, Row, Tag } from 'antd'
 import { JsonEditorDialog, JsonPre } from '@fangcha/react'
 import { FormBuilder, FormFieldType, SchemaFormFieldsMap } from '@fangcha/form-models'
 import { CommonForm } from '../core/CommonForm'
 import { SelectOption } from '@fangcha/tools'
+import { CommonDescriptions } from '../core/CommonDescriptions'
+import { FormFieldExt } from '../core/FormFieldExt'
 
 const nestedFieldsMap: SchemaFormFieldsMap = {
-  key1: FormFieldType.String,
+  key1: {
+    fieldType: FormFieldType.String,
+  },
+  // key1: FormFieldType.String,
   key2: FormFieldType.Number,
   subData: {
     key1: FormFieldType.String,
@@ -76,7 +81,13 @@ export const Example_FormPageView: React.FC = () => {
     try {
       fieldsMap = JSON.parse(schemaText)
     } catch (e) {}
-    return FormBuilder.buildFields(fieldsMap || {})
+    const fields = FormBuilder.buildFields(fieldsMap || {})
+    if (fields.length > 0) {
+      ;(fields[0] as FormFieldExt).descriptionItem = ({ field, myData }: { field: FormFieldExt; myData: any }) => (
+        <Tag color={'geekblue'}>{myData[field.fieldKey]}</Tag>
+      )
+    }
+    return fields
   }, [schemaText])
 
   const formRef = useRef({
@@ -151,6 +162,8 @@ export const Example_FormPageView: React.FC = () => {
         <Col span={8}>
           <h3>Data</h3>
           <JsonPre value={data} />
+          <Divider />
+          <CommonDescriptions fields={fields} data={data} />
         </Col>
       </Row>
     </div>

@@ -17,4 +17,5 @@ export interface FormFieldExt extends FormField {
   label?: React.ReactNode
   style?: React.CSSProperties
   customFormItem?: (options: Options) => React.ReactNode
+  descriptionItem?: (options: { field: FormFieldExt; myData: any }) => React.ReactNode
 }
