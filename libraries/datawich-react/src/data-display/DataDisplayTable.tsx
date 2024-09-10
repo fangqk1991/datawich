@@ -96,7 +96,7 @@ export const DataDisplayTable: React.FC<Props> = ({
           const options: any = onRow ? onRow(record) : {}
           return {
             style: {
-              background: record.isFavored ? 'rgba(255,251,231,0.25)' : '',
+              background: record.isFavored ? '#FFFEF9' : '',
               ...options.style,
             },
             ...options,
