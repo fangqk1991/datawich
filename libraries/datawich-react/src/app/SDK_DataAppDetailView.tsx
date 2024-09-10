@@ -19,6 +19,7 @@ interface Props {
   modelKey?: string
   actionMenuItems?: (record: DataRecord) => React.ReactNode[]
   extrasColumns?: ExtrasColumn[]
+  onRow?: (record: DataRecord) => { [p: string]: any }
 }
 
 const DataAppCoreView: React.FC<Props> = (props) => {
@@ -75,6 +76,7 @@ const DataAppCoreView: React.FC<Props> = (props) => {
         }}
         actionMenuItems={props.actionMenuItems}
         extrasColumns={props.extrasColumns || []}
+        onRow={props.onRow}
         onDataChanged={forceUpdate}
       />
     </div>

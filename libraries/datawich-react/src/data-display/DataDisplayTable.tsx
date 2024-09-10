@@ -27,6 +27,7 @@ interface Props {
   loadData: (params: {}) => Promise<PageResult<DataRecord>>
   extrasColumns?: ExtrasColumn[]
   actionMenuItems?: (record: DataRecord) => React.ReactNode[]
+  onRow?: (record: DataRecord) => { [p: string]: any }
   onDataChanged?: () => void
 }
 
@@ -36,6 +37,7 @@ export const DataDisplayTable: React.FC<Props> = ({
   extrasColumns,
   actionMenuItems,
   loadData,
+  onRow,
   onDataChanged,
 }) => {
   const { queryParams, updateQueryParams } = useQueryParams<{
@@ -89,10 +91,13 @@ export const DataDisplayTable: React.FC<Props> = ({
         size: 'small',
         bordered: true,
         onRow: (record) => {
+          const options: any = onRow ? onRow(record) : {}
           return {
             style: {
               background: record.isFavored ? 'rgba(255,251,231,0.25)' : '',
+              ...options.style,
             },
+            ...options,
             // onDoubleClick: () => {
             //   showRecordDescriptions({
             //     modelKey: modelKey,
