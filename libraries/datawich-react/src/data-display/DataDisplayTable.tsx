@@ -95,11 +95,11 @@ export const DataDisplayTable: React.FC<Props> = ({
         onRow: (record) => {
           const options: any = onRow ? onRow(record) : {}
           return {
+            ...options,
             style: {
               background: record.isFavored ? '#FFFEF9' : '#FFFFFF',
               ...(options.style || {}),
             },
-            ...options,
             // onDoubleClick: () => {
             //   showRecordDescriptions({
             //     modelKey: modelKey,
