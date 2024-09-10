@@ -28,6 +28,7 @@ interface Props {
   extrasColumns?: ExtrasColumn[]
   actionMenuItems?: (record: DataRecord) => React.ReactNode[]
   onRow?: (record: DataRecord) => { [p: string]: any }
+  onCell?: (record: DataRecord) => { [p: string]: any }
   onDataChanged?: () => void
 }
 
@@ -38,6 +39,7 @@ export const DataDisplayTable: React.FC<Props> = ({
   actionMenuItems,
   loadData,
   onRow,
+  onCell,
   onDataChanged,
 }) => {
   const { queryParams, updateQueryParams } = useQueryParams<{
@@ -106,6 +108,12 @@ export const DataDisplayTable: React.FC<Props> = ({
             //     extrasColumns: extrasColumns,
             //   })
             // },
+          }
+        },
+        onCell: (record: any) => {
+          const options: any = onCell ? onCell(record) : {}
+          return {
+            ...options,
           }
         },
       }}
