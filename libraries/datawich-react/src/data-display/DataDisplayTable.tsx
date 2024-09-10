@@ -110,12 +110,6 @@ export const DataDisplayTable: React.FC<Props> = ({
             // },
           }
         },
-        onCell: (record: any) => {
-          const options: any = onCell ? onCell(record) : {}
-          return {
-            ...options,
-          }
-        },
       }}
       showTotal={true}
       columns={TableViewColumn.makeColumns<DataRecord>([
@@ -151,7 +145,15 @@ export const DataDisplayTable: React.FC<Props> = ({
             />
           ),
         },
-      ])}
+      ]).map((item) => ({
+        onCell: (record: any) => {
+          const options: any = onCell ? onCell(record) : {}
+          return {
+            ...options,
+          }
+        },
+        ...item,
+      }))}
       // defaultSettings={{
       //   pageSize: Number(queryParams.pageSize) || 10,
       //   pageNumber: Number(queryParams.pageNumber) || 1,
