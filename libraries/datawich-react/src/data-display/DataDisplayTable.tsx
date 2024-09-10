@@ -97,7 +97,7 @@ export const DataDisplayTable: React.FC<Props> = ({
           return {
             style: {
               background: record.isFavored ? '#FFFEF9' : '#FFFFFF',
-              ...options.style,
+              ...(options.style || {}),
             },
             ...options,
             // onDoubleClick: () => {
