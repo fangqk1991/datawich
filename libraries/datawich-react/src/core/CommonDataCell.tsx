@@ -1,6 +1,6 @@
 import React from 'react'
 import { FieldHelper, FullDataInfo, GeneralDataHelper, ModelPanelTools } from '@fangcha/datawich-service'
-import { InfoCircleOutlined, LinkOutlined } from '@ant-design/icons'
+import { InfoCircleFilled, LinkOutlined } from '@ant-design/icons'
 import { Image, Tag, Tooltip } from 'antd'
 import { FormatDigitSpan, MyRichTextPanel, MyTagsPanel, ReactPreviewDialog, TextPreviewDialog } from '@fangcha/react'
 import { OssFileInfo } from '@fangcha/oss-models'
@@ -225,13 +225,13 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               break
           }
         }
-        if (field.tips && TemplateHelper.renderTmpl(field.tips, props.data)) {
-          const tips = TemplateHelper.renderTmpl(field.tips, props.data)
+        if (field.tips && TemplateHelper.renderTmpl(field.tips, props.data, false)) {
+          const tips = TemplateHelper.renderTmpl(field.tips, props.data, false)
           element = (
             <>
               {element}{' '}
               <Tooltip title={tips}>
-                <InfoCircleOutlined />
+                <InfoCircleFilled />
               </Tooltip>
             </>
           )
