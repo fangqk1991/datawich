@@ -225,8 +225,8 @@ export const CommonDataCell: React.FC<Props> = (props) => {
               break
           }
         }
-        if (field.tips && TemplateHelper.renderTmpl(field.tips, props.data, false)) {
-          const tips = TemplateHelper.renderTmpl(field.tips, props.data, false)
+        if (field.tips && TemplateHelper.renderTmpl(field.tips, props.data)) {
+          const tips = TemplateHelper.renderTmpl(field.tips, props.data)
           element = (
             <>
               {element}{' '}
