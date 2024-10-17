@@ -43,10 +43,7 @@ export class FormChecker {
 
       const value = params[field.fieldKey]
       if (value !== undefined && value !== null) {
-        if (
-          field.enumType === FieldEnumType.Single ||
-          field.enumType === FieldEnumType.Multiple
-        ) {
+        if (field.enumType === FieldEnumType.Single || field.enumType === FieldEnumType.Multiple) {
           if (!field.value2LabelMap) {
             field.value2LabelMap = (field.options || []).reduce((result: any, cur: any) => {
               result[cur.value] = cur.label
@@ -85,7 +82,7 @@ export class FormChecker {
                 }
                 break
               case FieldNumberType.Float:
-                if (!/^(-?\d+)$|^(-?\d+\.\d+)$/.test(value)) {
+                if (typeof value !== 'number' && !/^(-?\d+)$|^(-?\d+\.\d+)$/.test(value)) {
                   errorMap[field.fieldKey] = `${field.name} 有误，请提交数字`
                 }
                 break
