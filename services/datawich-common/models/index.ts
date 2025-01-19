@@ -1,5 +1,4 @@
 export * from './field/FieldDisplayMode'
-export * from './field/DataImportHandler'
 export * from './auth/ModelClientModel'
 export * from './auth/ClientAuthModel'
 export * from './model-data/ActionEvent'

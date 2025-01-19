@@ -1,8 +1,7 @@
 import React from 'react'
 import { TinyList } from './TinyList'
-import { ModelFieldModel } from '@fangcha/datawich-service'
+import { DataImportHandler, ModelFieldModel, transferModelFieldToFormField } from '@fangcha/datawich-service'
 import { LoadingDialog, TextPreviewDialog } from '@fangcha/react'
-import { DataImportHandler } from '@web/datawich-common/models'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataAppApis } from '@web/datawich-common/admin-apis'
@@ -39,7 +38,9 @@ export const DataImportButton: React.FC<Props> = ({ modelKey, fields, onImportDo
         await LoadingDialog.execute({
           handler: async (context) => {
             const errorItems: React.ReactNode[] = []
-            const records = await new DataImportHandler(fields).extractRecordsFromExcel(excel)
+            const records = await new DataImportHandler(
+              fields.map((field) => transferModelFieldToFormField(field))
+            ).extractRecordsFromRows(excel.records())
             let succCount = 0
             for (let i = 0; i < records.length; ++i) {
               let succLi: React.ReactNode | null = null

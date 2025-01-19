@@ -11,7 +11,7 @@ import { _ModelField } from '../../../../models/extensions/_ModelField'
 import { _FieldLink } from '../../../../models/extensions/_FieldLink'
 import { ModelDataInfo } from '../../../../services/ModelDataInfo'
 import { SessionChecker } from '../../../../services/SessionChecker'
-import { DataImportHandler } from '../../../../services/DataImportHandler'
+import { DataModelExcelHandler } from '../../../../services/DataModelExcelHandler'
 import { _DatawichService } from '../../../../services/_DatawichService'
 import { GeneralPermission } from '@web/datawich-common/models'
 import { ProfileEvent } from '@fangcha/datawich-service'
@@ -223,7 +223,7 @@ factory.prepare(DataAppApis.DataAppExcelDemoDownload, async (ctx) => {
   await new DataAppSpecHandler(ctx).handle(async (dataModel) => {
     const filename = `${dataModel.modelKey}-demo.xlsx`
     ctx.set('Content-disposition', `attachment; filename=${filename}`)
-    ctx.body = await new DataImportHandler(dataModel).exportDemoExcel()
+    ctx.body = await new DataModelExcelHandler(dataModel).exportDemoExcel()
   })
 })
 
@@ -231,7 +231,7 @@ factory.prepare(DataAppApis.DataAppPendingListGet, async (ctx) => {
   await new DataAppSpecHandler(ctx).handle(async (dataModel) => {
     const resource = (await _OSSResource.findWithUid(ctx.params.resourceId))!
     assert.ok(!!resource, 'Resource Not Found')
-    ctx.body = await new DataImportHandler(dataModel).extractRecordsFromResource(resource)
+    ctx.body = await new DataModelExcelHandler(dataModel).extractRecordsFromResource(resource)
   })
 })
 

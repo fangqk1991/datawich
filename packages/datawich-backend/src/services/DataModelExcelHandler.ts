@@ -1,10 +1,8 @@
 import { Row } from 'exceljs'
-import * as moment from 'moment'
 import { _OSSResource, OSSService } from '@fangcha/oss-service'
 import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
-import { FieldType, GeneralDataHelper } from '@fangcha/datawich-service'
-import { FieldHelper } from '@fangcha/datawich-service'
+import { DataImportHandler, FieldHelper, FieldType, transferModelFieldToFormField } from '@fangcha/datawich-service'
 import { TypicalExcel } from '@fangcha/excel'
 
 const setHintRowStyle = (row: Row) => {
@@ -31,7 +29,7 @@ interface ImportedRow {
   ignore: number
 }
 
-export class DataImportHandler {
+export class DataModelExcelHandler {
   private readonly _dataModel: _DataModel
 
   public constructor(dataModel: _DataModel) {
@@ -110,42 +108,9 @@ export class DataImportHandler {
   }
 
   public async decodeImportedData(options: any) {
-    const dataModel = this._dataModel
-    const realData: any = { ...options }
-    const fields = await dataModel.getFields()
-    fields.forEach((field) => {
-      if (field.fieldType === FieldType.TextEnum) {
-        const dataMap = field.label2ValueMap()
-        if (field.fieldKey in realData) {
-          const label = realData[field.fieldKey]
-          if (label in dataMap) {
-            realData[field.fieldKey] = dataMap[label]
-          }
-        }
-      } else if (field.fieldType === FieldType.MultiEnum) {
-        const dataMap = field.label2ValueMap()
-        if (realData[field.fieldKey]) {
-          // 处理不为空的描述值
-          const labels: string[] = realData[field.fieldKey].split(',').map((item: string) => item.trim())
-          const checkedMap: { [p: string]: boolean } = {}
-          let valid = true
-          labels.forEach((label) => {
-            if (label in dataMap) {
-              checkedMap[dataMap[label]] = true
-            } else {
-              valid = false
-            }
-          })
-          if (valid) {
-            realData[field.fieldKey] = GeneralDataHelper.calculateMultiEnumValueWithCheckedMap(checkedMap)
-          }
-        } else {
-          realData[field.fieldKey] = ''
-        }
-      } else if (field.fieldType === FieldType.Date) {
-        realData[field.fieldKey] = realData[field.fieldKey] ? moment(realData[field.fieldKey]).format('YYYY-MM-DD') : ''
-      }
-    })
-    return realData
+    const fields = await this._dataModel.getFields()
+    return new DataImportHandler(
+      fields.map((item) => item.modelForClient()).map((field) => transferModelFieldToFormField(field))
+    ).decodeImportedData(options)
   }
 }
