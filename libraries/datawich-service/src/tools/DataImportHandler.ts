@@ -1,5 +1,5 @@
 import * as moment from 'moment'
-import { FieldEnumType, FormChecker, FormField, FormFieldType } from '@fangcha/form-models'
+import { FieldEnumType, FormField, FormFieldType } from '@fangcha/form-models'
 import { FieldHelper } from './FieldHelper'
 import { GeneralDataHelper } from './GeneralDataHelper'
 
@@ -22,9 +22,6 @@ export class DataImportHandler {
       if (item['_data_id']) {
         data['_data_id'] = item['_data_id']
       }
-      const invalidMap: { [p: string]: string } = new FormChecker(fields).calcInvalidMap(data)
-      data['invalidMap'] = invalidMap
-      data['invalid'] = Object.keys(invalidMap).length > 0
       records.push(data)
     }
     return records
@@ -33,6 +30,9 @@ export class DataImportHandler {
   public decodeImportedData(importedData: any) {
     const realData: any = { ...importedData }
     this.fields.forEach((field) => {
+      if (realData[field.fieldKey] === undefined && realData[field.name] !== undefined) {
+        realData[field.fieldKey] = realData[field.name]
+      }
       const label2ValueMap = (field.options || []).reduce((result: any, cur: any) => {
         result[cur.label] = cur.value
         return result

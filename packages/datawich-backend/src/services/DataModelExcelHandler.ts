@@ -1,6 +1,5 @@
 import { Row } from 'exceljs'
 import { _OSSResource, OSSService } from '@fangcha/oss-service'
-import { ModelDataHandler } from './ModelDataHandler'
 import { _DataModel } from '../models/extensions/_DataModel'
 import { DataImportHandler, FieldHelper, FieldType, transferModelFieldToFormField } from '@fangcha/datawich-service'
 import { TypicalExcel } from '@fangcha/excel'
@@ -99,9 +98,6 @@ export class DataModelExcelHandler {
       }
       let data = await this.decodeImportedData(item)
       data = await dataModel.getClearData(data)
-      const invalidMap = await new ModelDataHandler(dataModel).getInvalidMap(data)
-      data['invalidMap'] = invalidMap
-      data['invalid'] = Object.keys(invalidMap).length > 0
       records.push(data)
     }
     return records

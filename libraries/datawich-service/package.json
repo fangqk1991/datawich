@@ -1,6 +1,6 @@
 {
   "name": "@fangcha/datawich-service",
-  "version": "0.77.0",
+  "version": "0.78.0",
   "description": "Datawich Service.",
   "main": "src/index.ts",
   "publishConfig": {
