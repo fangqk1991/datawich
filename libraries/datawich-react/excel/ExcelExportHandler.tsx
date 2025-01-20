@@ -22,8 +22,11 @@ export class ExcelExportHandler {
     saveAs(blob, `${fileName}.xlsx`)
   }
 
-  public async exportTemplateFile() {
-    return this.exportExcel(`${this.table.name}-模板`, [DatawichExcelHelper.getTableExampleData(this.table.fieldItems)])
+  public async exportTemplateFile(examples: any[] = []) {
+    return this.exportExcel(
+      `${this.table.name}-模板`,
+      examples.length > 0 ? examples : [DatawichExcelHelper.getTableExampleData(this.table.fieldItems)]
+    )
   }
 
   public async exportRecords(records: any[]) {
