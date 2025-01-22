@@ -20,6 +20,6 @@
     "sourceMap": true,
     "inlineSourceMap": false
   },
-  "include": ["./src"],
+  "include": ["./src", "./excel"],
   "exclude": ["node_modules"]
 }
