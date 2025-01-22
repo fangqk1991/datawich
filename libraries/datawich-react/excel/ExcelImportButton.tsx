@@ -8,7 +8,7 @@ export interface ImportButtonProps<T = any> extends ExcelPickButtonProps {
   fileName: string
   fieldItems: FormField[]
   exampleItems?: T[]
-  onRecordPicked: (record: T) => Promise<void>
+  onRecordPicked: (record: T, index: number, records: T[]) => Promise<void>
   onRecordsPickedDone: (records: T[]) => void | Promise<void>
 }
 
@@ -46,7 +46,7 @@ export const ExcelImportButton: React.FC<ImportButtonProps> = ({
       onPickExcel={async (excel) => {
         const records = await new DataImportHandler(fieldItems).extractRecordsFromRows(excel.records())
         for (let i = 0; i < records.length; ++i) {
-          await onRecordPicked(records[i])
+          await onRecordPicked(records[i], i, records)
         }
         await onRecordsPickedDone(records)
       }}
