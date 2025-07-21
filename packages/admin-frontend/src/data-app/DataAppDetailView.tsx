@@ -64,7 +64,7 @@ export const DataAppDetailView: React.FC = () => {
       {!!dataModel.description && (
         <>
           <Card size={'small'}>
-            <pre>{dataModel.description}</pre>
+            <pre style={{ margin: 0 }}>{dataModel.description}</pre>
           </Card>
           <Divider style={{ margin: '12px 0' }} />
         </>

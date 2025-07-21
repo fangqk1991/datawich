@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
-import { Breadcrumb, Divider, Space, Spin } from 'antd'
+import { Breadcrumb, Card, Divider, Space, Spin } from 'antd'
 import { SdkDatawichApis } from '@fangcha/datawich-service'
 import { useParams } from 'react-router-dom'
 import { CommonAPI } from '@fangcha/app-request'
@@ -56,6 +56,15 @@ const DataAppCoreView: React.FC<Props> = (props) => {
       />
 
       <Divider style={{ margin: '12px 0' }} />
+
+      {!!dataModel.description && (
+        <>
+          <Card size={'small'}>
+            <pre style={{ margin: 0 }}>{dataModel.description}</pre>
+          </Card>
+          <Divider style={{ margin: '12px 0' }} />
+        </>
+      )}
 
       <DataFilterPanel modelKey={modelKey} mainFields={mainFields} />
 
