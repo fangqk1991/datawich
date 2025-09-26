@@ -78,6 +78,7 @@ export interface FormField {
   matchRegex?: string
 
   uiWidget?: WidgetType
+  width?: number
 
   hideDetail?: boolean
 

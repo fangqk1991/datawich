@@ -86,13 +86,13 @@ export class DatawichExcelHelper {
             columnValue: (item: any) => {
               return item[field.fieldKey] ? FT(item[field.fieldKey]) : ''
             },
-            width: 18,
+            width: field.width || 18,
           }
         }
         return {
           columnKey: field.fieldKey,
           columnName: field.name,
-          width: 10,
+          width: field.width || 10,
         }
       }),
     ]
