@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
-import { TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import { TableParamsHelper, TableViewColumn, TableViewV2, useLoadingData, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
 import { myDataColumn } from './myDataColumn'
 import { useModelPanelCtx } from '../panel/ModelPanelContext'
@@ -52,8 +52,7 @@ export const DataDisplayTable: React.FC<Props> = ({
   const panelCtx = useModelPanelCtx()
   const { displaySettings, panelInfo } = panelCtx
 
-  const itemsRef = useRef<DataRecord[]>([])
-  const [loaded, setLoaded] = useState(false)
+  // const itemsRef = useRef<DataRecord[]>([])
 
   const fixedColumnMap = useMemo(() => {
     return displaySettings.fixedList.reduce((result, cur) => {
@@ -67,31 +66,56 @@ export const DataDisplayTable: React.FC<Props> = ({
     [mainFields, displaySettings]
   )
 
-  useEffect(() => {
-    if (loaded && itemsRef.current.length === 1 && queryParams.__splash) {
-      showRecordDescriptions({
-        modelKey: modelKey,
-        displayItems: displayItems,
-        record: itemsRef.current[0],
-        extrasColumns: extrasColumns,
+  const requestParams = useMemo(() => {
+    const options = TableParamsHelper.transferQueryParams(
+      trimParams({
+        ...(panelInfo ? panelInfo.configData.queryParams : {}),
+        ...queryParams,
       })
-      updateQueryParams({
-        __splash: '',
+    )
+    Object.keys(options)
+      .filter((key) => key.endsWith('.disabled'))
+      .forEach((key) => {
+        delete options[key]
       })
-    }
-  }, [loaded])
+    return options
+  }, [queryParams])
+
+  const { loading, data: pageResult } = useLoadingData<PageResult>(
+    async () => {
+      const pageResult = await loadData(requestParams)
+      // itemsRef.current = pageResult.items
+      return pageResult
+    },
+    [requestParams, loadData],
+    { offset: 0, length: 20, totalCount: 0, items: [] }
+  )
+
+  // useEffect(() => {
+  //   if (loaded && itemsRef.current.length === 1 && queryParams.__splash) {
+  //     showRecordDescriptions({
+  //       modelKey: modelKey,
+  //       displayItems: displayItems,
+  //       record: itemsRef.current[0],
+  //       extrasColumns: extrasColumns,
+  //     })
+  //     updateQueryParams({
+  //       __splash: '',
+  //     })
+  //   }
+  // }, [loaded])
 
   const isMobile = window.innerWidth < 768
 
   return (
-    <TableView
+    <TableViewV2
       rowKey={(item: DataRecord) => {
         return `${item._data_id}`
       }}
-      reactiveQuery={true}
       tableProps={{
         size: 'small',
         bordered: true,
+        loading: loading,
         onRow: (record) => {
           const options: any = onRow ? onRow(record) : {}
           return {
@@ -111,7 +135,6 @@ export const DataDisplayTable: React.FC<Props> = ({
           }
         },
       }}
-      showTotal={true}
       columns={TableViewColumn.makeColumns<DataRecord>([
         ...(displayItems
           .filter((item) => !item.isHidden)
@@ -154,27 +177,16 @@ export const DataDisplayTable: React.FC<Props> = ({
         },
         ...item,
       }))}
+      pageResult={pageResult}
       // defaultSettings={{
       //   pageSize: Number(queryParams.pageSize) || 10,
       //   pageNumber: Number(queryParams.pageNumber) || 1,
       //   sortKey: queryParams.sortKey,
       //   sortDirection: queryParams.sortDirection,
       // }}
-      loadData={async (retainParams) => {
-        const params = trimParams({
-          ...retainParams,
-          ...(panelInfo ? panelInfo.configData.queryParams : {}),
-          ...queryParams,
-        })
-        Object.keys(params)
-          .filter((key) => key.endsWith('.disabled'))
-          .forEach((key) => {
-            delete params[key]
-          })
-        const pageResult = await loadData(params)
-        itemsRef.current = pageResult.items
-        setLoaded(true)
-        return pageResult
+      onParamsChanged={(params) => {
+        // console.info('onParamsChanged', params)
+        updateQueryParams(params as any)
       }}
     />
   )

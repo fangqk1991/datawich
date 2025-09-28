@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useCallback, useReducer } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Card, Divider, Space, Spin } from 'antd'
 import { SdkDatawichApis } from '@fangcha/datawich-service'
@@ -32,6 +32,15 @@ const DataAppCoreView: React.FC<Props> = (props) => {
   const mainFields = useMainFields(modelKey)
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
+
+  const loadData = useCallback(
+    async (params: any) => {
+      const request = MyRequest(new CommonAPI(SdkDatawichApis.DataAppRecordPageDataGet, modelKey))
+      request.setQueryParams(params)
+      return request.quickSend()
+    },
+    [modelKey]
+  )
 
   if (mainFields.length === 0) {
     return <Spin size='large' />
@@ -79,11 +88,7 @@ const DataAppCoreView: React.FC<Props> = (props) => {
       <DataDisplayTable
         modelKey={modelKey}
         mainFields={mainFields}
-        loadData={async (params) => {
-          const request = MyRequest(new CommonAPI(SdkDatawichApis.DataAppRecordPageDataGet, modelKey))
-          request.setQueryParams(params)
-          return request.quickSend()
-        }}
+        loadData={loadData}
         actionMenuItems={props.actionMenuItems}
         extrasColumns={props.extrasColumns || []}
         onRow={props.onRow}

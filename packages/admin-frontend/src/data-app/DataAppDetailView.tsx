@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useCallback, useReducer } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
@@ -33,6 +33,15 @@ export const DataAppDetailView: React.FC = () => {
 
   const favorAppsCtx = useFavorAppsCtx()
   const favored = favorAppsCtx.checkAppFavor(modelKey)
+
+  const loadData = useCallback(
+    async (params: any) => {
+      const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGet, modelKey))
+      request.setQueryParams(params)
+      return request.quickSend()
+    },
+    [modelKey]
+  )
 
   if (!dataModel || mainFields.length === 0) {
     return <Spin size='large' />
@@ -99,11 +108,7 @@ export const DataAppDetailView: React.FC = () => {
       <DataDisplayTable
         modelKey={modelKey}
         mainFields={mainFields}
-        loadData={async (params) => {
-          const request = MyRequest(new CommonAPI(DataAppApis.DataAppRecordListGet, modelKey))
-          request.setQueryParams(params)
-          return request.quickSend()
-        }}
+        loadData={loadData}
         extrasColumns={[]}
         onDataChanged={forceUpdate}
       />
