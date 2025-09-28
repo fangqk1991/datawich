@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo } from 'react'
 import { FieldHelper, ModelFieldModel } from '@fangcha/datawich-service'
 import { TableParamsHelper, TableViewColumn, TableViewV2, useLoadingData, useQueryParams } from '@fangcha/react'
 import { PageResult } from '@fangcha/tools'
@@ -6,7 +6,6 @@ import { myDataColumn } from './myDataColumn'
 import { useModelPanelCtx } from '../panel/ModelPanelContext'
 import { RecordActionCell } from '../core/RecordActionCell'
 import { DataRecord, ExtrasColumn } from '../core/CellModels'
-import { showRecordDescriptions } from '../core/RecordDescriptions'
 
 const trimParams = (params: {}) => {
   params = params || {}
@@ -177,6 +176,7 @@ export const DataDisplayTable: React.FC<Props> = ({
         },
         ...item,
       }))}
+      initialSettings={queryParams as any}
       pageResult={pageResult}
       // defaultSettings={{
       //   pageSize: Number(queryParams.pageSize) || 10,

@@ -173,7 +173,10 @@ export const DBDataTableView: React.FC<Props> = (props) => {
             ),
           },
         ])}
-        initialSettings={__defaultParams}
+        initialSettings={{
+          ...__defaultParams,
+          ...queryParams,
+        }}
         pageResult={pageResult}
         onParamsChanged={(params) => {
           // console.info('onParamsChanged', params)
