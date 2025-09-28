@@ -163,8 +163,8 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0
       '@fangcha/react':
-        specifier: ^0.68.0
-        version: 0.68.0(date-fns@2.29.3)(moment@2.29.4)(rc-field-form@1.41.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
+        specifier: ^0.85.0
+        version: 0.85.0(date-fns@2.29.3)(moment@2.29.4)(rc-field-form@1.41.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
       '@fangcha/vue':
         specifier: ^0.79.0
         version: 0.79.0
@@ -1296,8 +1296,8 @@ packages:
   '@fangcha/oss-service@0.14.0':
     resolution: {integrity: sha512-3/sZvylu7IllJkpRU5iq61ZaxVNeh1JETakvhczUzvRnhX6d/zj1fSiRex89+worjUn5yxbhVA0rnXQEJv0T2w==}
 
-  '@fangcha/react@0.68.0':
-    resolution: {integrity: sha512-0tyR/aM0tq5xxHzQ0pmiwrlezf5123snx5qE2OZsEqPatqVsBE3Xr1LUNHjqp2w1YHvQ6EVhC8+EgqQLcf/1PA==}
+  '@fangcha/react@0.85.0':
+    resolution: {integrity: sha512-RhBjCXJZc6HdpDTsPwu17xd1fMlc6O/SwEpHhHKIeygpuCXNqzQKja1M3fL6TI2/ayLSJCFbzejA9nF6oIrULw==}
 
   '@fangcha/resque-sdk@0.4.0':
     resolution: {integrity: sha512-j87i4UsqJdoPQFgwQY0h4IP1FGeQS5QeD6SZ7AJjbexWBI2I3wg32ndt/vavYRnOz8PlVWDqPUF29ffokBOPng==}
@@ -3017,6 +3017,15 @@ packages:
 
   ecdsa-sig-formatter@1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
+
+  echarts-for-react@3.0.2:
+    resolution: {integrity: sha512-DRwIiTzx8JfwPOVgGttDytBqdp5VzCSyMRIxubgU/g2n9y3VLUmF2FK7Icmg/sNVkv4+rktmrLN9w22U2yy3fA==}
+    peerDependencies:
+      echarts: ^3.0.0 || ^4.0.0 || ^5.0.0
+      react: ^15.0.0 || >=16.0.0
+
+  echarts@5.6.0:
+    resolution: {integrity: sha512-oTbVTsXfKuEhxftHqL5xprgLoc0k7uScAwtryCgWF6hPYFLRwOUHiFmHGCBKP5NPFNkDVopOieyUqYGH8Fa3kA==}
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
@@ -5910,6 +5919,9 @@ packages:
   signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
 
+  size-sensor@1.0.2:
+    resolution: {integrity: sha512-2NCmWxY7A9pYKGXNBfteo4hy14gWu47rg5692peVMst6lQLPKrVjhY+UTEsPI5ceFRJSl3gVgMYaUi/hKuaiKw==}
+
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -6267,6 +6279,9 @@ packages:
 
   tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+
+  tslib@2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
 
   tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
@@ -6746,6 +6761,9 @@ packages:
   zip-stream@4.1.0:
     resolution: {integrity: sha512-zshzwQW7gG7hjpBlgeQP9RuyPGNxvJdzR8SUM3QhxCnLjWN2E7j3dOvpeDcQoETfHx0urRS7EtmVToql7YpU4A==}
     engines: {node: '>= 10'}
+
+  zrender@5.6.1:
+    resolution: {integrity: sha512-OFXkDJKcrlx5su2XbzJvj/34Q3m6PvyCZkVPHGYpcCJ52ek4U/ymZyfuV1nKE23AyBJ51E/6Yr0mhZ7xGTO4ag==}
 
 snapshots:
 
@@ -8012,7 +8030,7 @@ snapshots:
 
   '@fangcha/oss-service@0.14.0': {}
 
-  '@fangcha/react@0.68.0(date-fns@2.29.3)(moment@2.29.4)(rc-field-form@1.41.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))':
+  '@fangcha/react@0.85.0(date-fns@2.29.3)(moment@2.29.4)(rc-field-form@1.41.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))':
     dependencies:
       '@ant-design/pro-components': 2.6.43(antd@5.12.8(date-fns@2.29.3)(moment@2.29.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(rc-field-form@1.41.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@emotion/react': 11.10.6(react@18.2.0)
@@ -8020,6 +8038,8 @@ snapshots:
       '@types/react-beautiful-dnd': 13.1.4
       '@types/react-dom': 18.2.18
       antd: 5.12.8(date-fns@2.29.3)(moment@2.29.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      echarts: 5.6.0
+      echarts-for-react: 3.0.2(echarts@5.6.0)(react@18.2.0)
       react: 18.2.0
       react-beautiful-dnd: 13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-dom: 18.2.0(react@18.2.0)
@@ -10081,6 +10101,18 @@ snapshots:
   ecdsa-sig-formatter@1.0.11:
     dependencies:
       safe-buffer: 5.2.1
+
+  echarts-for-react@3.0.2(echarts@5.6.0)(react@18.2.0):
+    dependencies:
+      echarts: 5.6.0
+      fast-deep-equal: 3.1.3
+      react: 18.2.0
+      size-sensor: 1.0.2
+
+  echarts@5.6.0:
+    dependencies:
+      tslib: 2.3.0
+      zrender: 5.6.1
 
   ee-first@1.1.1: {}
 
@@ -13411,6 +13443,8 @@ snapshots:
 
   signal-exit@3.0.7: {}
 
+  size-sensor@1.0.2: {}
+
   slash@3.0.0: {}
 
   slice-ansi@3.0.0:
@@ -13797,6 +13831,8 @@ snapshots:
       strip-json-comments: 2.0.1
 
   tslib@1.14.1: {}
+
+  tslib@2.3.0: {}
 
   tslib@2.5.0: {}
 
@@ -14402,3 +14438,7 @@ snapshots:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.2
+
+  zrender@5.6.1:
+    dependencies:
+      tslib: 2.3.0

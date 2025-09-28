@@ -3,13 +3,28 @@ import { Button, Divider, message, Space } from 'antd'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DBTable, SdkDBDataApis } from '@fangcha/datawich-service'
-import { LoadingView, ReactPreviewDialog, TableView, TableViewColumn, useQueryParams } from '@fangcha/react'
+import {
+  LoadingView,
+  ReactPreviewDialog,
+  TablePageOptions,
+  TableParamsHelper,
+  TableViewColumn,
+  TableViewV2,
+  useLoadingData,
+  useQueryParams,
+} from '@fangcha/react'
 import { DBTableInfoView } from './DBTableInfoView'
 import { commonDataColumn } from './commonDataColumn'
 import { DBRecordActionCell } from './DBRecordActionCell'
 import { useParams } from 'react-router-dom'
-import { showDBDataDescriptions } from './DBDataDescriptions'
 import { CommonFormDialog } from '@fangcha/form-react'
+import { PageResult } from '@fangcha/tools'
+
+const __defaultParams: TablePageOptions = {
+  pageSize: 15,
+  sortKey: '_rid',
+  sortDirection: 'descend',
+}
 
 interface Props {}
 
@@ -28,6 +43,24 @@ export const DBDataTableView: React.FC<Props> = (props) => {
   }, [tableId])
 
   const fields = useMemo(() => tableSchema?.fields || [], [tableSchema])
+
+  const { loading, data: pageResult } = useLoadingData<PageResult>(
+    async () => {
+      if (!tableSchema) {
+        return { offset: 0, length: 20, totalCount: 0, items: [] }
+      }
+      const request = MyRequest(new CommonAPI(SdkDBDataApis.RecordPageDataGet, connectionId, tableSchema.tableId))
+      request.setQueryParams(
+        TableParamsHelper.transferQueryParams({
+          ...__defaultParams,
+          ...queryParams,
+        })
+      )
+      return request.quickSend()
+    },
+    [tableSchema, queryParams],
+    { offset: 0, length: 20, totalCount: 0, items: [] }
+  )
 
   if (!tableSchema) {
     return <LoadingView />
@@ -83,12 +116,12 @@ export const DBDataTableView: React.FC<Props> = (props) => {
 
       <Divider />
 
-      <TableView
+      <TableViewV2
         rowKey={tableSchema.primaryKey}
-        reactiveQuery={true}
         tableProps={{
           size: 'small',
           bordered: true,
+          loading: loading,
           // onRow: (record) => {
           //   return {
           //     onDoubleClick: () => {
@@ -140,18 +173,11 @@ export const DBDataTableView: React.FC<Props> = (props) => {
             ),
           },
         ])}
-        defaultSettings={{
-          pageSize: 15,
-          sortKey: '_rid',
-          sortDirection: 'descend',
-        }}
-        loadData={async (retainParams) => {
-          const request = MyRequest(new CommonAPI(SdkDBDataApis.RecordPageDataGet, connectionId, tableSchema.tableId))
-          request.setQueryParams({
-            ...retainParams,
-            ...queryParams,
-          })
-          return request.quickSend()
+        initialSettings={__defaultParams}
+        pageResult={pageResult}
+        onParamsChanged={(params) => {
+          // console.info('onParamsChanged', params)
+          updateQueryParams(params as any)
         }}
       />
     </div>
