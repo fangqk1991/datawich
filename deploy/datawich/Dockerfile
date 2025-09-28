@@ -26,7 +26,7 @@ ARG BUILD_DIR=/data/build
 
 WORKDIR ${BUILD_DIR}
 
-RUN yarn global add pnpm@8.2.0
+RUN yarn global add pnpm@9.15.3
 
 COPY --from=FILES_CACHE /data/meta-files/pnpm-lock.yaml ${BUILD_DIR}/pnpm-lock.yaml
 RUN pnpm fetch
