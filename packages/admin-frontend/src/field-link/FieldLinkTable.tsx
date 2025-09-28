@@ -4,7 +4,7 @@ import { FieldLinkModel, ModelFieldModel } from '@fangcha/datawich-service'
 import { MyRequest } from '@fangcha/auth-react'
 import { CommonAPI } from '@fangcha/app-request'
 import { DataModelApis, ModelFieldApis } from '@web/datawich-common/admin-apis'
-import { ConfirmDialog, RouterLink, TableView, TableViewColumn } from '@fangcha/react'
+import { ConfirmDialog, RouterLink, TableViewV2, TableViewColumn } from '@fangcha/react'
 import { DatawichAdminPages } from '@web/datawich-common/admin-apis'
 import { TinyList } from '../data-app/TinyList'
 import { FieldLinkDialog } from './FieldLinkDialog'
@@ -57,12 +57,10 @@ export const FieldLinkTable: React.FC<Props> = ({ modelKey }) => {
         </Button>
       </Space>
       <div className={'my-3'} />
-      <TableView
-        version={version}
+      <TableViewV2
         rowKey={(item: FieldLinkModel) => {
           return `${item.linkId}`
         }}
-        reactiveQuery={true}
         tableProps={{
           size: 'small',
           bordered: true,
@@ -181,10 +179,8 @@ export const FieldLinkTable: React.FC<Props> = ({ modelKey }) => {
             },
           },
         ])}
+        items={links}
         hidePagination={true}
-        loadOnePageItems={async () => {
-          return links
-        }}
       />
     </div>
   )

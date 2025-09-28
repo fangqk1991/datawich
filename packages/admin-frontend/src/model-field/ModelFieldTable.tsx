@@ -6,7 +6,7 @@ import {
   JsonEditorDialog,
   SimplePickerDialog,
   TableView,
-  TableViewColumn,
+  TableViewColumn, TableViewV2,
   TextPreviewDialog,
 } from '@fangcha/react'
 import { CommonAPI } from '@fangcha/app-request'
@@ -137,12 +137,10 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
         </Button>
       </Space>
       <div className={'my-3'} />
-      <TableView
-        version={version}
+      <TableViewV2
         rowKey={(item: ModelFieldModel) => {
           return `${item.fieldKey}`
         }}
-        reactiveQuery={true}
         tableProps={{
           size: 'small',
           bordered: true,
@@ -405,9 +403,7 @@ export const ModelFieldTable: React.FC<Props> = ({ modelKey }) => {
           },
         ])}
         hidePagination={true}
-        loadOnePageItems={async () => {
-          return fields
-        }}
+        items={fields}
       />
     </div>
   )
