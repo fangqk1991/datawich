@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react'
+import React, { useCallback, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Card, Divider, Space, Spin } from 'antd'
 import { SdkDatawichApis } from '@fangcha/datawich-service'
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const DataAppCoreView: React.FC<Props> = (props) => {
-  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+  const [version, setVersion] = useState(0)
 
   const dataModel = useDataModelCtx().dataModel
   const modelKey = dataModel.modelKey
@@ -80,12 +80,13 @@ const DataAppCoreView: React.FC<Props> = (props) => {
       <Divider style={{ margin: '0 0 12px' }} />
 
       <Space style={{ marginBottom: '12px' }}>
-        <DataCreateButton modelKey={modelKey} fields={mainFields} onDataChanged={() => forceUpdate()} />
+        <DataCreateButton modelKey={modelKey} fields={mainFields} onDataChanged={() => setVersion(version + 1)} />
       </Space>
 
       {/*<Divider style={{ margin: '0 0 12px' }} />*/}
 
       <DataDisplayTable
+        version={version}
         modelKey={modelKey}
         mainFields={mainFields}
         loadData={loadData}
@@ -93,7 +94,7 @@ const DataAppCoreView: React.FC<Props> = (props) => {
         extrasColumns={props.extrasColumns || []}
         onRow={props.onRow}
         onCell={props.onCell}
-        onDataChanged={forceUpdate}
+        onDataChanged={() => setVersion(version + 1)}
       />
     </div>
   )

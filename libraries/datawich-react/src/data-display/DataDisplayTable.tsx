@@ -21,6 +21,7 @@ const trimParams = (params: {}) => {
 }
 
 interface Props {
+  version: number
   modelKey: string
   mainFields: ModelFieldModel[]
   loadData: (params: {}) => Promise<PageResult<DataRecord>>
@@ -32,6 +33,7 @@ interface Props {
 }
 
 export const DataDisplayTable: React.FC<Props> = ({
+  version,
   modelKey,
   mainFields,
   extrasColumns,
@@ -86,7 +88,7 @@ export const DataDisplayTable: React.FC<Props> = ({
       // itemsRef.current = pageResult.items
       return pageResult
     },
-    [requestParams, loadData],
+    [requestParams, loadData, version],
     { offset: 0, length: 20, totalCount: 0, items: [] }
   )
 

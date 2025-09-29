@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react'
+import React, { useCallback, useState } from 'react'
 import { MyRequest } from '@fangcha/auth-react'
 import { Breadcrumb, Button, Card, Divider, Space, Spin } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
@@ -19,7 +19,7 @@ import {
 } from '@fangcha/datawich-react'
 
 export const DataAppDetailView: React.FC = () => {
-  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+  const [version, setVersion] = useState(0)
   const { modelKey = '' } = useParams()
 
   const dataModel = useDataModelCtx().dataModel
@@ -84,8 +84,8 @@ export const DataAppDetailView: React.FC = () => {
       <Divider style={{ margin: '0 0 12px' }} />
 
       <Space style={{ marginBottom: '12px' }}>
-        <DataCreateButton modelKey={modelKey} fields={mainFields} onDataChanged={() => forceUpdate()} />
-        <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => forceUpdate()} />
+        <DataCreateButton modelKey={modelKey} fields={mainFields} onDataChanged={() => setVersion(version + 1)} />
+        <DataImportButton modelKey={modelKey} fields={mainFields} onImportDone={() => setVersion(version + 1)} />
         <Button
           danger={true}
           onClick={async () => {
@@ -106,11 +106,12 @@ export const DataAppDetailView: React.FC = () => {
       {/*<Divider style={{ margin: '12px 0' }} />*/}
 
       <DataDisplayTable
+        version={version}
         modelKey={modelKey}
         mainFields={mainFields}
         loadData={loadData}
         extrasColumns={[]}
-        onDataChanged={forceUpdate}
+        onDataChanged={() => setVersion(version + 1)}
       />
     </div>
   )
