@@ -49,6 +49,9 @@ factory.prepare(OpenDataAppApis.DataAppRecordCreate, async (ctx) => {
   const session = ctx.session as OpenSession
   await new AuthModelSpecHandler(ctx).handle(async (dataModel) => {
     assert.ok(!!dataModel.isDataInsertable, '此模型数据不支持添加')
+    if (session.usingWebSDK && dataModel.getExtrasData().isReadonly) {
+      assert.ok(dataModel.author === session.curUserStr(), '此模型数据只有管理员可以添加')
+    }
     const customData = ctx.request.body
     const dataHandler = new ModelDataHandler(dataModel)
     dataHandler.setOperator(session.curUserStr())
