@@ -4,6 +4,7 @@ export interface DataModelExtrasData {
   broadcastEventData?: { [p in string]: boolean }
   defaultPanelId?: string
   needLogin?: boolean
+  isReadonly?: boolean
 }
 
 export interface SessionModelPowerData {

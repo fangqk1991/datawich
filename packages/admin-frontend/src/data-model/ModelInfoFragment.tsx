@@ -145,6 +145,23 @@ export const ModelInfoFragment: ModelFragmentProtocol = ({ dataModel, onModelInf
           />
         </Descriptions.Item>
 
+        <Descriptions.Item label='只读模式'>
+          <Switch
+            checked={!!dataModel.extrasData.isReadonly}
+            onChange={async (checked) => {
+              const request = MyRequest(new CommonAPI(DataModelApis.DataModelUpdate, dataModel.modelKey))
+              request.setBodyData({
+                extrasData: {
+                  isReadonly: checked,
+                },
+              })
+              await request.quickSend()
+              message.success('更新成功')
+              onModelInfoChanged()
+            }}
+          />
+        </Descriptions.Item>
+
         <Descriptions.Item label='模型可见性'>
           {describeAccessLevelDetail(dataModel.accessLevel as AccessLevel)}
         </Descriptions.Item>
